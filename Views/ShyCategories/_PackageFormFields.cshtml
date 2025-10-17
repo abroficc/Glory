@@ -1,0 +1,153 @@
+@model string
+
+<div class="v-section">
+  <div class="v-cap">التسديدات > فئات شبكة واي</div>
+  <div class="row g-3">
+    
+    <!-- الفئة -->
+    <div class="col-md-6">
+      <label class="v-label">الفئة <span class="v-req">*</span></label>
+      @if (Model == "view")
+      {
+        <div class="form-control-plaintext" id="view-category"></div>
+      }
+      else
+      {
+        <input class="v-input form-control" id="@(Model)-category" name="category" placeholder="ادخل الفئة" type="text" required="@(Model != "view")">
+        <div class="invalid-feedback">الرجاء إدخال الفئة</div>
+        <div class="form-text">
+          يجب ان تكون الفئة مطابقة للفئة في نظام المزود. خذ الفئات في نظام المزود للتاكد.
+        </div>
+      }
+    </div>
+
+    <!-- السعر -->
+    <div class="col-md-6">
+      <label class="v-label">السعر <span class="v-req">*</span></label>
+      @if (Model == "view")
+      {
+        <div class="form-control-plaintext" id="view-price"></div>
+      }
+      else
+      {
+        <input class="v-input form-control" id="@(Model)-price" name="price" placeholder="السعر" type="number" step="0.01" required="@(Model != "view")">
+        <div class="invalid-feedback">الرجاء إدخال السعر</div>
+      }
+    </div>
+
+    <!-- الكمية -->
+    <div class="col-md-6">
+      <label class="v-label">الكمية <span class="v-req">*</span></label>
+      @if (Model == "view")
+      {
+        <div class="form-control-plaintext" id="view-quantity"></div>
+      }
+      else
+      {
+        <input class="v-input form-control" id="@(Model)-quantity" name="quantity" placeholder="الكمية" type="number" required="@(Model != "view")">
+        <div class="invalid-feedback">الرجاء إدخال الكمية</div>
+      }
+    </div>
+
+    <!-- سعر الوحدة -->
+    <div class="col-md-6">
+      <label class="v-label">سعر الوحدة <span class="v-req">*</span></label>
+      @if (Model == "view")
+      {
+        <div class="form-control-plaintext" id="view-unit-price"></div>
+      }
+      else
+      {
+        <input class="v-input form-control" id="@(Model)-unit-price" name="unitPrice" placeholder="سعر الوحدة" type="number" step="0.01" required="@(Model != "view")">
+        <div class="invalid-feedback">الرجاء إدخال سعر الوحدة</div>
+      }
+    </div>
+
+    <!-- رقم الربط6 -->
+    <div class="col-md-6">
+      <label class="v-label">رقم الربط6 <span class="v-req">*</span></label>
+      @if (Model == "view")
+      {
+        <div class="form-control-plaintext" id="view-connection-number6"></div>
+      }
+      else
+      {
+        <input class="v-input form-control" id="@(Model)-connection-number6" name="connectionNumber6" placeholder="رقم الربط6" type="text" required="@(Model != "view")">
+        <div class="invalid-feedback">الرجاء إدخال رقم الربط6</div>
+        <div class="form-text">
+          يجب اخذ رقم الربط من المزود
+        </div>
+      }
+    </div>
+
+    <!-- مبلغ الربط6 -->
+    <div class="col-md-6">
+      <label class="v-label">مبلغ الربط6 <span class="v-req">*</span></label>
+      @if (Model == "view")
+      {
+        <div class="form-control-plaintext" id="view-connection-amount6"></div>
+      }
+      else
+      {
+        <input class="v-input form-control" id="@(Model)-connection-amount6" name="connectionAmount6" placeholder="مبلغ الربط6" type="number" step="0.01" required="@(Model != "view")">
+        <div class="invalid-feedback">الرجاء إدخال مبلغ الربط6</div>
+        <div class="form-text">
+          يجب اخذ مبلغ الربط من المزود
+        </div>
+      }
+    </div>
+
+    <!-- تحويل الفئة الى روبوت -->
+    <div class="col-md-6">
+      <label class="v-label">تحويل الفئة الى روبوت؟ <span class="v-req">*</span></label>
+      @if (Model == "view")
+      {
+        <div class="form-control-plaintext" id="view-convert-to-robot"></div>
+      }
+      else
+      {
+        <select class="v-input form-select" id="@(Model)-convert-to-robot" name="convertToRobot" required="@(Model != "view")">
+          <option value="">اختر خياراً</option>
+          <option value="0">لا</option>
+          <option value="1">نعم</option>
+        </select>
+        <div class="invalid-feedback">الرجاء اختيار خيار تحويل الفئة إلى روبوت</div>
+        <div class="form-text">
+          اكتب 1 إذا نعم
+        </div>
+      }
+    </div>
+
+    <!-- رقم الباقه الموحد -->
+    <div class="col-md-6">
+      <label class="v-label">رقم الباقه الموحد <span class="v-req">*</span></label>
+      @if (Model == "view")
+      {
+        <div class="form-control-plaintext" id="view-unified-package-number"></div>
+      }
+      else
+      {
+        <input class="v-input form-control" id="@(Model)-unified-package-number" name="unifiedPackageNumber" placeholder="رقم الباقه الموحد" type="text" required="@(Model != "view")">
+        <div class="invalid-feedback">الرجاء إدخال رقم الباقه الموحد</div>
+        <div class="form-text">
+          فقط للباقات
+        </div>
+      }
+    </div>
+
+  </div>
+</div>
+
+<style>
+    .form-control-plaintext {
+        padding: 8px 12px;
+        border: 1px solid transparent;
+        border-radius: 4px;
+        background-color: #f8f9fa;
+    }
+    
+    [data-bs-theme="dark"] .form-control-plaintext {
+        background-color: #272832;
+        color: #aab8c5;
+    }
+</style>

@@ -1,0 +1,49 @@
+/* RTL Fixes for proper text alignment */
+body[dir="rtl"] {
+    text-align: right;
+}
+
+body[dir="rtl"] .text-end {
+    text-align: right !important;
+}
+
+body[dir="rtl"] .text-start {
+    text-align: left !important;
+}
+
+/* Fix for icons in buttons */
+body[dir="rtl"] .btn i {
+    margin-left: 0.5rem;
+    margin-right: 0;
+}
+
+body[dir="rtl"] .dropdown-menu {
+    text-align: right;
+}
+
+/* DataTables RTL fixes */
+body[dir="rtl"] table.dataTable thead th,
+body[dir="rtl"] table.dataTable thead td {
+    text-align: right;
+}
+
+body[dir="rtl"] table.dataTable tbody th,
+body[dir="rtl"] table.dataTable tbody td {
+    text-align: right;
+}
+
+/* Form controls RTL fixes */
+body[dir="rtl"] .form-control {
+    text-align: right;
+}
+
+body[dir="rtl"] .form-check-input {
+    float: right;
+    margin-left: 0.5rem;
+    margin-right: 0;
+}
+
+body[dir="rtl"] .form-check-label {
+    margin-right: 1.5rem;
+    margin-left: 0;
+}

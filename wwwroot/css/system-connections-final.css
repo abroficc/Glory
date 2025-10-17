@@ -1,0 +1,1249 @@
+/* System Connections Page - Final Unified CSS */
+
+/* Import necessary external styles */
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600&display=swap');
+
+/* Define CSS variables for both light and dark themes */
+:root {
+    /* Light theme variables */
+    --card-bg: #ffffff;
+    --muted: #6b7280;
+    --ink: #0f172a;
+    --ring: #2563eb;
+    --ring-soft: rgba(37, 99, 235, .18);
+    --border: #e5e7eb;
+    --border-strong: #d1d5db;
+    --section-dash: #9dd4ff;
+    --row-alt: #f9fafb;
+    --row-hover: #eef2ff;
+    --chip-bg: #eff6ff;
+    --blue: #1fa0f3;
+    --blue-hover: #0d8be1;
+    --fg: #0b2b44;
+    --danger: var(--ins-danger);
+    --bg: #f6f8fb;
+    --primary-color: var(--ins-primary);
+    --primary-color-dark: var(--ins-primary-text-emphasis);
+    --app-surface-bg: linear-gradient(180deg, rgba(0,0,0,.02), rgba(0,0,0,0)) , #f5f7fb;
+    --v-section-bg: #b0b0b0;
+    --v-section-border: #555555;
+    --v-cap-color: #000000;
+    --v-label-color: #000000;
+    --v-input-bg: #d0d0d0;
+    --v-input-border: #555555;
+    --v-input-color: #000000;
+    --view-field-bg: #d0d0d0;
+    --view-field-border: #555555;
+    --view-field-color: #000000;
+    --note-highlight-bg: #a0c0b0;
+    --note-highlight-color: #000000;
+    --d-ic-color: #6b7280;
+    --btn-light-bg: #d0d0d0;
+    --btn-light-border: #555555;
+    --btn-light-color: #000000;
+    --dropdown-menu-bg: #d0d0d0;
+    --dropdown-menu-border: #555555;
+    --dropdown-menu-color: #000000;
+    --bs-searchbox-bg: #d0d0d0;
+    --bs-searchbox-border: #555555;
+    --bs-searchbox-color: #000000;
+    --table-card-bg: #fff;
+    --table-card-border: #e5e7eb;
+    --table-color: #374151;
+    --table-head-bg: linear-gradient(180deg, #f3f4f6, #e5e7eb);
+    --table-head-color: #111827;
+    --table-head-border: #d1d5db;
+    --table-row-bg: #fff;
+    --table-row-even-bg: #f9fafb;
+    --table-row-hover-bg: #f3f4f6;
+    --table-cell-border: #e5e7eb;
+    --btn-more-border: #d1d5db;
+    --btn-more-color: #3b82f6;
+    --btn-more-hover-bg: #2563eb;
+    --btn-more-hover-color: #fff;
+    --btn-more-hover-border: #2563eb;
+    --pagination-bg: #f9fafb;
+    --pagination-border: #e5e7eb;
+    --pagination-color: #111827;
+    --pagination-active-bg: #10b981;
+    --pagination-active-border: #10b981;
+    --pagination-active-color: #fff;
+    --pagination-hover-bg: #2563eb;
+    --pagination-hover-border: #2563eb;
+    --pagination-hover-color: #fff;
+    --alert-warning-bg: #fff3cd;
+    --alert-warning-border: #ffeaa7;
+    --alert-warning-color: #856404;
+    --alert-danger-bg: #f8d7da;
+    --alert-danger-border: #f5c6cb;
+    --alert-danger-color: #721c24;
+    --modal-content-bg: var(--ins-secondary-bg, #bbbbbb);
+    --modal-content-border: var(--ins-border-color, #555555);
+    --modal-content-color: var(--ins-body-color, #000000);
+    --modal-footer-bg: #b0c8c8;
+    --modal-footer-border: #80a0a0;
+    --unified-form-section-bg: #f8f9fa;
+    --unified-form-section-border: #dee2e6;
+    --provider-info-section-bg: #e7f1ff;
+    --provider-info-section-border: #b6d4fe;
+    --network-selection-section-bg: #fff3cd;
+    --network-selection-section-border: #ffeaa7;
+    --network-header-color: #000;
+    --network-label-color: #e5e7eb;
+    --network-box-header-color: #fff;
+    --network-box-label-color: #e5e7eb;
+    --network-box-hover-bg: rgba(255,255,255,0.3);
+    --network-box-dark-header-color: #fff;
+    --network-box-dark-label-color: #e5e7eb;
+    --network-box-dark-hover-bg: rgba(255,255,255,0.1);
+}
+
+[data-bs-theme="dark"] {
+    /* Dark theme variables */
+    --card-bg: #151821;
+    --muted: #a8b3cf;
+    --ink: #e5e7eb;
+    --ring: #60a5fa;
+    --ring-soft: rgba(96,165,250,.22);
+    --border: #2b2f3a;
+    --border-strong: #3a3f4b;
+    --section-dash: #294a7a;
+    --row-alt: #10131b;
+    --row-hover: #1e2637;
+    --chip-bg: #0b1a2f;
+    --danger: var(--ins-danger);
+    --app-surface-bg: linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,0)) , #0b0f19;
+    --v-section-bg: #1e1f27;
+    --v-section-border: #293036;
+    --v-cap-color: #e9ecef;
+    --v-label-color: #e9ecef;
+    --v-input-bg: #272832;
+    --v-input-border: #293036;
+    --v-input-color: #e9ecef;
+    --view-field-bg: #272832;
+    --view-field-border: #374151;
+    --view-field-color: #f8f9fa;
+    --note-highlight-bg: #1e3a35;
+    --note-highlight-color: #e9ecef;
+    --d-ic-color: #9ca3af;
+    --btn-light-bg: #272832;
+    --btn-light-border: #374151;
+    --btn-light-color: #f8f9fa;
+    --dropdown-menu-bg: #272832;
+    --dropdown-menu-border: #374151;
+    --dropdown-menu-color: #f8f9fa;
+    --bs-searchbox-bg: #272832;
+    --bs-searchbox-border: #374151;
+    --bs-searchbox-color: #f8f9fa;
+    --table-card-bg: #111827;
+    --table-card-border: #1f2937;
+    --table-color: #e5e7eb;
+    --table-head-bg: linear-gradient(180deg, #1e293b, #111827);
+    --table-head-color: #f9fafb;
+    --table-head-border: #374151;
+    --table-row-bg: #111827;
+    --table-row-even-bg: #1a2234;
+    --table-row-hover-bg: #1f2937;
+    --table-cell-border: #1f2937;
+    --btn-more-border: #374151;
+    --btn-more-color: #93c5fd;
+    --btn-more-hover-bg: #2563eb;
+    --btn-more-hover-color: #fff;
+    --btn-more-hover-border: #2563eb;
+    --pagination-bg: #1e293b;
+    --pagination-border: #374151;
+    --pagination-color: #f9fafb;
+    --pagination-active-bg: #10b981;
+    --pagination-active-border: #10b981;
+    --pagination-hover-bg: #2563eb;
+    --pagination-hover-border: #2563eb;
+    --alert-warning-bg: #664d03;
+    --alert-warning-border: #7d5f04;
+    --alert-warning-color: #ffecb5;
+    --alert-danger-bg: #721c24;
+    --alert-danger-border: #842029;
+    --alert-danger-color: #f8d7da;
+    --modal-content-bg: var(--ins-secondary-bg, #1e1f27);
+    --modal-content-border: var(--ins-border-color, #374151);
+    --modal-content-color: var(--ins-body-color, #f8f9fa);
+    --modal-footer-bg: #272832;
+    --modal-footer-border: #293036;
+    --unified-form-section-bg: #1f2937;
+    --unified-form-section-border: #374151;
+    --provider-info-section-bg: #031633;
+    --provider-info-section-border: #084298;
+    --network-selection-section-bg: #332701;
+    --network-selection-section-border: #5a4501;
+    --network-header-color: #fff;
+    --network-label-color: #e5e7eb;
+    --network-box-header-color: #fff;
+    --network-box-label-color: #e5e7eb;
+    --network-box-hover-bg: rgba(0,0,0,0.5);
+    --network-box-dark-header-color: #fff;
+    --network-box-dark-label-color: #e5e7eb;
+    --network-box-dark-hover-bg: rgba(0,0,0,0.5);
+}
+
+/* ======= Theme tokens ======= */
+:root {
+  --border-w:1.5px;        /* 👈 سماكة الحدود كما في الصورة */
+  --radius:6px;            /* تقوّس الحواف */
+}
+
+/* ======= Shell ======= */
+.app-surface{
+  background: var(--app-surface-bg);
+  padding: 20px;
+}
+
+/* ======= Panel / Card ======= */
+.panel{
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(0,0,0,.08);
+}
+[data-bs-theme="dark"] .panel{ box-shadow: 0 12px 40px rgba(0,0,0,.4); }
+
+/* ======= Section (يشبه fieldset المنقّط) ======= */
+.v-section{
+  position:relative; background:var(--v-section-bg);
+  border:2px dashed var(--section-dash); border-radius:16px; padding:16px;
+}
+.v-cap{
+  position:absolute; top:-14px; right:16px; padding:0 10px;
+  background:var(--card-bg); color:var(--v-cap-color); font-weight:600; font-size:15px;
+}
+
+/* ======= Form fields ======= */
+.v-label{ color:var(--v-label-color); font-weight:600; font-size:1.05rem; margin-bottom:.4rem; }
+.v-req{ color:#ef4444; }
+.form-control, .form-select{
+  background:var(--card-bg); color:var(--ink);
+  border:1px solid var(--border-strong); border-radius:14px;
+  padding:.7rem 1.1rem;
+  transition: box-shadow .2s, border-color .2s, background-color .2s;
+  font-size: 1rem;
+}
+.form-control::placeholder{ color: color-mix(in srgb, var(--muted) 75%, transparent); }
+.form-control:focus, .form-select:focus{
+  outline:0; border-color:var(--ring);
+  box-shadow: 0 0 0 4px var(--ring-soft);
+}
+.input-icon{
+  position:relative;
+}
+.input-icon > .icon{
+  position:absolute; inset-inline-start:.8rem; top:50%; transform:translateY(-50%);
+  color:var(--muted);
+}
+.input-icon > .form-control{ padding-inline-start:2.4rem; }
+
+/* ======= Pills / Chips ======= */
+.chip{
+  background:var(--chip-bg); color:var(--ink); border:1px solid var(--border);
+  padding:.45rem .75rem; border-radius:999px; font-size:.85rem; font-weight:600;
+}
+
+/* ======= Smart Table ======= */
+.smart-table{
+  --row-sep: 12px;
+  border:1px solid var(--border); border-radius:16px; overflow:hidden; background:var(--card-bg);
+}
+.smart-table .table{
+  margin:0; border-collapse: separate !important; border-spacing: 0 var(--row-sep);
+}
+.smart-table thead th{
+  background: linear-gradient(180deg, rgba(37,99,235,.1), rgba(37,99,235,.03));
+  color:var(--ink); font-weight:700; border:none; padding: 1.1rem 1.1rem;
+  position: sticky; top:0; z-index:2;
+  font-size: 1.05rem;
+}
+[data-bs-theme="dark"] .smart-table thead th{
+  background: linear-gradient(180deg, rgba(96,165,250,.15), rgba(96,165,250,.05));
+}
+.smart-table tbody tr{
+  background: var(--card-bg);
+  box-shadow:
+    0 1px 0 0 var(--border) inset,
+    0 -1px 0 0 var(--border) inset,
+    0 8px 18px rgba(0,0,0,.06);
+}
+.smart-table tbody tr:nth-child(even){ background: var(--row-alt); }
+.smart-table tbody tr:hover{ background: var(--row-hover); }
+.smart-table td, .smart-table th{ border:none !important; padding:1rem 1.1rem; vertical-align:middle; font-size: 0.95rem; }
+.smart-table .btn-more{
+  border:1px solid var(--border-strong); background:transparent; color:var(--ink);
+  padding:.45rem .85rem; border-radius:12px;
+  font-size: 0.9rem;
+}
+.smart-table .btn-more:hover{ background:var(--row-hover); }
+
+/* ======= Utilities ======= */
+.gap-6{ gap:1.75rem; }
+.grid-auto{
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px,1fr));
+  gap: 1.1rem 1.1rem;
+}
+
+/* System Connections Specific Styles */
+
+*{box-sizing:border-box}
+.conn-row{
+  display:flex;
+  align-items:flex-start;
+  gap:18px;                 /* نفس المسافة بين الأعمدة الظاهرة  */
+  padding:12px 15px;
+  background:var(--bg);
+  border-bottom:1px solid #e6edf5;
+  font-family: "Cairo", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  color:var(--fg);
+}
+
+/* أعمدة الصف */
+.col{display:flex; flex-direction:column; justify-content:center}
+.box{min-height:60px}
+
+/* عناوين صغيرة فوق الحقول */
+.title{
+  font-size:15px;
+  font-weight:700;
+  color:#3e6e93;
+  margin-bottom:8px;
+  line-height:1.3;
+}
+
+/* الحقول (مطابقة للون/السماكة ) */
+.inp{
+  border:var(--border-w) solid var(--blue);
+  border-radius:var(--radius);
+  height:36px;                         /* ارتفاع الحقول كما  */
+  padding:0 12px;
+  font-size:15px;
+  outline:none;
+  background:#fff;
+}
+.inp.sm{height:34px}
+.inp:focus{border-color:var(--blue-hover)}
+
+.text-center{text-align:center}
+.mt2{margin-top:2px}
+.mt4{margin-top:4px}
+.d-block{display:block}
+
+/* أحجام جاهزة تستخدمها الحقول */
+.w-90{width:90px}
+.w-120{width:120px}
+.w-140{width:140px}
+.w-160{width:160px}
+
+/* ———— يمين الصف: هوية + شبكات ———— */
+.id-networks{min-width:420px; max-width:580px}
+.id-line{
+  display:flex; align-items:center; gap:12px; margin-bottom:8px;
+}
+.provider-name{font-weight:700; font-size:17px; white-space:nowrap}
+.chk{transform:scale(1.2)}
+.nets{
+  display:flex; flex-wrap:wrap; gap:14px 18px;   /* نفس التفاف الشبكات */
+  font-size:15px;
+}
+.nets label{display:flex; align-items:center; gap:8px}
+
+/* ———— الحالة ———— */
+.state{min-width:90px; align-items:center}
+.state-badge{
+  font-weight:800; font-size:16px; line-height:1.3;
+}
+.state .stop{color:var(--danger)}
+.link{color:#0d6efd; text-decoration:none; font-weight:600}
+
+/* ———— رصيد المزود ———— */
+.provider-balance{min-width:120px; align-items:center}
+.provider-balance .big{
+  font-size:24px; font-weight:800; line-height:1.3;
+}
+.circle-btn{
+  margin-top:8px;
+  width:26px; height:26px; border-radius:50%;
+  border:var(--border-w) solid var(--blue);
+  background:#fff; line-height:22px; font-size:18px; padding:0;
+  cursor:pointer;
+}
+.circle-btn:hover{border-color:var(--blue-hover)}
+
+/* ———— عملياتي / يومياتي / إشعاراتي ———— */
+.myops, .daily, .notify{min-width:180px}
+
+/* ———— تأميناتي ———— */
+.insurance{min-width:280px}
+.row-compact{display:flex; align-items:center; gap:12px}
+.btn-more{
+  height:34px; padding:0 14px;
+  border:var(--border-w) solid var(--blue);
+  border-radius:var(--radius);
+  background:#fff; cursor:pointer; font-weight:700; font-size:15px;
+}
+.btn-more:hover{border-color:var(--blue-hover)}
+
+/* ———— رصيد الحساب ———— */
+.account-balance{min-width:160px}
+
+body[dir="rtl"] * {
+    font-family: "Cairo", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+}
+
+/* تعديل الجدول لإزالة المسافة بين الرأس والمحتوى */
+.table-bordered thead th {
+    border-bottom-width: 1px;
+}
+
+/* Searchable field styling */
+.searchable-field {
+    position: relative;
+}
+
+.searchable-field .form-control {
+    padding-right: 30px; /* Space for search icon if needed */
+}
+
+.searchable-field .search-icon {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #6c757d;
+    pointer-events: none;
+}
+
+.table-bordered tbody tr:first-child td {
+    border-top: none;
+}
+
+.table {
+    margin-bottom: 0;
+}
+
+/* Select all checkboxes styling */
+.form-check-input:checked {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+/* Checkbox column styling */
+.form-check {
+    display: inline-block;
+    margin-bottom: 0;
+}
+
+.form-check-input {
+    margin-top: 0.3rem;
+}
+
+/* Alert styling for better visibility */
+.alert-warning {
+    background-color: var(--alert-warning-bg);
+    border-color: var(--alert-warning-border);
+    color: var(--alert-warning-color);
+}
+
+.alert-danger {
+    background-color: var(--alert-danger-bg);
+    border-color: var(--alert-danger-border);
+    color: var(--alert-danger-color);
+}
+
+/* DataTables info and pagination */
+.dataTables_info,
+.dataTables_paginate {
+    margin-top: 15px !important;
+    padding-top: 0 !important;
+}
+
+/* Calendar z-index fix */
+.flatpickr-calendar {
+    z-index: 200000 !important;
+}
+
+/* Searchable dropdown styles */
+/* الحاوية */
+.search-picker-panel {
+  position: absolute;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0,0,0,.15);
+  width: 100%;
+  max-height: 250px;
+  overflow: auto;
+  z-index: 300000 !important;
+}
+
+/* Ensure search picker panel appears above modals */
+.modal .search-picker-panel {
+  z-index: 300001 !important;
+}
+
+/* حقل البحث داخل البانل */
+.search-picker-panel .search-picker-search {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid #ddd;
+  padding: 8px 10px;
+  outline: none;
+}
+
+/* قائمة العناصر */
+.search-picker-panel .search-picker-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.search-picker-panel .search-picker-item {
+  padding: 8px 10px;
+  cursor: pointer;
+}
+
+.search-picker-panel .search-picker-item:hover,
+.search-picker-panel .search-picker-item.active {
+  background: #2563eb;
+  color: #fff;
+}
+
+/* Disabled top action buttons */
+.btn-outline-primary.disabled,
+.btn-outline-info.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Additional styles for the provider modal */
+.modal-content[dir="rtl"] .form-label {
+    font-weight: bold;
+}
+
+.modal-content[dir="rtl"] .card-header {
+    font-weight: bold;
+}
+
+.modal-content[dir="rtl"] .form-check {
+    margin-bottom: 0.5rem;
+}
+
+.text-danger {
+    color: #dc3545 !important;
+}
+
+.text-info {
+    cursor: pointer;
+}
+
+.alert {
+    border-radius: 0.375rem;
+}
+
+.alert-info {
+    background-color: #d1ecf1;
+    border-color: #b8daff;
+    color: #0c5460;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+    color: #155724;
+}
+
+/* === تكبير النافذة المنبثقة (Modal) === */
+.modal-dialog {
+  max-width: 95vw !important; /* العرض بنسبة الشاشة */
+  width: 1200px !important;    /* عرض ثابت لأغلب الشاشات */
+  margin: 40px auto !important; /* مسافة من الأعلى */
+}
+
+.modal-content {
+  height: 85vh !important; /* ارتفاع مناسب */
+  background-color: #f9fbff !important; /* خلفية فاتحة */
+  border-radius: 10px;
+  overflow-y: auto;
+  padding: 20px 25px;
+  direction: rtl;
+  text-align: right;
+}
+
+/* === الخطوط === */
+*, body, .modal-content, .form-control, .form-select, .form-label, .btn,
+input, textarea, select, label, span, a, p, div, th, td, .table {
+  font-family: "Cairo", "Tahoma", sans-serif !important;
+}
+
+body, .modal-content, .form-control, .form-select, .form-label, .btn {
+  font-size: 16px !important;
+  color: #222 !important;
+}
+
+/* === الحقول === */
+.form-control,
+.form-select {
+  height: 42px !important;
+  font-size: 15px !important;
+  border: 1px solid #ccc !important;
+  border-radius: 6px !important;
+  padding: 8px 12px !important;
+  background-color: #fff !important;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: #0d6efd !important;
+  box-shadow: 0 0 0 0.2rem rgba(13,110,253,0.25) !important;
+}
+
+/* === الأزرار === */
+.btn:not(.btn-sm) {
+  height: 45px !important;
+  padding: 0 25px !important;
+  border-radius: 6px !important;
+  font-weight: 600 !important;
+  font-size: 15px !important;
+}
+.btn-primary:not(.btn-sm) {
+  background-color: #0d6efd !important;
+  border: none !important;
+}
+.btn-primary:not(.btn-sm):hover {
+  background-color: #0b5ed7 !important;
+}
+
+.btn-secondary {
+  background-color: #6c757d !important;
+  color: #fff !important;
+}
+
+/* === العناوين داخل النافذة === */
+.modal-title {
+  font-size: 22px !important;
+  font-weight: 700 !important;
+}
+
+/* === لتوضيح محتوى الشبكات الطويل === */
+.scrollable-section {
+  max-height: 500px;
+  overflow-y: auto;
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 12px;
+}
+
+/* === تحسين عرض البطاقات الملونة (مثل الألعاب / البطاقات / you) === */
+.network-card {
+  border-radius: 10px;
+  padding: 12px;
+  min-width: 260px;
+  max-width: 290px;
+}
+
+/* === تحسين حجم النصوص في الجدول === */
+.table th, .table td {
+    font-size: 14px !important;
+    padding: 10px 8px !important;
+}
+
+.table thead th {
+    font-size: 15px !important;
+    padding: 12px 8px !important;
+}
+
+/* === تحسين حجم الروابط في الجدول === */
+.table td a {
+    font-size: 13px !important;
+    padding: 2px 4px !important;
+}
+
+/* === تحسين حجم الحقول في الجدول === */
+.table .form-control-sm {
+    font-size: 13px !important;
+    padding: 4px 6px !important;
+    height: 30px !important;
+}
+
+.table .form-select-sm {
+    font-size: 13px !important;
+    padding: 4px 6px !important;
+    height: 30px !important;
+}
+
+/* Override CSS file to match reference design */
+#toggleFilters.btn-primary {
+    background-color: var(--ins-primary) !important;
+    border-color: var(--ins-primary) !important;
+    color: white !important;
+}
+
+#toggleFilters.btn-primary:hover {
+    background-color: var(--ins-primary-text-emphasis) !important;
+    border-color: var(--ins-primary-text-emphasis) !important;
+}
+
+#applyFilters.btn-primary {
+    background-color: var(--ins-primary) !important;
+    border-color: var(--ins-primary) !important;
+    color: white !important;
+}
+
+#applyFilters.btn-primary:hover {
+    background-color: var(--ins-primary-text-emphasis) !important;
+    border-color: var(--ins-primary-text-emphasis) !important;
+}
+
+/* Ensure action buttons match reference design */
+.btn-outline-danger {
+    color: var(--ins-danger) !important;
+    border-color: var(--ins-danger) !important;
+}
+
+.btn-outline-success {
+    color: var(--ins-success) !important;
+    border-color: var(--ins-success) !important;
+}
+
+.btn-outline-primary {
+    color: var(--ins-primary) !important;
+    border-color: var(--ins-primary) !important;
+}
+
+.btn-outline-info {
+    color: var(--ins-info) !important;
+    border-color: var(--ins-info) !important;
+}
+
+.btn-outline-dark {
+    color: var(--ins-dark) !important;
+    border-color: var(--ins-dark) !important;
+}
+
+/* Card styling for both themes */
+.card {
+    border: 1px solid #dee2e6;
+    border-radius: 0.375rem;
+}
+
+/* Network Services Container Styling */
+.network-scroll-container {
+    max-height: 600px;
+    overflow-y: auto;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #dee2e6;
+    scroll-behavior: smooth;
+}
+
+.network-box {
+    margin-bottom: 20px;
+    padding: 15px;
+    border-radius: 10px;
+    border: 2px solid rgba(0,0,0,0.1);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    position: relative;
+}
+
+.network-header {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.network-box label {
+    display: block;
+    margin-bottom: 8px;
+    padding: 6px 10px;
+    background-color: rgba(255,255,255,0.7);
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-weight: 500;
+}
+
+.network-box label:hover {
+    background-color: rgba(255,255,255,0.9);
+    transform: translateX(-2px);
+}
+
+.network-box input[type="checkbox"] {
+    margin-left: 8px;
+    transform: scale(1.1);
+}
+
+.network-box input[type="checkbox"]:checked + span {
+    color: #0d6efd;
+    font-weight: bold;
+}
+
+/* Smooth transitions for collapsible sections */
+.network-collapsible {
+    transition: all 0.3s ease-in-out;
+    overflow: hidden;
+}
+
+.network-collapsible.show {
+    opacity: 1;
+    max-height: 400px;
+}
+
+.network-collapsible.hide {
+    opacity: 0;
+    max-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-top: 0;
+}
+
+/* Specific styling for different network sections */
+#youOffers, #gamesList, #cardsList, #walletList, #videoList, #exchangeList {
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+    transform-origin: top;
+}
+
+#youOffers.expanding, #gamesList.expanding, #cardsList.expanding,
+#walletList.expanding, #videoList.expanding, #exchangeList.expanding {
+    animation: slideDown 0.4s ease-out forwards;
+}
+
+#youOffers.collapsing, #gamesList.collapsing, #cardsList.collapsing,
+#walletList.collapsing, #videoList.collapsing, #exchangeList.collapsing {
+    animation: slideUp 0.4s ease-out forwards;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        max-height: 0;
+        transform: scaleY(0);
+    }
+    to {
+        opacity: 1;
+        max-height: 400px;
+        transform: scaleY(1);
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 1;
+        max-height: 400px;
+        transform: scaleY(1);
+    }
+    to {
+        opacity: 0;
+        max-height: 0;
+        transform: scaleY(0);
+    }
+}
+
+/* Modal stability improvements */
+.modal-body {
+    overflow-y: auto;
+    max-height: 70vh;
+    scroll-behavior: smooth;
+}
+
+.modal-dialog {
+    max-width: 90vw;
+    margin: 1.75rem auto;
+}
+
+/* Network section styles for the new structure */
+.network-box {
+    min-width: 200px;
+    max-width: 250px;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.network-box .network-header {
+    font-weight: bold;
+    text-align: center;
+    padding: 5px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    color: var(--network-header-color);
+}
+
+.network-box label {
+    display: block;
+    margin-bottom: 5px;
+    padding: 5px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.network-box label:hover {
+    background-color: var(--network-box-hover-bg);
+}
+
+.network-box input[type="checkbox"] {
+    margin-left: 5px;
+}
+
+.network-box .collapse {
+    transition: all 0.3s ease-in-out;
+}
+
+.dvdn {
+    margin-top: 10px;
+}
+
+.dvdn label {
+    display: block;
+    margin-bottom: 3px;
+    padding: 3px;
+    font-size: 13px;
+}
+
+/* Styles for the new collapsible game and card sections */
+#gamesList, #cardsList {
+    transition: all 0.3s ease-in-out;
+    overflow-y: auto;
+}
+
+#gamesList label, #cardsList label {
+    display: block;
+    margin-bottom: 5px;
+    padding: 5px;
+    background-color: rgba(255,255,255,0.7);
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+#gamesList label:hover, #cardsList label:hover {
+    background-color: rgba(255,255,255,0.9);
+    transform: translateX(-2px);
+}
+
+#gamesList input[type="checkbox"], #cardsList input[type="checkbox"] {
+    margin-left: 8px;
+    transform: scale(1.1);
+}
+
+/* Unified Form Section Styles */
+.unified-form-section {
+    margin-bottom: 20px;
+    padding: 15px;
+    border-radius: 8px;
+    background-color: var(--unified-form-section-bg);
+    border: 1px solid var(--unified-form-section-border);
+}
+
+.unified-form-section h5 {
+    font-weight: bold;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--unified-form-section-border);
+    color: #0d6efd;
+}
+
+/* Provider Information Section */
+.provider-info-section {
+    background-color: var(--provider-info-section-bg);
+    border-color: var(--provider-info-section-border);
+}
+
+/* Network Selection Section */
+.network-selection-section {
+    background-color: var(--network-selection-section-bg);
+    border-color: var(--network-selection-section-border);
+}
+
+/* Button styles for additional sections */
+.btn-fuchsia {
+    background-color: #ff00ff;
+    border-color: #ff00ff;
+    color: #fff;
+}
+
+.btn-fuchsia:hover {
+    background-color: #e600e6;
+    border-color: #e600e6;
+    color: #fff;
+}
+
+.btn-fuchsia:focus {
+    box-shadow: 0 0 0 0.2rem rgba(255, 0, 255, 0.25);
+}
+
+/* Voucher Modal Styles - Consistent between Light and Dark Modes */
+
+/* Base styles for all voucher modals */
+.voucher-modal .modal-content {
+    border-radius: 16px;
+    border: 2px solid var(--modal-content-border);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+    background: var(--modal-content-bg);
+    color: var(--modal-content-color);
+}
+
+.voucher-modal .modal-header {
+    background-color: var(--ins-primary); /* Project's primary color */
+    border-bottom: 1px solid var(--ins-primary-text-emphasis);
+    border-radius: 16px 16px 0 0;
+    color: white; /* White text color */
+}
+
+.voucher-modal .modal-title {
+    color: white; /* White text color */
+    font-weight: 600;
+}
+
+.voucher-modal .btn-close {
+    filter: invert(1) brightness(200%); /* White close button for dark background */
+}
+
+.voucher-modal .modal-footer {
+    background-color: var(--modal-footer-bg);
+    border-top: 1px solid var(--modal-footer-border);
+}
+
+/* Primary buttons in modals */
+.voucher-modal .modal-footer .btn-primary {
+    background-color: var(--ins-primary);
+    border-color: var(--ins-primary);
+    color: white;
+    font-weight: 600;
+}
+
+.voucher-modal .modal-footer .btn-primary:hover {
+    background-color: var(--ins-primary-text-emphasis);
+    border-color: var(--ins-primary-text-emphasis);
+}
+
+/* Voucher Modal CSS - Shared styles for all voucher modals */
+
+/* Form section styling */
+.v-section {
+    background: var(--v-section-bg);
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid var(--v-section-border);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+.v-cap {
+    font-weight: 800;
+    margin-bottom: 15px;
+    color: var(--v-cap-color);
+    font-size: 16px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--ins-primary);
+}
+
+/* Form label styling */
+.v-label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 800;
+    color: var(--v-label-color);
+}
+
+.v-req {
+    color: #cc0000;
+    font-weight: 800;
+}
+
+.v-input, .v-select {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid var(--v-input-border);
+    border-radius: 6px;
+    background-color: var(--v-input-bg);
+    color: var(--v-input-color);
+    font-weight: 800;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.v-input:focus, .v-select:focus {
+    border-color: var(--ins-primary);
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem var(--ins-focus-ring-color);
+}
+
+/* View field styling */
+.view-field {
+    background-color: var(--view-field-bg);
+    border: 2px solid var(--view-field-border);
+    border-radius: 6px;
+    padding: 12px 15px;
+    min-height: 45px;
+    display: flex;
+    align-items: center;
+    font-weight: 800;
+    color: var(--view-field-color);
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+/* Note highlight styling */
+.note-highlight {
+    background-color: var(--note-highlight-bg);
+    border-left: 3px solid var(--ins-primary);
+    padding: 10px 12px;
+    margin-top: 5px;
+    font-size: 13px;
+    border-radius: 0 4px 4px 0;
+    color: var(--note-highlight-color);
+    font-weight: 800;
+}
+
+/* Date field styling */
+.date-field {
+    position: relative;
+}
+
+.d-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.d-ic {
+    position: absolute;
+    left: 10px;
+    z-index: 2;
+    cursor: pointer;
+    color: var(--d-ic-color);
+}
+
+.d-input {
+    padding-left: 35px !important;
+}
+
+/* Bootstrap Select improvements for better contrast */
+.bootstrap-select .btn-light {
+    background-color: var(--btn-light-bg);
+    border: 2px solid var(--btn-light-border);
+    color: var(--btn-light-color);
+    font-weight: 800;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+}
+
+.bootstrap-select .btn-light:hover {
+    background-color: var(--btn-light-bg);
+    border-color: var(--btn-light-border);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.5);
+}
+
+.bootstrap-select .btn-light:focus {
+    border-color: var(--ins-primary);
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem var(--ins-focus-ring-color);
+}
+
+.bootstrap-select .dropdown-menu {
+    background-color: var(--dropdown-menu-bg);
+    border: 1px solid var(--dropdown-menu-border);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+    z-index: 999999 !important;
+}
+
+/* Modal-specific z-index override */
+.modal .bootstrap-select .dropdown-menu {
+    z-index: 999999 !important;
+}
+
+.bootstrap-select .dropdown-menu > li > a {
+    color: var(--dropdown-menu-color);
+    padding: 12px 15px;
+    font-weight: 800;
+}
+
+.bootstrap-select .dropdown-menu > li > a:hover {
+    background-color: var(--btn-light-bg);
+    color: var(--primary-color);
+}
+
+.bootstrap-select .dropdown-menu > .selected > a {
+    background-color: var(--ins-primary);
+    color: #ffffff;
+    font-weight: 800;
+}
+
+.bootstrap-select .dropdown-menu > .selected > a:hover {
+    background-color: var(--ins-primary-text-emphasis);
+}
+
+.bootstrap-select .bs-searchbox .form-control {
+    border: 1px solid var(--bs-searchbox-border);
+    background-color: var(--bs-searchbox-bg);
+    color: var(--bs-searchbox-color);
+    font-weight: 800;
+}
+
+.bootstrap-select .bs-searchbox .form-control:focus {
+    border-color: var(--ins-primary);
+    box-shadow: 0 0 0 0.2rem var(--ins-focus-ring-color);
+}
+
+/* Input group styling for set price functionality */
+.input-group .form-control.form-control-sm {
+    border: 2px solid var(--v-input-border);
+    background-color: var(--v-input-bg);
+    color: var(--v-input-color);
+    font-weight: 800;
+    border-radius: 6px 0 0 6px;
+}
+
+.input-group .btn.btn-outline-primary.btn-sm {
+    border: 2px solid var(--ins-primary);
+    background-color: var(--ins-primary);
+    color: white;
+    font-weight: 800;
+    border-radius: 0 6px 6px 0;
+}
+
+.input-group .btn.btn-outline-primary.btn-sm:hover {
+    background-color: var(--ins-primary-text-emphasis);
+    border-color: var(--ins-primary-text-emphasis);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .v-section {
+        padding: 12px;
+    }
+    
+    .v-cap {
+        font-size: 15px;
+    }
+    
+    .v-input, .v-select, .view-field {
+        padding: 8px 10px;
+    }
+}
+
+/* Custom styles for horizontal button layout */
+.filter-buttons {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+    .filter-buttons {
+        flex-direction: column;
+    }
+    
+    .filter-buttons .btn {
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+}

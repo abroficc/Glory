@@ -1,0 +1,25 @@
+@model string
+
+<!-- Simplified Package form fields partial view with only required fields -->
+<div class="v-section">
+  <div class="v-cap">التسديدات > فئات الانترنت</div>
+  
+  <!-- Package Basic Information Section -->
+  <div class="row g-3">
+    <div class="col-md-6">
+      <label class="v-label">اسم الفئة <span class="v-req">*</span></label>
+      <input class="v-input form-control" id="@(Model)-package-name" placeholder="ادخل اسم الفئة" type="text" required>
+      <div class="invalid-feedback">
+        الرجاء إدخال اسم الفئة
+      </div>
+    </div>
+    
+    <div class="col-md-6">
+      <label class="v-label">السعر <span class="v-req">*</span></label>
+      <input class="v-input form-control" id="@(Model)-package-price" placeholder="السعر" type="number" step="0.01" required>
+      <div class="invalid-feedback">
+        الرجاء إدخال السعر
+      </div>
+    </div>
+  </div>
+</div>

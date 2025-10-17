@@ -1,0 +1,201 @@
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الأميز تيليكوم - التصميم السابق</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="~/css/design-previews.css" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: "Cairo", sans-serif;
+            background-color: #f8fafc;
+            color: #0f172a;
+        }
+        header {
+            background-color: #0b1445;
+            color: white;
+            text-align: center;
+            padding: 20px 10px;
+            position: relative;
+        }
+        header img.logo {
+            position: absolute;
+            top: 10px;
+            left: 15px;
+            width: 70px;
+            border-radius: 50%;
+        }
+        header h1 {
+            margin: 10px 0 5px;
+            font-size: 26px;
+        }
+        header nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: bold;
+        }
+
+        /* أقسام القائمة */
+        .menu {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 40px auto;
+            max-width: 900px;
+        }
+        .menu-item {
+            background-color: #0b1445;
+            color: white;
+            width: 150px;
+            height: 150px;
+            border-radius: 15px;
+            text-align: center;
+            padding: 15px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .menu-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+        }
+        .menu-item .icon {
+            background-color: #c3f0f7;
+            color: #0b1445;
+            width: 70px; height: 70px;
+            margin: 0 auto 10px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 32px;
+        }
+
+        /* سلايدر الإعلانات */
+        .slider {
+            background-color: #0b1445;
+            border-radius: 15px;
+            margin: 30px auto 10px;
+            width: 420px;
+            height: 230px;
+            overflow: hidden;
+            position: relative;
+        }
+        .slider img {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            border-radius: 15px;
+        }
+        .slider img.active {
+            opacity: 1;
+        }
+
+        /* شريط النصوص المتحركة */
+        .ticker {
+            background-color: #ffe08a;
+            color: #000;
+            margin: 15px auto 25px;
+            border-radius: 8px;
+            padding: 10px 0;
+            width: 90%;
+            position: relative;
+            overflow: hidden;
+        }
+        .ticker .inner {
+            display: flex;
+            gap: 20px;
+            white-space: nowrap;
+            animation: moveText 20s linear infinite;
+        }
+        @@keyframes moveText {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+        .ticker span {
+            background-color: #fff;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+        }
+
+        /* التذييل */
+        footer {
+            text-align: center;
+            padding: 15px;
+            background-color: #fff;
+            font-size: 14px;
+            border-top: 1px solid #e5e7eb;
+        }
+        footer a {
+            color: #1e40af;
+            text-decoration: none;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="~/images/logo.png" class="logo" alt="شعار الأميز تيليكوم">
+        <h1>الأميز تيليكوم</h1>
+        <nav>
+            <a href="#">إعلانات</a>
+            <a href="#">تسجيل</a>
+            <a href="#">دخول</a>
+        </nav>
+    </header>
+
+    <main>
+        <div class="menu">
+            <div class="menu-item"><div class="icon"><i class="bi bi-question-circle"></i></div><h3>التعليمات</h3></div>
+            <div class="menu-item"><div class="icon"><i class="bi bi-file-text"></i></div><h3>الشروط</h3></div>
+            <div class="menu-item"><div class="icon"><i class="bi bi-telephone"></i></div><h3>بيانات التواصل</h3></div>
+            <div class="menu-item"><div class="icon"><i class="bi bi-phone"></i></div><h3>تحميل التطبيق</h3></div>
+            <div class="menu-item"><div class="icon"><i class="bi bi-currency-dollar"></i></div><h3>بيانات التحويل</h3></div>
+            <div class="menu-item"><div class="icon"><i class="bi bi-shield-lock"></i></div><h3>سياسة الخصوصية</h3></div>
+        </div>
+
+        <!-- 🔹 سلايدر الإعلانات -->
+        <div class="slider">
+            <img src="~/images/ad1.png" class="active" alt="إعلان 1">
+            <img src="~/images/ad2.png" alt="إعلان 2">
+            <img src="~/images/ad3.png" alt="إعلان 3">
+        </div>
+
+        <!-- 🔹 شريط النصوص المتحركة -->
+        <div class="ticker">
+            <div class="inner">
+                <span>🎉 عروض جديدة بمناسبة العيد! خصومات تصل إلى 30%</span>
+                <span>💳 يمكنك الآن شحن رصيدك إلكترونيًا بسهولة</span>
+                <span>📱 تطبيق الأميز تيليكوم متوفر على Google Play</span>
+                <span>☎️ تواصل معنا عبر الرقم 774541452</span>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        برمجة وتصميم <a href="#">يمن روبوت</a> © | ت: <a href="tel:774541452">774541452</a>
+    </footer>
+
+    <script>
+        // تغيير الصور تلقائيًا كل 4 ثوانٍ
+        let current = 0;
+        const slides = document.querySelectorAll('.slider img');
+
+        setInterval(() => {
+            slides[current].classList.remove('active');
+            current = (current + 1) % slides.length;
+            slides[current].classList.add('active');
+        }, 4000);
+    </script>
+</body>
+</html>

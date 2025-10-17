@@ -1,0 +1,1639 @@
+﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿<!-- Active Navigation Styles -->
+<style>
+    /* Active menu item styling */
+    .side-nav-item.active > .side-nav-link {
+        background: #1ab394 !important;
+        color: white !important;
+    }
+
+    .side-nav-item.active > .side-nav-link .menu-icon i {
+        color: white !important;
+    }
+
+    .side-nav-item.active > .side-nav-link .menu-text {
+        color: white !important;
+        font-weight: 600;
+    }
+
+    .side-nav-item.active > .side-nav-link .menu-arrow {
+        color: white !important;
+    }
+
+    /* Active submenu item styling */
+    .sub-menu .side-nav-item.active > .side-nav-link {
+        background: #1ab394 !important;
+        color: white !important;
+    }
+
+    /* Dark mode adjustments */
+    [data-bs-theme="dark"] .side-nav-item.active > .side-nav-link {
+        background: #16987e !important;
+    }
+
+    [data-bs-theme="dark"] .sub-menu .side-nav-item.active > .side-nav-link {
+        background: #16987e !important;
+    }
+
+    /* Expanded menu indicator */
+    .side-nav-item.has-active-child > .side-nav-link {
+        background: rgba(26, 179, 148, 0.1) !important;
+    }
+
+    .side-nav-item.has-active-child > .side-nav-link .menu-text {
+        font-weight: 600;
+        color: #1ab394 !important;
+    }
+
+    [data-bs-theme="dark"] .side-nav-item.has-active-child > .side-nav-link {
+        background: rgba(22, 152, 126, 0.15) !important;
+    }
+
+    [data-bs-theme="dark"] .side-nav-item.has-active-child > .side-nav-link .menu-text {
+        color: #16987e !important;
+    }
+</style>
+
+<!-- Sidenav Menu Start -->
+<div class="sidenav-menu">
+
+    <!-- Brand Logo -->
+    <a href=@Url.Action("Index1", "Dashboards") class="logo">
+        <span class="logo logo-light">
+            <span class="logo-lg"><img src="~/images/logo.png" alt="logo"></span>
+            <span class="logo-sm"><img src="~/images/logo-sm.png" alt="small logo"></span>
+        </span>
+
+        <span class="logo logo-dark">
+            <span class="logo-lg"><img src="~/images/logo-black.png" alt="dark logo"></span>
+            <span class="logo-sm"><img src="~/images/logo-sm.png" alt="small logo"></span>
+        </span>
+    </a>
+
+    <!-- Sidebar Hover Menu Toggle Button -->
+    <button class="button-on-hover">
+        <i class="ti ti-menu-4 fs-22 align-middle"></i>
+    </button>
+
+    <!-- Full Sidebar Menu Close Button -->
+    <button class="button-close-offcanvas">
+        <i class="ti ti-x align-middle"></i>
+    </button>
+
+    <!-- Added a wrapper div to ensure proper scrolling structure -->
+    <div class="scrollbar" data-simplebar style="height: calc(100vh - 100px);">
+
+        <!-- User -->
+        <div class="sidenav-user">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <a href=@Url.Action("Profile", "Pages") class="link-reset">
+                        <img src="~/images/users/user-2.jpg" alt="user-image" class="rounded-circle mb-2 avatar-md">
+                        <span class="sidenav-user-name fw-bold">داميان د.</span>
+                        <span class="fs-12 fw-semibold" data-lang="user-role">مدير فني</span>
+                    </a>
+                </div>
+                <div>
+                    <a class="dropdown-toggle drop-arrow-none link-reset sidenav-user-set-icon" data-bs-toggle="dropdown" data-bs-offset="0,12" href="#!" aria-haspopup="false" aria-expanded="false">
+                        <i class="ti ti-settings fs-24 align-middle ms-1"></i>
+                    </a>
+
+                    <div class="dropdown-menu">
+                        <!-- Header -->
+                        <div class="dropdown-header noti-title">
+                            <h6 class="text-overflow m-0">مرحباً بك مرة أخرى!</h6>
+                        </div>
+
+                        <!-- My Profile -->
+                        <a href=@Url.Action("Profile", "Pages") class="dropdown-item">
+                            <i class="ti ti-user-circle me-2 fs-17 align-middle"></i>
+                            <span class="align-middle">الملف الشخصي</span>
+                        </a>
+
+                        <!-- Notifications -->
+                        <a href="javascript:void(0);" class="dropdown-item">
+                            <i class="ti ti-bell-ringing me-2 fs-17 align-middle"></i>
+                            <span class="align-middle">الإشعارات</span>
+                        </a>
+
+                        <!-- Wallet -->
+                        <a href="javascript:void(0);" class="dropdown-item">
+                            <i class="ti ti-credit-card me-2 fs-17 align-middle"></i>
+                            <span class="align-middle">الرصيد: <span class="fw-semibold">$985.25</span></span>
+                        </a>
+
+                        <!-- Settings -->
+                        <a href="javascript:void(0);" class="dropdown-item">
+                            <i class="ti ti-settings-2 me-2 fs-17 align-middle"></i>
+                            <span class="align-middle">إعدادات الحساب</span>
+                        </a>
+
+                        <!-- Support -->
+                        <a href="javascript:void(0);" class="dropdown-item">
+                            <i class="ti ti-headset me-2 fs-17 align-middle"></i>
+                            <span class="align-middle">مركز الدعم</span>
+                        </a>
+
+                        <!-- Divider -->
+                        <div class="dropdown-divider"></div>
+
+                        <!-- Lock -->
+                        <a href=@Url.Action("LockScreen", "Auth1") class="dropdown-item">
+                            <i class="ti ti-lock me-2 fs-17 align-middle"></i>
+                            <span class="align-middle">قفل الشاشة</span>
+                        </a>
+
+                        <!-- Logout -->
+                        <a href=@Url.Action("Logout", "Auth3") class="dropdown-item text-danger fw-semibold">
+                            <i class="ti ti-logout-2 me-2 fs-17 align-middle"></i>
+                            <span class="align-middle">تسجيل الخروج</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--- Sidenav Menu -->
+        <ul class="side-nav">
+            <li class="side-nav-title" data-lang="menu-title">القائمة</li>
+
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#sidebarDashboards" aria-expanded="false" aria-controls="sidebarDashboards" class="side-nav-link">
+                    <span class="menu-arrow"></span>
+                    <span class="menu-text" data-lang="dashboards">لوحات التحكم</span>
+                    <span class="menu-icon"><i class="ti ti-layout-dashboard"></i></span>
+                    <span class="badge bg-success">3</span>
+                </a>
+                <div class="collapse" id="sidebarDashboards">
+                    <ul class="sub-menu">
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index2", "Dashboards") class="side-nav-link">
+                                <span class="menu-text" data-lang="dashboard-two">لوحة تحكم سداد</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index1", "Dashboards") class="side-nav-link">
+                                <span class="menu-text" data-lang="dashboard-one">لوحة تحكم الكهرباء</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index3", "Dashboards") class="side-nav-link">
+                                <span class="menu-text" data-lang="dashboard-three">لوحة تحكم الماء</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+
+
+
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#sidebarAccounts" aria-expanded="false" aria-controls="sidebarAccounts" class="side-nav-link">
+                    <span class="menu-arrow"></span>
+                    <span class="menu-text">الحسابات</span>
+                    <span class="menu-icon"><i class="ti ti-users"></i></span>
+                </a>
+                <div class="collapse" id="sidebarAccounts">
+                    <ul class="sub-menu">
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index", "Customers") class="side-nav-link">
+                                <span class="menu-text">العملاء والوكلاء</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index", "Employees") class="side-nav-link">
+                                <span class="menu-text">الموظفين</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index", "AccountTree") class="side-nav-link">
+                                <span class="menu-text">شجرة الحسابات</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index", "Branches") class="side-nav-link">
+                                <span class="menu-text">فروع الشركة</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index", "TrustedCustomers") class="side-nav-link">
+                                <span class="menu-text">العملاء الموثقين</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+            <!-- 5. السندات المالية -->
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#sidebarFinancialPayments" aria-expanded="false" aria-controls="sidebarFinancialPayments" class="side-nav-link">
+                    <span class="menu-arrow"></span>
+                    <span class="menu-icon"><i class="ti ti-file-dollar"></i></span>
+                    <span class="menu-text">السندات المالية</span>
+                    <span class="badge text-bg-warning">0</span>
+                </a>
+                <div class="collapse" id="sidebarFinancialPayments">
+                    <ul class="sub-menu">
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index", "BalanceRechargeVoucher") class="side-nav-link">
+                                <span class="menu-text">سند تغذية</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index", "BalanceDeductionVoucher") class="side-nav-link">
+                                <span class="menu-text">سند خصم</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index", "CustomerJournal") class="side-nav-link">
+                                <span class="menu-text">يوميات العملاء</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index", "AccountTransfers") class="side-nav-link">
+                                <span class="menu-text">التحويل بين الحسابات</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index", "AccountingVouchers") class="side-nav-link">
+                                <span class="menu-text">القيود المحاسبية</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index", "EmployeeJournal") class="side-nav-link">
+                                <span class="menu-text">يوميات الموظفين</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index", "Commissions") class="side-nav-link">
+                                <span class="menu-text">العمولات</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index", "Invoices") class="side-nav-link">
+                                <span class="menu-text">الفواتير</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index", "OpeningBalances") class="side-nav-link">
+                                <span class="menu-text">الأرصدة الافتتاحية</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index", "DistributorCommissions") class="side-nav-link">
+                                <span class="menu-text">عمولات الموزعين</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index", "FeedingVouchers") class="side-nav-link">
+                                <span class="menu-text">التغذية عبر الشبكات</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+            <!-- 6. التسديدات -->
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#sidebarPayments" aria-expanded="false" aria-controls="sidebarPayments" class="side-nav-link">
+                    <span class="menu-arrow"></span>
+                    <span class="menu-icon"><i class="ti ti-credit-card"></i></span>
+                    <span class="menu-text">التسديدات</span>
+                </a>
+                <div class="collapse" id="sidebarPayments">
+                    <ul class="sub-menu">
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index", "Categories") class="side-nav-link">
+                                <span class="menu-text">فئات يو-YOU</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index", "YouPackages") class="side-nav-link">
+                                <span class="menu-text">باقات YOU</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index", "Sentences") class="side-nav-link">
+                                <span class="menu-text">فئات YOU جملة</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index", "YemenMobileCategories") class="side-nav-link">
+                                <span class="menu-text">فئات يمن موبايل</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index", "YemenMobilePackages") class="side-nav-link">
+                                <span class="menu-text">باقات يمن موبايل</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index", "InternetPackages") class="side-nav-link">
+                                <span class="menu-text">باقات الانترنت</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index", "SpafoneCategories") class="side-nav-link">
+                                <span class="menu-text">سبأفون</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index", "SpafonePackages") class="side-nav-link">
+                                <span class="menu-text">باقات سبأفون</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index", "InternetCategories") class="side-nav-link">
+                                <span class="menu-text">فئات الانترنت</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index", "DataCategories") class="side-nav-link">
+                                <span class="menu-text">فئات النت (ريال)</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index", "FixedCategories") class="side-nav-link">
+                                <span class="menu-text">فئات الثابت</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index", "ShyCategories") class="side-nav-link">
+                                <span class="menu-text">فئات   شبكة واي</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index", "SentencesRatio") class="side-nav-link">
+                                <span class="menu-text">نسبة الجملة</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index", "PricingGroups") class="side-nav-link">
+                                <span class="menu-text">مجموعات التسعيرة</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index", "PricingRatios") class="side-nav-link">
+                                <span class="menu-text">نسب التسعيرة حسب المبلغ</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index", "NetworkCards") class="side-nav-link">
+                                <span class="menu-text">كروت الشبكات</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href="@Url.Action("Index", "SouthSpafone")" class="side-nav-link">
+                                <span class="menu-text">سبافون جنوب</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href="@Url.Action("Index", "SouthSpafonePackages")" class="side-nav-link">
+                                <span class="menu-text">باقات سبافون جنوب</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href="@Url.Action("Index", "AdenNet")" class="side-nav-link">
+                                <span class="menu-text">عدن نت</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href="@Url.Action("Index", "AdditionalCommissions")" class="side-nav-link">
+                                <span class="menu-text">عمولات اضافية</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href="@Url.Action("Index", "YemenForgePackages")" class="side-nav-link">
+                                <span class="menu-text">باقات يمن فورجي</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href="@Url.Action("Index", "WifiPackages")" class="side-nav-link">
+                                <span class="menu-text">باقات واي</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+            <!-- Data Guide Dropdown Menu -->
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#sidebarDataGuide" aria-expanded="false" aria-controls="sidebarDataGuide" class="side-nav-link">
+                    <span class="menu-arrow"></span>
+                    <span class="menu-text">دليل البيانات</span>
+                    <span class="menu-icon"><i class="ti ti-database"></i></span>
+                </a>
+                <div class="collapse" id="sidebarDataGuide">
+                    <ul class="sub-menu">
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index", "Services") class="side-nav-link">
+                                <span class="menu-text">الخدمات</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index", "ServiceCategories") class="side-nav-link">
+                                <span class="menu-text">فئات الخدمات</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index", "Advertisements") class="side-nav-link">
+                                <span class="menu-text">الإعلانات</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index", "AnimatedImages") class="side-nav-link">
+                                <span class="menu-text">الصور المتحركة</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index", "CurrencyGuide") class="side-nav-link">
+                                <span class="menu-text">دليل العملات</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index", "RemittanceCompanies") class="side-nav-link">
+                                <span class="menu-text">دليل شركات الحوالات</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index", "TransportCompanies") class="side-nav-link">
+                                <span class="menu-text">دليل شركات النقل</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index", "TicketPrices") class="side-nav-link">
+                                <span class="menu-text">دليل أسعار التذاكر</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index", "RemittanceCommissions") class="side-nav-link">
+                                <span class="menu-text">عمولة الحوالات</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index", "Cities") class="side-nav-link">
+                                <span class="menu-text">دليل المدن</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index", "PINSportsPackages") class="side-nav-link">
+                                <span class="menu-text">باقات بي إن سبورت</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index", "NetFlixPackages") class="side-nav-link">
+                                <span class="menu-text">باقات نت فليكس</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index", "ElectricityCompanies") class="side-nav-link">
+                                <span class="menu-text">دليل شركات الكهرباء</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index", "CardCurrencies") class="side-nav-link">
+                                <span class="menu-text">دليل عملات الكروت</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index", "BanksPaymentNetworks") class="side-nav-link">
+                                <span class="menu-text">بنوك وشبكات التغذية</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index", "ElectricityAreas") class="side-nav-link">
+                                <span class="menu-text">مناطق الكهرباء</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index", "WaterAreas") class="side-nav-link">
+                                <span class="menu-text">مناطق الماء</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+            <!-- Slides Section Dropdown Menu -->
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#sidebarSlides" aria-expanded="false" aria-controls="sidebarSlides" class="side-nav-link">
+                    <span class="menu-arrow"></span>
+                    <span class="menu-text">قسم الشرائح</span>
+                    <span class="menu-icon"><i class="ti ti-presentation"></i></span>
+                </a>
+                <div class="collapse" id="sidebarSlides">
+                    <ul class="sub-menu">
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index", "SimPackages") class="side-nav-link">
+                                <span class="menu-text">باقات الشرائح</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index", "SimNumbers") class="side-nav-link">
+                                <span class="menu-text">ارقام الشرائح</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index", "SpecialNumbers") class="side-nav-link">
+                                <span class="menu-text">الارقام المميزة</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+            <!-- Wireless Section Dropdown Menu -->
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#sidebarWireless" aria-expanded="false" aria-controls="sidebarWireless" class="side-nav-link">
+                    <span class="menu-arrow"></span>
+                    <span class="menu-text">قسم الوايرلس</span>
+                    <span class="menu-icon"><i class="ti ti-wifi"></i></span>
+                </a>
+                <div class="collapse" id="sidebarWireless">
+                    <ul class="sub-menu">
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index", "WifiNetworks") class="side-nav-link">
+                                <span class="menu-text">شبكات  Wi-Fi</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index", "WifiCategories") class="side-nav-link">
+                                <span class="menu-text">فئات    Wi-Fi</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index", "WifiCards") class="side-nav-link">
+                                <span class="menu-text">كروت  Wi-Fi</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+            <li class="side-nav-title" data-lang="apps-title">التطبيقات</li>
+
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#sidebarEcommerce" aria-expanded="false" aria-controls="sidebarEcommerce" class="side-nav-link">
+                    <span class="menu-arrow"></span>
+                    <span class="menu-text" data-lang="ecommerce">التجارة الإلكترونية</span>
+                    <span class="menu-icon"><i class="ti ti-basket"></i></span>
+                </a>
+                <div class="collapse" id="sidebarEcommerce">
+                    <ul class="sub-menu">
+                        <li class="side-nav-item">
+                            <a data-bs-toggle="collapse" href="#sidebarProducts" aria-expanded="false" aria-controls="sidebarProducts" class="side-nav-link">
+                                <span class="menu-arrow"></span>
+                                <span class="menu-text" data-lang="eco-products">المنتجات</span>
+                            </a>
+                            <div class="collapse" id="sidebarProducts">
+                                <ul class="sub-menu">
+                                    <li class="side-nav-item">
+                                        <a href=@Url.Action("Products", "Ecommerce") class="side-nav-link">
+                                            <span class="menu-text" data-lang="eco-pro-list">قائمة المنتجات</span>
+                                        </a>
+                                    </li>
+                                    <li class="side-nav-item">
+                                        <a href=@Url.Action("ProductsGrid", "Ecommerce") class="side-nav-link">
+                                            <span class="menu-text" data-lang="eco-pro-grid">شبكة المنتجات</span>
+                                        </a>
+                                    </li>
+                                    <li class="side-nav-item">
+                                        <a href=@Url.Action("ProductDetails", "Ecommerce") class="side-nav-link">
+                                            <span class="menu-text" data-lang="eco-pro-details">تفاصيل المنتج</span>
+                                        </a>
+                                    </li>
+                                    <li class="side-nav-item">
+                                        <a href=@Url.Action("AddProduct", "Ecommerce") class="side-nav-link">
+                                            <span class="menu-text" data-lang="eco-pro-add">إضافة منتج</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Categories", "Ecommerce") class="side-nav-link">
+                                <span class="menu-text" data-lang="eco-categories">الفئات</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a data-bs-toggle="collapse" href="#sidebarOrders" aria-expanded="false" aria-controls="sidebarOrders" class="side-nav-link">
+                                <span class="menu-arrow"></span>
+                                <span class="menu-text" data-lang="eco-orders">الطلبات</span>
+                            </a>
+                            <div class="collapse" id="sidebarOrders">
+                                <ul class="sub-menu">
+                                    <li class="side-nav-item">
+                                        <a href=@Url.Action("Orders", "Ecommerce") class="side-nav-link">
+                                            <span class="menu-text" data-lang="eco-orders-list">قائمة الطلبات</span>
+                                        </a>
+                                    </li>
+                                    <li class="side-nav-item">
+                                        <a href=@Url.Action("OrderDetails", "Ecommerce") class="side-nav-link">
+                                            <span class="menu-text" data-lang="eco-order-details">تفاصيل الطلب</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Customers", "Ecommerce") class="side-nav-link">
+                                <span class="menu-text" data-lang="eco-customers">العملاء</span>
+                            </a>
+                        </li>
+
+                        <li class="side-nav-item">
+                            <a data-bs-toggle="collapse" href="#sidebarSellers" aria-expanded="false" aria-controls="sidebarSellers" class="side-nav-link">
+                                <span class="menu-arrow"></span>
+                                <span class="menu-text" data-lang="eco-sellers">البائعون</span>
+                            </a>
+                            <div class="collapse" id="sidebarSellers">
+                                <ul class="sub-menu">
+                                    <li class="side-nav-item">
+                                        <a href=@Url.Action("Sellers", "Ecommerce") class="side-nav-link">
+                                            <span class="menu-text" data-lang="eco-sellers-list">قائمة البائعين</span>
+                                        </a>
+                                    </li>
+                                    <li class="side-nav-item">
+                                        <a href=@Url.Action("SellerDetails", "Ecommerce") class="side-nav-link">
+                                            <span class="menu-text" data-lang="eco-sellers-details">تفاصيل البائعين</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Reviews", "Ecommerce") class="side-nav-link">
+                                <span class="menu-text" data-lang="eco-reviews">المراجعات</span>
+                            </a>
+                        </li>
+
+                        <li class="side-nav-item">
+                            <a data-bs-toggle="collapse" href="#sidebarEcommerceReports" aria-expanded="false" aria-controls="sidebarEcommerceReports" class="side-nav-link">
+                                <span class="menu-arrow"></span>
+                                <span class="menu-text" data-lang="eco-reports">التقارير</span>
+                            </a>
+                            <div class="collapse" id="sidebarEcommerceReports">
+                                <ul class="sub-menu">
+                                    <li class="side-nav-item">
+                                        <a href=@Url.Action("ProductViews", "Ecommerce") class="side-nav-link">
+                                            <span class="menu-text" data-lang="eco-pro-views">مشاهدات المنتج</span>
+                                        </a>
+                                    </li>
+                                    <li class="side-nav-item">
+                                        <a href=@Url.Action("Sales", "Ecommerce") class="side-nav-link">
+                                            <span class="menu-text" data-lang="eco-pro-sales">المبيعات</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#sidebarEmail" aria-expanded="false" aria-controls="sidebarEmail" class="side-nav-link">
+                    <span class="menu-arrow"></span>
+                    <span class="menu-text" data-lang="email">البريد الإلكتروني</span>
+                    <span class="menu-icon"><i class="ti ti-mail"></i></span>
+                    <span class="badge text-bg-danger">New</span>
+                </a>
+                <div class="collapse" id="sidebarEmail">
+                    <ul class="sub-menu">
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Email", "Apps") class="side-nav-link">
+                                <span class="menu-text" data-lang="email-inbox">صندوق الوارد</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("EmailDetails", "Apps") class="side-nav-link">
+                                <span class="menu-text" data-lang="email-details">التفاصيل</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("EmailCompose", "Apps") class="side-nav-link">
+                                <span class="menu-text" data-lang="email-compose">إنشاء</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+            <!-- Reports Dropdown Menu -->
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#sidebarReports" aria-expanded="false" aria-controls="sidebarReports" class="side-nav-link">
+                    <span class="menu-arrow"></span>
+                    <span class="menu-text">التقارير</span>
+                    <span class="menu-icon"><i class="ti ti-chart-bar"></i></span>
+                </a>
+                <div class="collapse" id="sidebarReports">
+                    <ul class="sub-menu">
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index", "CustomerReports") class="side-nav-link">
+                                <span class="menu-text">تقرير العملاء</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href="#" class="side-nav-link">
+                                <span class="menu-text">تقرير الموظفين</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href="#" class="side-nav-link">
+                                <span class="menu-text">تقرير العملاء اليومي</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href="#" class="side-nav-link">
+                                <span class="menu-text">تقرير اجمالي</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href="#" class="side-nav-link">
+                                <span class="menu-text">تقرير تسديدات/عمولات</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href="#" class="side-nav-link">
+                                <span class="menu-text">تقرير اداري</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href="#" class="side-nav-link">
+                                <span class="menu-text">كشف حساب العميل</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href="#" class="side-nav-link">
+                                <span class="menu-text">الارصدة الحسابية</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href="#" class="side-nav-link">
+                                <span class="menu-text">تقييم أداء الموردين</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href="#" class="side-nav-link">
+                                <span class="menu-text">تقييم أداء العملاء</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href="#" class="side-nav-link">
+                                <span class="menu-text">تحصيل شبكات الموردين</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href="#" class="side-nav-link">
+                                <span class="menu-text">تكلفة شبكات الموردين</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href="#" class="side-nav-link">
+                                <span class="menu-text">تقرير الشرائح</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href="#" class="side-nav-link">
+                                <span class="menu-text">ميزان المراجعة</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href="#" class="side-nav-link">
+                                <span class="menu-text">تقرير أداء الموظفين</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href="#" class="side-nav-link">
+                                <span class="menu-text">تقرير البوابات</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href="#" class="side-nav-link">
+                                <span class="menu-text">أنشطة العملاء والموظفين</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index", "MatchingReports") class="side-nav-link">
+                                <span class="menu-text">تقرير المطابقة</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+
+
+            <!-- Robotati Dropdown Menu -->
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#sidebarRobotrati" aria-expanded="false" aria-controls="sidebarRobotrati" class="side-nav-link">
+                    <span class="menu-arrow"></span>
+                    <span class="menu-text">روبوتاتي</span>
+                    <span class="menu-icon"><i class="ti ti-robot"></i></span>
+                </a>
+                <div class="collapse" id="sidebarRobotrati">
+                    <ul class="sub-menu">
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index", "Devices") class="side-nav-link">
+                                <span class="menu-text">الأجهزة</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index", "Slides") class="side-nav-link">
+                                <span class="menu-text">الشرائح</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href="#" class="side-nav-link">
+                                <span class="menu-text">الردود</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index", "RealSlides") class="side-nav-link">
+                                <span class="menu-text">شرائح الريال (مباشر)</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index", "FeedingSettings") class="side-nav-link">
+                                <span class="menu-text">إعدادات التغذية</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href="@Url.Action("Index", "SuppliesDiscounts")" class="side-nav-link">
+                                <span class="menu-text">توريدات | خصميات</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index", "Blacklist") class="side-nav-link">
+                                <span class="menu-text">القائمة السوداء</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index", "SmsMessages") class="side-nav-link">
+                                <span class="menu-text">الرسائل النصية</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index", "KareemMessages") class="side-nav-link">
+                                <span class="menu-text">رسائل الكريمي</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index", "MessageWhatsAppDevices") class="side-nav-link">
+                                <span class="menu-text">أجهزة الرسائل والواتس</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index", "WhatsAppMessageFormattings") class="side-nav-link">
+                                <span class="menu-text">تنسيق رسائل الواتس</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index", "SmartWhatsAppResponses") class="side-nav-link">
+                                <span class="menu-text">ردود الواتس الذكية</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index", "WhatsAppMarketing") class="side-nav-link">
+                                <span class="menu-text">واتساب تسويق</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+            <!-- Human Resources Dropdown Menu -->
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#sidebarHR" aria-expanded="false" aria-controls="sidebarHR" class="side-nav-link">
+                    <span class="menu-arrow"></span>
+                    <span class="menu-text">الموارد البشرية</span>
+                    <span class="menu-icon"><i class="ti ti-users-group"></i></span>
+                </a>
+                <div class="collapse" id="sidebarHR">
+                    <ul class="sub-menu">
+                        <li class="side-nav-item">
+                            <a href="#" class="side-nav-link">
+                                <span class="menu-text">إعدادات</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href="#" class="side-nav-link">
+                                <span class="menu-text">فترات الدوام</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href="#" class="side-nav-link">
+                                <span class="menu-text">الحضور والانصراف</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href="#" class="side-nav-link">
+                                <span class="menu-text">تراخيص الغياب</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href="#" class="side-nav-link">
+                                <span class="menu-text">تقرير</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+            <!-- Treasury Dropdown Menu -->
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#sidebarTreasury" aria-expanded="false" aria-controls="sidebarTreasury" class="side-nav-link">
+                    <span class="menu-arrow"></span>
+                    <span class="menu-icon"><i class="ti ti-safe"></i></span>
+                    <span class="menu-text">الخزنة</span>
+                </a>
+                <div class="collapse" id="sidebarTreasury">
+                    <ul class="sub-menu">
+                        <li class="side-nav-item">
+                            <a href="#" class="side-nav-link">
+                                <span class="menu-text">تطبيقات الخزنة</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href="#" class="side-nav-link">
+                                <span class="menu-text">إعدادات الخزنة</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href="#" class="side-nav-link">
+                                <span class="menu-text">عمولات الخزنة</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+            <!-- Cards and Games Bank Dropdown Menu -->
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#sidebarCardsGames" aria-expanded="false" aria-controls="sidebarCardsGames" class="side-nav-link">
+                    <span class="menu-arrow"></span>
+                    <span class="menu-text">بنك البطاقات والألعاب</span>
+                    <span class="menu-icon"><i class="ti ti-cards"></i></span>
+                </a>
+                <div class="collapse" id="sidebarCardsGames">
+                    <ul class="sub-menu">
+                        <li class="side-nav-item">
+                            <a href="#" class="side-nav-link">
+                                <span class="menu-text">خدمات البطاقات الالكترونية</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href="#" class="side-nav-link">
+                                <span class="menu-text">فئات البطاقات</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href="#" class="side-nav-link">
+                                <span class="menu-text">الأرقام والبطائق</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href="#" class="side-nav-link">
+                                <span class="menu-text">فئات الألعاب</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+            <!-- Supplier Feeding Robot Dropdown Menu -->
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#sidebarSupplierRobot" aria-expanded="false" aria-controls="sidebarSupplierRobot" class="side-nav-link">
+                    <span class="menu-arrow"></span>
+                    <span class="menu-text">روبوت تغذية المزودين</span>
+                    <span class="menu-icon"><i class="ti ti-robot-face"></i></span>
+                </a>
+                <div class="collapse" id="sidebarSupplierRobot">
+                    <ul class="sub-menu">
+                        <li class="side-nav-item">
+                            <a href="#" class="side-nav-link">
+                                <span class="menu-text">إعدادات تغذية المزودين</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href="#" class="side-nav-link">
+                                <span class="menu-text">الطلبات الصادرة</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href="#" class="side-nav-link">
+                                <span class="menu-text">الطلبات الواردة</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href="#" class="side-nav-link">
+                                <span class="menu-text">الإعدادات الواردة</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+            <!-- Merchant Section Dropdown Menu -->
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#sidebarMerchant" aria-expanded="false" aria-controls="sidebarMerchant" class="side-nav-link">
+                    <span class="menu-arrow"></span>
+                    <span class="menu-text">قسم التاجر</span>
+                    <span class="menu-icon"><i class="ti ti-building-store"></i></span>
+                </a>
+                <div class="collapse" id="sidebarMerchant">
+                    <ul class="sub-menu">
+                        <li class="side-nav-item">
+                            <a href="#" class="side-nav-link">
+                                <span class="menu-text">المخازن</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href="#" class="side-nav-link">
+                                <span class="menu-text">الأصناف</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href="#" class="side-nav-link">
+                                <span class="menu-text">فواتير المشتريات</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href="#" class="side-nav-link">
+                                <span class="menu-text">فواتير المبيعات</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href="#" class="side-nav-link">
+                                <span class="menu-text">مرتجع مشتريات</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href="#" class="side-nav-link">
+                                <span class="menu-text">مرتجع مبيعات</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href="#" class="side-nav-link">
+                                <span class="menu-text">تقارير التاجر</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+            <!-- Automatic Commissions Dropdown Menu -->
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#sidebarCommissions" aria-expanded="false" aria-controls="sidebarCommissions" class="side-nav-link">
+                    <span class="menu-arrow"></span>
+                    <span class="menu-text">العمولات الآلية</span>
+                    <span class="menu-icon"><i class="ti ti-percentage"></i></span>
+                </a>
+                <div class="collapse" id="sidebarCommissions">
+                    <ul class="sub-menu">
+                        <li class="side-nav-item">
+                            <a href="#" class="side-nav-link">
+                                <span class="menu-text">مجموعات النسب</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href="#" class="side-nav-link">
+                                <span class="menu-text">العمولات اليومية</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href="#" class="side-nav-link">
+                                <span class="menu-text">العمولات الشهرية</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#sidebarUsers" aria-expanded="false" aria-controls="sidebarUsers" class="side-nav-link">
+                    <span class="menu-arrow"></span>
+                    <span class="menu-text" data-lang="users">المستخدمون</span>
+                    <span class="menu-icon"><i class="ti ti-users"></i></span>
+                </a>
+                <div class="collapse" id="sidebarUsers">
+                    <ul class="sub-menu">
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Contacts", "Users") class="side-nav-link">
+                                <span class="menu-text" data-lang="contacts">جهات الاتصال</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Roles", "Users") class="side-nav-link">
+                                <span class="menu-text" data-lang="roles">الأدوار</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Permissions", "Users") class="side-nav-link">
+                                <span class="menu-text" data-lang="permissions">الأذونات</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+
+
+            <li class="side-nav-item">
+                <a href=@Url.Action("FileManager", "Apps") class="side-nav-link">
+                    <span class="menu-arrow"></span>
+                    <span class="menu-text" data-lang="file-manager">مدير الملفات</span>
+                    <span class="menu-icon"><i class="ti ti-folder"></i></span>
+                </a>
+            </li>
+
+            <li class="side-nav-item">
+                <a href=@Url.Action("Chat", "Apps") class="side-nav-link">
+                    <span class="menu-arrow"></span>
+                    <span class="menu-text" data-lang="chat">الدردشة</span>
+                    <span class="menu-icon"><i class="ti ti-message-dots"></i></span>
+                </a>
+            </li>
+
+
+
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#sidebarInvoice" aria-expanded="false" aria-controls="sidebarInvoice" class="side-nav-link">
+                    <span class="menu-arrow"></span>
+                    <span class="menu-text" data-lang="invoice">الفاتورة</span>
+                    <span class="menu-icon"><i class="ti ti-invoice"></i></span>
+                </a>
+                <div class="collapse" id="sidebarInvoice">
+                    <ul class="sub-menu">
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Invoice", "Apps") class="side-nav-link">
+                                <span class="menu-text" data-lang="invoices">الفواتير</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("InvoiceDetails", "Apps") class="side-nav-link">
+                                <span class="menu-text" data-lang="invoice-details">فاتورة واحدة</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("InvoiceCreate", "Apps") class="side-nav-link">
+                                <span class="menu-text" data-lang="invoice-create">فاتورة جديدة</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+
+
+            <li class="side-nav-title mt-2" data-lang="pages-title">الصفحات</li>
+
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#sidebarPages" aria-expanded="false" aria-controls="sidebarPages" class="side-nav-link">
+                    <span class="menu-arrow"></span>
+                    <span class="menu-text" data-lang="pages">الصفحات</span>
+                    <span class="menu-icon"><i class="ti ti-files"></i></span>
+                </a>
+                <div class="collapse" id="sidebarPages">
+                    <ul class="sub-menu">
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Profile", "Pages") class="side-nav-link">
+                                <span class="menu-text" data-lang="pages-profile">الملف الشخصي</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Faq", "Pages") class="side-nav-link">
+                                <span class="menu-text" data-lang="pages-faq">الأسئلة الشائعة</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Pricing", "Pages") class="side-nav-link">
+                                <span class="menu-text" data-lang="pages-pricing">التسعير</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("EmptyPage", "Pages") class="side-nav-link">
+                                <span class="menu-text" data-lang="pages-empty">صفحة فارغة</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Timeline", "Pages") class="side-nav-link">
+                                <span class="menu-text" data-lang="pages-timeline">الجدول الزمني</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("SearchResults", "Pages") class="side-nav-link">
+                                <span class="menu-text" data-lang="pages-search-results">نتائج البحث</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("ComingSoon", "Pages") class="side-nav-link">
+                                <span class="menu-text" data-lang="pages-coming-soon">قريباً</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("TermsConditions", "Pages") class="side-nav-link">
+                                <span class="menu-text" data-lang="pages-terms-conditions">الشروط والأحكام</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+
+
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#sidebarPagesAuth" aria-expanded="false" aria-controls="sidebarPagesAuth" class="side-nav-link">
+                    <span class="menu-arrow"></span>
+                    <span class="menu-text" data-lang="authentication">المصادقة</span>
+                    <span class="menu-icon"><i class="ti ti-lock"></i></span>
+                </a>
+                <div class="collapse" id="sidebarPagesAuth">
+                    <ul class="sub-menu">
+
+
+                        <li class="side-nav-item">
+                            <a data-bs-toggle="collapse" href="#sidebarThreeAuth" aria-expanded="false" aria-controls="sidebarThreeAuth" class="side-nav-link">
+                                <span class="menu-arrow"></span>
+                                <span class="menu-text" data-lang="version-3">الإصدار 3</span>
+                            </a>
+                            <div class="collapse" id="sidebarThreeAuth">
+                                <ul class="sub-menu">
+                                    <li class="side-nav-item">
+                                        <a href=@Url.Action("SignIn", "Auth3") class="side-nav-link">
+                                            <span class="menu-text" data-lang="auth-3-sign-in">تسجيل الدخول</span>
+                                        </a>
+                                    </li>
+                                    <li class="side-nav-item">
+                                        <a href=@Url.Action("SignUp", "Auth3") class="side-nav-link">
+                                            <span class="menu-text" data-lang="auth-3-sign-up">تسجيل جديد</span>
+                                        </a>
+                                    </li>
+                                    <li class="side-nav-item">
+                                        <a href=@Url.Action("ResetPass", "Auth3") class="side-nav-link">
+                                            <span class="menu-text" data-lang="auth-3-reset-pass">إعادة تعيين كلمة المرور</span>
+                                        </a>
+                                    </li>
+                                    <li class="side-nav-item">
+                                        <a href=@Url.Action("NewPass", "Auth3") class="side-nav-link">
+                                            <span class="menu-text" data-lang="auth-3-new-pass">كلمة مرور جديدة</span>
+                                        </a>
+                                    </li>
+                                    <li class="side-nav-item">
+                                        <a href=@Url.Action("TwoFactor", "Auth3") class="side-nav-link">
+                                            <span class="menu-text" data-lang="auth-3-two-factor">المصادقة الثنائية</span>
+                                        </a>
+                                    </li>
+                                    <li class="side-nav-item">
+                                        <a href=@Url.Action("LockScreen", "Auth3") class="side-nav-link">
+                                            <span class="menu-text" data-lang="auth-3-lock-screen">قفل الشاشة</span>
+                                        </a>
+                                    </li>
+                                    <li class="side-nav-item">
+                                        <a href=@Url.Action("SuccessMail", "Auth3") class="side-nav-link">
+                                            <span class="menu-text" data-lang="auth-3-success-mail">بريد النجاح</span>
+                                        </a>
+                                    </li>
+                                    <li class="side-nav-item">
+                                        <a href=@Url.Action("LoginPin", "Auth3") class="side-nav-link">
+                                            <span class="menu-text" data-lang="auth-3-login-pin">تسجيل الدخول برمز PIN</span>
+                                        </a>
+                                    </li>
+                                    <li class="side-nav-item">
+                                        <a href=@Url.Action("DeleteAccount", "Auth3") class="side-nav-link">
+                                            <span class="menu-text" data-lang="auth-3-delete-account">حذف الحساب</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+            <!-- Settings Dropdown Menu -->
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#sidebarSettings" aria-expanded="false" aria-controls="sidebarSettings" class="side-nav-link">
+                    <span class="menu-arrow"></span>
+                    <span class="menu-text">الإعدادات</span>
+                    <span class="menu-icon"><i class="ti ti-settings"></i></span>
+                </a>
+                <div class="collapse" id="sidebarSettings">
+                    <ul class="sub-menu">
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index", "SystemConnections") class="side-nav-link">
+                                <span class="menu-text">ربطيات الأنظمة</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index", "Settings") class="side-nav-link">
+                                <span class="menu-text">الإعدادات الأساسية</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index", "PaymentDistribution") class="side-nav-link">
+                                <span class="menu-text">توزيع التسديدات</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index", "EmployeeDevices") class="side-nav-link">
+                                <span class="menu-text">أجهزة الموظفين</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index", "CustomerAndWebDevices") class="side-nav-link">
+                                <span class="menu-text">أجهزة العملاء وويب</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index", "ServicePermissions") class="side-nav-link">
+                                <span class="menu-text">صلاحيات الخدمات بلس</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index", "PaymentDistributionPrinciple") class="side-nav-link">
+                                <span class="menu-text">مبدأ إنقاذ فشل السداد</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index", "CustomerServiceCeilings") class="side-nav-link">
+                                <span class="menu-text">ية خدمات العملاء</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index", "MessageFormattings") class="side-nav-link">
+                                <span class="menu-text">تنسيق الرسائل النصية</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index", "CommissionRatioGroups") class="side-nav-link">
+                                <span class="menu-text">مجموعات نسب العمولة</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index", "PaymentSuspensionRescuePrinciples") class="side-nav-link">
+                                <span class="menu-text">مبدأ إنقاذ تعليق السداد</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index", "ProDistributionPrinciples") class="side-nav-link">
+                                <span class="menu-text">مبدأ التوزيع برو</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index", "AutomatedPricingSystems") class="side-nav-link">
+                                <span class="menu-text">نظام التسعيرة الآلية</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index", "EmployeeServiceCeilings") class="side-nav-link">
+                                <span class="menu-text">ية خدمات الموظفين</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index", "MonthlyTransfers") class="side-nav-link">
+                                <span class="menu-text">الترحيل الشهري</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index", "Archives") class="side-nav-link">
+                                <span class="menu-text">استخدام الأرشيف</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("Index", "Backups") class="side-nav-link">
+                                <span class="menu-text">النسخ الاحتياطي</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href=@Url.Action("ApiKeys", "OtherApps") class="side-nav-link">
+                                <span class="menu-text">مفاتيح</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href="#" class="side-nav-link">
+                                <span class="menu-text">تحميل الصور</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+            <li class="side-nav-title mt-2">إدارة النظام</li>
+
+
+
+
+
+        </ul>
+        <!-- End Sidebar Menu -->
+
+    </div>
+    <!-- End Scrollbar -->
+
+</div>
+<!-- Sidenav Menu End -->
+
+<!-- Active Navigation JavaScript -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Get current page URL
+    const currentUrl = window.location.pathname;
+    const currentController = '@ViewContext.RouteData.Values["Controller"]';
+    const currentAction = '@ViewContext.RouteData.Values["Action"]';
+
+    // Function to set active menu item
+    function setActiveMenuItem() {
+        // Remove all active classes first
+        document.querySelectorAll('.side-nav-item').forEach(item => {
+            item.classList.remove('active', 'has-active-child');
+        });
+
+        // Find matching menu items
+        const menuLinks = document.querySelectorAll('.side-nav-link');
+        let activeFound = false;
+
+        // First pass: Try exact URL match
+        menuLinks.forEach(link => {
+            const href = link.getAttribute('href');
+
+            // Skip empty or invalid hrefs
+            if (!href || href === '#' || href === '' || href === window.location.origin + '/') {
+                return;
+            }
+
+            // Normalize URLs for comparison
+            const normalizedHref = href.replace(window.location.origin, '');
+            const normalizedCurrentUrl = currentUrl;
+
+            // Check if this link matches current page by URL first (most accurate)
+            if (normalizedHref === normalizedCurrentUrl) {
+                const parentItem = link.closest('.side-nav-item');
+                if (parentItem) {
+                    parentItem.classList.add('active');
+                    activeFound = true;
+
+                    // If this is a submenu item, also mark parent as having active child
+                    const parentCollapse = link.closest('.collapse');
+                    if (parentCollapse) {
+                        const parentToggle = document.querySelector(`[href="#${parentCollapse.id}"]`);
+                        if (parentToggle) {
+                            const parentMenuItem = parentToggle.closest('.side-nav-item');
+                            if (parentMenuItem) {
+                                parentMenuItem.classList.add('has-active-child');
+                                // Expand the parent menu
+                                parentCollapse.classList.add('show');
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Second pass: Try controller-based matching if no exact match found
+        if (!activeFound && currentController) {
+            menuLinks.forEach(link => {
+                const href = link.getAttribute('href');
+
+                // Skip empty or invalid hrefs
+                if (!href || href === '#' || href === '' || href === window.location.origin + '/') {
+                    return;
+                }
+
+                // Check if href contains the controller name
+                if (href.includes(`/${currentController}/`)) {
+                    const parentItem = link.closest('.side-nav-item');
+                    if (parentItem) {
+                        parentItem.classList.add('active');
+                        activeFound = true;
+
+                        // If this is a submenu item, also mark parent as having active child
+                        const parentCollapse = link.closest('.collapse');
+                        if (parentCollapse) {
+                            const parentToggle = document.querySelector(`[href="#${parentCollapse.id}"]`);
+                            if (parentToggle) {
+                                const parentMenuItem = parentToggle.closest('.side-nav-item');
+                                if (parentMenuItem) {
+                                    parentMenuItem.classList.add('has-active-child');
+                                    // Expand the parent menu
+                                    parentCollapse.classList.add('show');
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Third pass: Try fallback matching by controller mappings if still no match
+        if (!activeFound && currentController) {
+            // Define specific controller to href mappings for exact matching
+            const controllerMappings = {
+                'DataCategories': '/DataCategories',
+                'SpafoneCategories': '/SpafoneCategories',
+                'SpafonePackages': '/SpafonePackages',
+                'Dashboards': '/Dashboards',
+                'Customers': '/Customers',
+                'Employees': '/Employees',
+                'AccountTree': '/AccountTree',
+                'Branches': '/Branches',
+                'TrustedCustomers': '/TrustedCustomers',
+                'BalanceRechargeVoucher': '/BalanceRechargeVoucher',
+                'BalanceDeductionVoucher': '/BalanceDeductionVoucher',
+                'CustomerJournal': '/CustomerJournal',
+                'AccountTransfers': '/AccountTransfers',
+                'AccountingVouchers': '/AccountingVouchers',
+                'EmployeeJournal': '/EmployeeJournal',
+                'Commissions': '/Commissions',
+                'Invoices': '/Invoices',
+                'OpeningBalances': '/OpeningBalances',
+                'DistributorCommissions': '/DistributorCommissions',
+                'FeedingVouchers': '/FeedingVouchers',
+                'Categories': '/Categories',
+                'YouPackages': '/YouPackages',
+                'Sentences': '/Sentences',
+                'YemenMobileCategories': '/YemenMobileCategories',
+                'YemenMobilePackages': '/YemenMobilePackages',
+                'InternetPackages': '/InternetPackages',
+                'InternetCategories': '/InternetCategories',
+                'PricingGroups': '/PricingGroups',
+                'ElectricityAreas': '/ElectricityAreas',
+                'WaterAreas': '/WaterAreas'
+            };
+
+            // Try to find by exact href match using mappings
+            if (controllerMappings[currentController]) {
+                const targetHref = controllerMappings[currentController];
+
+                menuLinks.forEach(link => {
+                    const href = link.getAttribute('href');
+
+                    // Skip empty or invalid hrefs
+                    if (!href || href === '#' || href === '' || href === window.location.origin + '/') {
+                        return;
+                    }
+
+                    // Check if href contains the exact controller path
+                    if (href.includes(targetHref)) {
+                        const parentItem = link.closest('.side-nav-item');
+                        if (parentItem && !parentItem.classList.contains('active')) {
+                            parentItem.classList.add('active');
+                            activeFound = true;
+
+                            // If this is a submenu item, also mark parent as having active child
+                            const parentCollapse = link.closest('.collapse');
+                            if (parentCollapse) {
+                                const parentToggle = document.querySelector(`[href="#${parentCollapse.id}"]`);
+                                if (parentToggle) {
+                                    const parentMenuItem = parentToggle.closest('.side-nav-item');
+                                    if (parentMenuItem) {
+                                        parentMenuItem.classList.add('has-active-child');
+                                        // Expand the parent menu
+                                        parentCollapse.classList.add('show');
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        }
+    }
+
+    // Set active menu item on page load
+    setActiveMenuItem();
+
+    // Add click handlers to menu items for immediate visual feedback
+    document.querySelectorAll('.side-nav-link').forEach(link => {
+        link.addEventListener('click', function(e) {
+            const href = this.getAttribute('href');
+
+            // Skip empty or invalid hrefs and toggle links
+            if (!href || href === '#' || href === '' || href === window.location.origin + '/' || this.getAttribute('data-bs-toggle')) {
+                return;
+            }
+
+            // Only handle visual feedback for valid navigation links
+            // The actual active state will be set by setActiveMenuItem() on page load
+
+            // Add a temporary visual feedback class
+            const parentItem = this.closest('.side-nav-item');
+            if (parentItem) {
+                // Remove temporary feedback from all items
+                document.querySelectorAll('.side-nav-item').forEach(item => {
+                    item.classList.remove('nav-clicked');
+                });
+
+                // Add temporary feedback to clicked item
+                parentItem.classList.add('nav-clicked');
+
+                // Remove the temporary class after a short delay
+                setTimeout(() => {
+                    parentItem.classList.remove('nav-clicked');
+                }, 200);
+            }
+        });
+    });
+});
+</script>

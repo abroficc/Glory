@@ -1,0 +1,1585 @@
+@{
+    Layout = "_VerticalLayout";
+    ViewData["Title"] = "رسائل الكريمي";
+    ViewData["Direction"] = "rtl";
+}
+
+@section styles {
+    <!-- jstree css -->
+    <link href="~/plugins/jstree/style.min.css" rel="stylesheet" type="text/css">
+    <!-- date range picker css -->
+    <link href="~/plugins/daterangepicker/daterangepicker.css" rel="stylesheet" type="text/css">
+    <!-- datatables css -->
+    <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.bootstrap5.min.css" rel="stylesheet">
+    <!-- datatables buttons css -->
+    <link href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.bootstrap5.min.css" rel="stylesheet">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600&display=swap" rel="stylesheet">
+    
+    <!-- bootstrap-select CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/css/bootstrap-select.min.css" />
+
+    <!-- UI Polish CSS -->
+    <link href="~/css/ui-polish.css" rel="stylesheet" type="text/css">
+    
+    <!-- Voucher Modal CSS -->
+    <link href="~/css/voucher-modal.css" rel="stylesheet" type="text/css">
+    
+    <!-- Payment Distribution Principle CSS -->
+    <link href="~/css/payment-distribution-principle.css" rel="stylesheet" type="text/css">
+    
+    <!-- Tabler Icons CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@@tabler/icons-webfont@2.47.0/tabler-icons.min.css">
+    
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body[dir="rtl"] * {
+            font-family: "Cairo", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+        }
+        
+        /* تعديل الجدول لإزالة المسافة بين الرأس والمحتوى */
+        .table-bordered thead th {
+            border-bottom-width: 1px;
+        }
+        
+        .table-bordered tbody tr:first-child td {
+            border-top: none;
+        }
+        
+        .table {
+            margin-bottom: 0;
+        }
+        
+        /* Select all checkboxes styling */
+        .form-check-input:checked {
+            background-color: #1ab394;
+            border-color: #1ab394;
+        }
+        
+        /* Alert styling for better visibility */
+        .alert-warning {
+            background-color: #fff3cd;
+            border-color: #ffeaa7;
+            color: #856404;
+        }
+        
+        .alert-danger {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+        
+        /* Dark mode alert adjustments */
+        [data-bs-theme="dark"] .alert-warning {
+            background-color: #664d03;
+            border-color: #7d5f04;
+            color: #ffecb5;
+        }
+        
+        [data-bs-theme="dark"] .alert-danger {
+            background-color: #721c24;
+            border-color: #842029;
+            color: #f8d7da;
+        }
+        
+        /* Tree view container */
+        #categories-tree {
+            min-height: 400px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 10px;
+        }
+        
+        /* Table card styling */
+        .table-dark-card {
+            background: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 4px 20px rgba(0,0,0,.05);
+        }
+
+        .table-dark-card table {
+            width: 100%;
+            border-collapse: collapse;
+            color: #374151;
+            font-size: 14px;
+        }
+
+        .table-dark-card thead {
+            background: linear-gradient(180deg, #f3f4f6, #e5e7eb);
+        }
+        
+        .table-dark-card thead th {
+            padding: 12px 14px;
+            text-align: center;
+            font-weight: 600;
+            color: #111827;
+            border-bottom: 1px solid #d1d5db;
+            white-space: nowrap;
+        }
+
+        .table-dark-card tbody tr {
+            background: #fff;
+            transition: background 0.2s;
+        }
+        
+        .table-dark-card tbody tr:nth-child(even) {
+            background: #f9fafb;
+        }
+        
+        .table-dark-card tbody tr:hover {
+            background: #f3f4f6;
+        }
+        
+        .table-dark-card td {
+            padding: 12px 14px;
+            text-align: center;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .btn-more {
+            border: 1px solid #d1d5db;
+            background: transparent;
+            color: #3b82f6;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 13px;
+            cursor: pointer;
+        }
+        
+        .btn-more:hover {
+            background: #2563eb;
+            color: #fff;
+            border-color: #2563eb;
+        }
+
+        /* Dark mode table styles */
+        [data-bs-theme="dark"] .table-dark-card {
+            background: #111827;
+            border: 1px solid #1f2937;
+            box-shadow: 0 4px 20px rgba(0,0,0,.4);
+        }
+
+        [data-bs-theme="dark"] .table-dark-card table {
+            color: #e5e7eb;
+        }
+
+        [data-bs-theme="dark"] .table-dark-card thead {
+            background: linear-gradient(180deg, #1e293b, #111827);
+        }
+        
+        [data-bs-theme="dark"] .table-dark-card thead th {
+            color: #f9fafb;
+            border-bottom: 1px solid #374151;
+        }
+
+        [data-bs-theme="dark"] .table-dark-card tbody tr {
+            background: #111827;
+        }
+        
+        [data-bs-theme="dark"] .table-dark-card tbody tr:nth-child(even) {
+            background: #1a2234;
+        }
+        
+        [data-bs-theme="dark"] .table-dark-card tbody tr:hover {
+            background: #1f2937;
+        }
+        
+        [data-bs-theme="dark"] .table-dark-card td {
+            border-bottom: 1px solid #1f2937;
+        }
+
+        [data-bs-theme="dark"] .btn-more {
+            border: 1px solid #374151;
+            color: #93c5fd;
+        }
+        
+        [data-bs-theme="dark"] .btn-more:hover {
+            background: #2563eb;
+            color: #fff;
+            border-color: #2563eb;
+        }
+
+        /* Light mode pagination */
+        .pagination-dark {
+            display: flex;
+            justify-content: center;
+            margin-top: 12px;
+            gap: 4px;
+        }
+        
+        .pagination-dark button {
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            color: #111827;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        
+        .pagination-dark button.active {
+            background: #10b981;
+            border-color: #10b981;
+            color: #fff;
+        }
+        
+        .pagination-dark button:hover:not(.active) {
+            background: #2563eb;
+            border-color: #2563eb;
+            color: #fff;
+        }
+
+        /* Dark mode pagination */
+        [data-bs-theme="dark"] .pagination-dark button {
+            background: #1e293b;
+            border: 1px solid #374151;
+            color: #f9fafb;
+        }
+        
+        [data-bs-theme="dark"] .pagination-dark button.active {
+            background: #10b981;
+            border-color: #10b981;
+        }
+        
+        [data-bs-theme="dark"] .pagination-dark button:hover:not(.active) {
+            background: #2563eb;
+            border-color: #2563eb;
+        }
+        
+        /* Modal header styling - using project's primary color */
+        .modal-header {
+            background-color: #1ab394; /* Project's primary color */
+            color: white;
+            border-bottom: 1px solid #16987e;
+        }
+        
+        /* Modal title styling */
+        .modal-header .modal-title {
+            font-weight: 500;
+            color: white;
+        }
+        
+        /* Close button styling for modal headers */
+        .modal-header .btn-close {
+            filter: invert(1) grayscale(100%) brightness(200%);
+        }
+        
+        /* Modal footer styling - using a lighter shade */
+        .modal-footer {
+            background-color: #f0f8f8; /* Light teal background */
+            border-top: 1px solid #d1e8e8;
+        }
+        
+        /* Primary buttons in modals */
+        .modal-footer .btn-primary {
+            background-color: #1ab394;
+            border-color: #1ab394;
+        }
+        
+        .modal-footer .btn-primary:hover {
+            background-color: #16987e;
+            border-color: #16987e;
+        }
+        
+        /* Form styling */
+        .v-section {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid #e9ecef;
+        }
+        
+        [data-bs-theme="dark"] .v-section {
+            background: #1e1f27;
+            border-color: #293036;
+        }
+        
+        .v-cap {
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #495057;
+            font-size: 16px;
+        }
+        
+        [data-bs-theme="dark"] .v-cap {
+            color: #aab8c5;
+        }
+        
+        .v-label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #495057;
+        }
+        
+        [data-bs-theme="dark"] .v-label {
+            color: #aab8c5;
+        }
+        
+        .v-req {
+            color: #e02d2d;
+        }
+        
+        .v-input, .v-select {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            background-color: #fff;
+            color: #495057;
+        }
+        
+        [data-bs-theme="dark"] .v-input, 
+        [data-bs-theme="dark"] .v-select {
+            background-color: #272832;
+            border-color: #293036;
+            color: #aab8c5;
+        }
+        
+        .v-input:focus, .v-select:focus {
+            border-color: #1ab394;
+            outline: 0;
+            box-shadow: 0 0 0 0.2rem rgba(26, 179, 148, 0.25);
+        }
+        
+        .note-highlight {
+            background-color: #e7f4f0;
+            border-left: 3px solid #1ab394;
+            padding: 8px 12px;
+            margin-top: 5px;
+            font-size: 13px;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        [data-bs-theme="dark"] .note-highlight {
+            background-color: #1e3a35;
+            border-left-color: #1ab394;
+            color: #aab8c5;
+        }
+        
+        /* Fix for bootstrap-select dropdown shaking issue */
+        .bootstrap-select .dropdown-menu {
+            transform: translate3d(0, 0, 0) !important;
+            -webkit-transform: translate3d(0, 0, 0) !important;
+            -moz-transform: translate3d(0, 0, 0) !important;
+            -ms-transform: translate3d(0, 0, 0) !important;
+            -o-transform: translate3d(0, 0, 0) !important;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            z-index: 20000;
+            text-align: right;
+            max-height: 200px;
+        }
+        
+        /* Fix for dropdown menus inside modals */
+        .modal .bootstrap-select .dropdown-menu {
+            z-index: 99999 !important;
+        }
+        
+        /* Flatpickr calendar z-index fix */
+        .flatpickr-calendar {
+            z-index: 200000 !important;
+        }
+        
+        /* Allow text wrapping in table cells to prevent horizontal scrolling */
+        #categoriesTable td {
+            white-space: normal !important;
+            word-wrap: break-word;
+        }
+        
+        #categoriesTable th {
+            white-space: normal !important;
+            word-wrap: break-word;
+        }
+        
+        /* Remove table responsive wrapper horizontal scrolling */
+        .table-responsive {
+            overflow-x: hidden;
+        }
+        
+        /* LTR input fields for code entries */
+        .ltr-input {
+            direction: ltr !important;
+            text-align: left;
+        }
+        
+        /* Fix for dropdown positioning - remove overflow constraints */
+        #filterSection, .card, .table-responsive {
+            overflow: visible !important;
+        }
+        
+        /* Style for readonly input fields in view modal */
+        #viewCategoryModal .form-control[readonly] {
+            background-color: #f8f9fa;
+            border-color: #e9ecef;
+            color: #495057;
+            opacity: 1;
+        }
+        
+        [data-bs-theme="dark"] #viewCategoryModal .form-control[readonly] {
+            background-color: #272832;
+            border-color: #293036;
+            color: #aab8c5;
+        }
+        
+        /* Style for checkboxes in table */
+        .table th input[type="checkbox"],
+        .table td input[type="checkbox"] {
+            margin: 0;
+            vertical-align: middle;
+        }
+        
+        /* Style for select all checkbox in header */
+        #selectAll {
+            transform: scale(1.2);
+        }
+        
+        /* Additional enhancements for better visibility in both modes */
+        .bootstrap-select.btn-group .dropdown-toggle .filter-option {
+            color: inherit;
+        }
+        
+        .bootstrap-select .dropdown-menu li a span.text {
+            display: block;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        [data-bs-theme="dark"] .bootstrap-select .dropdown-header {
+            color: #aab8c5;
+            background-color: #1e1f27;
+        }
+        
+        .bootstrap-select .dropdown-header {
+            background-color: #f8f9fa;
+            color: #495057;
+        }
+        
+        /* Fix for select arrow in dark mode */
+        [data-bs-theme="dark"] .bootstrap-select .dropdown-toggle::after {
+            border-top-color: #aab8c5;
+        }
+        
+        /* Ensure proper contrast for disabled options */
+        .bootstrap-select .dropdown-menu > .disabled > a {
+            color: #6c757d;
+            background-color: transparent;
+        }
+        
+        [data-bs-theme="dark"] .bootstrap-select .dropdown-menu > .disabled > a {
+            color: #6c757d;
+        }
+        
+        /* Fix for select text visibility in dark mode modals */
+        [data-bs-theme="dark"] .modal-content .bootstrap-select .filter-option {
+            color: #aab8c5;
+        }
+        
+        .modal-content .bootstrap-select .filter-option {
+            color: #495057;
+        }
+        
+        /* Additional fixes for select box visibility */
+        .modal-content .selectpicker {
+            width: 100%;
+        }
+        
+        [data-bs-theme="dark"] .modal-content .selectpicker {
+            background-color: #272832;
+            border-color: #293036;
+            color: #aab8c5;
+        }
+        
+        /* View Category Modal specific styling */
+        .form-control-plaintext {
+            color: #495057;
+            border: none;
+            background-color: transparent;
+            padding: 8px 12px;
+        }
+        
+        [data-bs-theme="dark"] .form-control-plaintext {
+            color: #aab8c5;
+        }
+        
+        /* Card styling in View Category Modal */
+        .card {
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .card-header {
+            font-weight: 600;
+        }
+        
+        [data-bs-theme="dark"] .card {
+            background-color: #1e1f27;
+            border-color: #293036;
+        }
+        
+        [data-bs-theme="dark"] .card-header {
+            background-color: #1e1f27;
+            border-color: #293036;
+        }
+        
+        /* DataTables Buttons Styling */
+        .dt-buttons .btn {
+            margin-right: 5px;
+            margin-bottom: 5px;
+        }
+        
+        .dt-button-collection {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-shadow: 0 6px 12px rgba(0,0,0,.175);
+        }
+        
+        [data-bs-theme="dark"] .dt-button-collection {
+            background-color: #1e1f27;
+            border: 1px solid #293036;
+            box-shadow: 0 6px 12px rgba(0,0,0,.4);
+        }
+        
+        .dt-button-collection .dropdown-item {
+            padding: 8px 15px;
+        }
+        
+        [data-bs-theme="dark"] .dt-button-collection .dropdown-item {
+            color: #aab8c5;
+        }
+        
+        [data-bs-theme="dark"] .dt-button-collection .dropdown-item:hover {
+            background-color: #16987e;
+            color: #fff;
+        }
+        
+        /* Ensure buttons are visible in both modes */
+        .dt-buttons .btn-outline-secondary {
+            color: #6c757d;
+            border-color: #6c757d;
+        }
+        
+        .dt-buttons .btn-outline-secondary:hover {
+            background-color: #6c757d;
+            color: #fff;
+        }
+        
+        [data-bs-theme="dark"] .dt-buttons .btn-outline-secondary {
+            color: #aab8c5;
+            border-color: #aab8c5;
+        }
+        
+        [data-bs-theme="dark"] .dt-buttons .btn-outline-secondary:hover {
+            background-color: #16987e;
+            color: #fff;
+            border-color: #16987e;
+        }
+        
+        /* DataTables buttons container styling */
+        #datatables-buttons-container .dt-buttons {
+            display: inline-block;
+            margin-right: 5px;
+        }
+        
+        #datatables-buttons-container .btn {
+            margin-right: 5px;
+            margin-bottom: 0;
+        }
+        
+        /* Bootstrap Select Styling for Filter Section */
+        .bootstrap-select .dropdown-toggle {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.875rem;
+        }
+        
+        [data-bs-theme="dark"] .bootstrap-select .dropdown-toggle {
+            background-color: #272832;
+            border-color: #293036;
+            color: #aab8c5;
+        }
+        
+        [data-bs-theme="dark"] .bootstrap-select .dropdown-toggle:focus {
+            border-color: #16987e;
+            box-shadow: 0 0 0 0.2rem rgba(22, 152, 126, 0.25);
+        }
+        
+
+        
+        /* Fix for DataTables column selection - remove ALL selection effects */
+        table.dataTable tbody > tr.selected,
+        table.dataTable tbody > tr > .selected,
+        table.dataTable tbody > tr.selected > td,
+        table.dataTable tbody > tr > .selected > td {
+            background-color: transparent !important;
+            outline: none !important;
+            box-shadow: none !important;
+        }
+        
+        table.dataTable.stripe tbody > tr.odd.selected,
+        table.dataTable.stripe tbody > tr.odd > .selected,
+        table.dataTable.display tbody > tr.odd.selected,
+        table.dataTable.display tbody > tr.odd > .selected,
+        table.dataTable.stripe tbody > tr.odd.selected > td,
+        table.dataTable.stripe tbody > tr.odd > .selected > td,
+        table.dataTable.display tbody > tr.odd.selected > td,
+        table.dataTable.display tbody > tr.odd > .selected > td {
+            background-color: #f9fafb !important;
+        }
+        
+        [data-bs-theme="dark"] table.dataTable.stripe tbody > tr.odd.selected,
+        [data-bs-theme="dark"] table.dataTable.stripe tbody > tr.odd > .selected,
+        [data-bs-theme="dark"] table.dataTable.display tbody > tr.odd.selected,
+        [data-bs-theme="dark"] table.dataTable.display tbody > tr.odd > .selected,
+        [data-bs-theme="dark"] table.dataTable.stripe tbody > tr.odd.selected > td,
+        [data-bs-theme="dark"] table.dataTable.stripe tbody > tr.odd > .selected > td,
+        [data-bs-theme="dark"] table.dataTable.display tbody > tr.odd.selected > td,
+        [data-bs-theme="dark"] table.dataTable.display tbody > tr.odd > .selected > td {
+            background-color: #1a2234 !important;
+        }
+        
+        table.dataTable tbody > tr.even.selected,
+        table.dataTable tbody > tr.even > .selected,
+        table.dataTable.display tbody > tr.even.selected,
+        table.dataTable.display tbody > tr.even > .selected,
+        table.dataTable tbody > tr.even.selected > td,
+        table.dataTable tbody > tr.even > .selected > td,
+        table.dataTable.display tbody > tr.even.selected > td,
+        table.dataTable.display tbody > tr.even > .selected > td {
+            background-color: #ffffff !important;
+        }
+        
+        [data-bs-theme="dark"] table.dataTable tbody > tr.even.selected,
+        [data-bs-theme="dark"] table.dataTable tbody > tr.even > .selected,
+        [data-bs-theme="dark"] table.dataTable.display tbody > tr.even.selected,
+        [data-bs-theme="dark"] table.dataTable.display tbody > tr.even > .selected,
+        [data-bs-theme="dark"] table.dataTable tbody > tr.even.selected > td,
+        [data-bs-theme="dark"] table.dataTable tbody > tr.even > .selected > td,
+        [data-bs-theme="dark"] table.dataTable.display tbody > tr.even.selected > td,
+        [data-bs-theme="dark"] table.dataTable.display tbody > tr.even > .selected > td {
+            background-color: #111827 !important;
+        }
+        
+        /* Remove ALL focus and hover effects on table headers */
+        table.dataTable thead th,
+        table.dataTable thead td {
+            outline: none !important;
+            box-shadow: none !important;
+        }
+        
+        table.dataTable thead th:focus,
+        table.dataTable thead td:focus,
+        table.dataTable thead th:active,
+        table.dataTable thead td:active {
+            outline: none !important;
+            box-shadow: none !important;
+            background-color: inherit !important;
+        }
+        
+        /* Remove ALL focus and hover effects on table cells */
+        table.dataTable tbody td,
+        table.dataTable tbody th {
+            outline: none !important;
+            box-shadow: none !important;
+        }
+        
+        table.dataTable tbody td:focus,
+        table.dataTable tbody th:focus,
+        table.dataTable tbody td:active,
+        table.dataTable tbody th:active {
+            outline: none !important;
+            box-shadow: none !important;
+            background-color: inherit !important;
+        }
+        
+        /* Remove column sorting arrows highlight */
+        table.dataTable thead .sorting,
+        table.dataTable thead .sorting_asc,
+        table.dataTable thead .sorting_desc,
+        table.dataTable thead .sorting_asc_disabled,
+        table.dataTable thead .sorting_desc_disabled {
+            outline: none !important;
+            box-shadow: none !important;
+        }
+        
+        /* Remove any selection background */
+        table.dataTable tbody tr:hover,
+        table.dataTable tbody tr:hover td {
+            background-color: inherit !important;
+        }
+        
+        /* Ensure our custom hover still works */
+        .table-dark-card tbody tr:hover {
+            background: #f3f4f6 !important;
+        }
+        
+        [data-bs-theme="dark"] .table-dark-card tbody tr:hover {
+            background: #1f2937 !important;
+        }
+        
+        /* تنسيق عناوين المجموعات في القوائم المنسدلة */
+        .bootstrap-select .dropdown-header {
+            background-color: #f0f9f8;
+            color: #16987e;
+            border-bottom: 1px solid #d1e8e8;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        [data-bs-theme="dark"] .bootstrap-select .dropdown-header {
+            background-color: #1e1f27;
+            color: #10b981;
+        }
+        
+        /* Make the custom account source dropdown larger */
+        .cmbxfrst_sid1 .btn-default {
+            width: 100%;
+            height: 38px;
+            padding: 6px 12px;
+            font-size: 14px;
+            line-height: 1.42857143;
+            color: #555;
+            background-color: #fff;
+            background-image: none;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+        }
+        
+        .cmbxfrst_sid1 .btn-default:hover {
+            background-color: #e6e6e6;
+            border-color: #adadad;
+        }
+        
+        .cmbxfrst_sid1 .btn-default:focus {
+            border-color: #1ab394;
+            outline: 0;
+            box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(26, 179, 148, .6);
+        }
+        
+        /* Dropdown menu sizing */
+        .cmbxfrst_sid1 .dropdown-menu {
+            width: 100%;
+            min-width: 200px;
+        }
+        
+        /* Search box in dropdown */
+        .cmbxfrst_sid1 .bs-searchbox input {
+            height: 34px;
+            padding: 6px 12px;
+            font-size: 14px;
+            line-height: 1.42857143;
+            color: #555;
+            background-color: #fff;
+            background-image: none;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+        }
+        
+        /* Flatpickr calendar z-index fix */
+        .flatpickr-calendar {
+            z-index: 200000 !important;
+        }
+        
+        /* Allow text wrapping in table cells to prevent horizontal scrolling */
+        #categoriesTable td {
+            white-space: normal !important;
+            word-wrap: break-word;
+        }
+        
+        #categoriesTable th {
+            white-space: normal !important;
+            word-wrap: break-word;
+        }
+        
+        /* Remove table responsive wrapper horizontal scrolling */
+        .table-responsive {
+            overflow-x: hidden;
+        }
+        
+        /* Fix for dropdown positioning - remove overflow constraints */
+        .card, .table-responsive {
+            overflow: visible !important;
+        }
+        
+        /* Style for disabled top action buttons */
+        .btn-outline-primary.disabled,
+        .btn-outline-info.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        /* CKEditor validation styles */
+        .ck-editor.is-invalid .ck-editor__editable {
+            border-color: #e02d2d !important;
+            box-shadow: 0 0 0 0.2rem rgba(224, 45, 45, 0.25) !important;
+        }
+
+    </style>
+}
+
+
+
+<!-- DataTables buttons container -->
+<div class="card mb-3">
+    <div class="card-body p-2">
+        <div class="d-flex align-items-center justify-content-between">
+            <div>
+                <!-- DataTables buttons will be inserted here by JavaScript -->
+                <div class="d-inline-block" id="datatables-buttons-container"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Action buttons -->
+<div class="mb-3">
+    <div class="d-flex gap-2 flex-wrap">
+        <a href="#" class="btn btn-sm btn-outline-danger" title="حذف">
+            <i class="ti ti-trash"></i>
+        </a>
+        <a href="#" class="btn btn-sm btn-outline-success" title="إضافة" data-bs-toggle="modal" data-bs-target="#unifiedModal">
+            <i class="ti ti-plus"></i>
+        </a>
+        <a href="#" class="btn btn-sm btn-outline-primary" title="تعديل" id="topEditButton">
+            <i class="ti ti-pencil"></i>
+        </a>
+        <a href="#" class="btn btn-sm btn-outline-info" title="مشاهدة" id="topViewButton">
+            <i class="ti ti-eye"></i>
+        </a>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <div class="d-flex align-items-center">
+            <h5 class="card-title mb-0 fw-bold">@ViewData["Title"]</h5>
+            <div class="me-auto">
+                <!-- Refresh button -->
+                <button type="button" class="btn btn-sm btn-outline-secondary ms-2" id="refreshBtn" title="تحديث">
+                    <i class="ti ti-refresh"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table id="categoriesTable" class="table table-striped table-bordered dt-responsive nowrap w-100">
+                <thead>
+                    <tr>
+                        <th class="text-center" width="40px">
+                            <div class="form-check"><input type="checkbox" class="form-check-input" id="selectAll"></div>
+                        </th>
+                        <th>الرقم</th>
+                        <th>الرسالة</th>
+                        <th>المبلغ</th>
+                        <th>المودع</th>
+                        <th>المرسل</th>
+                        <th>حالة المبلغ</th>
+                        <th>التأمين</th>
+                        <th>التاريخ</th>
+                        <th>حساب العميل</th>
+                        <th>وصف الخطأ</th>
+                        <th style="width: 100px; text-align: center;">المزيد</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="text-center">
+                            <div class="form-check"><input type="checkbox" class="form-check-input category-checkbox" value="1"></div>
+                        </td>
+                        <td>1</td>
+                        <td>عزيزي العميل، تم تفعيل خدمة الكريمي الخاصة بك</td>
+                        <td>5000</td>
+                        <td>محمد أحمد</td>
+                        <td>النظام</td>
+                        <td><span class="badge bg-success">مفعل</span></td>
+                        <td>نعم</td>
+                        <td>2023-10-15 10:30</td>
+                        <td>123456789</td>
+                        <td>لا يوجد</td>
+                        <td style="text-align: center;">
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    للمزيد
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="#" data-action="edit"><i class="ti ti-pencil me-1"></i> تعديل</a></li>
+                                    <li><a class="dropdown-item" href="#" data-action="view"><i class="ti ti-eye me-1"></i> مشاهدة</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="ti ti-trash me-1"></i> حذف</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">
+                            <div class="form-check"><input type="checkbox" class="form-check-input category-checkbox" value="2"></div>
+                        </td>
+                        <td>2</td>
+                        <td>عزيزي العميل، لديك رصيد كريمي متوفر للاستخدام</td>
+                        <td>10000</td>
+                        <td>علي محمد</td>
+                        <td>النظام</td>
+                        <td><span class="badge bg-warning">قيد التفعيل</span></td>
+                        <td>نعم</td>
+                        <td>2023-10-16 14:45</td>
+                        <td>987654321</td>
+                        <td>لا يوجد</td>
+                        <td style="text-align: center;">
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    للمزيد
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="#" data-action="edit"><i class="ti ti-pencil me-1"></i> تعديل</a></li>
+                                    <li><a class="dropdown-item" href="#" data-action="view"><i class="ti ti-eye me-1"></i> مشاهدة</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="ti ti-trash me-1"></i> حذف</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Unified Modal (رسائل الكريمي) -->
+<div class="modal fade" id="unifiedModal" tabindex="-1" aria-labelledby="unifiedModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+  <div class="modal-dialog modal-xl modal-dialog-centered">
+    <div class="modal-content border-0">
+      
+      <!-- رأس النافذة -->
+      <div class="modal-header">
+        <h5 class="modal-title" id="unifiedModalLabel">روبوتاتي &lt; رسائل الكريمي</h5>
+        <button type="button" class="btn-close ms-auto" data-bs-dismiss="modal" aria-label="إغلاق"></button>
+      </div>
+
+      <!-- محتوى النموذج -->
+      <div class="modal-body" dir="rtl">
+        <div class="wrapper-layout">
+          <div class="form">
+            <iframe name="upload_iframe" id="upload_iframe" style="display:none;"></iframe>
+
+            <form action="" method="post" id="formadd" name="formadd" enctype="multipart/form-data">
+              <div class="row">
+                
+                <!-- التنبيهات -->
+                <div class="col-12">
+                  <div class="alert alert-warning">
+                    رسائل الكريمي تتيح لك إرسال رسائل تلقائية خاصة بخدمة الكريمي.
+                  </div>
+                </div>
+
+                <div class="col-12">
+                  <div class="alert alert-danger" style="background: red; color: #fff;">
+                    تلتزم بعدم تسريب أي بيانات حول الخدمة لأي جهة.!
+                  </div>
+                </div>
+
+                <!-- رقم الهاتف -->
+                <div class="col-md-6 mb-3">
+                  <div class="form-group">
+                    <label class="mlabel lfrm fw-bold">رقم الهاتف<span class="msr">*</span></label>
+                    <div class="col-m-12">
+                      <input type="text" value="" id="phoneNumber" name="phoneNumber" class="form-control" placeholder="أدخل رقم الهاتف">
+                    </div>
+                  </div>
+                </div>
+
+                <!-- الرسالة -->
+                <div class="col-md-6 mb-3">
+                  <div class="form-group">
+                    <label class="mlabel lfrm fw-bold">الرسالة<span class="msr">*</span></label>
+                    <div class="col-m-12">
+                      <input type="text" value="" name="message" class="form-control" placeholder="أدخل الرسالة">
+                    </div>
+                  </div>
+                </div>
+
+                <!-- الوصف -->
+                <div class="col-md-12 mb-3">
+                  <div class="form-group">
+                    <label class="mlabel lfrm fw-bold">الوصف</label>
+                    <div class="col-m-12">
+                      <textarea name="description" class="form-control" rows="3" placeholder="أدخل وصفاً إضافياً"></textarea>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- تاريخ الإرسال -->
+                <div class="col-md-6 mb-3">
+                  <div class="form-group">
+                    <label class="mlabel lfrm fw-bold">تاريخ الإرسال<span class="msr">*</span></label>
+                    <div class="col-m-12">
+                      <input type="datetime-local" value="" name="sendDate" class="form-control">
+                    </div>
+                  </div>
+                </div>
+
+                <!-- الحالة -->
+                <div class="col-md-6 mb-3">
+                  <div class="form-group">
+                    <label class="mlabel lfrm fw-bold">الحالة<span class="msr">*</span></label>
+                    <div class="col-m-12">
+                      <select name="status" class="form-control selectpicker" data-live-search="true">
+                        <option value="pending">قيد الإرسال</option>
+                        <option value="sent">تم الإرسال</option>
+                        <option value="failed">فشل الإرسال</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <input type="hidden" name="idget" value="">
+                <div class="col-12 mt-4">
+                  <div class="d-flex justify-content-end gap-2">
+                    <input type="submit" value="حفظ" id="btnadd" name="btnadd" class="btn btn-primary" onclick="return table.add_form('addyrsim');">
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- تفعيل البحث داخل القوائم -->
+<script>
+$(document).ready(function() {
+  // عند تحميل القائمة المنسدلة
+  $('.selectpicker').on('loaded.bs.select', function () {
+    const dropdownMenu = $(this).parent().find('.dropdown-menu .inner');
+
+    // مرّ على كل optgroup
+    $(this).find('optgroup').each(function(index, group) {
+      const $header = dropdownMenu.find('.dropdown-header').eq(index);
+      const $options = $header.nextUntil('.dropdown-header');
+
+      // إخفاء الخيارات افتراضيًا
+      $options.hide();
+
+      // أضف سهم وإجعل العنوان قابل للنقر
+      $header
+        .css({
+          cursor: 'pointer',
+          'font-weight': 'bold',
+          'background-color': '#f8fafc',
+          'color': '#16987e',
+          'padding': '6px 10px'
+        })
+        .prepend('<i class="fa fa-angle-down me-1 text-primary"></i>')
+        .on('click', function() {
+          const $icon = $(this).find('i');
+          const $nextOptions = $(this).nextUntil('.dropdown-header');
+
+          if ($nextOptions.is(':visible')) {
+            $nextOptions.slideUp(150);
+            $icon.removeClass('fa-angle-up').addClass('fa-angle-down');
+          } else {
+            $nextOptions.slideDown(150);
+            $icon.removeClass('fa-angle-down').addClass('fa-angle-up');
+          }
+        });
+    });
+  });
+
+  // تفعيل البحث
+  $(document).on('input', '.bs-searchbox input', function () {
+    const val = $(this).val().toLowerCase();
+    const $menu = $(this).closest('.dropdown-menu');
+    const $headers = $menu.find('.dropdown-header');
+
+    if (val.length > 0) {
+      $headers.nextUntil('.dropdown-header').show();
+    } else {
+      $headers.each(function () {
+        const $next = $(this).nextUntil('.dropdown-header');
+        $next.hide();
+        $(this).find('i').removeClass('fa-angle-up').addClass('fa-angle-down');
+      });
+    }
+  });
+  
+  // Initialize bootstrap-select for category selection with enhanced options
+  // Initialize selectpickers only once when document is ready
+  $('.selectpicker').selectpicker({
+    style: 'btn-light',
+    liveSearch: true,
+    liveSearchPlaceholder: 'ابحث...',
+    noneSelectedText: 'لم يتم تحديد أي شيء',
+    noneResultsText: 'لا توجد نتائج لـ {0}',
+    selectAllText: 'تحديد الكل',
+    deselectAllText: 'إلغاء تحديد الكل',
+    dropupAuto: false,   // منع السلوك التلقائي
+    width: '100%',
+    container: 'body'    // إخراج القائمة خارج أي كارد/مودال
+  });
+  
+  // Re-initialize bootstrap-select when modals are shown
+  $('#modal-sim, #addSlideModal, #editSlideModal').on('shown.bs.modal', function () {
+    $('.selectpicker', this).selectpicker('render');
+  });
+  
+  // Select all functionality
+  $('#selectAll').on('change', function() {
+    $('.category-checkbox').prop('checked', $(this).prop('checked'));
+  });
+  
+  // Individual checkbox functionality
+  $('.category-checkbox').on('change', function() {
+    if (!$(this).prop('checked')) {
+      $('#selectAll').prop('checked', false);
+    } else {
+      if ($('.category-checkbox:checked').length === $('.category-checkbox').length) {
+        $('#selectAll').prop('checked', true);
+      }
+    }
+  });
+  
+  // Refresh button
+  $('#refreshBtn').click(function() {
+    location.reload();
+  });
+  
+  // Variable to track the currently selected row
+  let selectedRow = null;
+  
+  // Initialize DataTable
+  const dt = $("#categoriesTable").DataTable({
+    paging: true,
+    lengthChange: false,
+    searching: false,
+    ordering: true,
+    info: true,
+    autoWidth: false,
+    responsive: true,
+    // Define columns to match the new table structure
+    columnDefs: [
+        { targets: 0, width: "40px", className: "text-center" }, // Checkbox column
+        { targets: 1, width: "auto" }, // الرقم column
+        { targets: 2, width: "auto" }, // الرسالة column
+        { targets: 3, width: "auto" }, // المبلغ column
+        { targets: 4, width: "auto" }, // المودع column
+        { targets: 5, width: "auto" }, // المرسل column
+        { targets: 6, width: "auto" }, // حالة المبلغ column
+        { targets: 7, width: "auto" }, // التأمين column
+        { targets: 8, width: "auto" }, // التاريخ column
+        { targets: 9, width: "auto" }, // حساب العميل column
+        { targets: 10, width: "auto" }, // وصف الخطأ column
+        { targets: 11, width: "100px", className: "text-center" } // Actions column
+    ],
+    // Add buttons extension
+    dom: 'Bfrtip',
+    buttons: [
+      {
+        extend: 'print',
+        text: 'طباعه',
+        className: 'btn btn-outline-secondary btn-sm',
+        exportOptions: {
+          columns: ':visible'
+        }
+      },
+      {
+        extend: 'colvis',
+        text: 'تحديد الحقول',
+        className: 'btn btn-outline-secondary btn-sm',
+        collectionLayout: 'fixed two-column',
+        postfixButtons: ['colvisRestore']
+      },
+      {
+        extend: 'excelHtml5',
+        text: 'تصدير اكسل',
+        className: 'btn btn-outline-secondary btn-sm',
+        exportOptions: {
+          columns: ':visible'
+        }
+      }
+    ],
+    language: {
+      "sEmptyTable":     "لا توجد بيانات",
+      "sInfo":           "إظهار _START_ إلى _END_ من _TOTAL_ سجل",
+      "sInfoEmpty":      "إظهار 0 إلى 0 من 0 سجل",
+      "sInfoFiltered":   "(مفلتر من _MAX_ سجل)",
+      "sInfoPostFix":    "",
+      "sInfoThousands":  ",",
+      "sLengthMenu":     "أظهر _MENU_ سجل",
+      "sLoadingRecords": "جارٍ التحميل...",
+      "sProcessing":     "جارٍ التحميل...",
+      "sSearch":         "ابحث:",
+      "sZeroRecords":    "لم يعثر على أية سجلات",
+      "oPaginate": {
+        "sFirst":    "الأولى",
+        "sLast":     "الأخيرة",
+        "sNext":     "التالي",
+        "sPrevious": "السابق"
+      },
+      "oAria": {
+        "sSortAscending":  ": تفعيل لترتيب العمود تصاعدياً",
+        "sSortDescending": ": تفعيل لترتيب العمود تنازلياً"
+      },
+      "buttons": {
+        "colvis": 'تحديد الحقول',
+        "print": 'طباعه',
+        "excel": 'تصدير اكسل'
+      }
+    }
+  });
+  
+  // Move buttons to filter section
+  dt.buttons().container().appendTo('#datatables-buttons-container');
+  
+  // Show the filter section buttons container
+  $('#datatables-buttons-container').show();
+  
+  // Handle action buttons (using unified modal)
+  $('#topEditButton').click(function(e) {
+    e.preventDefault();
+    var checkedBoxes = $('.category-checkbox:checked');
+    if (checkedBoxes.length === 0) {
+        alert('الرجاء تحديد إعداد واحد على الأقل للتعديل');
+        return;
+    }
+    
+    if (checkedBoxes.length > 1) {
+        alert('الرجاء تحديد إعداد واحد فقط للتعديل');
+        return;
+    }
+    
+    // For now, we'll just edit the first selected item
+    var firstChecked = checkedBoxes.first();
+    var row = firstChecked.closest('tr');
+    if (row.hasClass('child')) {
+        row = row.prev();
+    }
+    
+    // Get row data
+    var settingId = firstChecked.val();
+    var id = row.find('td:eq(1)').text();
+    var message = row.find('td:eq(2)').text();
+    var amount = row.find('td:eq(3)').text();
+    var depositor = row.find('td:eq(4)').text();
+    var sender = row.find('td:eq(5)').text();
+    var amountStatus = row.find('td:eq(6)').text();
+    var insurance = row.find('td:eq(7)').text();
+    var date = row.find('td:eq(8)').text();
+    var clientAccount = row.find('td:eq(9)').text();
+    var errorDescription = row.find('td:eq(10)').text();
+    
+    // Show the unified modal for editing
+    var unifiedModalElement = document.getElementById('unifiedModal');
+    if (!unifiedModalElement) {
+        console.error('Unified modal not found!');
+        alert('خطأ: نافذة التعديل غير موجودة');
+        return;
+    }
+    
+    // Populate the form fields
+    $('input[name="message"]').val(message);
+    // Other field population would go here
+    
+    // Show unified modal using Bootstrap 5 method
+    console.log('Showing unified modal for editing');
+    try {
+        const unifiedModal = new bootstrap.Modal(unifiedModalElement);
+        unifiedModal.show();
+    } catch (error) {
+        console.error('Error showing unified modal:', error);
+        // Fallback to jQuery method
+        $('#unifiedModal').modal('show');
+    }
+  });
+  
+  $('#topViewButton').click(function(e) {
+    e.preventDefault();
+    var checkedBoxes = $('.category-checkbox:checked');
+    if (checkedBoxes.length === 0) {
+        alert('الرجاء تحديد إعداد واحد على الأقل للمشاهدة');
+        return;
+    }
+    
+    if (checkedBoxes.length > 1) {
+        alert('الرجاء تحديد إعداد واحد فقط للمشاهدة');
+        return;
+    }
+    
+    // For now, we'll just view the first selected item
+    var firstChecked = checkedBoxes.first();
+    var row = firstChecked.closest('tr');
+    if (row.hasClass('child')) {
+        row = row.prev();
+    }
+    
+    // Get row data
+    var settingId = firstChecked.val();
+    var id = row.find('td:eq(1)').text();
+    var message = row.find('td:eq(2)').text();
+    var amount = row.find('td:eq(3)').text();
+    var depositor = row.find('td:eq(4)').text();
+    var sender = row.find('td:eq(5)').text();
+    var amountStatus = row.find('td:eq(6)').text();
+    var insurance = row.find('td:eq(7)').text();
+    var date = row.find('td:eq(8)').text();
+    var clientAccount = row.find('td:eq(9)').text();
+    var errorDescription = row.find('td:eq(10)').text();
+    
+    // Show the unified modal for viewing (in a real implementation, you might want to disable fields)
+    var unifiedModalElement = document.getElementById('unifiedModal');
+    if (!unifiedModalElement) {
+        console.error('Unified modal not found!');
+        alert('خطأ: نافذة العرض غير موجودة');
+        return;
+    }
+    
+    // Populate the form fields
+    $('input[name="message"]').val(message);
+    // Other field population would go here
+    
+    // Show unified modal using Bootstrap 5 method
+    console.log('Showing unified modal for viewing');
+    try {
+        const unifiedModal = new bootstrap.Modal(unifiedModalElement);
+        unifiedModal.show();
+    } catch (error) {
+        console.error('Error showing unified modal:', error);
+        // Fallback to jQuery method
+        $('#unifiedModal').modal('show');
+    }
+});
+  
+  // Handle dropdown actions
+  $('#categoriesTable').on('click', '[data-action]', function(e) {
+    e.preventDefault();
+    e.stopPropagation(); // Prevent event bubbling
+    
+    var action = $(this).data('action');
+    var row = $(this).closest('tr');
+    if (row.hasClass('child')) {
+        row = row.prev();
+    }
+    
+    // Get row data
+    var settingId = row.find('.category-checkbox').val();
+    var id = row.find('td:eq(1)').text();
+    var message = row.find('td:eq(2)').text();
+    var amount = row.find('td:eq(3)').text();
+    var depositor = row.find('td:eq(4)').text();
+    var sender = row.find('td:eq(5)').text();
+    var amountStatus = row.find('td:eq(6)').text();
+    var insurance = row.find('td:eq(7)').text();
+    var date = row.find('td:eq(8)').text();
+    var clientAccount = row.find('td:eq(9)').text();
+    var errorDescription = row.find('td:eq(10)').text();
+    
+    console.log('Action triggered:', action);
+    console.log('Setting ID:', id);
+    console.log('Message:', message);
+    
+    if (action === 'view' || action === 'edit') {
+        // For the unified modal, we'll just show the same modal for both view and edit
+        // In a real implementation, you might want to disable fields for view mode
+        var unifiedModalElement = document.getElementById('unifiedModal');
+        if (!unifiedModalElement) {
+            console.error('Unified modal not found!');
+            alert('خطأ: نافذة العرض/التعديل غير موجودة');
+            return;
+        }
+        
+        // Populate the form fields
+        $('input[name="message"]').val(message);
+        // Other field population would go here
+        
+        // Show unified modal using Bootstrap 5 method
+        console.log('Showing unified modal');
+        try {
+            const unifiedModal = new bootstrap.Modal(unifiedModalElement);
+            unifiedModal.show();
+        } catch (error) {
+            console.error('Error showing unified modal:', error);
+            // Fallback to jQuery method
+            $('#unifiedModal').modal('show');
+        }
+    } else if (action === 'delete') {
+        // Handle delete action
+        if (confirm('هل أنت متأكد من رغبتك في حذف الإعداد "' + message + '"؟')) {
+            console.log('Deleting setting:', message);
+            alert('تم حذف الإعداد "' + message + '" بنجاح!');
+            
+            // Remove the row from the table
+            row.fadeOut(300, function() {
+                $(this).remove();
+            });
+        }
+    }
+  });
+  
+  // Handle top action buttons
+  $('.btn-outline-danger').click(function(e) {
+    e.preventDefault();
+    var checkedBoxes = $('.category-checkbox:checked');
+    if (checkedBoxes.length === 0) {
+        alert('الرجاء تحديد إعداد واحد على الأقل للحذف');
+        return;
+    }
+    
+    // Get setting names for confirmation message
+    var settingNames = [];
+    checkedBoxes.each(function() {
+        var row = $(this).closest('tr');
+        if (row.hasClass('child')) {
+            row = row.prev();
+        }
+        var message = row.find('td:eq(2)').text(); // الرسالة column
+        settingNames.push(message);
+    });
+    
+    var message = 'هل أنت متأكد من رغبتك في حذف ' + settingNames.length + ' إعداد(إعدادات)؟\n';
+    message += settingNames.join('\n');
+    
+    if (confirm(message)) {
+        // In a real application, you would send an AJAX request to delete the settings
+        console.log('Deleting settings:', settingNames);
+        alert('تم حذف ' + settingNames.length + ' إعداد(إعدادات) بنجاح!');
+        
+        // Remove the rows from the table
+        checkedBoxes.each(function() {
+            var row = $(this).closest('tr');
+            if (row.hasClass('child')) {
+                row = row.prev();
+            }
+            row.fadeOut(300, function() {
+                $(this).remove();
+            });
+        });
+        
+        // Uncheck select all checkbox
+        $('#selectAll').prop('checked', false);
+    }
+  });
+  
+  // Handle form submissions
+  $('#formadd').on('submit', function(e) {
+    e.preventDefault();
+    
+    // Get form element
+    var form = this;
+    
+    // Check if form is valid using Bootstrap validation
+    if (!form.checkValidity()) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    
+    // Add validation classes
+    form.classList.add('was-validated');
+    
+    // If form is valid, proceed with submission
+    if (form.checkValidity()) {
+      // In a real application, you would submit the form data via AJAX
+      alert('تم حفظ إعداد رسالة الكريمي بنجاح!');
+      // Hide modal using Bootstrap 5 method
+      var unifiedModalElement = document.getElementById('unifiedModal');
+      if (unifiedModalElement) {
+        try {
+          const unifiedModal = bootstrap.Modal.getInstance(unifiedModalElement);
+          if (unifiedModal) {
+            unifiedModal.hide();
+          } else {
+            // Fallback to jQuery method
+            $('#unifiedModal').modal('hide');
+          }
+        } catch (error) {
+          console.error('Error hiding unified modal:', error);
+          // Fallback to jQuery method
+          $('#unifiedModal').modal('hide');
+        }
+      }
+      form.reset();
+      // Remove validation classes after reset
+      form.classList.remove('was-validated');
+      // Refresh the selectpickers - removed to prevent redundant refresh calls
+    }
+  });
+  
+
+  
+  // Handle select all checkbox
+  $('#selectAll').on('change', function () {
+    const isChecked = $(this).prop('checked');
+    $('.category-checkbox').prop('checked', isChecked);
+  });
+  
+  // Handle individual row checkbox changes
+  $('#categoriesTable tbody').on('change', '.category-checkbox', function () {
+    // Update the main selectAll checkbox state
+    if ($('.category-checkbox:checked').length === $('.category-checkbox').length) {
+      $('#selectAll').prop('checked', true);
+    } else {
+      $('#selectAll').prop('checked', false);
+    }
+  });
+  
+  // Handle close layout function for the new modal
+  table = {
+    closelayout: function() {
+      var unifiedModalElement = document.getElementById('unifiedModal');
+      if (unifiedModalElement) {
+        try {
+          const unifiedModal = bootstrap.Modal.getInstance(unifiedModalElement);
+          if (unifiedModal) {
+            unifiedModal.hide();
+          } else {
+            // Fallback to jQuery method
+            $('#unifiedModal').modal('hide');
+          }
+        } catch (error) {
+          console.error('Error hiding unified modal:', error);
+          // Fallback to jQuery method
+          $('#unifiedModal').modal('hide');
+        }
+      }
+    },
+    
+    add_form: function(action) {
+      if (action === 'addyrsim') {
+        // Handle form submission for adding a new setting
+        var form = document.getElementById('formadd');
+        if (form) {
+          // In a real application, you would submit the form data via AJAX
+          alert('تم إضافة إعداد رسالة الكريمي بنجاح!');
+          table.closelayout();
+          form.reset();
+          return false;
+        }
+      }
+      return true;
+    }
+  };
+  
+  // Handle form submission for the new modal
+  $('#formadd').on('submit', function(e) {
+    e.preventDefault();
+    return table.add_form('addyrsim');
+  });
+  
+  // More Span function for account source dropdown
+  function moreSpan(element, parentId) {
+    var ulElement = $('.childuld' + parentId);
+    if (ulElement.is(':visible')) {
+      ulElement.hide();
+      $(element).removeClass('fa-angle-up').addClass('fa-angle-down');
+    } else {
+      ulElement.show();
+      $(element).removeClass('fa-angle-down').addClass('fa-angle-up');
+    }
+  }
+});
+</script>

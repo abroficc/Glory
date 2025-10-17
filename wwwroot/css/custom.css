@@ -1,0 +1,443 @@
+/* Custom CSS to fix sidebar menu arrow alignment */
+
+/* Define CSS variables for both light and dark themes */
+:root {
+    /* Light theme variables */
+    --logo-border: rgba(0, 0, 0, 0.05);
+    --sidenav-item-color: var(--ins-sidenav-item-color);
+    --sidenav-item-hover-color: var(--ins-sidenav-item-hover-color);
+    --sidenav-item-hover-bg: var(--ins-sidenav-item-hover-bg);
+    --sidenav-item-active-color: var(--ins-sidenav-item-active-color);
+    --sidenav-item-active-bg: var(--ins-sidenav-item-active-bg);
+    --sidenav-bg: var(--ins-sidenav-bg);
+    --sidenav-border-color: var(--ins-sidenav-border-color);
+    --filter-section-bg: #f8f9fa;
+    --filter-section-border: #e9ecef;
+    --filter-card-bg: #f0f2f5;
+    --filter-card-border: #e1e4e8;
+    --filter-header-bg: #1e3a5c;
+    --filter-header-color: white;
+    --form-control-sm-border: #ced4da;
+    --input-group-text-bg: #e9ecef;
+    --input-group-text-border: #ced4da;
+    --btn-filter-bg: #0d6efd;
+    --btn-filter-border: #0d6efd;
+    --btn-filter-color: white;
+    --btn-filter-hover-bg: #0b5ed7;
+    --btn-filter-hover-color: white;
+}
+
+[data-bs-theme="dark"] {
+    /* Dark theme variables */
+    --logo-border: rgba(255, 255, 255, 0.1);
+    --sidenav-item-color: var(--ins-sidenav-item-color);
+    --sidenav-item-hover-color: var(--ins-sidenav-item-hover-color);
+    --sidenav-item-hover-bg: var(--ins-sidenav-item-hover-bg);
+    --sidenav-item-active-color: var(--ins-sidenav-item-active-color);
+    --sidenav-item-active-bg: var(--ins-sidenav-item-active-bg);
+    --sidenav-bg: var(--ins-sidenav-bg);
+    --sidenav-border-color: var(--ins-sidenav-border-color);
+    --filter-section-bg: #1f2937;
+    --filter-section-border: #374151;
+    --filter-card-bg: #1f2937;
+    --filter-card-border: #374151;
+    --filter-header-bg: #1e3a5c;
+    --filter-header-color: white;
+    --form-control-sm-border: #ced4da;
+    --input-group-text-bg: #e9ecef;
+    --input-group-text-border: #ced4da;
+    --btn-filter-bg: #0d6efd;
+    --btn-filter-border: #0d6efd;
+    --btn-filter-color: white;
+    --btn-filter-hover-bg: #0b5ed7;
+    --btn-filter-hover-color: white;
+}
+
+/* Add proper spacing for the logo in the sidebar menu */
+.logo {
+    padding: 20px 15px;
+    display: block;
+}
+
+.logo.logo-light,
+.logo.logo-dark {
+    padding: 10px 0;
+    margin: 0 auto;
+    display: block;
+    text-align: center;
+}
+
+/* Adjust logo dimensions */
+.logo-lg img,
+.logo-sm img {
+    max-width: 120px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+/* Add spacing after the logo section */
+.sidenav-menu .logo {
+    margin-bottom: 15px;
+    border-bottom: 1px solid var(--logo-border);
+}
+
+.side-nav-link {
+    display: flex !important;
+    align-items: center !important;
+    flex-direction: row !important;
+    white-space: nowrap !important;
+    position: relative !important;
+}
+
+.menu-arrow {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-width: 20px !important;
+    flex-shrink: 0 !important;
+    transition: transform 0.1s ease-in-out !important;
+    position: relative !important;
+    margin-right: 10px !important; /* Add margin to separate from text */
+}
+
+/* Ensure menu arrows stay in single row and are properly positioned */
+.side-nav-link > .menu-arrow {
+    flex-shrink: 0 !important;
+    order: 1 !important; /* Position arrow first */
+}
+
+/* Fix for sub-menu arrows */
+.sub-menu .side-nav-link {
+    display: flex !important;
+    align-items: center !important;
+    flex-direction: row !important;
+}
+
+.sub-menu .menu-arrow {
+    flex-shrink: 0 !important;
+    order: 1 !important; /* Position arrow first */
+}
+
+/* Ensure proper spacing between elements */
+.side-nav-link .menu-text {
+    flex-grow: 1 !important;
+    text-align: left !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    order: 2 !important; /* Position text second */
+}
+
+.side-nav-link .menu-icon {
+    flex-shrink: 0 !important;
+    order: 3 !important; /* Position icon last */
+}
+
+.side-nav-link .badge {
+    margin-left: 10px !important;
+    flex-shrink: 0 !important;
+    order: 9998 !important; /* Place before arrow */
+}
+
+/* Fix for active menu arrow rotation */
+[aria-expanded="true"] > .menu-arrow {
+    transform: rotate(-180deg) !important;
+    -webkit-transform: rotate(-180deg) !important;
+}
+
+/* Ensure consistent styling for all menu arrows */
+.menu-arrow:before {
+    font-family: "tabler-icons" !important;
+    content: "\ea5f" !important;
+    font-size: 16px !important;
+}
+
+/* Fix for sub-menu item arrows rotation */
+.sub-menu [aria-expanded="true"] > .menu-arrow {
+    transform: rotate(-180deg) !important;
+    -webkit-transform: rotate(-180deg) !important;
+}
+
+/* Ensure proper alignment for all menu levels */
+.side-nav .side-nav-item .side-nav-link,
+.side-nav .sub-menu .side-nav-item .side-nav-link,
+.side-nav .sub-menu .sub-menu .side-nav-item .side-nav-link {
+    display: flex !important;
+    align-items: center !important;
+    flex-direction: row !important;
+}
+
+/* Fix for condensed mode if applicable */
+html[data-sidenav-size="condensed"] .side-nav-link .menu-arrow {
+    display: flex !important;
+}
+
+/* Ensure proper z-index for menu arrows */
+.menu-arrow {
+    z-index: 10 !important;
+}
+
+/* Additional fixes for proper alignment */
+.side-nav-link > span {
+    display: flex !important;
+    align-items: center !important;
+}
+
+/* Ensure consistent height for all menu items */
+.side-nav-link {
+    min-height: 40px !important;
+}
+
+/* Fix for badge positioning */
+.side-nav-link .badge {
+    position: relative !important;
+}
+
+/* RTL Support CSS */
+
+/* General RTL fixes */
+[dir="rtl"] body {
+    text-align: right;
+}
+
+/* Better Arabic font styling using Cairo font with theme-aware colors */
+body, 
+table, 
+.form-control, 
+.btn,
+.navbar-brand,
+.nav-link,
+.card-title,
+.modal-title,
+.h1, .h2, .h3, .h4, .h5, .h6,
+h1, h2, h3, h4, h5, h6,
+.dropdown-item,
+.list-group-item,
+.badge,
+.alert,
+.breadcrumb,
+.pagination,
+.input-group-text,
+.form-label,
+.modal-body,
+.card-body,
+.sidebar-menu,
+.side-nav-link,
+.menu-text {
+    font-family: 'Cairo', sans-serif !important;
+    font-weight: 500; /* Medium weight for better clarity */
+    color: var(--bs-body-color) !important; /* Use Bootstrap variable for theme-aware text color */
+}
+
+/* Stronger font weight for headings */
+.card-title,
+.modal-title,
+.h1, .h2, .h3, .h4, .h5, .h6,
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 700 !important; /* Bold headings */
+}
+
+/* Customer table specific fixes */
+[dir="rtl"] #customers-table_wrapper .dt-buttons {
+    float: left;
+}
+
+[dir="rtl"] #customers-table.table th,
+[dir="rtl"] #customers-table.table td {
+    text-align: right;
+}
+
+/* Fixed header CSS */
+.app-topbar {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 1000 !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,.1) !important;
+}
+
+/* Adjust content to account for fixed header */
+.content-page {
+    margin-top: 70px !important;
+}
+
+/* Customer Filter section custom styles */
+.filter-section {
+    background-color: var(--filter-section-bg);
+    border-radius: 4px;
+    border: 1px solid var(--filter-section-border);
+}
+
+/* Filter row styles for smaller form elements */
+.filter-row .form-control-sm,
+.filter-row .form-select-sm,
+.filter-row .btn-sm,
+.filter-row .input-group-sm {
+    height: 30px;
+    font-size: 0.875rem;
+}
+
+/* Form select for filter dropdown consistency */
+.form-select-sm {
+    padding-right: 2rem !important;
+}
+
+/* Style for filter section card */
+.filter-card {
+    background-color: var(--filter-card-bg);
+    border-color: var(--filter-card-border);
+}
+
+/* Select2 overrides for RTL support */
+.select2-container--default .select2-selection--single {
+    height: 30px !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    line-height: 30px !important;
+    padding-right: 8px !important;
+    padding-left: 20px !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 28px !important;
+    right: auto !important;
+    left: 1px !important;
+}
+
+/* Custom button styles to match image */
+.btn-filter {
+    background-color: var(--btn-filter-bg);
+    color: var(--btn-filter-color);
+    border-color: var(--btn-filter-border);
+    border-radius: 0 0.25rem 0.25rem 0;
+}
+
+.btn-filter:hover {
+    background-color: var(--btn-filter-hover-bg);
+    color: var(--btn-filter-hover-color);
+}
+
+/* Style for date range section */
+.date-range-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Filter card header with navy background like in the image */
+.filter-header {
+    background-color: var(--filter-header-bg);
+    color: var(--filter-header-color);
+    padding: 0.5rem 1rem;
+    border-radius: 4px 4px 0 0;
+}
+
+/* Additional styles for filter section */
+.filter-section .form-control-sm, 
+.filter-section .form-select-sm {
+    border: 1px solid var(--form-control-sm-border);
+    border-radius: 0.2rem;
+}
+
+.filter-section .btn-sm {
+    border-radius: 0.2rem;
+}
+
+.filter-section .input-group-text {
+    background-color: var(--input-group-text-bg);
+    border: 1px solid var(--input-group-text-border);
+    border-radius: 0.2rem 0 0 0.2rem;
+}
+
+/* Style for action buttons */
+.action-buttons .btn {
+    margin-left: 0.5rem;
+}
+
+/* Date range section styling */
+.date-range-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Responsive adjustments for filter section */
+@media (max-width: 768px) {
+    .filter-section .col {
+        margin-bottom: 0.5rem;
+    }
+    
+    .filter-section .col-2, 
+    .filter-section .col-3, 
+    .filter-section .col-7 {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+    
+    .filter-section .d-flex {
+        flex-direction: column;
+        align-items: flex-start !important;
+    }
+    
+    .filter-section .action-buttons {
+        margin-top: 0.5rem;
+        width: 100%;
+    }
+    
+    .filter-section .action-buttons .btn {
+        margin: 0.25rem 0;
+        width: 100%;
+    }
+}
+
+/* Ensure consistent sidebar menu colors in both light and dark modes */
+.sidenav-menu {
+    background: var(--sidenav-bg) !important;
+    border-right: var(--ins-theme-card-border-width) solid var(--sidenav-border-color) !important;
+}
+
+.side-nav .side-nav-item .side-nav-link {
+    color: var(--sidenav-item-color) !important;
+    font-size: var(--ins-sidenav-item-font-size) !important;
+    font-weight: var(--ins-sidenav-item-font-weight) !important;
+    padding: var(--ins-sidenav-item-padding-y) var(--ins-sidenav-item-padding-x) !important;
+}
+
+.side-nav .side-nav-item .side-nav-link:hover,
+.side-nav .side-nav-item .side-nav-link:focus,
+.side-nav .side-nav-item .side-nav-link:active {
+    color: var(--sidenav-item-hover-color) !important;
+    background-color: var(--sidenav-item-hover-bg) !important;
+}
+
+.side-nav > .side-nav-item.active > a {
+    color: var(--sidenav-item-active-color) !important;
+    background-color: var(--sidenav-item-active-bg) !important;
+}
+
+.side-nav .side-nav-title {
+    color: var(--sidenav-item-color) !important;
+    font-weight: var(--ins-font-weight-bold) !important;
+    font-size: calc(var(--ins-sidenav-item-font-size) * 0.7) !important;
+    padding: var(--ins-sidenav-item-padding-y) calc(var(--ins-sidenav-item-padding-x) * 2) !important;
+}
+
+/* Ensure consistent sub-menu styling */
+.side-nav .sub-menu .side-nav-item .side-nav-link {
+    font-size: var(--ins-sidenav-sub-item-font-size) !important;
+    font-weight: var(--ins-sidenav-sub-item-font-weight) !important;
+    padding: var(--ins-sidenav-sub-item-padding-y) var(--ins-sidenav-sub-item-padding-x) var(--ins-sidenav-sub-item-padding-y) calc(var(--ins-sidenav-item-icon-size) + var(--ins-sidenav-item-padding-x) + var(--ins-sidenav-item-gap)) !important;
+}
+
+/* Special menu styling */
+.side-nav .side-nav-item .side-nav-link.special-menu {
+    background-color: var(--ins-primary) !important;
+    color: #fff !important;
+}
+
+/* Ensure proper disabled menu styling */
+.side-nav .side-nav-item .side-nav-link.disabled {
+    opacity: 0.5 !important;
+}

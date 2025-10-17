@@ -1,0 +1,769 @@
+@{
+    ViewBag.Title = "جهات الاتصال";
+    ViewBag.SubTitle = "المستخدمون";
+}
+
+@section styles
+{
+}
+<div class="container-fluid">
+
+    @await Html.PartialAsync("~/Views/Shared/Partials/_PageTitle.cshtml")
+
+    <div class="row mb-3">
+        <div class="col-lg-12">
+            <form class="bg-light-subtle rounded border p-3">
+
+                <div class="row gap-3">
+                    <div class="col-lg-4">
+                        <div class="app-search">
+                            <input type="text" class="form-control" placeholder="البحث باسم جهة الاتصال...">
+                            <i data-lucide="search" class="app-search-icon text-muted"></i>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="d-flex flex-wrap align-items-center gap-2">
+                            <span class="me-2 fw-semibold">تصفية حسب:</span>
+
+                            <!-- Designation Filter -->
+                            <div class="app-search">
+                                <select class="form-select form-control my-1 my-md-0">
+                                    <option selected>التعيين</option>
+                                    <option value="Manager">مدير</option>
+                                    <option value="Developer">مطور</option>
+                                    <option value="Designer">مصمم</option>
+                                    <option value="Sales">مبيعات</option>
+                                    <option value="Support">دعم</option>
+                                </select>
+                                <i data-lucide="user-check" class="app-search-icon text-muted"></i>
+                            </div>
+
+                            <!-- Location Filter -->
+                            <div class="app-search">
+                                <select class="form-select form-control my-1 my-md-0">
+                                    <option selected>الموقع</option>
+                                    <option value="USA">الولايات المتحدة</option>
+                                    <option value="UK">المملكة المتحدة</option>
+                                    <option value="Germany">ألمانيا</option>
+                                    <option value="India">الهند</option>
+                                    <option value="Canada">كندا</option>
+                                </select>
+                                <i data-lucide="map-pin" class="app-search-icon text-muted"></i>
+                            </div>
+
+                            <!-- Department Filter -->
+                            <div class="app-search">
+                                <select class="form-select form-control my-1 my-md-0">
+                                    <option selected>القسم</option>
+                                    <option value="UI/UX">واجهة المستخدم/تجربة المستخدم</option>
+                                    <option value="Engineering">الهندسة</option>
+                                    <option value="HR">الموارد البشرية</option>
+                                    <option value="Marketing">التسويق</option>
+                                    <option value="Finance">المالية</option>
+                                </select>
+                                <i data-lucide="layers" class="app-search-icon text-muted"></i>
+                            </div>
+
+                            <button type="submit" class="btn btn-secondary">تطبيق</button>
+
+                            <div role="group" aria-label="Layout toggle button group" class="ms-auto flex-shrink-0">
+                                <input type="radio" class="btn-check" name="btnradio" id="btnradio1" checked>
+                                <label class="btn btn-soft-primary btn-icon" for="btnradio1">
+                                    <i data-lucide="layout-grid" class="fs-lg"></i>
+                                </label>
+
+                                <input type="radio" class="btn-check" name="btnradio" id="btnradio2">
+                                <label class="btn btn-soft-primary btn-icon" for="btnradio2">
+                                    <i data-lucide="list" class="fs-lg"></i>
+                                </label>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 col-xxl-3">
+            <div class="card card-h-100">
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-4">
+                        <div class="me-3 position-relative">
+                            <img src="~/images/users/user-5.jpg" alt="avatar" class="rounded-circle" width="72" height="72">
+                            <span class="position-absolute bottom-0 end-0 badge bg-warning rounded-circle p-1 shadow-sm" title="التقييم 4.8">
+                                <i class="ti ti-star text-white"></i>
+                            </span>
+                        </div>
+                        <div>
+                            <h5 class="mb-1 d-flex align-items-center">
+                                <a href="pages-profile" class="link-reset">صوفيا كارتر</a>
+                                <img src="~/images/flags/gb.svg" alt="UK" class="ms-2 rounded-circle" height="16">
+                            </h5>
+                            <p class="text-muted mb-1">مصمم واجهة مستخدم رئيسي</p>
+                            <span class="badge text-bg-light badge-label">مدير</span>
+                        </div>
+                        <div class="ms-auto">
+                            <div class="dropdown">
+                                <a href="#" class="btn btn-icon btn-ghost-light text-muted" data-bs-toggle="dropdown">
+                                    <i class="ti ti-dots-vertical fs-xl"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="#"><i class="ti ti-share me-2"></i>مشاركة</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="ti ti-edit me-2"></i>تعديل</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="ti ti-ban me-2"></i>حظر</a></li>
+                                    <li><a class="dropdown-item text-danger" href="#"><i class="ti ti-trash me-2"></i>حذف</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <ul class="list-unstyled text-muted mb-4">
+                        <li class="mb-2">
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="avatar-xs avatar-img-size fs-24">
+                                    <span class="avatar-title text-bg-light fs-sm rounded-circle">
+                                        <i class="ti ti-mail"></i>
+                                    </span>
+                                </div>
+                                <h5 class="fs-base mb-0 fw-medium"><a href="#" class="link-reset">sophia@designhub.com</a></h5>
+                            </div>
+                        </li>
+                        <li class="mb-2">
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="avatar-xs avatar-img-size fs-24">
+                                    <span class="avatar-title text-bg-light fs-sm rounded-circle">
+                                        <i class="ti ti-phone"></i>
+                                    </span>
+                                </div>
+                                <h5 class="fs-base mb-0 fw-medium"><a href="#" class="link-reset">+44 7911 123456</a></h5>
+                            </div>
+                        </li>
+                        <li class="mb-2">
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="avatar-xs avatar-img-size fs-24">
+                                    <span class="avatar-title text-bg-light fs-sm rounded-circle">
+                                        <i class="ti ti-map-pin"></i>
+                                    </span>
+                                </div>
+                                <h5 class="fs-base mb-0 fw-medium">لندن، المملكة المتحدة</h5>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="avatar-xs avatar-img-size fs-24">
+                                    <span class="avatar-title text-bg-light fs-sm rounded-circle">
+                                        <i class="ti ti-link"></i>
+                                    </span>
+                                </div>
+                                <h5 class="fs-base mb-0 fw-medium"><a href="#">www.sophiacarter.com</a></h5>
+                            </div>
+                        </li>
+                    </ul>
+
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="text-muted fs-xs"><i class="ti ti-refresh me-1"></i>تم التحديث قبل 30 دقيقة</span>
+                        <a href="pages-profile" class="btn btn-soft-primary btn-sm rounded-pill">عرض الملف الشخصي</a>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- end col-->
+        <!-- Card 2 -->
+        <div class="col-md-6 col-xxl-3">
+            <div class="card card-h-100">
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-4">
+                        <div class="me-3 position-relative">
+                            <img src="~/images/users/user-6.jpg" alt="avatar" class="rounded-circle" width="72" height="72">
+                            <span class="position-absolute bottom-0 end-0 badge bg-success rounded-circle p-1 shadow-sm" title="التقييم 4.5">
+                                <i class="ti ti-star text-white"></i>
+                            </span>
+                        </div>
+                        <div>
+                            <h5 class="mb-1 d-flex align-items-center">
+                                <a href="pages-profile" class="link-reset">ماركوس لي</a>
+                                <img src="~/images/flags/us.svg" alt="US" class="ms-2 rounded-circle" height="16">
+                            </h5>
+                            <p class="text-muted mb-1">مطور رئيسي</p>
+                            <span class="badge text-bg-light badge-label">قائد فريق</span>
+                        </div>
+                        <div class="ms-auto">
+                            <div class="dropdown">
+                                <a href="#" class="btn btn-icon btn-ghost-light text-muted" data-bs-toggle="dropdown">
+                                    <i class="ti ti-dots-vertical fs-xl"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="#"><i class="ti ti-share me-2"></i>مشاركة</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="ti ti-edit me-2"></i>تعديل</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="ti ti-ban me-2"></i>حظر</a></li>
+                                    <li><a class="dropdown-item text-danger" href="#"><i class="ti ti-trash me-2"></i>حذف</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <ul class="list-unstyled text-muted mb-4">
+                        <li class="mb-2">
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="avatar-xs avatar-img-size fs-24">
+                                    <span class="avatar-title text-bg-light fs-sm rounded-circle">
+                                        <i class="ti ti-mail"></i>
+                                    </span>
+                                </div>
+                                <h5 class="fs-base mb-0 fw-medium"><a href="#" class="link-reset">marcus@devzone.com</a></h5>
+                            </div>
+                        </li>
+                        <li class="mb-2">
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="avatar-xs avatar-img-size fs-24">
+                                    <span class="avatar-title text-bg-light fs-sm rounded-circle">
+                                        <i class="ti ti-phone"></i>
+                                    </span>
+                                </div>
+                                <h5 class="fs-base mb-0 fw-medium"><a href="#" class="link-reset">+1 555 123 4567</a></h5>
+                            </div>
+                        </li>
+                        <li class="mb-2">
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="avatar-xs avatar-img-size fs-24">
+                                    <span class="avatar-title text-bg-light fs-sm rounded-circle">
+                                        <i class="ti ti-map-pin"></i>
+                                    </span>
+                                </div>
+                                <h5 class="fs-base mb-0 fw-medium">نيويورك، الولايات المتحدة</h5>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="avatar-xs avatar-img-size fs-24">
+                                    <span class="avatar-title text-bg-light fs-sm rounded-circle">
+                                        <i class="ti ti-link"></i>
+                                    </span>
+                                </div>
+                                <h5 class="fs-base mb-0 fw-medium"><a href="#">www.marcuslee.dev</a></h5>
+                            </div>
+                        </li>
+                    </ul>
+
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="text-muted fs-xs"><i class="ti ti-refresh me-1"></i>تم التحديث قبل ساعة</span>
+                        <a href="pages-profile" class="btn btn-soft-primary btn-sm rounded-pill">عرض الملف الشخصي</a>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- end col-->
+        <!-- Card 3 -->
+        <div class="col-md-6 col-xxl-3">
+            <div class="card card-h-100">
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-4">
+                        <div class="me-3 position-relative">
+                            <img src="~/images/users/user-7.jpg" alt="avatar" class="rounded-circle" width="72" height="72">
+                            <span class="position-absolute bottom-0 end-0 badge bg-info rounded-circle p-1 shadow-sm" title="التقييم 4.9">
+                                <i class="ti ti-star text-white"></i>
+                            </span>
+                        </div>
+                        <div>
+                            <h5 class="mb-1 d-flex align-items-center">
+                                <a href="pages-profile" class="link-reset">أمينة أحمد</a>
+                                <img src="~/images/flags/ae.svg" alt="UAE" class="ms-2 rounded-circle" height="16">
+                            </h5>
+                            <p class="text-muted mb-1">محللة بيانات</p>
+                            <span class="badge text-bg-light badge-label">خبير</span>
+                        </div>
+                        <div class="ms-auto">
+                            <div class="dropdown">
+                                <a href="#" class="btn btn-icon btn-ghost-light text-muted" data-bs-toggle="dropdown">
+                                    <i class="ti ti-dots-vertical fs-xl"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="#"><i class="ti ti-share me-2"></i>مشاركة</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="ti ti-edit me-2"></i>تعديل</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="ti ti-ban me-2"></i>حظر</a></li>
+                                    <li><a class="dropdown-item text-danger" href="#"><i class="ti ti-trash me-2"></i>حذف</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <ul class="list-unstyled text-muted mb-4">
+                        <li class="mb-2">
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="avatar-xs avatar-img-size fs-24">
+                                    <span class="avatar-title text-bg-light fs-sm rounded-circle">
+                                        <i class="ti ti-mail"></i>
+                                    </span>
+                                </div>
+                                <h5 class="fs-base mb-0 fw-medium"><a href="#" class="link-reset">amina@datainsights.ae</a></h5>
+                            </div>
+                        </li>
+                        <li class="mb-2">
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="avatar-xs avatar-img-size fs-24">
+                                    <span class="avatar-title text-bg-light fs-sm rounded-circle">
+                                        <i class="ti ti-phone"></i>
+                                    </span>
+                                </div>
+                                <h5 class="fs-base mb-0 fw-medium"><a href="#" class="link-reset">+971 50 123 4567</a></h5>
+                            </div>
+                        </li>
+                        <li class="mb-2">
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="avatar-xs avatar-img-size fs-24">
+                                    <span class="avatar-title text-bg-light fs-sm rounded-circle">
+                                        <i class="ti ti-map-pin"></i>
+                                    </span>
+                                </div>
+                                <h5 class="fs-base mb-0 fw-medium">دبي، الإمارات العربية المتحدة</h5>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="avatar-xs avatar-img-size fs-24">
+                                    <span class="avatar-title text-bg-light fs-sm rounded-circle">
+                                        <i class="ti ti-link"></i>
+                                    </span>
+                                </div>
+                                <h5 class="fs-base mb-0 fw-medium"><a href="#">www.aminaahmed.ae</a></h5>
+                            </div>
+                        </li>
+                    </ul>
+
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="text-muted fs-xs"><i class="ti ti-refresh me-1"></i>تم التحديث قبل 2 ساعة</span>
+                        <a href="pages-profile" class="btn btn-soft-primary btn-sm rounded-pill">عرض الملف الشخصي</a>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- end col-->
+        <!-- Card 4 -->
+        <div class="col-md-6 col-xxl-3">
+            <div class="card card-h-100">
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-4">
+                        <div class="me-3 position-relative">
+                            <img src="~/images/users/user-8.jpg" alt="avatar" class="rounded-circle" width="72" height="72">
+                            <span class="position-absolute bottom-0 end-0 badge bg-danger rounded-circle p-1 shadow-sm" title="التقييم 4.7">
+                                <i class="ti ti-star text-white"></i>
+                            </span>
+                        </div>
+                        <div>
+                            <h5 class="mb-1 d-flex align-items-center">
+                                <a href="pages-profile" class="link-reset">دييغو رودريغيز</a>
+                                <img src="~/images/flags/es.svg" alt="Spain" class="ms-2 rounded-circle" height="16">
+                            </h5>
+                            <p class="text-muted mb-1">مدير مبيعات</p>
+                            <span class="badge text-bg-light badge-label">قائد فريق</span>
+                        </div>
+                        <div class="ms-auto">
+                            <div class="dropdown">
+                                <a href="#" class="btn btn-icon btn-ghost-light text-muted" data-bs-toggle="dropdown">
+                                    <i class="ti ti-dots-vertical fs-xl"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="#"><i class="ti ti-share me-2"></i>مشاركة</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="ti ti-edit me-2"></i>تعديل</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="ti ti-ban me-2"></i>حظر</a></li>
+                                    <li><a class="dropdown-item text-danger" href="#"><i class="ti ti-trash me-2"></i>حذف</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <ul class="list-unstyled text-muted mb-4">
+                        <li class="mb-2">
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="avatar-xs avatar-img-size fs-24">
+                                    <span class="avatar-title text-bg-light fs-sm rounded-circle">
+                                        <i class="ti ti-mail"></i>
+                                    </span>
+                                </div>
+                                <h5 class="fs-base mb-0 fw-medium"><a href="#" class="link-reset">diego@salespro.es</a></h5>
+                            </div>
+                        </li>
+                        <li class="mb-2">
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="avatar-xs avatar-img-size fs-24">
+                                    <span class="avatar-title text-bg-light fs-sm rounded-circle">
+                                        <i class="ti ti-phone"></i>
+                                    </span>
+                                </div>
+                                <h5 class="fs-base mb-0 fw-medium"><a href="#" class="link-reset">+34 91 123 45 67</a></h5>
+                            </div>
+                        </li>
+                        <li class="mb-2">
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="avatar-xs avatar-img-size fs-24">
+                                    <span class="avatar-title text-bg-light fs-sm rounded-circle">
+                                        <i class="ti ti-map-pin"></i>
+                                    </span>
+                                </div>
+                                <h5 class="fs-base mb-0 fw-medium">مدريد، إسبانيا</h5>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="avatar-xs avatar-img-size fs-24">
+                                    <span class="avatar-title text-bg-light fs-sm rounded-circle">
+                                        <i class="ti ti-link"></i>
+                                    </span>
+                                </div>
+                                <h5 class="fs-base mb-0 fw-medium"><a href="#">www.diegorodriguez.es</a></h5>
+                            </div>
+                        </li>
+                    </ul>
+
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="text-muted fs-xs"><i class="ti ti-refresh me-1"></i>تم التحديث قبل 3 ساعة</span>
+                        <a href="pages-profile" class="btn btn-soft-primary btn-sm rounded-pill">عرض الملف الشخصي</a>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- end col-->
+    </div> <!-- end row-->
+
+    <div class="row">
+        <div class="col-md-6 col-xxl-3">
+            <div class="card card-h-100">
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-4">
+                        <div class="me-3 position-relative">
+                            <img src="~/images/users/user-1.jpg" alt="avatar" class="rounded-circle" width="72" height="72">
+                            <span class="position-absolute bottom-0 end-0 badge bg-success rounded-circle p-1 shadow-sm" title="التقييم 4.6">
+                                <i class="ti ti-star text-white"></i>
+                            </span>
+                        </div>
+                        <div>
+                            <h5 class="mb-1 d-flex align-items-center">
+                                <a href="pages-profile" class="link-reset">ليلى حسن</a>
+                                <img src="~/images/flags/sa.svg" alt="Saudi Arabia" class="ms-2 rounded-circle" height="16">
+                            </h5>
+                            <p class="text-muted mb-1">مديرة موارد بشرية</p>
+                            <span class="badge text-bg-light badge-label">خبير</span>
+                        </div>
+                        <div class="ms-auto">
+                            <div class="dropdown">
+                                <a href="#" class="btn btn-icon btn-ghost-light text-muted" data-bs-toggle="dropdown">
+                                    <i class="ti ti-dots-vertical fs-xl"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="#"><i class="ti ti-share me-2"></i>مشاركة</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="ti ti-edit me-2"></i>تعديل</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="ti ti-ban me-2"></i>حظر</a></li>
+                                    <li><a class="dropdown-item text-danger" href="#"><i class="ti ti-trash me-2"></i>حذف</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <ul class="list-unstyled text-muted mb-4">
+                        <li class="mb-2">
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="avatar-xs avatar-img-size fs-24">
+                                    <span class="avatar-title text-bg-light fs-sm rounded-circle">
+                                        <i class="ti ti-mail"></i>
+                                    </span>
+                                </div>
+                                <h5 class="fs-base mb-0 fw-medium"><a href="#" class="link-reset">layla@hrconsulting.sa</a></h5>
+                            </div>
+                        </li>
+                        <li class="mb-2">
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="avatar-xs avatar-img-size fs-24">
+                                    <span class="avatar-title text-bg-light fs-sm rounded-circle">
+                                        <i class="ti ti-phone"></i>
+                                    </span>
+                                </div>
+                                <h5 class="fs-base mb-0 fw-medium"><a href="#" class="link-reset">+966 50 123 4567</a></h5>
+                            </div>
+                        </li>
+                        <li class="mb-2">
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="avatar-xs avatar-img-size fs-24">
+                                    <span class="avatar-title text-bg-light fs-sm rounded-circle">
+                                        <i class="ti ti-map-pin"></i>
+                                    </span>
+                                </div>
+                                <h5 class="fs-base mb-0 fw-medium">الرياض، المملكة العربية السعودية</h5>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="avatar-xs avatar-img-size fs-24">
+                                    <span class="avatar-title text-bg-light fs-sm rounded-circle">
+                                        <i class="ti ti-link"></i>
+                                    </span>
+                                </div>
+                                <h5 class="fs-base mb-0 fw-medium"><a href="#">www.laylahr.sa</a></h5>
+                            </div>
+                        </li>
+                    </ul>
+
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="text-muted fs-xs"><i class="ti ti-refresh me-1"></i>تم التحديث قبل 4 ساعة</span>
+                        <a href="pages-profile" class="btn btn-soft-primary btn-sm rounded-pill">عرض الملف الشخصي</a>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- end col-->
+        <!-- Card 6 -->
+        <div class="col-md-6 col-xxl-3">
+            <div class="card card-h-100">
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-4">
+                        <div class="me-3 position-relative">
+                            <img src="~/images/users/user-2.jpg" alt="avatar" class="rounded-circle" width="72" height="72">
+                            <span class="position-absolute bottom-0 end-0 badge bg-warning rounded-circle p-1 shadow-sm" title="التقييم 4.4">
+                                <i class="ti ti-star text-white"></i>
+                            </span>
+                        </div>
+                        <div>
+                            <h5 class="mb-1 d-flex align-items-center">
+                                <a href="pages-profile" class="link-reset">أوليفيا مارتن</a>
+                                <img src="~/images/flags/fr.svg" alt="France" class="ms-2 rounded-circle" height="16">
+                            </h5>
+                            <p class="text-muted mb-1">مديرة تسويق</p>
+                            <span class="badge text-bg-light badge-label">قائد فريق</span>
+                        </div>
+                        <div class="ms-auto">
+                            <div class="dropdown">
+                                <a href="#" class="btn btn-icon btn-ghost-light text-muted" data-bs-toggle="dropdown">
+                                    <i class="ti ti-dots-vertical fs-xl"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="#"><i class="ti ti-share me-2"></i>مشاركة</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="ti ti-edit me-2"></i>تعديل</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="ti ti-ban me-2"></i>حظر</a></li>
+                                    <li><a class="dropdown-item text-danger" href="#"><i class="ti ti-trash me-2"></i>حذف</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <ul class="list-unstyled text-muted mb-4">
+                        <li class="mb-2">
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="avatar-xs avatar-img-size fs-24">
+                                    <span class="avatar-title text-bg-light fs-sm rounded-circle">
+                                        <i class="ti ti-mail"></i>
+                                    </span>
+                                </div>
+                                <h5 class="fs-base mb-0 fw-medium"><a href="#" class="link-reset">olivia@marketingpro.fr</a></h5>
+                            </div>
+                        </li>
+                        <li class="mb-2">
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="avatar-xs avatar-img-size fs-24">
+                                    <span class="avatar-title text-bg-light fs-sm rounded-circle">
+                                        <i class="ti ti-phone"></i>
+                                    </span>
+                                </div>
+                                <h5 class="fs-base mb-0 fw-medium"><a href="#" class="link-reset">+33 1 23 45 67 89</a></h5>
+                            </div>
+                        </li>
+                        <li class="mb-2">
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="avatar-xs avatar-img-size fs-24">
+                                    <span class="avatar-title text-bg-light fs-sm rounded-circle">
+                                        <i class="ti ti-map-pin"></i>
+                                    </span>
+                                </div>
+                                <h5 class="fs-base mb-0 fw-medium">باريس، فرنسا</h5>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="avatar-xs avatar-img-size fs-24">
+                                    <span class="avatar-title text-bg-light fs-sm rounded-circle">
+                                        <i class="ti ti-link"></i>
+                                    </span>
+                                </div>
+                                <h5 class="fs-base mb-0 fw-medium"><a href="#">www.oliviamarketing.fr</a></h5>
+                            </div>
+                        </li>
+                    </ul>
+
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="text-muted fs-xs"><i class="ti ti-refresh me-1"></i>تم التحديث قبل 5 ساعة</span>
+                        <a href="pages-profile" class="btn btn-soft-primary btn-sm rounded-pill">عرض الملف الشخصي</a>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- end col-->
+        <!-- Card 7 -->
+        <div class="col-md-6 col-xxl-3">
+            <div class="card card-h-100">
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-4">
+                        <div class="me-3 position-relative">
+                            <img src="~/images/users/user-3.jpg" alt="avatar" class="rounded-circle" width="72" height="72">
+                            <span class="position-absolute bottom-0 end-0 badge bg-primary rounded-circle p-1 shadow-sm" title="التقييم 4.3">
+                                <i class="ti ti-star text-white"></i>
+                            </span>
+                        </div>
+                        <div>
+                            <h5 class="mb-1 d-flex align-items-center">
+                                <a href="pages-profile" class="link-reset">أحمد محمد</a>
+                                <img src="~/images/flags/eg.svg" alt="Egypt" class="ms-2 rounded-circle" height="16">
+                            </h5>
+                            <p class="text-muted mb-1">مطور واجهة مستخدم</p>
+                            <span class="badge text-bg-light badge-label">متوسط</span>
+                        </div>
+                        <div class="ms-auto">
+                            <div class="dropdown">
+                                <a href="#" class="btn btn-icon btn-ghost-light text-muted" data-bs-toggle="dropdown">
+                                    <i class="ti ti-dots-vertical fs-xl"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="#"><i class="ti ti-share me-2"></i>مشاركة</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="ti ti-edit me-2"></i>تعديل</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="ti ti-ban me-2"></i>حظر</a></li>
+                                    <li><a class="dropdown-item text-danger" href="#"><i class="ti ti-trash me-2"></i>حذف</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <ul class="list-unstyled text-muted mb-4">
+                        <li class="mb-2">
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="avatar-xs avatar-img-size fs-24">
+                                    <span class="avatar-title text-bg-light fs-sm rounded-circle">
+                                        <i class="ti ti-mail"></i>
+                                    </span>
+                                </div>
+                                <h5 class="fs-base mb-0 fw-medium"><a href="#" class="link-reset">ahmed@frontenddev.eg</a></h5>
+                            </div>
+                        </li>
+                        <li class="mb-2">
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="avatar-xs avatar-img-size fs-24">
+                                    <span class="avatar-title text-bg-light fs-sm rounded-circle">
+                                        <i class="ti ti-phone"></i>
+                                    </span>
+                                </div>
+                                <h5 class="fs-base mb-0 fw-medium"><a href="#" class="link-reset">+20 100 123 4567</a></h5>
+                            </div>
+                        </li>
+                        <li class="mb-2">
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="avatar-xs avatar-img-size fs-24">
+                                    <span class="avatar-title text-bg-light fs-sm rounded-circle">
+                                        <i class="ti ti-map-pin"></i>
+                                    </span>
+                                </div>
+                                <h5 class="fs-base mb-0 fw-medium">القاهرة، مصر</h5>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="avatar-xs avatar-img-size fs-24">
+                                    <span class="avatar-title text-bg-light fs-sm rounded-circle">
+                                        <i class="ti ti-link"></i>
+                                    </span>
+                                </div>
+                                <h5 class="fs-base mb-0 fw-medium"><a href="#">www.ahmedmohamed.eg</a></h5>
+                            </div>
+                        </li>
+                    </ul>
+
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="text-muted fs-xs"><i class="ti ti-refresh me-1"></i>تم التحديث قبل 6 ساعة</span>
+                        <a href="pages-profile" class="btn btn-soft-primary btn-sm rounded-pill">عرض الملف الشخصي</a>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- end col-->
+        <!-- Card 8 -->
+        <div class="col-md-6 col-xxl-3">
+            <div class="card card-h-100">
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-4">
+                        <div class="me-3 position-relative">
+                            <img src="~/images/users/user-4.jpg" alt="avatar" class="rounded-circle" width="72" height="72">
+                            <span class="position-absolute bottom-0 end-0 badge bg-info rounded-circle p-1 shadow-sm" title="التقييم 4.2">
+                                <i class="ti ti-star text-white"></i>
+                            </span>
+                        </div>
+                        <div>
+                            <h5 class="mb-1 d-flex align-items-center">
+                                <a href="pages-profile" class="link-reset">ماريا غونزاليس</a>
+                                <img src="~/images/flags/mx.svg" alt="Mexico" class="ms-2 rounded-circle" height="16">
+                            </h5>
+                            <p class="text-muted mb-1">مديرة مالية</p>
+                            <span class="badge text-bg-light badge-label">خبير</span>
+                        </div>
+                        <div class="ms-auto">
+                            <div class="dropdown">
+                                <a href="#" class="btn btn-icon btn-ghost-light text-muted" data-bs-toggle="dropdown">
+                                    <i class="ti ti-dots-vertical fs-xl"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="#"><i class="ti ti-share me-2"></i>مشاركة</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="ti ti-edit me-2"></i>تعديل</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="ti ti-ban me-2"></i>حظر</a></li>
+                                    <li><a class="dropdown-item text-danger" href="#"><i class="ti ti-trash me-2"></i>حذف</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <ul class="list-unstyled text-muted mb-4">
+                        <li class="mb-2">
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="avatar-xs avatar-img-size fs-24">
+                                    <span class="avatar-title text-bg-light fs-sm rounded-circle">
+                                        <i class="ti ti-mail"></i>
+                                    </span>
+                                </div>
+                                <h5 class="fs-base mb-0 fw-medium"><a href="#" class="link-reset">maria@financepro.mx</a></h5>
+                            </div>
+                        </li>
+                        <li class="mb-2">
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="avatar-xs avatar-img-size fs-24">
+                                    <span class="avatar-title text-bg-light fs-sm rounded-circle">
+                                        <i class="ti ti-phone"></i>
+                                    </span>
+                                </div>
+                                <h5 class="fs-base mb-0 fw-medium"><a href="#" class="link-reset">+52 55 1234 5678</a></h5>
+                            </div>
+                        </li>
+                        <li class="mb-2">
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="avatar-xs avatar-img-size fs-24">
+                                    <span class="avatar-title text-bg-light fs-sm rounded-circle">
+                                        <i class="ti ti-map-pin"></i>
+                                    </span>
+                                </div>
+                                <h5 class="fs-base mb-0 fw-medium">مكسيكو سيتي، المكسيك</h5>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="avatar-xs avatar-img-size fs-24">
+                                    <span class="avatar-title text-bg-light fs-sm rounded-circle">
+                                        <i class="ti ti-link"></i>
+                                    </span>
+                                </div>
+                                <h5 class="fs-base mb-0 fw-medium"><a href="#">www.mariagz.mx</a></h5>
+                            </div>
+                        </li>
+                    </ul>
+
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="text-muted fs-xs"><i class="ti ti-refresh me-1"></i>تم التحديث قبل 7 ساعة</span>
+                        <a href="pages-profile" class="btn btn-soft-primary btn-sm rounded-pill">عرض الملف الشخصي</a>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- end col-->
+    </div> <!-- end row-->
+
+</div>
+
+@section scripts
+{
+    <script src="~/js/pages/contacts.js"></script>
+}

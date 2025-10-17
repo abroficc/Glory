@@ -1,0 +1,202 @@
+@{
+    ViewBag.Title = "الأذونات";
+    ViewBag.SubTitle = "المستخدمون";
+}
+
+@section styles
+{
+}
+<div class="container-fluid">
+
+    @await Html.PartialAsync("~/Views/Shared/Partials/_PageTitle.cshtml")
+
+
+    <div class="row justify-content-center">
+        <div class="col-xxl-10">
+
+            <div data-table data-table-rows-per-page="8" class="card">
+                <div class="card-header border-light justify-content-between">
+                    <div class="d-flex gap-2">
+                        <div class="app-search">
+                            <input data-table-search type="search" class="form-control" placeholder="البحث في الأذونات...">
+                            <i data-lucide="search" class="app-search-icon text-muted"></i>
+                        </div>
+                        <button data-table-delete-selected class="btn btn-danger d-none">حذف</button>
+                    </div>
+
+                    <!-- Records Per Page -->
+                    <div>
+                        <select data-table-set-rows-per-page class="form-select form-control my-1 my-md-0">
+                            <option value="5">5</option>
+                            <option value="10">10</option>
+                            <option value="15">15</option>
+                            <option value="20">20</option>
+                        </select>
+                    </div>
+                </div>
+
+
+                <div class="table-responsive">
+                    <table class="table table-custom table-centered table-select table-hover w-100 mb-0">
+                        <thead class="bg-light align-middle bg-opacity-25 thead-sm">
+                            <tr class="text-uppercase fs-xxs">
+                                <th data-table-sort>الاسم</th>
+                                <th>تعيين إلى</th>
+                                <th data-table-sort>تاريخ الإنشاء</th>
+                                <th data-table-sort>المستخدمون</th>
+                                <th class="text-center">الإجراءات</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>إدارة المستخدمين</td>
+                                <td>
+                                    <span class="badge bg-primary-subtle text-primary badge-label fs-xxs fw-semibold">مدير النظام</span>
+                                </td>
+                                <td>24 يونيو 2025, <span class="text-muted">6:43 صباحاً</span></td>
+                                <td>12</td>
+                                <td class="text-center">
+                                    <a href="#" class="btn btn-light btn-icon btn-sm rounded-circle"><i class="ti ti-eye fs-lg"></i></a>
+                                    <a href="#" data-table-delete-row class="btn btn-light btn-icon btn-sm rounded-circle"><i class="ti ti-trash fs-lg"></i></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>إدارة المحتوى</td>
+                                <td>
+                                    <span class="badge bg-primary-subtle text-primary badge-label fs-xxs fw-semibold">مدير النظام</span>
+                                    <span class="badge bg-danger-subtle text-danger badge-label fs-xxs fw-semibold">مطور</span>
+                                    <span class="badge bg-info-subtle text-info badge-label fs-xxs fw-semibold">محلل</span>
+                                    <span class="badge bg-purple-subtle text-purple badge-label fs-xxs fw-semibold">دعم</span>
+                                    <span class="badge bg-warning-subtle text-warning badge-label fs-xxs fw-semibold">تجريبي</span>
+                                </td>
+                                <td>21 فبراير 2025, <span class="text-muted">11:05 صباحاً</span></td>
+                                <td>5</td>
+                                <td class="text-center">
+                                    <a href="#" class="btn btn-light btn-icon btn-sm rounded-circle"><i class="ti ti-eye fs-lg"></i></a>
+                                    <a href="#" data-table-delete-row class="btn btn-light btn-icon btn-sm rounded-circle"><i class="ti ti-trash fs-lg"></i></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>الإدارة المالية</td>
+                                <td>
+                                    <span class="badge bg-primary-subtle text-primary badge-label fs-xxs fw-semibold">مدير النظام</span>
+                                    <span class="badge bg-info-subtle text-info badge-label fs-xxs fw-semibold">محلل</span>
+                                </td>
+                                <td>24 يونيو 2025, <span class="text-muted">5:30 مساءً</span></td>
+                                <td>8</td>
+                                <td class="text-center">
+                                    <a href="#" class="btn btn-light btn-icon btn-sm rounded-circle"><i class="ti ti-eye fs-lg"></i></a>
+                                    <a href="#" data-table-delete-row class="btn btn-light btn-icon btn-sm rounded-circle"><i class="ti ti-trash fs-lg"></i></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>التقارير</td>
+                                <td>
+                                    <span class="badge bg-primary-subtle text-primary badge-label fs-xxs fw-semibold">مدير النظام</span>
+                                    <span class="badge bg-info-subtle text-info badge-label fs-xxs fw-semibold">محلل</span>
+                                </td>
+                                <td>21 فبراير 2025, <span class="text-muted">5:20 مساءً</span></td>
+                                <td>6</td>
+                                <td class="text-center">
+                                    <a href="#" class="btn btn-light btn-icon btn-sm rounded-circle"><i class="ti ti-eye fs-lg"></i></a>
+                                    <a href="#" data-table-delete-row class="btn btn-light btn-icon btn-sm rounded-circle"><i class="ti ti-trash fs-lg"></i></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>الرواتب</td>
+                                <td>
+                                    <span class="badge bg-primary-subtle text-primary badge-label fs-xxs fw-semibold">مدير النظام</span>
+                                    <span class="badge bg-info-subtle text-info badge-label fs-xxs fw-semibold">محلل</span>
+                                </td>
+                                <td>20 يونيو 2025, <span class="text-muted">6:05 مساءً</span></td>
+                                <td>4</td>
+                                <td class="text-center">
+                                    <a href="#" class="btn btn-light btn-icon btn-sm rounded-circle"><i class="ti ti-eye fs-lg"></i></a>
+                                    <a href="#" data-table-delete-row class="btn btn-light btn-icon btn-sm rounded-circle"><i class="ti ti-trash fs-lg"></i></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>إدارة النزاعات</td>
+                                <td>
+                                    <span class="badge bg-primary-subtle text-primary badge-label fs-xxs fw-semibold">مدير النظام</span>
+                                    <span class="badge bg-danger-subtle text-danger badge-label fs-xxs fw-semibold">مطور</span>
+                                    <span class="badge bg-purple-subtle text-purple badge-label fs-xxs fw-semibold">دعم</span>
+                                </td>
+                                <td>24 يونيو 2025, <span class="text-muted">5:20 مساءً</span></td>
+                                <td>7</td>
+                                <td class="text-center">
+                                    <a href="#" class="btn btn-light btn-icon btn-sm rounded-circle"><i class="ti ti-eye fs-lg"></i></a>
+                                    <a href="#" data-table-delete-row class="btn btn-light btn-icon btn-sm rounded-circle"><i class="ti ti-trash fs-lg"></i></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>سجلات التدقيق</td>
+                                <td>
+                                    <span class="badge bg-primary-subtle text-primary badge-label fs-xxs fw-semibold">مدير النظام</span>
+                                </td>
+                                <td>23 يونيو 2025, <span class="text-muted">4:00 مساءً</span></td>
+                                <td>9</td>
+                                <td class="text-center">
+                                    <a href="#" class="btn btn-light btn-icon btn-sm rounded-circle"><i class="ti ti-eye fs-lg"></i></a>
+                                    <a href="#" data-table-delete-row class="btn btn-light btn-icon btn-sm rounded-circle"><i class="ti ti-trash fs-lg"></i></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>الوصول إلى API</td>
+                                <td>
+                                    <span class="badge bg-primary-subtle text-primary badge-label fs-xxs fw-semibold">مدير النظام</span>
+                                    <span class="badge bg-warning-subtle text-warning badge-label fs-xxs fw-semibold">تجريبي</span>
+                                    <span class="badge bg-info-subtle text-info badge-label fs-xxs fw-semibold">مطور عمليات</span>
+                                </td>
+                                <td>22 يونيو 2025, <span class="text-muted">2:35 مساءً</span></td>
+                                <td>3</td>
+                                <td class="text-center">
+                                    <a href="#" class="btn btn-light btn-icon btn-sm rounded-circle"><i class="ti ti-eye fs-lg"></i></a>
+                                    <a href="#" data-table-delete-row class="btn btn-light btn-icon btn-sm rounded-circle"><i class="ti ti-trash fs-lg"></i></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>مركز الإشعارات</td>
+                                <td>
+                                    <span class="badge bg-primary-subtle text-primary badge-label fs-xxs fw-semibold">مدير النظام</span>
+                                    <span class="badge bg-info-subtle text-info badge-label fs-xxs fw-semibold">دعم</span>
+                                </td>
+                                <td>22 يونيو 2025, <span class="text-muted">8:45 صباحاً</span></td>
+                                <td>2</td>
+                                <td class="text-center">
+                                    <a href="#" class="btn btn-light btn-icon btn-sm rounded-circle"><i class="ti ti-eye fs-lg"></i></a>
+                                    <a href="#" data-table-delete-row class="btn btn-light btn-icon btn-sm rounded-circle"><i class="ti ti-trash fs-lg"></i></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>سجلات الوصول</td>
+                                <td>
+                                    <span class="badge bg-primary-subtle text-primary badge-label fs-xxs fw-semibold">مدير النظام</span>
+                                    <span class="badge bg-purple-subtle text-purple badge-label fs-xxs fw-semibold">دعم</span>
+                                </td>
+                                <td>19 يونيو 2025, <span class="text-muted">6:10 مساءً</span></td>
+                                <td>5</td>
+                                <td class="text-center">
+                                    <a href="#" class="btn btn-light btn-icon btn-sm rounded-circle"><i class="ti ti-eye fs-lg"></i></a>
+                                    <a href="#" data-table-delete-row class="btn btn-light btn-icon btn-sm rounded-circle"><i class="ti ti-trash fs-lg"></i></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-footer border-0">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div data-table-pagination-info="permissions"></div>
+                        <div data-table-pagination></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@section scripts
+{
+    <script src="~/js/pages/datatable.js"></script>
+}

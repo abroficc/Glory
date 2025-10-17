@@ -1,0 +1,255 @@
+/* Basic Settings Modal Specific Styles */
+
+/* Define CSS variables for both light and dark themes */
+:root {
+    /* Light theme variables */
+    --modal-header-bg: linear-gradient(135deg, #1ab394, #16987e);
+    --modal-body-bg: #f9fcff;
+    --modal-footer-bg: #f0f8f8;
+    --modal-footer-border: #d1e8e8;
+    --form-control-bg: #ffffff;
+    --form-control-border: #d1d5db;
+    --form-control-color: #374151;
+    --form-control-placeholder: #9ca3af;
+    --form-label-color: #4b5563;
+    --dropdown-bg: #ffffff;
+    --dropdown-border: #d1d5db;
+    --dropdown-color: #374151;
+    --dropdown-item-color: #374151;
+    --dropdown-item-hover-bg: #f8f9fa;
+    --dropdown-item-active-bg: #1ab394;
+    --dropdown-item-active-color: #ffffff;
+    --searchbox-bg: #ffffff;
+    --searchbox-border: #d1d5db;
+    --searchbox-color: #374151;
+    --no-results-color: #374151;
+}
+
+[data-bs-theme="dark"] {
+    /* Dark theme variables */
+    --modal-header-bg: linear-gradient(135deg, #16987e, #1ab394);
+    --modal-body-bg: #1e1f27;
+    --modal-footer-bg: #272832;
+    --modal-footer-border: #293036;
+    --form-control-bg: #272832;
+    --form-control-border: #293036;
+    --form-control-color: #aab8c5;
+    --form-control-placeholder: #8391a2;
+    --form-label-color: #aab8c5;
+    --dropdown-bg: #272832;
+    --dropdown-border: #293036;
+    --dropdown-color: #aab8c5;
+    --dropdown-item-color: #aab8c5;
+    --dropdown-item-hover-bg: #272832;
+    --dropdown-item-active-bg: #1ab394;
+    --dropdown-item-active-color: #ffffff;
+    --searchbox-bg: #272832;
+    --searchbox-border: #293036;
+    --searchbox-color: #aab8c5;
+    --no-results-color: #aab8c5;
+}
+
+#basicSettingsModal .modal-header {
+    background: var(--modal-header-bg);
+}
+
+#basicSettingsModal .modal-title {
+    font-weight: 500;
+    color: white;
+}
+
+#basicSettingsModal .modal-body {
+    background-color: var(--modal-body-bg);
+}
+
+#basicSettingsModal .btn-close {
+    filter: invert(1) grayscale(100%) brightness(200%);
+}
+
+#basicSettingsModal .modal-footer {
+    background-color: var(--modal-footer-bg);
+    border-top: 1px solid var(--modal-footer-border);
+}
+
+/* Form controls in basic settings modal */
+#basicSettingsModal .v-input,
+#basicSettingsModal .v-select {
+    background-color: var(--form-control-bg);
+    border-color: var(--form-control-border);
+    color: var(--form-control-color);
+}
+
+#basicSettingsModal .v-input:focus,
+#basicSettingsModal .v-select:focus {
+    background-color: var(--form-control-bg);
+    border-color: #1ab394;
+    color: var(--form-control-color);
+    box-shadow: 0 0 0 0.25rem rgba(26, 179, 148, 0.25);
+}
+
+#basicSettingsModal .v-input::placeholder {
+    color: var(--form-control-placeholder);
+}
+
+#basicSettingsModal .v-label {
+    color: var(--form-label-color);
+}
+
+/* Bootstrap Select styling for basic settings modal */
+#basicSettingsModal .bootstrap-select .dropdown-toggle {
+    background-color: var(--form-control-bg);
+    border-color: var(--form-control-border);
+    color: var(--form-control-color);
+}
+
+#basicSettingsModal .bootstrap-select .dropdown-toggle:focus {
+    background-color: var(--form-control-bg);
+    border-color: #1ab394;
+    color: var(--form-control-color);
+    box-shadow: 0 0 0 0.25rem rgba(26, 179, 148, 0.25);
+}
+
+/* Dropdown menu styling */
+#basicSettingsModal .bootstrap-select .dropdown-menu {
+    background-color: var(--dropdown-bg);
+    border-color: var(--dropdown-border);
+    color: var(--dropdown-color);
+}
+
+#basicSettingsModal .bootstrap-select .dropdown-menu .dropdown-item {
+    color: var(--dropdown-item-color);
+}
+
+#basicSettingsModal .bootstrap-select .dropdown-menu .dropdown-item:hover {
+    background-color: var(--dropdown-item-hover-bg);
+}
+
+#basicSettingsModal .bootstrap-select .dropdown-menu .dropdown-item.active {
+    background-color: var(--dropdown-item-active-bg);
+    color: var(--dropdown-item-active-color);
+}
+
+/* Search box in dropdown */
+#basicSettingsModal .bootstrap-select .bs-searchbox input {
+    background-color: var(--searchbox-bg);
+    border-color: var(--searchbox-border);
+    color: var(--searchbox-color);
+}
+
+/* No results text */
+#basicSettingsModal .bootstrap-select .no-results {
+    color: var(--no-results-color);
+}
+
+/* Ensure proper styling for selectpicker elements */
+#basicSettingsModal .selectpicker {
+    width: 100%;
+}
+
+#basicSettingsModal .bootstrap-select.btn-group .dropdown-toggle .filter-option {
+    text-align: right;
+}
+
+#basicSettingsModal .bootstrap-select .bs-searchbox .form-control {
+    border-radius: 0.375rem;
+}
+
+#basicSettingsModal .bootstrap-select .dropdown-menu {
+    border-radius: 0.375rem;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+#basicSettingsModal .bootstrap-select .dropdown-menu .dropdown-item {
+    padding: 0.375rem 0.75rem;
+    border-radius: 0;
+}
+
+#basicSettingsModal .bootstrap-select .dropdown-menu .dropdown-item:hover {
+    background-color: var(--dropdown-item-hover-bg);
+}
+
+#basicSettingsModal .bootstrap-select .dropdown-menu .dropdown-item.active {
+    background-color: var(--dropdown-item-active-bg);
+    color: var(--dropdown-item-active-color);
+}
+
+/* Additional styling for Bootstrap Select elements */
+#basicSettingsModal .bootstrap-select {
+    width: 100% !important;
+}
+
+#basicSettingsModal .selectpicker {
+    width: 100% !important;
+}
+
+#basicSettingsModal .bootstrap-select .dropdown-toggle {
+    border-radius: 0.375rem;
+}
+
+#basicSettingsModal .bootstrap-select .dropdown-toggle:focus {
+    box-shadow: 0 0 0 0.25rem rgba(26, 179, 148, 0.25);
+}
+
+#basicSettingsModal .selectpicker:focus {
+    box-shadow: 0 0 0 0.25rem rgba(26, 179, 148, 0.25);
+}
+
+#basicSettingsModal .bootstrap-select .dropdown-menu {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+#basicSettingsModal .bootstrap-select .bs-searchbox {
+    padding: 0.375rem;
+}
+
+#basicSettingsModal .bootstrap-select .bs-searchbox input {
+    border-radius: 0.375rem;
+    padding: 0.375rem 0.75rem;
+}
+
+/* Additional dark mode styling for Bootstrap Select elements */
+#basicSettingsModal .bootstrap-select .dropdown-toggle {
+    background-color: var(--form-control-bg);
+    border-color: var(--form-control-border);
+    color: var(--form-control-color);
+}
+
+#basicSettingsModal .bootstrap-select .dropdown-toggle:focus {
+    background-color: var(--form-control-bg);
+    border-color: #1ab394;
+    color: var(--form-control-color);
+    box-shadow: 0 0 0 0.25rem rgba(26, 179, 148, 0.25);
+}
+
+#basicSettingsModal .bootstrap-select .dropdown-menu {
+    background-color: var(--dropdown-bg);
+    border-color: var(--dropdown-border);
+    color: var(--dropdown-color);
+}
+
+#basicSettingsModal .bootstrap-select .dropdown-menu .dropdown-item {
+    color: var(--dropdown-item-color);
+}
+
+#basicSettingsModal .bootstrap-select .dropdown-menu .dropdown-item:hover {
+    background-color: var(--dropdown-item-hover-bg);
+}
+
+#basicSettingsModal .bootstrap-select .dropdown-menu .dropdown-item.active {
+    background-color: var(--dropdown-item-active-bg);
+    color: var(--dropdown-item-active-color);
+}
+
+/* RTL adjustments for Bootstrap Select */
+[dir="rtl"] #basicSettingsModal .bootstrap-select .dropdown-toggle .filter-option {
+    text-align: right;
+}
+
+[dir="rtl"] #basicSettingsModal .bootstrap-select .dropdown-menu {
+    text-align: right;
+}
+
+[dir="rtl"] #basicSettingsModal .bootstrap-select .bs-searchbox input {
+    text-align: right;
+}

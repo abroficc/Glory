@@ -1,0 +1,20 @@
+CREATE TABLE `system_connections` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `provider_id` int DEFAULT NULL,
+  `connection_time` datetime DEFAULT NULL,
+  `system_name` varchar(255) DEFAULT NULL,
+  `connection_status` varchar(50) DEFAULT NULL,
+  `last_check` datetime DEFAULT NULL,
+  `response_time` int DEFAULT '0',
+  `error_message` text,
+  `provider_type` varchar(100) DEFAULT NULL,
+  `balance` decimal(10,2) DEFAULT '0.00',
+  `supported_networks` text,
+  `direction` varchar(50) DEFAULT NULL,
+  `account_sources` text,
+  `employees` text,
+  `alert_settings` text,
+  `suspension_settings` text,
+  `created_at` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

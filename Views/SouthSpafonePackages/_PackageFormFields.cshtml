@@ -1,0 +1,56 @@
+@model string
+
+<!-- Package form fields partial view -->
+<div class="v-section">
+  <!-- Package Basic Information Section -->
+  <div class="row g-3">
+    <div class="col-md-6">
+      <label class="v-label">اسم الباقة* <span class="v-req">*</span></label>
+      <input class="v-input form-control" id="@(Model)-package-name" placeholder="ادخل اسم الباقة" type="text" required>
+      <div class="invalid-feedback">
+        الرجاء إدخال اسم الباقة
+      </div>
+    </div>
+    
+    <div class="col-md-6">
+      <label class="v-label">السعر* <span class="v-req">*</span></label>
+      <input class="v-input form-control" id="@(Model)-package-price" placeholder="السعر" type="number" step="0.01" required>
+    </div>
+    
+    <div class="col-md-6">
+      <label class="v-label">الكود الموحد* <span class="v-req">*</span></label>
+      <input class="v-input form-control" id="@(Model)-unified-code" placeholder="الكود الموحد" type="text" required>
+      <div class="form-text">ملاحظة: يجب ان يكون مطابق للكود الموحد عند الوكيل</div>
+    </div>
+    
+    <div class="col-md-6">
+      <label class="v-label">كود الاتصال (يستخدم فقط للتسديد عبر الشرائح. مكان رقم التلفون حط الرمز @@ مكان كلمة السر للشريحة حط pass)* <span class="v-req">*</span></label>
+      <input class="v-input form-control" id="@(Model)-call-code" placeholder="كود الاتصال" type="text" required>
+    </div>
+    
+    <div class="col-md-6">
+      <label class="v-label">مبلغ الربط6 (يجب اخذ مبلغ الربط من المزود)* <span class="v-req">*</span></label>
+      <input class="v-input form-control" id="@(Model)-provider-amount-6" placeholder="مبلغ الربط6" type="number" step="0.01" required>
+    </div>
+    
+    <div class="col-md-6">
+      <label class="v-label">رقم الربط6 (يجب اخذ رقم الربط من المزود)* <span class="v-req">*</span></label>
+      <input class="v-input form-control" id="@(Model)-provider-binding-6" placeholder="رقم الربط6" type="text" required>
+    </div>
+    
+    <div class="col-md-6">
+      <label class="v-label">تحويل الباقة الى روبوت؟ (اكتب 1 إذا نعم. اترك الحقل فارغاً إذا لا.)* <span class="v-req">*</span></label>
+      <input class="v-input form-control" id="@(Model)-convert-to-robot" placeholder="تحويل الباقة الى روبوت" type="number" min="0" max="1" required>
+    </div>
+    
+    <div class="col-md-6">
+      <label class="v-label">الكمية* <span class="v-req">*</span></label>
+      <input class="v-input form-control" id="@(Model)-quantity" placeholder="الكمية" type="number" required>
+    </div>
+    
+    <div class="col-md-6">
+      <label class="v-label">سعر الوحدة* <span class="v-req">*</span></label>
+      <input class="v-input form-control" id="@(Model)-unit-price" placeholder="سعر الوحدة" type="number" step="0.01" required>
+    </div>
+  </div>
+</div>

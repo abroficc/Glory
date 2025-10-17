@@ -1,0 +1,202 @@
+@model string
+
+<!-- Package form fields partial view -->
+<div class="v-section">
+  <div class="v-cap">التسديدات > باقات الإنترنت</div>
+  
+  <!-- Package Basic Information Section -->
+  <div class="row g-3">
+    <div class="col-md-6">
+      <label class="v-label">اسم الباقة <span class="v-req">*</span></label>
+      <input class="v-input form-control" id="@(Model)-package-name" placeholder="ادخل اسم الباقة" type="text" required>
+      <div class="invalid-feedback">
+        الرجاء إدخال اسم الباقة
+      </div>
+    </div>
+    
+    <div class="col-md-6">
+      <label class="v-label">السعر <span class="v-req">*</span></label>
+      <input class="v-input form-control" id="@(Model)-package-price" placeholder="السعر" type="number" step="0.01" required>
+      <div class="invalid-feedback">
+        الرجاء إدخال السعر
+      </div>
+    </div>
+    
+    <div class="col-md-6">
+      <label class="v-label">التصنيف</label>
+      <select class="selectpicker v-input" id="@(Model)-category-id" data-live-search="true" title="اختر التصنيف">
+        <option value="1">باقات الإنترنت الشهرية</option>
+        <option value="2">باقات الإنترنت الأسبوعية</option>
+        <option value="3">باقات الإنترنت اليومية</option>
+        <option value="4">باقات إنترنت فائق السرعة</option>
+        <option value="5">باقات إنترنت محدودة البيانات</option>
+        <option value="6">باقات إنترنت غير محدودة</option>
+        <option value="7">باقات إنترنت للشركات</option>
+      </select>
+    </div>
+    
+    <div class="col-md-6">
+      <label class="v-label">رقم الربط</label>
+      <input class="v-input form-control" id="@(Model)-connection-id" placeholder="رقم الربط" type="number">
+    </div>
+    
+    <div class="col-md-6">
+      <label class="v-label">كود الباقة الموحد</label>
+      <input class="v-input form-control" id="@(Model)-unified-code" placeholder="كود الباقة الموحد" type="text">
+    </div>
+    
+    <div class="col-md-6">
+      <label class="v-label">كود الاتصال <span class="v-req">*</span></label>
+      <input class="v-input form-control" id="@(Model)-call-code" placeholder="كود الاتصال" type="text" required>
+      <div class="form-text">ضع @@ مكان رقم الهاتف، و 0000 مكان الرمز السري للشريحة.</div>
+    </div>
+  </div>
+</div>
+
+<!-- Package Details Section -->
+<div class="v-section">
+  <div class="v-cap">تفاصيل الباقة</div>
+  <div class="row g-3">
+    <div class="col-md-4">
+      <label class="v-label">نت</label>
+      <input class="v-input form-control" id="@(Model)-internet" placeholder="نت" type="text">
+    </div>
+    
+    <div class="col-md-4">
+      <label class="v-label">رسائل</label>
+      <input class="v-input form-control" id="@(Model)-sms" placeholder="رسائل" type="text">
+    </div>
+    
+    <div class="col-md-4">
+      <label class="v-label">اتصال</label>
+      <input class="v-input form-control" id="@(Model)-calls" placeholder="اتصال" type="text">
+    </div>
+    
+    <div class="col-md-6">
+      <label class="v-label">الوصف</label>
+      <input class="v-input form-control" id="@(Model)-description" placeholder="الوصف" type="text">
+    </div>
+  </div>
+</div>
+
+<!-- Provider Information Section -->
+<div class="v-section">
+  <div class="v-cap">معلومات المزود</div>
+  <div class="row g-3">
+    <div class="col-md-6">
+      <label class="v-label">مبلغ المزود6 <span class="v-req">*</span></label>
+      <input class="v-input form-control" id="@(Model)-provider-amount-6" placeholder="مبلغ المزود6" type="number" step="0.01" required>
+      <div class="form-text">يجب أخذ المبلغ من المزود.</div>
+    </div>
+    
+    <div class="col-md-6">
+      <label class="v-label">رقم ربط6 المزود <span class="v-req">*</span></label>
+      <input class="v-input form-control" id="@(Model)-provider-binding-6" placeholder="رقم ربط6 المزود" type="text" required>
+      <div class="form-text">يجب أخذ رقم الربط من المزود.</div>
+    </div>
+    
+    <div class="col-md-6">
+      <label class="v-label">رقم ربط7 المزود <span class="v-req">*</span></label>
+      <input class="v-input form-control" id="@(Model)-provider-binding-7" placeholder="رقم ربط7 المزود" type="text" required>
+      <div class="form-text">يجب أخذ رقم الربط من المزود.</div>
+    </div>
+    
+    <div class="col-md-6">
+      <label class="v-label">رقم ربطf المزود <span class="v-req">*</span></label>
+      <input class="v-input form-control" id="@(Model)-provider-binding-f" placeholder="رقم ربطf المزود" type="text" required>
+      <div class="form-text">يجب أخذ رقم الربط من المزود.</div>
+    </div>
+    
+    <div class="col-md-6">
+      <label class="v-label">اسم الباقةf لدى المزود فلوسك <span class="v-req">*</span></label>
+      <input class="v-input form-control" id="@(Model)-package-name-f" placeholder="اسم الباقةf لدى المزود فلوسك" type="text" required>
+      <div class="form-text">اكتب اسم الباقة ليتم جلب رقم الربط آلياً من ربطية فلوسك.</div>
+    </div>
+    
+    <div class="col-md-6">
+      <label class="v-label">رقم ربط8 المزود <span class="v-req">*</span></label>
+      <input class="v-input form-control" id="@(Model)-provider-binding-8" placeholder="رقم ربط8 المزود" type="text" required>
+      <div class="form-text">يجب أخذ رقم الربط من المزود.</div>
+    </div>
+    
+    <div class="col-md-6">
+      <label class="v-label">تصنيف رئيسي</label>
+      <input class="v-input form-control" id="@(Model)-main-category" placeholder="تصنيف رئيسي" type="text">
+    </div>
+    
+    <div class="col-md-6">
+      <label class="v-label">تحويل الباقة الى روبوت؟ <span class="v-req">*</span></label>
+      <input class="v-input form-control" id="@(Model)-convert-to-robot" placeholder="تحويل الباقة الى روبوت" type="number" min="0" max="1" required>
+      <div class="form-text">اكتب 1 إذا نعم، واتركه فارغ إذا لا.</div>
+    </div>
+    
+    <div class="col-md-6">
+      <label class="v-label">اعتماد زيادة التسعيرة</label>
+      <select class="v-input form-select" id="@(Model)-price-increase">
+        <option value="0">0 - لا</option>
+        <option value="1">1 - نعم</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<!-- Quantity and Pricing Section -->
+<div class="v-section">
+  <div class="v-cap">الكمية والتسعير</div>
+  <div class="row g-3">
+    <div class="col-md-6">
+      <label class="v-label">الكمية <span class="v-req">*</span></label>
+      <input class="v-input form-control" id="@(Model)-quantity" placeholder="الكمية" type="number" required>
+      <div class="invalid-feedback">
+        الرجاء إدخال الكمية
+      </div>
+    </div>
+    
+    <div class="col-md-6">
+      <label class="v-label">سعر الوحدة <span class="v-req">*</span></label>
+      <input class="v-input form-control" id="@(Model)-unit-price" placeholder="سعر الوحدة" type="number" step="0.01" required>
+      <div class="invalid-feedback">
+        الرجاء إدخال سعر الوحدة
+      </div>
+    </div>
+    
+    <div class="col-md-6">
+      <label class="v-label">ضبط السعر</label>
+      <div class="input-group">
+        <input type="text" class="form-control form-control-sm" id="@(Model)-set-price-input" placeholder="أدخل السعر هنا">
+        <button class="btn btn-outline-primary btn-sm" type="button" id="@(Model)-set-price-btn">ضبط</button>
+      </div>
+      <div class="note-highlight mt-2">
+        <i class="ti ti-info-circle"></i>
+        اضغط على زر "ضبط" لتعيين السعر لجميع الباقات والشحن الفوري
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Provider Exclusion Section -->
+<div class="v-section">
+  <div class="v-cap">استثناء المزودين</div>
+  <div class="row g-3">
+    <div class="col-12">
+      <label class="v-label">حدد المزودين لاستثناء تسديد الباقة</label>
+      <select class="selectpicker v-input" id="@(Model)-excluded-providers" multiple data-live-search="true" title="اختر المزودين">
+        <option value="1">بدون موظف</option>
+        <option value="2">المدير</option>
+        <option value="3">محمد عبدالرحمن يحيى الوشلي</option>
+        <option value="4">جراند</option>
+        <option value="5">كول</option>
+        <option value="6">صنعاء كاش</option>
+        <option value="7">اتصالاتي</option>
+        <option value="8">المياس الاتصالات</option>
+        <option value="9">المجد كاش</option>
+        <option value="10">توايس تيليكوم</option>
+        <option value="11">ركن الامين تيليكوم</option>
+        <option value="12">مازن الوشلي</option>
+      </select>
+      <div class="form-text">
+        عند تحديد موظف المزود يتم استثناؤه من التسديد لهذه الباقة، وسيتم التسديد من مزودين آخرين.
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,1086 @@
+@model IEnumerable<Glory77.Models.SystemConnection>
+
+@{
+    Layout = "_VerticalLayout";
+    ViewData["Title"] = "ربطيات الأنظمة";
+    ViewData["Direction"] = "rtl";
+}
+
+@section styles {
+    <!-- date range picker css -->
+    <link href="~/plugins/daterangepicker/daterangepicker.css" rel="stylesheet" type="text/css">
+    <!-- flatpickr css -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/material_blue.css">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600&display=swap" rel="stylesheet">
+
+    <!-- System Connections Final Unified CSS -->
+    <link href="~/css/system-connections-final.css?v=@DateTime.Now.Ticks" rel="stylesheet" />
+
+    <!-- Bootstrap Select CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/css/bootstrap-select.min.css" />
+
+    <!-- DataTables CSS -->
+    <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.bootstrap5.min.css" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+}
+
+<!-- Filter toggle button -->
+<div class="mb-2">
+    <button id="toggleFilters" type="button" class="btn btn-primary">
+        <i class="ti ti-filter-off me-1"></i><span id="toggleFiltersText">إظهار الفلترة</span>
+    </button>
+</div>
+
+<!-- Filter section -->
+<div class="card mb-3" id="filterSection" style="display: none;">
+    <div class="card-body p-2">
+        <!-- Filter row -->
+        <div class="row g-2 mb-2">
+            <div class="col-md-2">
+                <div class="searchable-field">
+                    <input type="text" class="form-control form-control-sm" placeholder="اسم المزود" id="filter-provider-name">
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="searchable-field">
+                    <input type="text" class="form-control form-control-sm" placeholder="الشبكة" id="filter-network">
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="searchable-field">
+                    <input type="text" class="form-control form-control-sm" placeholder="الموظفين" id="filter-employees">
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="searchable-field">
+                    <input type="text" class="form-control form-control-sm" placeholder="المصادر الحسابية" id="filter-account-sources">
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="searchable-field">
+                    <select class="form-control form-control-sm" id="filter-direction">
+                        <option value="">الجهة</option>
+                        <option value="شمال">شمال</option>
+                        <option value="جنوب">جنوب</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="searchable-field">
+                    <input type="text" class="form-control form-control-sm" placeholder="الحالة" id="filter-status">
+                </div>
+            </div>
+        </div>
+        <div class="row g-2 mb-2">
+            <div class="col-md-2">
+                <div class="searchable-field">
+                    <input type="text" class="form-control form-control-sm" placeholder="النوع" id="filter-type">
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="searchable-field">
+                    <input type="text" class="form-control form-control-sm" placeholder="رقم الحساب" id="filter-account-number">
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="searchable-field">
+                    <input type="text" class="form-control form-control-sm" placeholder="رقم الإيبي" id="filter-ip-number">
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="searchable-field">
+                    <input type="text" class="form-control form-control-sm" placeholder="تاريخ الإنشاء" id="filter-creation-date">
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="searchable-field">
+                    <input type="text" class="form-control form-control-sm" placeholder="تاريخ التحديث" id="filter-update-date">
+                </div>
+            </div>
+        </div>
+        <div class="row g-2">
+            <div class="col">
+                <div class="filter-buttons">
+                    <button type="button" class="btn btn-secondary btn-sm" id="resetFilters">إعادة تعيين</button>
+                    <button type="button" class="btn btn-primary btn-sm" id="searchButton">بحث</button>
+                    <button type="button" class="btn btn-success btn-sm" id="exportExcelButton">تصدير اكسل</button>
+                    <button type="button" class="btn btn-info btn-sm" id="printButton">طباعة</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Action buttons -->
+<div class="mb-3">
+    <div class="d-flex gap-2 flex-wrap">
+        <a href="#" class="btn btn-sm btn-outline-danger" title="حذف">
+            <i class="ti ti-trash"></i>
+        </a>
+        <a href="#" class="btn btn-sm btn-outline-success" title="إضافة" data-bs-toggle="modal" data-bs-target="#unifiedModal">
+            <i class="ti ti-plus"></i>
+        </a>
+        <a href="#" class="btn btn-sm btn-outline-primary" title="تعديل" id="topEditButton">
+            <i class="ti ti-pencil"></i>
+        </a>
+        <a href="#" class="btn btn-sm btn-outline-info" title="مشاهدة" id="topViewButton">
+            <i class="ti ti-eye"></i>
+        </a>
+        <a href="#" class="btn btn-sm btn-outline-secondary" title="إعادة ترتيب المزودين" id="reorderProvidersButton">
+            <i class="ti ti-arrows-sort"></i>
+        </a>
+        <!-- New Popup Menu Button -->
+        <a href="#" class="btn btn-sm btn-outline-dark" title="قائمة الإجراءات" data-bs-toggle="modal" data-bs-target="#popupMenuModal">
+            <i class="ti ti-menu-2"></i>
+        </a>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <div class="d-flex align-items-center">
+            <h5 class="card-title mb-0 fw-bold"><i class="ti ti-network me-2"></i> @ViewData["Title"]</h5>
+            <div class="me-auto">
+                <!-- Refresh button -->
+                <button type="button" class="btn btn-sm btn-outline-secondary ms-2" id="refreshBtn" title="تحديث">
+                    <i class="ti ti-refresh"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered align-middle text-center" dir="rtl" style="width: 100%; border-collapse: collapse;">
+                <thead style="background-color: #e3f2fd;">
+                    <tr>
+                        <th>الرقم</th>
+                        <th>رقم الطابور</th>
+                        <th>اسم المزود</th>
+                        <th>الشبكة</th>
+                        <th>شغال؟</th>
+                        <th>النوع</th>
+                        <th>رصيد المزود</th>
+                        <th>أقل مبلغ للتنبيه</th>
+                        <th>أقل مبلغ للتوقيف</th>
+                        <th>عتبة الملغيات</th>
+                        <th>عتبة المعلقات</th>
+                        <th>إعادة المحاولة</th>
+                        <th>المزيد</th>
+                        <th>استعلام</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- المزود الأول -->
+                    <tr>
+                        <td><input type="checkbox" class="form-check-input"></td>
+                        <td><input type="number" class="form-control form-control-sm text-center" value="203" style="border-color: #00bfff;"></td>
+                        <td style="font-weight: 600;">اتصالاتي</td>
+                        <td style="text-align:right; white-space:normal; padding: 8px; font-size: 12px; line-height: 1.4;">
+                            <label style="display: inline; margin: 0; padding: 0;"><input type="checkbox" checked style="margin-left: 2px; transform: scale(0.8);"> باقات يمن موبايل</label>،
+                            <label style="display: inline; margin: 0; padding: 0;"><input type="checkbox" checked style="margin-left: 2px; transform: scale(0.8);"> رصيد يمن موبايل</label>،
+                            <label style="display: inline; margin: 0; padding: 0;"><input type="checkbox" checked style="margin-left: 2px; transform: scale(0.8);"> شحن فوري يمن موبايل</label>
+                        </td>
+                        <td>
+                            <span style="color: #dc3545; font-weight: 600;">متوقف</span><br>
+                            <a href="#" style="color: #0d6efd; text-decoration: none; font-weight: 500;">تشغيل</a>
+                        </td>
+                        <td style="font-weight: 500;">alatheer</td>
+                        <td>
+                            <div style="font-weight: 600; font-size: 18px;">2</div>
+                            <a href="#" class="provider-balance-link" data-provider="اتصالاتي" style="display: block; color: #0d6efd; text-decoration: none; margin-top: 3px;">رصيد المزود</a>
+                            <button class="add-entry-btn btn btn-sm btn-outline-primary p-0 px-1" data-provider="اتصالاتي" style="font-size: 12px; border-radius: 50%; line-height: 1;">
+                                +
+                            </button>
+                            <a href="#" class="entry-link" data-provider="اتصالاتي" style="display: block; color: #0d6efd; text-decoration: none; margin-top: 3px;">قيد</a>
+                        </td>
+                        <td>
+                            <div style="text-align: center;">
+                                <a href="#" style="color: #0d6efd; text-decoration: none; font-weight: 500; display: block;">عملياتي</a>
+                                <input type="number" class="form-control form-control-sm mt-1 text-center"
+                                       placeholder="أدخل المبلغ"
+                                       style="border-color: #0d6efd; font-size: 12px;">
+                            </div>
+                        </td>
+                        <td>
+                            <div style="text-align: center;">
+                                <a href="#" style="color: #0d6efd; text-decoration: none; font-weight: 500; display: block;">يومياتي</a>
+                                <input type="number" class="form-control form-control-sm mt-1 text-center"
+                                       placeholder="أدخل المبلغ"
+                                       style="border-color: #0d6efd; font-size: 12px;">
+                            </div>
+                        </td>
+                        <td>
+                            <div style="text-align: center;">
+                                <a href="#" style="color: #0d6efd; text-decoration: none; font-weight: 500; display: block;">اشعاراتي</a>
+                                <input type="text" class="form-control form-control-sm mt-1 text-center"
+                                       placeholder="عدد العمليات"
+                                       style="border-color: #0d6efd; font-size: 12px;">
+                            </div>
+                        </td>
+                        <td>
+                            <div style="text-align: center;">
+                                <label style="color: #6c757d; font-size: 11px; font-weight: 500; display: block; margin-bottom: 2px;">عتبة الملغيات</label>
+                                <input type="number" class="form-control form-control-sm text-center"
+                                       placeholder="عدد العمليات"
+                                       style="border-color: #0d6efd; font-size: 12px;">
+                            </div>
+                        </td>
+                        <td>
+                            <div style="text-align: center;">
+                                <label style="color: #6c757d; font-size: 11px; font-weight: 500; display: block; margin-bottom: 2px;">عتبة المعلقات</label>
+                                <input type="number" class="form-control form-control-sm text-center"
+                                       placeholder="عدد الدقائق"
+                                       style="border-color: #0d6efd; font-size: 12px;">
+                            </div>
+                        </td>
+                        <td class="more-column">
+                            <div style="text-align: center;">
+                                <a href="#" style="color: #0d6efd; text-decoration: none; font-size: 13px; display: block; margin-bottom: 4px; font-weight: 500;">تأميناتي</a>
+                                <select class="form-select form-select-sm" style="width: 100%; max-width: 90px; margin: 0 auto; border-color: #0d6efd; font-size: 11px; padding: 4px 6px; min-height: 30px;">
+                                    <option>المزيد</option>
+                                    <option>إعدادات</option>
+                                    <option>تفاصيل</option>
+                                    <option>سجل العمليات</option>
+                                </select>
+                            </div>
+                        </td>
+                        <td class="query-column">
+                            <div style="text-align: center;">
+                                <a href="#" class="account-balance-link" data-provider="اتصالاتي" style="color: #0d6efd; text-decoration: none; font-size: 13px; display: block; margin-bottom: 4px; font-weight: 500;">رصيد الحساب</a>
+                                <input type="text" class="form-control form-control-sm text-center datepicker-input"
+                                       placeholder="التاريخ"
+                                       data-provider="اتصالاتي"
+                                       id="datepicker1"
+                                       style="border-color: #0d6efd; color: #0d6efd; font-size: 11px; width: 100%; max-width: 100px; margin: 3px auto; padding: 4px 6px; min-height: 30px;">
+                                <a href="#" class="match-button" data-provider="اتصالاتي" style="color: #0d6efd; text-decoration: none; font-size: 13px; display: block; margin-top: 3px; font-weight: 500;">طابق لي</a>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- المزود الثاني -->
+                    <tr>
+                        <td><input type="checkbox" class="form-check-input"></td>
+                        <td><input type="number" class="form-control form-control-sm text-center" value="201" style="border-color: #00bfff;"></td>
+                        <td style="font-weight: 600;">ركن الأمين تيليكوم</td>
+                        <td style="text-align:right; white-space:normal; padding: 8px; font-size: 12px; line-height: 1.4;">
+                            <label style="display: inline; margin: 0; padding: 0;"><input type="checkbox" checked style="margin-left: 2px; transform: scale(0.8);"> باقات يمن موبايل</label>،
+                            <label style="display: inline; margin: 0; padding: 0;"><input type="checkbox" checked style="margin-left: 2px; transform: scale(0.8);"> رصيد يمن موبايل</label>،
+                            <label style="display: inline; margin: 0; padding: 0;"><input type="checkbox" checked style="margin-left: 2px; transform: scale(0.8);"> شحن فوري يمن موبايل</label>،
+                            <label style="display: inline; margin: 0; padding: 0;"><input type="checkbox" checked style="margin-left: 2px; transform: scale(0.8);"> فحص السلفة يمن موبايل</label>،
+                            <label style="display: inline; margin: 0; padding: 0;"><input type="checkbox" style="margin-left: 2px; transform: scale(0.8);"> موبايل جملة</label>،
+                            <label style="display: inline; margin: 0; padding: 0;"><input type="checkbox" style="margin-left: 2px; transform: scale(0.8);"> رصيد ريال موبايل الإلكتروني</label>،
+                            <label style="display: inline; margin: 0; padding: 0;"><input type="checkbox" style="margin-left: 2px; transform: scale(0.8);"> شحن فوري سبافون شمال</label>،
+                            <label style="display: inline; margin: 0; padding: 0;"><input type="checkbox" style="margin-left: 2px; transform: scale(0.8);"> يو الشاحن الذكي</label>،
+                            <label style="display: inline; margin: 0; padding: 0;"><input type="checkbox" style="margin-left: 2px; transform: scale(0.8);"> باقات يو</label>،
+                            <label style="display: inline; margin: 0; padding: 0;"><input type="checkbox" style="margin-left: 2px; transform: scale(0.8);"> باقات يو الموحدة</label>،
+                            <label style="display: inline; margin: 0; padding: 0;"><input type="checkbox" style="margin-left: 2px; transform: scale(0.8);"> جملة يو</label>،
+                            <label style="display: inline; margin: 0; padding: 0;"><input type="checkbox" style="margin-left: 2px; transform: scale(0.8);"> يو فوترة</label>،
+                            <label style="display: inline; margin: 0; padding: 0;"><input type="checkbox" style="margin-left: 2px; transform: scale(0.8);"> شرائح جديد يو</label>،
+                            <label style="display: inline; margin: 0; padding: 0;"><input type="checkbox" style="margin-left: 2px; transform: scale(0.8);"> بدل فاقد يو</label>،
+                            <label style="display: inline; margin: 0; padding: 0;"><input type="checkbox" style="margin-left: 2px; transform: scale(0.8);"> الهاتف الثابت</label>،
+                            <label style="display: inline; margin: 0; padding: 0;"><input type="checkbox" style="margin-left: 2px; transform: scale(0.8);"> الإنترنت الأرضي</label>،
+                            <label style="display: inline; margin: 0; padding: 0;"><input type="checkbox" style="margin-left: 2px; transform: scale(0.8);"> الهاتف الثابت فئات</label>،
+                            <label style="display: inline; margin: 0; padding: 0;"><input type="checkbox" style="margin-left: 2px; transform: scale(0.8);"> الإنترنت الأرضي فئات</label>،
+                            <label style="display: inline; margin: 0; padding: 0;"><input type="checkbox" style="margin-left: 2px; transform: scale(0.8);"> شحن فوري واي</label>،
+                            <label style="display: inline; margin: 0; padding: 0;"><input type="checkbox" style="margin-left: 2px; transform: scale(0.8);"> باقات واي</label>،
+                            <label style="display: inline; margin: 0; padding: 0;"><input type="checkbox" style="margin-left: 2px; transform: scale(0.8);"> استعلام أرقام واي</label>،
+                            <label style="display: inline; margin: 0; padding: 0;"><input type="checkbox" style="margin-left: 2px; transform: scale(0.8);"> فحص رقم واي</label>،
+                            <label style="display: inline; margin: 0; padding: 0;"><input type="checkbox" style="margin-left: 2px; transform: scale(0.8);"> تفعيل شريحة واي</label>،
+                            <label style="display: inline; margin: 0; padding: 0;"><input type="checkbox" style="margin-left: 2px; transform: scale(0.8);"> يمن فورجي</label>.
+                        </td>
+                        <td>
+                            <span style="color: #dc3545; font-weight: 600;">متوقف</span><br>
+                            <a href="#" style="color: #0d6efd; text-decoration: none; font-weight: 500;">تشغيل</a>
+                        </td>
+                        <td style="font-weight: 500;">alatheer</td>
+                        <td>
+                            <div style="font-weight: 600; font-size: 18px;">0</div>
+                            <a href="#" class="provider-balance-link" data-provider="ركن الأمين تيليكوم" style="display: block; color: #0d6efd; text-decoration: none; margin-top: 3px;">رصيد المزود</a>
+                            <button class="add-entry-btn btn btn-sm btn-outline-primary p-0 px-1" data-provider="ركن الأمين تيليكوم" style="font-size: 12px; border-radius: 50%; line-height: 1;">
+                                +
+                            </button>
+                            <a href="#" class="entry-link" data-provider="ركن الأمين تيليكوم" style="display: block; color: #0d6efd; text-decoration: none; margin-top: 3px;">قيد</a>
+                        </td>
+                        <td>
+                            <div style="text-align: center;">
+                                <a href="#" style="color: #0d6efd; text-decoration: none; font-weight: 500; display: block;">عملياتي</a>
+                                <input type="number" class="form-control form-control-sm text-center mt-1"
+                                       placeholder="أدخل المبلغ"
+                                       style="border-color: #0d6efd; font-size: 12px;">
+                            </div>
+                        </td>
+                        <td>
+                            <div style="text-align: center;">
+                                <a href="#" style="color: #0d6efd; text-decoration: none; font-weight: 500; display: block;">يومياتي</a>
+                                <input type="number" class="form-control form-control-sm text-center mt-1"
+                                       placeholder="أدخل المبلغ"
+                                       style="border-color: #0d6efd; font-size: 12px;">
+                            </div>
+                        </td>
+                        <td>
+                            <div style="text-align: center;">
+                                <a href="#" style="color: #0d6efd; text-decoration: none; font-weight: 500; display: block;">اشعاراتي</a>
+                                <input type="text" class="form-control form-control-sm text-center mt-1"
+                                       placeholder="عدد العمليات"
+                                       style="border-color: #0d6efd; font-size: 12px;">
+                            </div>
+                        </td>
+                        <td>
+                            <div style="text-align: center;">
+                                <label style="color: #6c757d; font-size: 11px; font-weight: 500; display: block; margin-bottom: 2px;">عتبة الملغيات</label>
+                                <input type="number" class="form-control form-control-sm text-center"
+                                       placeholder="عدد العمليات"
+                                       style="border-color: #0d6efd; font-size: 12px;">
+                            </div>
+                        </td>
+                        <td>
+                            <div style="text-align: center;">
+                                <label style="color: #6c757d; font-size: 11px; font-weight: 500; display: block; margin-bottom: 2px;">عتبة المعلقات</label>
+                                <input type="number" class="form-control form-control-sm text-center"
+                                       placeholder="عدد الدقائق"
+                                       style="border-color: #0d6efd; font-size: 12px;">
+                            </div>
+                        </td>
+                        <td class="more-column">
+                            <div style="text-align: center;">
+                                <a href="#" style="color: #0d6efd; text-decoration: none; font-size: 13px; display: block; margin-bottom: 4px; font-weight: 500;">تأميناتي</a>
+                                <select class="form-select form-select-sm" style="width: 100%; max-width: 90px; margin: 0 auto; border-color: #0d6efd; font-size: 11px; padding: 4px 6px; min-height: 30px;">
+                                    <option>المزيد</option>
+                                    <option>إعدادات</option>
+                                    <option>تفاصيل</option>
+                                    <option>سجل العمليات</option>
+                                </select>
+                            </div>
+                        </td>
+                        <td class="query-column">
+                            <div style="text-align: center;">
+                                <a href="#" class="account-balance-link" data-provider="ركن الأمين تيليكوم" style="color: #0d6efd; text-decoration: none; font-size: 13px; display: block; margin-bottom: 4px; font-weight: 500;">رصيد الحساب</a>
+                                <input type="text" class="form-control form-control-sm text-center datepicker-input"
+                                       placeholder="التاريخ"
+                                       data-provider="ركن الأمين تيليكوم"
+                                       id="datepicker2"
+                                       style="border-color: #0d6efd; color: #0d6efd; font-size: 11px; width: 100%; max-width: 100px; margin: 3px auto; padding: 4px 6px; min-height: 30px;">
+                                <a href="#" class="match-button" data-provider="ركن الأمين تيليكوم" style="color: #0d6efd; text-decoration: none; font-size: 13px; display: block; margin-top: 3px; font-weight: 500;">طابق لي</a>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- المزود الثالث -->
+                    <tr>
+                        <td><input type="checkbox" class="form-check-input"></td>
+                        <td><input type="number" class="form-control form-control-sm text-center" value="150" style="border-color: #00bfff;"></td>
+                        <td style="font-weight: 600;">صنعاء كاش</td>
+                        <td style="text-align:right; white-space:normal; padding: 8px; font-size: 12px; line-height: 1.4;">
+                            <label style="display: inline; margin: 0; padding: 0;"><input type="checkbox" checked style="margin-left: 2px; transform: scale(0.8);"> باقات يمن موبايل</label>،
+                            <label style="display: inline; margin: 0; padding: 0;"><input type="checkbox" checked style="margin-left: 2px; transform: scale(0.8);"> رصيد يمن موبايل</label>،
+                            <label style="display: inline; margin: 0; padding: 0;"><input type="checkbox" checked style="margin-left: 2px; transform: scale(0.8);"> شحن فوري يمن موبايل</label>،
+                            <label style="display: inline; margin: 0; padding: 0;"><input type="checkbox" checked style="margin-left: 2px; transform: scale(0.8);"> فحص السلفة يمن موبايل</label>،
+                            <label style="display: inline; margin: 0; padding: 0;"><input type="checkbox" checked style="margin-left: 2px; transform: scale(0.8);"> موبايل جملة</label>،
+                            <label style="display: inline; margin: 0; padding: 0;"><input type="checkbox" checked style="margin-left: 2px; transform: scale(0.8);"> رصيد ريال موبايل الإلكتروني</label>،
+                            <label style="display: inline; margin: 0; padding: 0;"><input type="checkbox" checked style="margin-left: 2px; transform: scale(0.8);"> شحن فوري سبافون شمال</label>،
+                            <label style="display: inline; margin: 0; padding: 0;"><input type="checkbox" checked style="margin-left: 2px; transform: scale(0.8);"> يو الشاحن الذكي</label>،
+                            <label style="display: inline; margin: 0; padding: 0;"><input type="checkbox" checked style="margin-left: 2px; transform: scale(0.8);"> باقات يو</label>،
+                            <label style="display: inline; margin: 0; padding: 0;"><input type="checkbox" checked style="margin-left: 2px; transform: scale(0.8);"> باقات يو الموحدة</label>،
+                            <label style="display: inline; margin: 0; padding: 0;"><input type="checkbox" checked style="margin-left: 2px; transform: scale(0.8);"> جملة يو</label>،
+                            <label style="display: inline; margin: 0; padding: 0;"><input type="checkbox" checked style="margin-left: 2px; transform: scale(0.8);"> يو فوترة</label>،
+                            <label style="display: inline; margin: 0; padding: 0;"><input type="checkbox" checked style="margin-left: 2px; transform: scale(0.8);"> شرائح جديد يو</label>،
+                            <label style="display: inline; margin: 0; padding: 0;"><input type="checkbox" checked style="margin-left: 2px; transform: scale(0.8);"> بدل فاقد يو</label>،
+                            <label style="display: inline; margin: 0; padding: 0;"><input type="checkbox" checked style="margin-left: 2px; transform: scale(0.8);"> الهاتف الثابت</label>،
+                            <label style="display: inline; margin: 0; padding: 0;"><input type="checkbox" checked style="margin-left: 2px; transform: scale(0.8);"> الإنترنت الأرضي</label>،
+                            <label style="display: inline; margin: 0; padding: 0;"><input type="checkbox" checked style="margin-left: 2px; transform: scale(0.8);"> الهاتف الثابت فئات</label>،
+                            <label style="display: inline; margin: 0; padding: 0;"><input type="checkbox" checked style="margin-left: 2px; transform: scale(0.8);"> الإنترنت الأرضي فئات</label>،
+                            <label style="display: inline; margin: 0; padding: 0;"><input type="checkbox" checked style="margin-left: 2px; transform: scale(0.8);"> شحن فوري واي</label>،
+                            <label style="display: inline; margin: 0; padding: 0;"><input type="checkbox" checked style="margin-left: 2px; transform: scale(0.8);"> باقات واي</label>،
+                            <label style="display: inline; margin: 0; padding: 0;"><input type="checkbox" checked style="margin-left: 2px; transform: scale(0.8);"> استعلام أرقام واي</label>،
+                            <label style="display: inline; margin: 0; padding: 0;"><input type="checkbox" checked style="margin-left: 2px; transform: scale(0.8);"> فحص رقم واي</label>،
+                            <label style="display: inline; margin: 0; padding: 0;"><input type="checkbox" checked style="margin-left: 2px; transform: scale(0.8);"> تفعيل شريحة واي</label>،
+                            <label style="display: inline; margin: 0; padding: 0;"><input type="checkbox" checked style="margin-left: 2px; transform: scale(0.8);"> يمن فورجي</label>.
+                        </td>
+                        <td>
+                            <span style="color: #198754; font-weight: 600;">شغال</span><br>
+                            <a href="#" style="color: #dc3545; text-decoration: none; font-weight: 500;">إيقاف</a>
+                        </td>
+                        <td style="font-weight: 500;">sanaacash</td>
+                        <td>
+                            <div style="font-weight: 600; font-size: 18px;">17</div>
+                            <a href="#" class="provider-balance-link" data-provider="صنعاء كاش" style="display: block; color: #0d6efd; text-decoration: none; margin-top: 3px;">رصيد المزود</a>
+                            <button class="add-entry-btn btn btn-sm btn-outline-primary p-0 px-1" data-provider="صنعاء كاش" style="font-size: 12px; border-radius: 50%; line-height: 1;">
+                                +
+                            </button>
+                            <a href="#" class="entry-link" data-provider="صنعاء كاش" style="display: block; color: #0d6efd; text-decoration: none; margin-top: 3px;">قيد</a>
+                        </td>
+                        <td>
+                            <div style="text-align: center;">
+                                <a href="#" style="color: #0d6efd; text-decoration: none; font-weight: 500; display: block;">عملياتي</a>
+                                <input type="number" class="form-control form-control-sm text-center mt-1"
+                                       value="10000"
+                                       placeholder="أدخل المبلغ"
+                                       style="border-color: #0d6efd; font-size: 12px;">
+                            </div>
+                        </td>
+                        <td>
+                            <div style="text-align: center;">
+                                <a href="#" style="color: #0d6efd; text-decoration: none; font-weight: 500; display: block;">يومياتي</a>
+                                <input type="number" class="form-control form-control-sm text-center mt-1"
+                                       placeholder="أدخل المبلغ"
+                                       style="border-color: #0d6efd; font-size: 12px;">
+                            </div>
+                        </td>
+                        <td>
+                            <div style="text-align: center;">
+                                <a href="#" style="color: #0d6efd; text-decoration: none; font-weight: 500; display: block;">اشعاراتي</a>
+                                <input type="text" class="form-control form-control-sm text-center mt-1"
+                                       placeholder="عدد العمليات"
+                                       style="border-color: #0d6efd; font-size: 12px;">
+                            </div>
+                        </td>
+                        <td>
+                            <div style="text-align: center;">
+                                <label style="color: #6c757d; font-size: 11px; font-weight: 500; display: block; margin-bottom: 2px;">عتبة الملغيات</label>
+                                <input type="number" class="form-control form-control-sm text-center"
+                                       placeholder="عدد العمليات"
+                                       style="border-color: #0d6efd; font-size: 12px;">
+                            </div>
+                        </td>
+                        <td>
+                            <div style="text-align: center;">
+                                <label style="color: #6c757d; font-size: 11px; font-weight: 500; display: block; margin-bottom: 2px;">عتبة المعلقات</label>
+                                <input type="number" class="form-control form-control-sm text-center"
+                                       placeholder="عدد الدقائق"
+                                       style="border-color: #0d6efd; font-size: 12px;">
+                            </div>
+                        </td>
+                        <td class="more-column">
+                            <div style="text-align: center;">
+                                <a href="#" style="color: #0d6efd; text-decoration: none; font-size: 13px; display: block; margin-bottom: 4px; font-weight: 500;">تأميناتي</a>
+                                <select class="form-select form-select-sm" style="width: 100%; max-width: 90px; margin: 0 auto; border-color: #0d6efd; font-size: 11px; padding: 4px 6px; min-height: 30px;">
+                                    <option>المزيد</option>
+                                    <option>إعدادات</option>
+                                    <option>تفاصيل</option>
+                                    <option>سجل العمليات</option>
+                                </select>
+                            </div>
+                        </td>
+                        <td class="query-column">
+                            <div style="text-align: center;">
+                                <a href="#" class="account-balance-link" data-provider="صنعاء كاش" style="color: #0d6efd; text-decoration: none; font-size: 13px; display: block; margin-bottom: 4px; font-weight: 500;">رصيد الحساب</a>
+                                <input type="text" class="form-control form-control-sm text-center datepicker-input"
+                                       placeholder="التاريخ"
+                                       data-provider="صنعاء كاش"
+                                       id="datepicker3"
+                                       style="border-color: #0d6efd; color: #0d6efd; font-size: 11px; width: 100%; max-width: 100px; margin: 3px auto; padding: 4px 6px; min-height: 30px;">
+                                <a href="#" class="match-button" data-provider="صنعاء كاش" style="color: #0d6efd; text-decoration: none; font-size: 13px; display: block; margin-top: 3px; font-weight: 500;">طابق لي</a>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Unified Modal -->
+<div class="modal fade voucher-modal" id="unifiedModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content" dir="rtl">
+      
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h5 class="modal-title fw-bold" id="unifiedModalLabel">الإعدادات &gt; ربطيات الأنظمة</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="modal-body">
+        <!-- Tabs for different forms -->
+        <ul class="nav nav-tabs mb-3" id="modalTabs" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="provider-tab" data-bs-toggle="tab" data-bs-target="#provider" type="button" role="tab">إضافة مزود</button>
+          </li>
+        </ul>
+        
+        <div class="tab-content" id="modalTabContent">
+          <!-- Add Provider Form -->
+          <div class="tab-pane fade show active" id="provider" role="tabpanel">
+            <form id="addProviderForm" class="row g-3">
+              <!-- اسم المزود -->
+              <div class="col-md-6">
+                <label class="form-label fw-bold">اسم المزود<span class="text-danger">*</span></label>
+                <input type="text" id="providerName" name="name" class="form-control" required>
+              </div>
+
+              <!-- الرابط -->
+              <div class="col-md-6">
+                <label class="form-label fw-bold">الرابط<span class="text-danger">*</span> <small>(تعليمات)</small></label>
+                <input type="text" name="url" class="form-control" dir="ltr">
+              </div>
+
+              <!-- رقم الإيبي -->
+              <div class="col-md-6">
+                <label class="form-label fw-bold">رقم الإيبي<span class="text-danger">*</span></label>
+                <input type="text" name="ip" class="form-control" dir="ltr">
+              </div>
+
+              <!-- رقم الحساب -->
+              <div class="col-md-6">
+                <label class="form-label fw-bold">رقم الحساب<span class="text-danger">*</span> <small>(تعليمات)</small></label>
+                <input type="text" name="cid" class="form-control" dir="ltr">
+              </div>
+
+              <!-- اسم المستخدم -->
+              <div class="col-md-6">
+                <label class="form-label fw-bold">اسم المستخدم<span class="text-danger">*</span></label>
+                <input type="text" name="username" class="form-control" dir="ltr">
+              </div>
+
+              <!-- كلمة المرور -->
+              <div class="col-md-6">
+                <label class="form-label fw-bold">كلمة المرور<span class="text-danger">*</span></label>
+                <input type="password" name="password" class="form-control" dir="ltr">
+              </div>
+
+              <!-- التوكن -->
+              <div class="col-md-6">
+                <label class="form-label fw-bold">التوكن<span class="text-danger">*</span> <small>(تعليمات)</small></label>
+                <input type="text" name="token" class="form-control" dir="ltr">
+              </div>
+
+              <!-- الموظف -->
+              <div class="col-md-6">
+                <label class="form-label fw-bold">الموظف<span class="text-danger">*</span> <small>(تعليمات)</small></label>
+                <select id="employees" name="employee"
+                        class="form-select selectpicker"
+                        data-live-search="true"
+                        title="اختر الموظف">
+                  <option value="">اختر الموظف</option>
+                  <optgroup label="الموظفين">
+                    <option>المدير</option>
+                    <option>محمد عبدالرحمن</option>
+                    <option>صنعاء كاش</option>
+                    <option>اتصالاتي</option>
+                    <option>المجد كاش</option>
+                    <option>الهليس الاتصالات</option>
+                    <option>جرافيكول</option>
+                    <option>المنير</option>
+                  </optgroup>
+                </select>
+              </div>
+
+              <!-- المصدر الحسابي -->
+              <div class="col-md-6">
+                <label class="form-label fw-bold">
+                  المصدر الحسابي<span class="text-danger">*</span> <small>(تعليمات)</small>
+                </label>
+                <select id="accountSources" name="accountSource"
+                        class="form-select selectpicker"
+                        data-live-search="true"
+                        title="اختر الحساب">
+                  <option value="">اختر الحساب</option>
+                  <optgroup label="المزودين">
+                    <option>جراند كول</option>
+                    <option>صنعاء كاش</option>
+                    <option>اتصالاتي</option>
+                    <option>المباس للاتصالات</option>
+                    <option>المجد كاش</option>
+                    <option>توايس تيليكوم</option>
+                  </optgroup>
+                </select>
+              </div>
+
+              <!-- الحالة -->
+              <div class="col-md-4">
+                <label class="form-label fw-bold">الحالة (1- شغال. 0 - متوقف)<span class="text-danger">*</span></label>
+                <input type="text" name="isrun" class="form-control" placeholder="1 أو 0">
+              </div>
+
+              <!-- النوع -->
+              <div class="col-md-4">
+                <label class="form-label fw-bold">النوع<span class="text-danger">*</span> <small>(تعليمات)</small></label>
+                <input type="text" name="type" class="form-control" dir="ltr">
+              </div>
+
+              <!-- جهة الربطية -->
+              <div class="col-md-4">
+                <label class="form-label fw-bold">حدد جهة الربطية</label><br>
+                <label class="me-2"><input type="radio" name="region" value="1"> جنوب</label>
+                <label><input type="radio" name="region" value="0" checked> شمال</label>
+              </div>
+
+              <!-- رقم الموبايل -->
+              <div class="col-md-6">
+                <label class="form-label fw-bold">رقم الموبايل للتنبيه عبر الرسائل</label>
+                <input type="text" name="mobile" class="form-control">
+              </div>
+
+              <!-- ارقام حسابات عملاء -->
+              <div class="col-md-6">
+                <label class="form-label fw-bold">أرقام حسابات عملاء للتنبيه مثل (3333,4444,5555)</label>
+                <input type="text" name="cidsnote" class="form-control">
+              </div>
+
+              <!-- أقل / أكبر مبلغ -->
+              <div class="col-md-6">
+                <label class="form-label fw-bold">أقل مبلغ تسديد (كل الشبكات)<span class="text-danger">*</span></label>
+                <input type="text" name="minamtobill" class="form-control">
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label fw-bold">أكبر مبلغ تسديد (كل الشبكات)<span class="text-danger">*</span></label>
+                <input type="text" name="maxamtobill" class="form-control">
+              </div>
+
+              <!-- بادئة -->
+              <div class="col-md-6">
+                <label class="form-label fw-bold">بادئة الانترنت الارضي والهاتف الثابت مثل (01,02)</label>
+                <input type="text" name="pcuts" class="form-control" dir="ltr">
+              </div>
+
+              <!-- إيقاف -->
+              <div class="col-md-6">
+                <label class="form-label fw-bold">إيقاف (1- نعم. 0 - لا)<span class="text-danger">*</span></label>
+                <input type="text" name="stopfprice" class="form-control" placeholder="0 أو 1">
+              </div>
+              
+              <!-- قسم الشبكة -->
+              <div class="col-md-12 mt-4">
+                <label class="form-label fw-bold d-block text-center h4"> الشبكة (حدد الشبكة التي تريد تشغيلها مع المزود)<span class="text-danger">*</span> </label>
+                <div class="network-scroll-container">
+                  <div class="d-flex flex-wrap gap-2 justify-content-center">
+                    <!-- يمن موبايل -->
+                    <div class="network-box" style="background:#ff6961;">
+                      <div class="network-header">يمن موبايل</div>
+                      <label><input type="checkbox" name="networks" value="mobile"> باقات يمن موبايل</label>
+                      <label><input type="checkbox" name="networks" value="mblnce"> رصيد يمن موبايل</label>
+                      <label><input type="checkbox" name="networks" value="moblfore"> شحن فوري يمن موبايل</label>
+                      <label><input type="checkbox" name="networks" value="m_b_checksolfa"> فحص السلفة يمن موبايل</label>
+                      <label><input type="checkbox" name="networks" value="m_o_b_i_l_e_gomla"> موبايل جملة</label>
+                      <label><input type="checkbox" name="networks" value="ri_al_m_ob_ile"> رصيد ريال موبايل الالكتروني</label>
+                    </div>
+                    <!-- سبافون -->
+                    <div class="network-box" style="background:#87ceeb;">
+                      <div class="network-header">سبافون</div>
+                      <label><input type="checkbox" name="networks" value="saba"> فوري سبافون شمال</label>
+                      <label><input type="checkbox" name="networks" value="sbay"> فوري سبافون جنوب</label>
+                      <label><input type="checkbox" name="networks" value="s_a_b_a_offer"> باقات سبافون</label>
+                      <label><input type="checkbox" name="networks" value="s_a_b_a_units"> وحدات سبافون</label>
+                      <label><input type="checkbox" name="networks" value="s_a_b_a_gomla"> سبافون جملة</label>
+                      <label><input type="checkbox" name="networks" value="sbayoffer"> باقات سبأفون جنوب</label>
+                      <label><input type="checkbox" name="networks" value="s_e_b_a_p_s_t"> سبأفون فوترة</label>
+                      <label><input type="checkbox" name="networks" value="y_rqb_sa"> استعلام سبأفون مباشر</label>
+                      <label><input type="checkbox" name="networks" value="sa__b_as__im"> شرائح جديد مباشر</label>
+                    </div>
+                    <!-- YOU -->
+                    <div class="network-box" style="background:#f7d358;">
+                      <div class="network-header">YOU-يو</div>
+                      <label><input type="checkbox" name="networks" value="mtn"> فوري يو</label>
+                      <label><input type="checkbox" name="networks" value="_s_mr_t_nm_"> يو الشاحن الذكي</label>
+                      <label><input type="checkbox" name="networks" value="m_t_n_offer"> باقات يو</label>
+                      <label><input type="checkbox" name="networks" value="ym_yg_nt_ofr"> باقات يو الموحدة</label>
+                      <label><input type="checkbox" name="networks" value="m_t_n_gomla"> يو جملة</label>
+                      <label><input type="checkbox" name="networks" value="m_tn_post"> يو فوترة</label>
+                      <label><input type="checkbox" name="networks" value="yousim"> شرائح جديد مباشر</label>
+                      <label><input type="checkbox" name="networks" value="youresim"> بدل فاقد مباشر</label>
+                      <button class="btn btn-warning btn-sm mt-1 w-100 fw-bold" type="button" onclick="slminfo('#mfodnvis3234544')">خصص باقات</button>
+                      <div class="dvdn" id="mfodnvis3234544" style="display:none; background: rgba(255,255,255,0.9); padding: 5px; border-radius: 5px; margin-top: 5px;">
+                        <label><input type="checkbox" name="mtnofferss[]" value="PREMIXPLUS"> مكس بلس</label>
+                        <label><input type="checkbox" name="mtnofferss[]" value="PRE400Min"> مكالمات 400 دقيقة</label>
+                        <label><input type="checkbox" name="mtnofferss[]" value="PRETawfeer"> توفير اليومية</label>
+                        <label><input type="checkbox" name="mtnofferss[]" value="PRE_750_SMS"> باقة رسايل 750 رسالة</label>
+                        <label><input type="checkbox" name="mtnofferss[]" value="WeeklyPRE600Min"> مكالمات 600 دقيقة الأسبوعية</label>
+                        <label><input type="checkbox" name="mtnofferss[]" value="WeeklyPRE2GB"> باقة 2 جيجاالأسبوعية</label>
+                        <label><input type="checkbox" name="mtnofferss[]" value="POSSN250MB"> فوترة 500 ميجا</label>
+                        <label><input type="checkbox" name="mtnofferss[]" value="Sawa_250_PRE"> سوا250 دقيقة300 رسالة الشهرية</label>
+                        <label><input type="checkbox" name="mtnofferss[]" value="PREMIX300"> مكس (300دقيقة 400 رسالة 100 ميجا ) دفع مسبق</label>
+                        <label><input type="checkbox" name="mtnofferss[]" value="PREMIX600"> مكس (600 دقيقة - 700 رسالة - 300 ميجا ) دفع مسبق</label>
+                        <label><input type="checkbox" name="mtnofferss[]" value="PREWhatsApp"> واتساب بلا حدود</label>
+                        <label><input type="checkbox" name="mtnofferss[]" value="PREWeeklyMix"> مكس الاسبوعية</label>
+                        <label><input type="checkbox" name="mtnofferss[]" value="Smart_0.5GB_4G_PRE"> سمارت 0.5 جيجا فورجي (24 ساعة )</label>
+                        <label><input type="checkbox" name="mtnofferss[]" value="Smart_1GB_4G_PRE"> سمارت 1 جيجا فورجي (48 ساعة)</label>
+                        <label><input type="checkbox" name="mtnofferss[]" value="Smart_5GB_4G_PRE"> سمارت 5 جيجا فورجي (14 يوم)</label>
+                        <label><input type="checkbox" name="mtnofferss[]" value="Smart_8GB_4G_PRE"> سمارت 8 جيجا فورجي( 30 يوم)</label>
+                        <label><input type="checkbox" name="mtnofferss[]" value="Mix_1.5GB_4G_PRE"> مكس 1.5 جيجا فورجي( 72 ساعة )</label>
+                        <label><input type="checkbox" name="mtnofferss[]" value="Mix_6GB_4G_PRE"> مكس 6 جيجا فورجي (30 يوم)</label>
+                        <label><input type="checkbox" name="mtnofferss[]" value="Mix_12Giga_4G_PRE"> باقة السعر الموحد فورجي ماكس 12جيجا</label>
+                        <label><input type="checkbox" name="mtnofferss[]" value="Mix_5Giga_4G_PRE"> باقة السعر الموحد فورجي ماكس 5جيجا</label>
+                        <label><input type="checkbox" name="mtnofferss[]" value="Mix_10000_PRE"> باقة السعر الموحد مكس 10000</label>
+                        <label><input type="checkbox" name="mtnofferss[]" value="Mix_5000_PRE"> باقة السعر الموحد مكس 5000</label>
+                        <label><input type="checkbox" name="mtnofferss[]" value="Mix_4GB_4G_PRE"> باقه السعر الموحد 4 جيجا فورجي</label>
+                        <label><input type="checkbox" name="mtnofferss[]" value="Helal1Giga4G_PRE"> باقة هلال 1جيجا فورجي</label>
+                        <label><input type="checkbox" name="mtnofferss[]" value="Helal2Giga4G_PRE"> باقة هلال 2جيجا فورجي</label>
+                        <label><input type="checkbox" name="mtnofferss[]" value="Helal3Giga4G_PRE"> باقات هلال 3جيجا فورجي</label>
+                        <label><input type="checkbox" name="mtnofferss[]" value="WafferPlus10_4G_POS"> باقة وفر بلس 10 جيجا السعر الموحد</label>
+                        <label><input type="checkbox" name="mtnofferss[]" value="Sawa_300_PRE"> باقة سوا 300 السعر الموحد</label>
+                        <label><input type="checkbox" name="mtnofferss[]" value="Smart3Giga4G_PRE"> سمارت 3 جيجا فورجي</label>
+                        <label><input type="checkbox" name="mtnofferss[]" value="Mix30Giga4G_PRE"> مكس 30 جيجا فورجي</label>
+                        <label><input type="checkbox" name="mtnofferss[]" value="Waffer_9G_4G_PRE"> وفر 9 جيجا فورجي</label>
+                        <label><input type="checkbox" name="mtnofferss[]" value="Smart3Giga_3G_PRE"> باقه السعر الموحد سمارت فورجي اليوميه</label>
+                        <label><input type="checkbox" name="mtnofferss[]" value="Smart4Giga_4G_PRE"> باقه السعر الموحد سمارت فورجي الاسبوعيه</label>
+                        <label><input type="checkbox" name="mtnofferss[]" value="Smart15Giga_4G_PRE"> فورجي سمارت15جيجا - السعر الموحد</label>
+                        <label><input type="checkbox" name="mtnofferss[]" value="Smart1G2G_PRE"> باقه توجي سمارت نت1جيجا الشهرية دفع مسبق</label>
+                        <label><input type="checkbox" name="mtnofferss[]" value="Smart20Giga_4G_PRE"> باقة سمارت 20 جيجا 4G-فورجي</label>
+                        <label><input type="checkbox" name="mtnofferss[]" value="WafferPlus10_4G_PRE"> باقة وفر بلس 10 جيجا 4G-فورجي</label>
+                        <label><input type="checkbox" name="mtnofferss[]" value="PRE_Mix_10Giga4G"> باقة مكس الشهرية 10 جيجا فورجي</label>
+                        <label><input type="checkbox" name="mtnofferss[]" value="Sawa_73_PRE"> باقة سوا 73 - الاسبوعية</label>
+                        <label><input type="checkbox" name="mtnofferss[]" value="Sawa_250_Plus_PRE"> باقة سوا 250 بلس - شهرية</label>
+                      </div>
+                    </div>
+                    <!-- MTN -->
+                    <div class="network-box" style="background:#98fb98;">
+                      <div class="network-header">MTN</div>
+                      <label><input type="checkbox" name="networks" value="mtnsaba"> فوري MTN شمال</label>
+                      <label><input type="checkbox" name="networks" value="mtnsbay"> فوري MTN جنوب</label>
+                      <label><input type="checkbox" name="networks" value="m_t_n_offer"> باقات MTN</label>
+                      <label><input type="checkbox" name="networks" value="m_t_n_units"> وحدات MTN</label>
+                      <label><input type="checkbox" name="networks" value="m_t_n_gomla"> MTN جملة</label>
+                      <label><input type="checkbox" name="networks" value="mtnpost"> MTN فوترة</label>
+                      <label><input type="checkbox" name="networks" value="mtnsim"> شرائح جديد مباشر</label>
+                      <label><input type="checkbox" name="networks" value="mtnresim"> بدل فاقد مباشر</label>
+                      <button class="btn btn-success btn-sm mt-1 w-100 fw-bold" type="button" onclick="slminfo('#mfodnvis3234545')">خصص باقات</button>
+                      <div class="dvdn" id="mfodnvis3234545" style="display:none; background: rgba(255,255,255,0.9); padding: 5px; border-radius: 5px; margin-top: 5px;">
+                        <label><input type="checkbox" name="mtnofferss[]" value="PREMIXPLUS"> مكس بلس</label>
+                        <label><input type="checkbox" name="mtnofferss[]" value="PRE400Min"> مكالمات 400 دقيقة</label>
+                        <label><input type="checkbox" name="mtnofferss[]" value="PRETawfeer"> توفير اليومية</label>
+                        <label><input type="checkbox" name="mtnofferss[]" value="PRE_750_SMS"> باقة رسايل 750 رسالة</label>
+                        <label><input type="checkbox" name="mtnofferss[]" value="WeeklyPRE600Min"> مكالمات 600 دقيقة الأسبوعية</label>
+                        <label><input type="checkbox" name="mtnofferss[]" value="WeeklyPRE2GB"> باقة 2 جيجاالأسبوعية</label>
+                        <label><input type="checkbox" name="mtnofferss[]" value="POSSN250MB"> فوترة 500 ميجا</label>
+                        <label><input type="checkbox" name="mtnofferss[]" value="Sawa_250_PRE"> سوا250 دقيقة300 رسالة الشهرية</label>
+                        <label><input type="checkbox" name="mtnofferss[]" value="PREMIX300"> مكس (300دقيقة 400 رسالة 100 ميجا ) دفع مسبق</label>
+                        <label><input type="checkbox" name="mtnofferss[]" value="PREMIX600"> مكس (600 دقيقة - 700 رسالة - 300 ميجا ) دفع مسبق</label>
+                        <label><input type="checkbox" name="mtnofferss[]" value="PREWhatsApp"> واتساب بلا حدود</label>
+                        <label><input type="checkbox" name="mtnofferss[]" value="PREWeeklyMix"> مكس الاسبوعية</label>
+                        <label><input type="checkbox" name="mtnofferss[]" value="Smart_0.5GB_4G_PRE"> سمارت 0.5 جيجا فورجي (24 ساعة )</label>
+                        <label><input type="checkbox" name="mtnofferss[]" value="Smart_1GB_4G_PRE"> سمارت 1 جيجا فورجي (48 ساعة)</label>
+                        <label><input type="checkbox" name="mtnofferss[]" value="Smart_5GB_4G_PRE"> سمارت 5 جيجا فورجي (14 يوم)</label>
+                        <label><input type="checkbox" name="mtnofferss[]" value="Smart_8GB_4G_PRE"> سمارت 8 جيجا فورجي( 30 يوم)</label>
+                        <label><input type="checkbox" name="mtnofferss[]" value="Mix_1.5GB_4G_PRE"> مكس 1.5 جيجا فورجي( 72 ساعة )</label>
+                        <label><input type="checkbox" name="mtnofferss[]" value="Mix_6GB_4G_PRE"> مكس 6 جيجا فورجي (30 يوم)</label>
+                        <label><input type="checkbox" name="mtnofferss[]" value="Mix_12Giga_4G_PRE"> باقة السعر الموحد فورجي ماكس 12جيجا</label>
+                        <label><input type="checkbox" name="mtnofferss[]" value="Mix_5Giga_4G_PRE"> باقة السعر الموحد فورجي ماكس 5جيجا</label>
+                        <label><input type="checkbox" name="mtnofferss[]" value="Mix_10000_PRE"> باقة السعر الموحد مكس 10000</label>
+                        <label><input type="checkbox" name="mtnofferss[]" value="Mix_5000_PRE"> باقة السعر الموحد مكس 5000</label>
+                        <label><input type="checkbox" name="mtnofferss[]" value="Mix_4GB_4G_PRE"> باقه السعر الموحد 4 جيجا فورجي</label>
+                        <label><input type="checkbox" name="mtnofferss[]" value="Helal1Giga4G_PRE"> باقة هلال 1جيجا فورجي</label>
+                        <label><input type="checkbox" name="mtnofferss[]" value="Helal2Giga4G_PRE"> باقة هلال 2جيجا فورجي</label>
+                        <label><input type="checkbox" name="mtnofferss[]" value="Helal3Giga4G_PRE"> باقات هلال 3جيجا فورجي</label>
+                        <label><input type="checkbox" name="mtnofferss[]" value="WafferPlus10_4G_POS"> باقة وفر بلس 10 جيجا السعر الموحد</label>
+                        <label><input type="checkbox" name="mtnofferss[]" value="Sawa_300_PRE"> باقة سوا 300 السعر الموحد</label>
+                        <label><input type="checkbox" name="mtnofferss[]" value="Smart3Giga4G_PRE"> سمارت 3 جيجا فورجي</label>
+                        <label><input type="checkbox" name="mtnofferss[]" value="Mix30Giga4G_PRE"> مكس 30 جيجا فورجي</label>
+                        <label><input type="checkbox" name="mtnofferss[]" value="Waffer_9G_4G_PRE"> وفر 9 جيجا فورجي</label>
+                        <label><input type="checkbox" name="mtnofferss[]" value="Smart3Giga_3G_PRE"> باقه السعر الموحد سمارت فورجي اليوميه</label>
+                        <label><input type="checkbox" name="mtnofferss[]" value="Smart4Giga_4G_PRE"> باقه السعر الموحد سمارت فورجي الاسبوعيه</label>
+                        <label><input type="checkbox" name="mtnofferss[]" value="Smart15Giga_4G_PRE"> فورجي سمارت15جيجا - السعر الموحد</label>
+                        <label><input type="checkbox" name="mtnofferss[]" value="Smart1G2G_PRE"> باقه توجي سمارت نت1جيجا الشهرية دفع مسبق</label>
+                        <label><input type="checkbox" name="mtnofferss[]" value="Smart20Giga_4G_PRE"> باقة سمارت 20 جيجا 4G-فورجي</label>
+                        <label><input type="checkbox" name="mtnofferss[]" value="WafferPlus10_4G_PRE"> باقة وفر بلس 10 جيجا 4G-فورجي</label>
+                        <label><input type="checkbox" name="mtnofferss[]" value="PRE_Mix_10Giga4G"> باقة مكس الشهرية 10 جيجا فورجي</label>
+                        <label><input type="checkbox" name="mtnofferss[]" value="Sawa_73_PRE"> باقة سوا 73 - الاسبوعية</label>
+                        <label><input type="checkbox" name="mtnofferss[]" value="Sawa_250_Plus_PRE"> باقة سوا 250 بلس - شهرية</label>
+                      </div>
+                    </div>
+                    <!-- اليمن فورجي -->
+                    <div class="network-box" style="background:#ffb6c1;">
+                      <div class="network-header">اليمن فورجي</div>
+                      <label><input type="checkbox" name="networks" value="y_e_m_e_n_forgi"> يمن فورجي</label>
+                    </div>
+                    <!-- الثابت والنت + يمن فورجي -->
+                    <div class="network-box" style="background:#6a5acd;">
+                      <div class="network-header">الثابت والنت + يمن فورجي</div>
+                      <label><input type="checkbox" name="networks" value="line"> الهاتف الثابت</label>
+                      <label><input type="checkbox" name="networks" value="adsl"> الانترنت الارضي</label>
+                      <label><input type="checkbox" name="networks" value="l_i_n_e"> الهاتف الثابت فئات</label>
+                      <label><input type="checkbox" name="networks" value="a_d_s_l"> الانترنت الارضي فئات</label>
+                      <label><input type="checkbox" name="networks" value="ypm_4gr"> يمن فورجي</label>
+                    </div>
+                    <!-- واي -->
+                    <div class="network-box" style="background:#20b2aa;">
+                      <div class="network-header">واي</div>
+                      <label><input type="checkbox" name="networks" value="why"> شحن فوري واي</label>
+                      <label><input type="checkbox" name="networks" value="wH_OyffR"> باقات واي</label>
+                      <label><input type="checkbox" name="networks" value="w_hy_nums"> استعلام ارقام واي</label>
+                      <label><input type="checkbox" name="networks" value="w_h_y_chknm"> فحص رقم واي</label>
+                      <label><input type="checkbox" name="networks" value="w_h_y_sim"> تفعيل شريحة واي</label>
+                    </div>
+                    <!-- اخرى -->
+                    <div class="network-box" style="background:#caa24a;">
+                      <div class="network-header">اخرى</div>
+                      <label><input type="checkbox" name="networks" value="sim"> الشرائح | الخدمات اليدوي</label>
+                      <label><input type="checkbox" name="networks" value="sendmoney"> ارسال حوالة</label>
+                      <label><input type="checkbox" name="networks" value="rcvmoney"> استلام حوالة</label>
+                      <label><input type="checkbox" name="networks" value="adenet"> عدن نت</label>
+                      <label><input type="checkbox" name="networks" value="argam"> بنك الكروت والارقام</label>
+                      <label><input type="checkbox" name="networks" value="elc_tpad"> سداد الكهرباء</label>
+                      <label><input type="checkbox" name="networks" value="wa_trpad"> سداد الماء</label>
+                      <label><input type="checkbox" name="networks" value="pstwfyi"> يمن واي فاي</label>
+                      <label><input type="checkbox" name="networks" value="yrwats"> رسائل الواتس</label>
+                      <label><input type="checkbox" name="networks" value="a_cS_Sy_nC"> مزامنة النظام المحاسبي</label>
+                    </div>
+                    <!-- 🎮 الألعاب -->
+                    <div class="network-box" style="background:#56b1ff;" id="gamesBox">
+                      <div class="network-header">🎮 الألعاب</div>
+                      <button class="btn btn-sm btn-dark mt-2 w-100 fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#gamesList" aria-expanded="false" aria-controls="gamesList"> 📂 عرض الألعاب </button>
+                      <div id="gamesList" class="collapse" style="margin-top:8px; max-height:360px; overflow-y:auto;">
+                        <label><input type="checkbox" name="ns[]" value="pubg"> بوبجي PUBG Mobile</label>
+                        <label><input type="checkbox" name="ns[]" value="freefire"> فري فاير Free Fire</label>
+                        <label><input type="checkbox" name="ns[]" value="legends"> Mobile Legends</label>
+                        <label><input type="checkbox" name="ns[]" value="loardstelmble"> لوردز موبايل</label>
+                        <label><input type="checkbox" name="ns[]" value="clashroial"> كلاش رويال</label>
+                        <label><input type="checkbox" name="ns[]" value="genshmbacket"> جنش امباكت</label>
+                        <label><input type="checkbox" name="ns[]" value="clashofclanz"> كلاش أوف كلانز</label>
+                        <label><input type="checkbox" name="ns[]" value="newstatepobg"> PUBG: NEW STATE</label>
+                        <label><input type="checkbox" name="ns[]" value="praolstars"> براول ستارز</label>
+                        <label><input type="checkbox" name="ns[]" value="hidadijwaher"> هاي داي جواهر</label>
+                        <label><input type="checkbox" name="ns[]" value="ddihadi"> هاي دي عمله ذهبيه</label>
+                        <label><input type="checkbox" name="ns[]" value="calloffdyoty"> كول أوف ديوتي</label>
+                        <label><input type="checkbox" name="ns[]" value="pompitch"> بوم بيتش</label>
+                        <label><input type="checkbox" name="ns[]" value="toktok"> تيك توك</label>
+                        <label><input type="checkbox" name="ns[]" value="plotvip"> بلوت VIP</label>
+                        <label><input type="checkbox" name="ns[]" value="yalaluod"> YALLA LUOD</label>
+                        <label><input type="checkbox" name="ns[]" value="xboxgm"> XBOX</label>
+                        <label><input type="checkbox" name="ns[]" value="salateenintgam"> انتقام السلاطين</label>
+                        <label><input type="checkbox" name="ns[]" value="apexlegened"> Apex lagends</label>
+                        <label><input type="checkbox" name="ns[]" value="tahdikings"> تحدي الملوك</label>
+                        <label><input type="checkbox" name="ns[]" value="brj_eght"> البرج 18</label>
+                        <label><input type="checkbox" name="ns[]" value="fth_4_du"> الفاتحون</label>
+                        <label><input type="checkbox" name="ns[]" value="tb_y_o_p5_s"> توب توب TopTop</label>
+                        <label><input type="checkbox" name="ns[]" value="8_p_oo_l"> 8 ballPool</label>
+                        <label><input type="checkbox" name="ns[]" value="vb8_mNs"> تيثر Tether لعبه</label>
+                        <label><input type="checkbox" name="ns[]" value="L_aM_i"> لامي</label>
+                        <label><input type="checkbox" name="ns[]" value="oO_H_Laa"> اوهلا</label>
+                        <label><input type="checkbox" name="ns[]" value="F_iF_aM_bL_E"> فيفا موبايل</label>
+                        <label><input type="checkbox" name="ns[]" value="k_Wa_i_"> كواي</label>
+                        <label><input type="checkbox" name="ns[]" value="mA_DinA_Ma_F_iA"> مدينة المافيا</label>
+                        <label><input type="checkbox" name="ns[]" value="eE_Ff_oOt_bA_lLla"> eFootball</label>
+                        <label><input type="checkbox" name="ns[]" value="FoRgSm_hgY7Wjq"> عروض الألعاب</label>
+                        <label><input type="checkbox" name="ns[]" value="pP3R2T8s9Y"> بارتي ستا</label>
+                        <label><input type="checkbox" name="ns[]" value="sR7wJk85abQR0"> عصر الاساطير</label>
+                        <label><input type="checkbox" name="ns[]" value="uY7VL7_Yqaj"> PUBG Lite</label>
+                        <label><input type="checkbox" name="ns[]" value="t4wJHZBDkZ"> فار لايت</label>
+                        <label><input type="checkbox" name="ns[]" value="7tVyx5sX7p"> تود Tod</label>
+                        <label><input type="checkbox" name="ns[]" value="vUmWanXUIR"> كينج اوف افلاون</label>
+                        <label><input type="checkbox" name="ns[]" value="Nu87ewuOAb"> مدينة المافيا</label>
+                        <label><input type="checkbox" name="ns[]" value="yVkuV0Gx"> روبوتات الحرب - War Robots</label>
+                        <label><input type="checkbox" name="ns[]" value="O8V5BSn7"> بلود سترايك مينا - Blood Strike MENA</label>
+                        <label><input type="checkbox" name="ns[]" value="mxVnij"> Honor of Kings</label>
+                        <label><input type="checkbox" name="ns[]" value="wkM6mo"> توب وار</label>
+                        <label><input type="checkbox" name="ns[]" value="Zo5pnM"> بارتي يو</label>
+                        <label><input type="checkbox" name="ns[]" value="N6NNqK9U0E"> بيجي جو - Piggy go</label>
+                        <label><input type="checkbox" name="ns[]" value="OXHni5l6Lw"> لودو كلوب - Ludo club</label>
+                        <label><input type="checkbox" name="ns[]" value="xtmAIlbE6h"> فن بوكس لودو - Funbox ludo</label>
+                        <label><input type="checkbox" name="ns[]" value="YH2MDkQj5k"> تان تان - Tan tan</label>
+                        <label><input type="checkbox" name="ns[]" value="ehPLO2K7WD"> جولدن لودو - Golden ludo</label>
+                      </div>
+                    </div>
+                    <!-- 💳 البطائق -->
+                    <div class="network-box" style="background:#ff9f43;" id="cardsBox">
+                      <div class="network-header">💳 البطائق</div>
+                      <button class="btn btn-sm btn-dark mt-2 w-100 fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#cardsList" aria-expanded="false" aria-controls="cardsList"> 📂 عرض البطائق </button>
+                      <div id="cardsList" class="collapse" style="margin-top:8px; max-height:360px; overflow-y:auto;">
+                        <label><input type="checkbox" name="ns[]" value="googleplayusa"> جوجل بلاي امريكي Google Play Gift</label>
+                        <label><input type="checkbox" name="ns[]" value="googleplaykorea"> جوجل بلاي كوري Google Play Gift Korea</label>
+                        <label><input type="checkbox" name="ns[]" value="appstore"> اب ستور Apple Store Gift</label>
+                        <label><input type="checkbox" name="ns[]" value="beinconnect"> beIN Connect</label>
+                        <label><input type="checkbox" name="ns[]" value="razergold"> Razer Gold Gift</label>
+                        <label><input type="checkbox" name="ns[]" value="crossfire"> CrossFire Gift</label>
+                        <label><input type="checkbox" name="ns[]" value="plastationusa"> بلاستيشن امريكي</label>
+                        <label><input type="checkbox" name="ns[]" value="plastationsar"> بلاستيشن سعودي</label>
+                        <label><input type="checkbox" name="ns[]" value="visacard"> فيزا كارد</label>
+                        <label><input type="checkbox" name="ns[]" value="mastercard"> ماستر كارد</label>
+                        <label><input type="checkbox" name="ns[]" value="roblox"> روبلوكس</label>
+                        <label><input type="checkbox" name="ns[]" value="fortnight"> فورتنايت</label>
+                        <label><input type="checkbox" name="ns[]" value="krnshirol"> كرنشي رول</label>
+                        <label><input type="checkbox" name="ns[]" value="maincraft"> ماين كرافت</label>
+                        <label><input type="checkbox" name="ns[]" value="akoadpgi"> اكواد بوبجي</label>
+                        <label><input type="checkbox" name="ns[]" value="akoadfifr"> اكواد فري فاير</label>
+                        <label><input type="checkbox" name="ns[]" value="novaiptv"> نوڤا IP TV</label>
+                        <label><input type="checkbox" name="ns[]" value="hdratv"> هيدرا TV</label>
+                        <label><input type="checkbox" name="ns[]" value="ty9_YeR"> تيثر Tether</label>
+                        <label><input type="checkbox" name="ns[]" value="tahdikings"> تحدي الملوك</label>
+                        <label><input type="checkbox" name="ns[]" value="laordestlblme"> لوردز بطائق</label>
+                        <label><input type="checkbox" name="ns[]" value="nE_tFlXs"> بطائق نتفلكس</label>
+                        <label><input type="checkbox" name="ns[]" value="P9_IAplsHNS"> بلايستيشن اماراتي</label>
+                        <label><input type="checkbox" name="ns[]" value="_TE7SJbkSL"> اتصالات الخليج</label>
+                        <label><input type="checkbox" name="ns[]" value="nHAJAY3Ygq"> بطاقات سبيستون جو</label>
+                        <label><input type="checkbox" name="ns[]" value="Pqk_uYQAKaf9"> اشتراكات يانغو بلاي</label>
+                        <label><input type="checkbox" name="ns[]" value="vISBHXv3"> شي ان - Shein</label>
+                        <label><input type="checkbox" name="ns[]" value="edGw5Gnh"> امازون - Amazon</label>
+                        <label><input type="checkbox" name="ns[]" value="CDouEn2r"> ستيم - Steam</label>
+                        <label><input type="checkbox" name="ns[]" value="MBsdriLN"> نون - Noon</label>
+                        <label><input type="checkbox" name="ns[]" value="1Ci9uGYz"> ايباي - eBay</label>
+                        <label><input type="checkbox" name="ns[]" value="5dwC51q0"> ايتونز سعودي</label>
+                        <label><input type="checkbox" name="ns[]" value="seu76x7v"> ايتونز اماراتي</label>
+                        <label><input type="checkbox" name="ns[]" value="fgBRu50v"> ايتونز امريكي</label>
+                        <label><input type="checkbox" name="ns[]" value="ujuZU89z"> اكس بوكس سعودي</label>
+                        <label><input type="checkbox" name="ns[]" value="1N1fEaib"> اكس بوكس امريكي</label>
+                        <label><input type="checkbox" name="ns[]" value="6ZVZ9b"> موبايلي</label>
+                        <label><input type="checkbox" name="ns[]" value="TYtGjj"> سوا</label>
+                        <label><input type="checkbox" name="ns[]" value="o6qTa1"> زين</label>
+                        <label><input type="checkbox" name="ns[]" value="xLv313vcLu"> بطائق اتصالات سوا السعودية</label>
+                        <label><input type="checkbox" name="ns[]" value="zqS6Qu0rxq"> بطائق اتصالات موبايلي السعودية</label>
+                        <label><input type="checkbox" name="ns[]" value="JOwFZRWYhs"> بطائق اتصالات زين السعودية</label>
+                        <label><input type="checkbox" name="ns[]" value="uRyx4fqkeR"> بطائق اتصالات فيرجن السعودية</label>
+                        <label><input type="checkbox" name="ns[]" value="W4Qsd0B8Y0"> بطائق اتصالات فيرندي السعودية</label>
+                        <label><input type="checkbox" name="ns[]" value="card7ClLTJ"> بطائق اتصالات ليبارا السعودية</label>
+                        <label><input type="checkbox" name="ns[]" value="etJibeCM5i"> بطائق اتصالات ايوا السعودية</label>
+                        <label><input type="checkbox" name="ns[]" value="sec8JyHw6c"> بطائق سلام موبايل السعودية</label>
+                        <label><input type="checkbox" name="ns[]" value="3RF6SOQ5V5"> بطائق اتصالات الاماراتية</label>
+                        <label><input type="checkbox" name="ns[]" value="Up0hMH2nNj"> بطائق اتصالات فيرجن الامارات</label>
+                        <label><input type="checkbox" name="ns[]" value="5JmWw0cy3x"> بطائق اتصالات دو الاماراتية</label>
+                        <label><input type="checkbox" name="ns[]" value="Wx44UoCZTx"> بطائق اتصالات فودافون عمان</label>
+                        <label><input type="checkbox" name="ns[]" value="kQ3o1xrAqN"> بطائق اتصالات اوريدو</label>
+                        <label><input type="checkbox" name="ns[]" value="kjdUiwp0Rs"> بطائق سالك الاماراتية</label>
+                        <label><input type="checkbox" name="ns[]" value="t8l3MlJWev"> نون السعودية</label>
+                        <label><input type="checkbox" name="ns[]" value="F0kOBXi7Kv"> نون الامارات</label>
+                        <label><input type="checkbox" name="ns[]" value="hm4jxuP3oZ"> بطائق ايباي أمريكي</label>
+                        <label><input type="checkbox" name="ns[]" value="HIs6LUgBiv"> قسائم سويتر السعودية</label>
+                        <label><input type="checkbox" name="ns[]" value="9ppbJrvnEd"> بطائق واشتراكات ننتيندو</label>
+                        <label><input type="checkbox" name="ns[]" value="rPdylCRonm"> سبوتيفاي سعودي</label>
+                        <label><input type="checkbox" name="ns[]" value="ybH3lUtpzL"> سبوتيفاي اماراتي</label>
+                        <label><input type="checkbox" name="ns[]" value="VcicodhtHi"> بطائق اوفر واتش</label>
+                        <label><input type="checkbox" name="ns[]" value="9QqEHQ4nQV"> اشتراكات ستارز بلاي</label>
+                        <label><input type="checkbox" name="ns[]" value="OxKXNYV4XK"> BLU TV اشتراكات بلو</label>
+                        <label><input type="checkbox" name="ns[]" value="qHRBc0Th4d"> بليزارد</label>
+                        <label><input type="checkbox" name="ns[]" value="woUVQNOGjN"> Sling TV - سلينج تيڤي</label>
+                        <label><input type="checkbox" name="ns[]" value="JDmhNAI5ew"> kigso بطائق لعبة كيقسو</label>
+                        <label><input type="checkbox" name="ns[]" value="CVNjPTQTpQ"> اشتراكات واتش إت</label>
+                        <label><input type="checkbox" name="ns[]" value="zi2xbieI6k"> بطائق امازون السعودية</label>
+                        <label><input type="checkbox" name="ns[]" value="j81Fx76Lnt"> بطائق امازون الاماراتية</label>
+                        <label><input type="checkbox" name="ns[]" value="ZBPKzpEffG"> سبيستون قو سعودي</label>
+                        <label><input type="checkbox" name="ns[]" value="LuiAg6vdRp"> سبيستون قو اماراتي</label>
+                        <label><input type="checkbox" name="ns[]" value="miO6fYHsVA"> Microsoft - مايكروسفت</label>
+                        <label><input type="checkbox" name="ns[]" value="wuixOd4MfK"> بلاي ستيشن سعودي plastationsar</label>
+                        <label><input type="checkbox" name="ns[]" value="KSdJpZ2gGu"> بلاي ستيشن اماراتي</label>
+                        <label><input type="checkbox" name="ns[]" value="8AIcAMvhsW"> اكواد فري فاير</label>
+                        <label><input type="checkbox" name="ns[]" value="BFq0mu6Xnk"> اكواد ببجي</label>
+                        <label><input type="checkbox" name="ns[]" value="p3O6GxYLC1"> بطائق روبلكس</label>
+                        <label><input type="checkbox" name="ns[]" value="ypYN7odmGE"> بطائق كروس فاير</label>
+                        <label><input type="checkbox" name="ns[]" value="CgzIKXT4x2"> بطائق فورت نايت</label>
+                        <label><input type="checkbox" name="ns[]" value="rIWY2fbI6J"> باقات سوا الشهرية</label>
+                      </div>
+                    </div>
+                    <!-- 💰 المحافظ والبنوك -->
+                    <div class="network-box" style="background:#20c997;" id="walletBox">
+                      <div class="network-header">💰 المحافظ والبنوك</div>
+                      <button class="btn btn-sm btn-dark mt-2 w-100 fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#walletList" aria-expanded="false" aria-controls="walletList"> 💳 عرض المحافظ والبنوك </button>
+                      <div id="walletList" class="collapse" style="margin-top:8px; max-height:320px; overflow-y:auto;">
+                        <label><input type="checkbox" name="ns[]" value="autorcv"> غذي حسابك بنفسك عبر شبكات الصرافة</label>
+                        <label><input type="checkbox" name="ns[]" value="cashapp"> غذي حسابك بنفسك عبر محفظة كاش</label>
+                        <label><input type="checkbox" name="ns[]" value="floosakcard"> كروت رصيد ف</label>
+                        <label><input type="checkbox" name="ns[]" value="floosakbillcard"> شحن كرت رصيد ف</label>
+                        <label><input type="checkbox" name="ns[]" value="floosak"> غذي حسابك بنفسك عبر محفظة فلوسك</label>
+                        <label><input type="checkbox" name="ns[]" value="jawali"> غذي حسابك بنفسك عبر محفظة جوالي</label>
+                        <label><input type="checkbox" name="ns[]" value="kurmi"> غذي حسابك بنفسك عبر بنك الكريمي حاسب</label>
+                        <label><input type="checkbox" name="ns[]" value="kU_rMI"> غذي حسابك بنفسك عبر بنك الكريمي حاسب جنوب</label>
+                        <label><input type="checkbox" name="ns[]" value="bankalamal"> غذي حسابك بنفسك عبر بيس بنك الأمل</label>
+                        <label><input type="checkbox" name="ns[]" value="ban_KAl_Yamal"> غذي حسابك بنفسك عبر بيس بنك الأمل جنوب</label>
+                        <label><input type="checkbox" name="ns[]" value="shamilmoney"> غذي حسابك بنفسك عبر محفظة شامل موني شمال</label>
+                        <label><input type="checkbox" name="ns[]" value="ShaM_ilmOn_ey"> غذي حسابك بنفسك عبر محفظة شامل موني جنوب</label>
+                        <label><input type="checkbox" name="ns[]" value="jaib"> غذي حسابك بنفسك عبر محفظة جيب</label>
+                        <label><input type="checkbox" name="ns[]" value="ssaabbacaacch"> غذي حسابك بنفسك عبر محفظة سبأ كاش شمال</label>
+                        <label><input type="checkbox" name="ns[]" value="sa_BaC_acH"> غذي حسابك بنفسك عبر محفظة سبأ كاش جنوب</label>
+                        <label><input type="checkbox" name="ns[]" value="QuTa_iBI"> غذي حسابك بنفسك عبر محفظة القطيبي جنوب</label>
+                        <label><input type="checkbox" name="ns[]" value="qutaibi"> غذي حسابك بنفسك عبر محفظة القطيبي شمال</label>
+                      </div>
+                    </div>
+                    <!-- 📺 برامج الفيديو والتواصل -->
+                    <div class="network-box" style="background:#fd7e14;" id="videoBox">
+                      <div class="network-header">📺 برامج الفيديو والتواصل</div>
+                      <button class="btn btn-sm btn-dark mt-2 w-100 fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#videoList" aria-expanded="false" aria-controls="videoList"> 🎬 عرض البرامج </button>
+                      <div id="videoList" class="collapse" style="margin-top:8px; max-height:300px; overflow-y:auto;">
+                        <label><input type="checkbox" name="ns[]" value="likee"> لايكي Likee</label>
+                        <label><input type="checkbox" name="ns[]" value="nemotv"> نيمو TV</label>
+                        <label><input type="checkbox" name="ns[]" value="flxnt"> نت فلكس</label>
+                        <label><input type="checkbox" name="ns[]" value="shahidvip"> شاهد VIP</label>
+                        <label><input type="checkbox" name="ns[]" value="gwaker"> جواكر</label>
+                        <label><input type="checkbox" name="ns[]" value="toktok"> توك توك</label>
+                        <label><input type="checkbox" name="ns[]" value="emolive"> ايمو لايف</label>
+                        <label><input type="checkbox" name="ns[]" value="conzatkfo"> كونزات كفو</label>
+                        <label><input type="checkbox" name="ns[]" value="2Zb0IPcm"> دعم تيك توك</label>
+                        <label><input type="checkbox" name="ns[]" value="infM0oV5"> دعم انستجرام</label>
+                        <label><input type="checkbox" name="ns[]" value="FqWuKLXh"> دعم يوتيوب</label>
+                        <label><input type="checkbox" name="ns[]" value="CV_KwvYb"> دعم فيسبوك</label>
+                      </div>
+                    </div>
+                    <!-- 🏦 شبكات الصرافة -->
+                    <div class="network-box" style="background:#ffc107;" id="exchangeBox">
+                      <div class="network-header">🏦 شبكات الصرافة</div>
+                      <button class="btn btn-sm btn-dark mt-2 w-100 fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#exchangeList" aria-expanded="false" aria-controls="exchangeList"> 💱 عرض شبكات الصرافة </button>
+                      <div id="exchangeList" class="collapse" style="margin-top:8px; max-height:330px; overflow-y:auto;">
+                        <label><input type="checkbox" name="srafahns[]" value="164"> شركة النجم /مباشر</label>
+                        <label><input type="checkbox" name="srafahns[]" value="166"> شبكة الحزمي /مباشر</label>
+                        <label><input type="checkbox" name="srafahns[]" value="167"> شبكه يمن اكس برس /مباشر</label>
+                        <label><input type="checkbox" name="srafahns[]" value="168"> داديه/مباشر</label>
+                        <label><input type="checkbox" name="srafahns[]" value="169"> الحوشبي/مباشر</label>
+                        <label><input type="checkbox" name="srafahns[]" value="170"> سويد/مال اكسبرس/غير مباشر</label>
+                        <label><input type="checkbox" name="srafahns[]" value="171"> المحيط/المريسي/غير مباشر</label>
+                        <label><input type="checkbox" name="srafahns[]" value="172"> الياباني/غير مباشر</label>
+                        <label><input type="checkbox" name="srafahns[]" value="173"> الجزيرة اخوان/غير مباشر</label>
+                        <label><input type="checkbox" name="srafahns[]" value="174"> الهتار/ مباشر</label>
+                        <label><input type="checkbox" name="srafahns[]" value="175"> التوكل/غير مباشر</label>
+                        <label><input type="checkbox" name="srafahns[]" value="176"> عبدالقوي العامري/غير مباشر</label>
+                        <label><input type="checkbox" name="srafahns[]" value="177"> احمد العامري/مباشر</label>
+                        <label><input type="checkbox" name="srafahns[]" value="178"> المري/غير مباشر</label>
+                        <label><input type="checkbox" name="srafahns[]" value="179"> المميز/مباشر</label>
+                        <label><input type="checkbox" name="srafahns[]" value="180"> شركة البرق/مباشر</label>
+                        <label><input type="checkbox" name="srafahns[]" value="181"> الصيفي/غير مباشر</label>
+                        <label><input type="checkbox" name="srafahns[]" value="182"> الناصر/غير مباشر</label>
+                        <label><input type="checkbox" name="srafahns[]" value="183"> البسيري/غير مباشر</label>
+                        <label><input type="checkbox" name="srafahns[]" value="184"> الشركه العربيه/غير مباشر</label>
+                        <label><input type="checkbox" name="srafahns[]" value="185"> الحداد/غير مباشر</label>
+                        <label><input type="checkbox" name="srafahns[]" value="186"> الاكوع</label>
+                        <label><input type="checkbox" name="srafahns[]" value="187"> الامتياز/مباشر</label>
+                        <label><input type="checkbox" name="srafahns[]" value="188"> الشارقه/غير مباشر</label>
+                        <label><input type="checkbox" name="srafahns[]" value="189"> الصومعي/غير مباشر</label>
+                        <label><input type="checkbox" name="srafahns[]" value="190"> صنعاء الصلاحي (خاص باستلام حوالات الشمال)</label>
+                        <label><input type="checkbox" name="srafahns[]" value="191"> صنعاء شركه العمقي (خاص باستلام حوالات الشمال)</label>
+                        <label><input type="checkbox" name="srafahns[]" value="193"> النعمان (كويك)</label>
+                        <label><input type="checkbox" name="srafahns[]" value="194"> شركه لمع النجوم</label>
+                        <label><input type="checkbox" name="srafahns[]" value="195"> العالميه اكسبرس</label>
+                        <label><input type="checkbox" name="srafahns[]" value="197"> البراق</label>
+                        <label><input type="checkbox" name="srafahns[]" value="198"> شبكة (تراسل) صنعاء</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
+        <button type="button" class="btn btn-success" id="saveUnifiedBtn">حفظ</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Anti-forgery token for DataTables Ajax requests -->
+@Html.AntiForgeryToken()
+
+@section scripts {
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- Bootstrap Datepicker -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.ar.min.js"></script>
+    
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+    
+    <!-- System Connections JS -->
+    <script src="~/js/system-connections.js"></script>
+}

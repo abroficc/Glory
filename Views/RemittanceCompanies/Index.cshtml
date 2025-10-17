@@ -1,0 +1,2193 @@
+@{
+    Layout = "_VerticalLayout";
+    ViewData["Title"] = "دليل شركات الحوالات";
+    ViewData["Direction"] = "rtl";
+}
+
+@section styles {
+    <!-- date range picker css -->
+    <link href="~/plugins/daterangepickerangepicker/daterangepicker.css" rel="stylesheet" type="text/css">
+    <!-- datatables css -->
+    <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.bootstrap5.min.css" rel="stylesheet">
+    <!-- datatables buttons css -->
+    <link href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.bootstrap5.min.css" rel="stylesheet">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600&display=swap" rel="stylesheet">
+    
+    <!-- bootstrap-select CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/css/bootstrap-select.min.css" />
+
+    <!-- UI Polish CSS -->
+    <link href="~/css/ui-polish.css" rel="stylesheet" type="text/css">
+    
+    <!-- Voucher Modal CSS -->
+    <link href="~/css/voucher-modal.css" rel="stylesheet" type="text/css">
+    
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    
+    <!-- Tabler Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@@tabler/icons-webfont@latest/tabler-icons.min.css">
+    
+    <style>
+        body[dir="rtl"] * {
+            font-family: "Cairo", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+        }
+        
+        /* تعديل الجدول لإزالة المسافة بين الرأس والمحتوى */
+        .table-bordered thead th {
+            border-bottom-width: 1px;
+        }
+        
+        .table-bordered tbody tr:first-child td {
+            border-top: none;
+        }
+        
+        .table {
+            margin-bottom: 0;
+        }
+        
+        /* Select all checkboxes styling */
+        .form-check-input:checked {
+            background-color: #1ab394;
+            border-color: #1ab394;
+        }
+        
+        /* Alert styling for better visibility */
+        .alert-warning {
+            background-color: #fff3cd;
+            border-color: #ffeaa7;
+            color: #856404;
+        }
+        
+        .alert-danger {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+        
+        /* Dark mode alert adjustments */
+        [data-bs-theme="dark"] .alert-warning {
+            background-color: #664d03;
+            border-color: #7d5f04;
+            color: #ffecb5;
+        }
+        
+        [data-bs-theme="dark"] .alert-danger {
+            background-color: #721c24;
+            border-color: #842029;
+            color: #f8d7da;
+        }
+        
+        /* Tree view container */
+        #categories-tree {
+            min-height: 400px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 10px;
+        }
+        
+        /* Table card styling */
+        .table-dark-card {
+            background: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 4px 20px rgba(0,0,0,.05);
+        }
+
+        .table-dark-card table {
+            width: 100%;
+            border-collapse: collapse;
+            color: #374151;
+            font-size: 14px;
+        }
+
+        .table-dark-card thead {
+            background: linear-gradient(180deg, #f3f4f6, #e5e7eb);
+        }
+        
+        .table-dark-card thead th {
+            padding: 12px 14px;
+            text-align: center;
+            font-weight: 600;
+            color: #111827;
+            border-bottom: 1px solid #d1d5db;
+            white-space: nowrap;
+        }
+
+        .table-dark-card tbody tr {
+            background: #fff;
+            transition: background 0.2s;
+        }
+        
+        .table-dark-card tbody tr:nth-child(even) {
+            background: #f9fafb;
+        }
+        
+        .table-dark-card tbody tr:hover {
+            background: #f3f4f6;
+        }
+        
+        .table-dark-card td {
+            padding: 12px 14px;
+            text-align: center;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .btn-more {
+            border: 1px solid #d1d5db;
+            background: transparent;
+            color: #3b82f6;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 13px;
+            cursor: pointer;
+        }
+        
+        .btn-more:hover {
+            background: #2563eb;
+            color: #fff;
+            border-color: #2563eb;
+        }
+
+        /* Dark mode table styles */
+        [data-bs-theme="dark"] .table-dark-card {
+            background: #111827;
+            border: 1px solid #1f2937;
+            box-shadow: 0 4px 20px rgba(0,0,0,.4);
+        }
+
+        [data-bs-theme="dark"] .table-dark-card table {
+            color: #e5e7eb;
+        }
+
+        [data-bs-theme="dark"] .table-dark-card thead {
+            background: linear-gradient(180deg, #1e293b, #111827);
+        }
+        
+        [data-bs-theme="dark"] .table-dark-card thead th {
+            color: #f9fafb;
+            border-bottom: 1px solid #374151;
+        }
+
+        [data-bs-theme="dark"] .table-dark-card tbody tr {
+            background: #111827;
+        }
+        
+        [data-bs-theme="dark"] .table-dark-card tbody tr:nth-child(even) {
+            background: #1a2234;
+        }
+        
+        [data-bs-theme="dark"] .table-dark-card tbody tr:hover {
+            background: #1f2937;
+        }
+        
+        [data-bs-theme="dark"] .table-dark-card td {
+            border-bottom: 1px solid #1f2937;
+        }
+
+        [data-bs-theme="dark"] .btn-more {
+            border: 1px solid #374151;
+            color: #93c5fd;
+        }
+        
+        [data-bs-theme="dark"] .btn-more:hover {
+            background: #2563eb;
+            color: #fff;
+            border-color: #2563eb;
+        }
+        
+        /* Light mode pagination */
+        .pagination-dark {
+            display: flex;
+            justify-content: center;
+            margin-top: 12px;
+            gap: 4px;
+        }
+        
+        .pagination-dark button {
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            color: #111827;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        
+        .pagination-dark button.active {
+            background: #10b981;
+            border-color: #10b981;
+            color: #fff;
+        }
+        
+        .pagination-dark button:hover:not(.active) {
+            background: #2563eb;
+            border-color: #2563eb;
+            color: #fff;
+        }
+
+        /* Dark mode pagination */
+        [data-bs-theme="dark"] .pagination-dark button {
+            background: #1e293b;
+            border: 1px solid #374151;
+            color: #f9fafb;
+        }
+        [data-bs-theme="dark"] .pagination-dark button.active {
+            background: #10b981;
+            border-color: #10b981;
+        }
+        
+        [data-bs-theme="dark"] .pagination-dark button:hover:not(.active) {
+            background: #2563eb;
+            border-color: #2563eb;
+        }
+        
+        /* Modal header styling - using project's primary color */
+        .modal-header {
+            background-color: #1ab394; /* Project's primary color */
+            color: white;
+            border-bottom: 1px solid #16987e;
+        }
+        
+        /* Modal title styling */
+        .modal-header .modal-title {
+            font-weight: 500;
+            color: white;
+        }
+        
+        /* Close button styling for modal headers */
+        .modal-header .btn-close {
+            filter: invert(1) grayscale(100%) brightness(200%);
+        }
+        
+        /* Modal footer styling - using a lighter shade */
+        .modal-footer {
+            background-color: #f0f8f8; /* Light teal background */
+            border-top: 1px solid #d1e8e8;
+        }
+        
+        /* Primary buttons in modals */
+        .modal-footer .btn-primary {
+            background-color: #1ab394;
+            border-color: #1ab394;
+        }
+        
+        .modal-footer .btn-primary:hover {
+            background-color: #16987e;
+            border-color: #16987e;
+        }
+        
+        /* Form styling */
+        .v-section {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid #e9ecef;
+        }
+        
+        [data-bs-theme="dark"] .v-section {
+            background: #1e1f27;
+            border-color: #293036;
+        }
+        
+        .v-cap {
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #495057;
+            font-size: 16px;
+        }
+        
+        [data-bs-theme="dark"] .v-cap {
+            color: #aab8c5;
+        }
+        
+        .v-label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #495057;
+        }
+        
+        [data-bs-theme="dark"] .v-label {
+            color: #aab8c5;
+        }
+        
+        .v-req {
+            color: #e02d2d;
+        }
+        
+        .v-input, .v-select {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            background-color: #fff;
+            color: #495057;
+        }
+        
+        [data-bs-theme="dark"] .v-input, 
+        [data-bs-theme="dark"] .v-select {
+            background-color: #272832;
+            border-color: #293036;
+            color: #aab8c5;
+        }
+        
+        .v-input:focus, .v-select:focus {
+            border-color: #1ab394;
+            outline: 0;
+            box-shadow: 0 0 0 0.2rem rgba(26, 179, 148, 0.25);
+        }
+        
+        /* View field styling */
+        .view-field {
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 4px;
+            padding: 8px 12px;
+            min-height: 38px;
+            display: flex;
+            align-items: center;
+            color: #495057;
+        }
+        
+        [data-bs-theme="dark"] .view-field {
+            background-color: #272832;
+            border-color: #293036;
+            color: #aab8c5;
+        }
+        
+        .note-highlight {
+            background-color: #e7f4f0;
+            border-left: 3px solid #1ab394;
+            padding: 8px 12px;
+            margin-top: 5px;
+            font-size: 13px;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        [data-bs-theme="dark"] .note-highlight {
+            background-color: #1e3a35;
+            border-left-color: #1ab394;
+            color: #aab8c5;
+        }
+        
+        /* Fix for bootstrap-select dropdown shaking issue */
+        .bootstrap-select .dropdown-menu {
+            transform: translate3d(0, 0, 0) !important;
+            -webkit-transform: translate3d(0, 0, 0) !important;
+            -moz-transform: translate3d(0, 0, 0) !important;
+            -ms-transform: translate3d(0, 0, 0) !important;
+            -o-transform: translate3d(0, 0, 0) !important;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+        
+        /* Bootstrap Select Dropdown z-index fix */
+        .bootstrap-select .dropdown-menu {
+            z-index: 20000;
+        }
+        
+        /* Flatpickr calendar z-index fix */
+        .flatpickr-calendar {
+            z-index: 200000 !important;
+        }
+        
+        /* Table cell styling */
+        #companiesTable td,
+        #companiesTable th {
+            white-space: normal !important;
+            word-wrap: break-word;
+        }
+        
+        /* Responsive table */
+        .table-responsive {
+            overflow-x: hidden;
+        }
+        
+        /* Fix for dropdown positioning */
+        #filterSection, .card, .table-responsive {
+            overflow: visible !important;
+        }
+        
+        /* Form controls */
+        .form-control-plaintext {
+            color: #495057;
+            border: none;
+            background-color: transparent;
+            padding: 8px 12px;
+        }
+        
+        [data-bs-theme="dark"] .form-control-plaintext {
+            color: #aab8c5;
+        }
+        
+        /* Readonly input fields */
+        #viewCompanyModal .form-control[readonly] {
+            background-color: #f8f9fa;
+            border-color: #e9ecef;
+            color: #495057;
+            opacity: 1;
+        }
+        
+        [data-bs-theme="dark"] #viewCompanyModal .form-control[readonly] {
+            background-color: #272832;
+            border-color: #293036;
+            color: #aab8c5;
+        }
+        
+        /* Checkboxes */
+        .table th input[type="checkbox"],
+        .table td input[type="checkbox"],
+        #selectAll {
+            margin: 0;
+            vertical-align: middle;
+        }
+        
+        #selectAll {
+            transform: scale(1.2);
+        }
+        
+        /* Cards */
+        .card {
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .card-header {
+            font-weight: 600;
+        }
+        
+        [data-bs-theme="dark"] .card {
+            background-color: #1e1f27;
+            border-color: #293036;
+        }
+        
+        [data-bs-theme="dark"] .card-header {
+            background-color: #1e1f27;
+            border-color: #293036;
+        }
+        
+        /* Bootstrap Select */
+        .bootstrap-select .dropdown-menu {
+            text-align: right;
+            z-index: 20000;
+            max-height: 200px;
+        }
+        
+        .bootstrap-select.btn-group .dropdown-toggle .filter-option {
+            color: inherit;
+        }
+        
+        .bootstrap-select .dropdown-menu li a span.text {
+            display: block;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .bootstrap-select .dropdown-header {
+            background-color: #f8f9fa;
+            color: #495057;
+        }
+        
+        [data-bs-theme="dark"] .bootstrap-select .dropdown-header {
+            color: #aab8c5;
+            background-color: #1e1f27;
+        }
+        
+        .bootstrap-select .dropdown-toggle {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.875rem;
+        }
+        
+        .bootstrap-select .dropdown-toggle:focus {
+            box-shadow: 0 0 0 0.2rem rgba(26, 179, 148, 0.25);
+        }
+        
+        [data-bs-theme="dark"] .bootstrap-select .dropdown-toggle {
+            background-color: #272832;
+            border-color: #293036;
+            color: #aab8c5;
+        }
+        
+        [data-bs-theme="dark"] .bootstrap-select .dropdown-toggle:focus {
+            border-color: #16987e;
+            box-shadow: 0 0 0 0.2rem rgba(22, 152, 126, 0.25);
+        }
+        
+        /* Fix for select arrow in dark mode */
+        [data-bs-theme="dark"] .bootstrap-select .dropdown-toggle::after {
+            border-top-color: #aab8c5;
+        }
+        
+        /* Disabled options */
+        .bootstrap-select .dropdown-menu > .disabled > a {
+            color: #6c757d;
+            background-color: transparent;
+        }
+        
+        [data-bs-theme="dark"] .bootstrap-select .dropdown-menu > .disabled > a {
+            color: #6c757d;
+        }
+        
+        /* Select text visibility */
+        .modal-content .selectpicker,
+        .modal-content .bootstrap-select .filter-option {
+            width: 100%;
+            color: #495057;
+        }
+        
+        [data-bs-theme="dark"] .modal-content .selectpicker,
+        [data-bs-theme="dark"] .modal-content .bootstrap-select .filter-option {
+            background-color: #272832;
+            border-color: #293036;
+            color: #aab8c5;
+        }
+        
+        /* Custom styles for the new modal design */
+        .shapka-layout {
+            border-bottom: 1px solid #ccc;
+        }
+        
+        .form-label {
+            margin-bottom: 5px;
+        }
+        
+        .btn-success {
+            background: #1ab394;
+            border-color: #1ab394;
+        }
+        
+        .btn-success:hover {
+            background: #16987e;
+            border-color: #16987e;
+        }
+        
+        /* Custom modal width and height - as requested */
+        .modal-dialog {
+            max-width: 800px; /* العرض */
+            width: 90%;       /* نسبي للشاشة */
+            margin: 1.75rem auto;
+        }
+        
+        /* Custom modal height */
+        .modal-content {
+            max-height: 85vh; /* الطول */
+            overflow-y: auto; /* سكرول داخلي */
+        }
+        
+        /* Custom close button styling */
+        .modal-header .btn-close {
+            filter: invert(1) grayscale(100%) brightness(200%);
+        }
+        
+        /* Dark mode modal styling */
+        [data-bs-theme="dark"] .modal-content {
+            background-color: #1e1f27;
+            color: #aab8c5;
+        }
+        
+        [data-bs-theme="dark"] .modal-header {
+            background-color: #16987e;
+        }
+        
+
+        
+        /* DataTables Buttons */
+        .dt-buttons .btn {
+            margin-right: 5px;
+            margin-bottom: 5px;
+        }
+        
+        .dt-button-collection {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-shadow: 0 6px 12px rgba(0,0,0,.175);
+        }
+        
+        [data-bs-theme="dark"] .dt-button-collection {
+            background-color: #1e1f27;
+            border: 1px solid #293036;
+            box-shadow: 0 6px 12px rgba(0,0,0,.4);
+        }
+        
+        .dt-button-collection .dropdown-item {
+            padding: 8px 15px;
+        }
+        
+        [data-bs-theme="dark"] .dt-button-collection .dropdown-item {
+            color: #aab8c5;
+        }
+        
+        [data-bs-theme="dark"] .dt-button-collection .dropdown-item:hover {
+            background-color: #16987e;
+            color: #fff;
+        }
+        
+        /* Button styling */
+        .dt-buttons .btn-outline-secondary {
+            color: #6c757d;
+            border-color: #6c757d;
+        }
+        
+        .dt-buttons .btn-outline-secondary:hover {
+            background-color: #6c757d;
+            color: #fff;
+        }
+        
+        [data-bs-theme="dark"] .dt-buttons .btn-outline-secondary {
+            color: #aab8c5;
+            border-color: #aab8c5;
+        }
+        
+        [data-bs-theme="dark"] .dt-buttons .btn-outline-secondary:hover {
+            background-color: #16987e;
+            color: #fff;
+            border-color: #16987e;
+        }
+        
+        /* Filter section */
+        #filterSection {
+            background-color: #ffffff;
+            border-radius: 10px;
+            padding: 16px;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        [data-bs-theme="dark"] #filterSection {
+            background-color: #111827;
+            border-radius: 10px;
+            padding: 16px;
+        }
+        
+        /* Filter form controls */
+        #filterSection .form-control {
+            background-color: #ffffff;
+            border: 1px solid #d1d5db;
+            color: #111827;
+            border-radius: 6px;
+            padding: 8px 10px;
+            transition: all 0.2s ease-in-out;
+            font-weight: 500;
+        }
+        
+        #filterSection .form-control:focus {
+            background-color: #ffffff;
+            border-color: #1ab394;
+            box-shadow: 0 0 0 0.25rem rgba(26, 179, 148, 0.2);
+            color: #111827;
+        }
+        
+        #filterSection .form-control::placeholder {
+            color: #9ca3af;
+            opacity: 1;
+        }
+        
+        [data-bs-theme="dark"] #filterSection .form-control {
+            background-color: #1f2937;
+            border: 1px solid #374151;
+            color: #f3f4f6;
+            border-radius: 6px;
+            padding: 8px 10px;
+            transition: all 0.2s ease-in-out;
+        }
+        
+        [data-bs-theme="dark"] #filterSection .form-control:focus {
+            background-color: #111827;
+            border-color: #06b6d4;
+            box-shadow: 0 0 6px rgba(6, 182, 212, 0.4);
+            color: #fff;
+        }
+        
+        [data-bs-theme="dark"] #filterSection .form-control::placeholder {
+            color: #9ca3af;
+            opacity: 0.85;
+        }
+        
+        /* Filter buttons */
+        #filterSection .btn {
+            border-radius: 6px;
+            font-weight: 600;
+            transition: all 0.2s ease-in-out;
+            padding: 6px 12px;
+        }
+        
+        #filterSection .btn-primary {
+            background-color: #1ab394;
+            border: none;
+            color: #fff;
+        }
+        
+        #filterSection .btn-primary:hover {
+            background-color: #16987e;
+        }
+        
+        #filterSection .btn-secondary {
+            background-color: #6b7280;
+            border: none;
+            color: #fff;
+        }
+        
+        #filterSection .btn-secondary:hover {
+            background-color: #4b5563;
+        }
+        
+        #filterSection .btn-info {
+            background-color: #3b82f6;
+            border: none;
+            color: #fff;
+        }
+        
+        #filterSection .btn-info:hover {
+            background-color: #2563eb;
+        }
+        
+        #filterSection .btn-success {
+            background-color: #10b981;
+            border: none;
+            color: #fff;
+        }
+        
+        #filterSection .btn-success:hover {
+            background-color: #059669;
+        }
+        
+        [data-bs-theme="dark"] #filterSection .btn {
+            border-radius: 6px;
+            font-weight: 500;
+            transition: all 0.2s ease-in-out;
+        }
+        
+        [data-bs-theme="dark"] #filterSection .btn-primary {
+            background-color: #06b6d4;
+            border: none;
+            color: #fff;
+        }
+        
+        [data-bs-theme="dark"] #filterSection .btn-primary:hover {
+            background-color: #0891b2;
+        }
+        
+        [data-bs-theme="dark"] #filterSection .btn-secondary {
+            background-color: #374151;
+            border: none;
+            color: #e5e7eb;
+        }
+        
+        [data-bs-theme="dark"] #filterSection .btn-secondary:hover {
+            background-color: #4b5563;
+        }
+        
+        /* DataTables selection effects */
+        table.dataTable tbody > tr.selected,
+        table.dataTable tbody > tr > .selected,
+        table.dataTable tbody > tr.selected > td,
+        table.dataTable tbody > tr > .selected > td {
+            background-color: transparent !important;
+            outline: none !important;
+            box-shadow: none !important;
+        }
+        
+        table.dataTable.stripe tbody > tr.odd.selected,
+        table.dataTable.stripe tbody > tr.odd > .selected,
+        table.dataTable.display tbody > tr.odd.selected,
+        table.dataTable.display tbody > tr.odd > .selected,
+        table.dataTable.stripe tbody > tr.odd.selected > td,
+        table.dataTable.stripe tbody > tr.odd > .selected > td,
+        table.dataTable.display tbody > tr.odd.selected > td,
+        table.dataTable.display tbody > tr.odd > .selected > td {
+            background-color: #f9fafb !important;
+        }
+        
+        [data-bs-theme="dark"] table.dataTable.stripe tbody > tr.odd.selected,
+        [data-bs-theme="dark"] table.dataTable.stripe tbody > tr.odd > .selected,
+        [data-bs-theme="dark"] table.dataTable.display tbody > tr.odd.selected,
+        [data-bs-theme="dark"] table.dataTable.display tbody > tr.odd > .selected,
+        [data-bs-theme="dark"] table.dataTable.stripe tbody > tr.odd.selected > td,
+        [data-bs-theme="dark"] table.dataTable.stripe tbody > tr.odd > .selected > td,
+        [data-bs-theme="dark"] table.dataTable.display tbody > tr.odd.selected > td,
+        [data-bs-theme="dark"] table.dataTable.display tbody > tr.odd > .selected > td {
+            background-color: #1a2234 !important;
+        }
+        
+        table.dataTable tbody > tr.even.selected,
+        table.dataTable tbody > tr.even > .selected,
+        table.dataTable.display tbody > tr.even.selected,
+        table.dataTable.display tbody > tr.even > .selected,
+        table.dataTable tbody > tr.even.selected > td,
+        table.dataTable tbody > tr.even > .selected > td,
+        table.dataTable.display tbody > tr.even.selected > td,
+        table.dataTable.display tbody > tr.even > .selected > td {
+            background-color: #ffffff !important;
+        }
+        
+        [data-bs-theme="dark"] table.dataTable tbody > tr.even.selected,
+        [data-bs-theme="dark"] table.dataTable tbody > tr.even > .selected,
+        [data-bs-theme="dark"] table.dataTable.display tbody > tr.even.selected,
+        [data-bs-theme="dark"] table.dataTable.display tbody > tr.even > .selected,
+        [data-bs-theme="dark"] table.dataTable tbody > tr.even.selected > td,
+        [data-bs-theme="dark"] table.dataTable tbody > tr.even > .selected > td,
+        [data-bs-theme="dark"] table.dataTable.display tbody > tr.even.selected > td,
+        [data-bs-theme="dark"] table.dataTable.display tbody > tr.even > .selected > td {
+            background-color: #111827 !important;
+        }
+        
+        /* DataTables focus and hover effects */
+        table.dataTable thead th,
+        table.dataTable thead td,
+        table.dataTable tbody td,
+        table.dataTable tbody th {
+            outline: none !important;
+            box-shadow: none !important;
+        }
+        
+        table.dataTable thead th:focus,
+        table.dataTable thead td:focus,
+        table.dataTable thead th:active,
+        table.dataTable thead td:active,
+        table.dataTable tbody td:focus,
+        table.dataTable tbody th:focus,
+        table.dataTable tbody td:active,
+        table.dataTable tbody th:active {
+            outline: none !important;
+            box-shadow: none !important;
+            background-color: inherit !important;
+        }
+        
+        /* DataTables sorting arrows */
+        table.dataTable thead .sorting,
+        table.dataTable thead .sorting_asc,
+        table.dataTable thead .sorting_desc,
+        table.dataTable thead .sorting_asc_disabled,
+        table.dataTable thead .sorting_desc_disabled {
+            outline: none !important;
+            box-shadow: none !important;
+        }
+        
+        /* DataTables selection background */
+        table.dataTable tbody tr:hover,
+        table.dataTable tbody tr:hover td {
+            background-color: inherit !important;
+        }
+        
+        /* Custom hover */
+        .table-dark-card tbody tr:hover {
+            background: #f3f4f6 !important;
+        }
+        
+        [data-bs-theme="dark"] .table-dark-card tbody tr:hover {
+            background: #1f2937 !important;
+        }
+        
+        /* Calendar z-index fix */
+        .flatpickr-calendar {
+            z-index: 200000 !important;
+        }
+        
+        /* Disabled top action buttons */
+        .btn-outline-primary.disabled,
+        .btn-outline-info.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        /* CKEditor validation */
+        .ck-editor.is-invalid .ck-editor__editable {
+            border-color: #e02d2d !important;
+            box-shadow: 0 0 0 0.2rem rgba(224, 45, 45, 0.25) !important;
+        }
+        
+        /* Fix modal scrolling */
+        .modal-dialog-scrollable .modal-content {
+            max-height: calc(100vh - 2rem);
+        }
+        
+        .modal-dialog-scrollable .modal-body,
+        .modal-body {
+            max-height: 75vh;
+            overflow-y: auto;
+        }
+        
+        /* Ensure all form elements are visible within modal */
+        .modal-body .mb-3 {
+            margin-bottom: 1.5rem;
+        }
+        
+        /* Fix for icon picker overflow */
+        .icon-picker {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        /* Ensure color pickers are visible */
+        .form-control-color {
+            height: 40px;
+            padding: 5px;
+        }
+        
+        /* Ensure the file input section is visible */
+        .mb-3.mt-3 {
+            margin-bottom: 1rem !important;
+            margin-top: 1rem !important;
+        }
+        
+        /* تكبير النصوص داخل النافذة المنبثقة */
+        .modal-content {
+            font-size: 16px; /* حجم الخط الأساسي */
+            line-height: 1.8; /* تباعد الأسطر لسهولة القراءة */
+        }
+
+        /* العناوين */
+        .modal-header .modal-title {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        /* النصوص المساعدة الصغيرة */
+        .modal-body small,
+        .modal-body .form-text {
+            font-size: 14px;
+            color: #555; /* لون أقوى */
+        }
+
+        /* الحقول */
+        .modal-body .form-control,
+        .modal-body .form-select {
+            font-size: 16px;
+            padding: 10px 12px;
+        }
+
+        /* التكبير داخل Textarea */
+        .modal-body textarea {
+            font-size: 16px;
+            padding: 12px;
+        }
+
+        /* زر الحفظ والإغلاق */
+        .modal-footer .btn {
+            font-size: 15px;
+            padding: 8px 20px;
+        }
+        
+        /* Image preview enhancement */
+        #companiesTable td img:hover {
+            transform: scale(2);
+            transition: transform 0.2s;
+            z-index: 1000;
+            position: relative;
+        }
+    </style>
+}
+
+<!-- Filter toggle button -->
+<div class="mb-2">
+    <button id="toggleFilters" type="button" class="btn btn-primary">
+        <i class="ti ti-filter-off me-1"></i><span id="toggleFiltersText">إظهار الفلترة</span>
+    </button>
+</div>
+
+<!-- Filter section -->
+<div class="card mb-3" id="filterSection" style="display: none;">
+    <div class="card-body p-2">
+        <!-- DataTables Buttons Container -->
+        <div class="row g-2 mb-2">
+            <div class="col-12" id="datatables-buttons-container">
+                <!-- DataTables buttons will be inserted here by JavaScript -->
+            </div>
+        </div>
+        
+        <!-- Filter fields in grid layout (side by side) -->
+        <div class="row g-2 mb-2">
+            <div class="col-md">
+                <input type="text" class="form-control form-control-sm" placeholder="الرقم" id="filter-id">
+            </div>
+            <div class="col-md">
+                <input type="text" class="form-control form-control-sm" placeholder="اسم الشركة" id="filter-company-name">
+            </div>
+            <div class="col-md">
+                <select class="selectpicker form-control form-control-sm" id="filter-status" data-live-search="true" title="اختر الحالة">
+                    <option value="active">مفعلة</option>
+                    <option value="inactive">غير مفعلة</option>
+                </select>
+            </div>
+            <div class="col-md">
+                <select class="selectpicker form-control form-control-sm" id="filter-records" data-live-search="true" title="اختر السجلات">
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                </select>
+            </div>
+        </div>
+        
+        <!-- Unified action buttons -->
+        <div class="row g-2">
+            <div class="col">
+                <button type="button" class="btn btn-secondary btn-sm" id="resetFilters">إعادة تعيين</button>
+                <button type="button" class="btn btn-primary btn-sm" id="applyFilters">بحث</button>
+                <button type="button" class="btn btn-info btn-sm" id="printButton">طباعة</button>
+                <button type="button" class="btn btn-success btn-sm" id="exportExcelButton">تصدير اكسل</button>
+                <div class="d-inline-flex gap-2" style="vertical-align: middle;">
+                    <button type="button" class="btn btn-primary btn-sm" id="selectAllColumns" title="تحديد جميع الحقول">
+                        تحديد جميع
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Action buttons -->
+<div class="mb-3">
+    <div class="d-flex gap-2 flex-wrap">
+        <a href="#" class="btn btn-sm btn-outline-danger" title="حذف">
+            <i class="ti ti-trash"></i>
+        </a>
+        <!-- زر لفتح النافذة -->
+        <button type="button" class="btn btn-sm btn-outline-success" title="إضافة" data-bs-toggle="modal" data-bs-target="#addCompanyModal">
+            <i class="ti ti-plus"></i>
+        </button>
+        <a href="#" class="btn btn-sm btn-outline-primary" title="تعديل" id="topEditButton">
+            <i class="ti ti-pencil"></i>
+        </a>
+        <a href="#" class="btn btn-sm btn-outline-info" title="مشاهدة" id="topViewButton">
+            <i class="ti ti-eye"></i>
+        </a>
+        <button id="refreshBtn" class="btn btn-sm btn-outline-secondary">
+            <i class="ti ti-refresh"></i>
+        </button>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <div class="d-flex align-items-center">
+            <h5 class="card-title mb-0 fw-bold">@ViewData["Title"]</h5>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table id="companiesTable" class="table table-striped table-bordered dt-responsive nowrap w-100">
+                <thead>
+                    <tr>
+                        <th class="text-center" width="40px">
+                            <div class="form-check"><input type="checkbox" class="form-check-input" id="selectAll"></div>
+                        </th>
+                        <th>الرقم</th>
+                        <th>شركة الحوالات</th>
+                        <th>رقم الربط</th>
+                        <th>الجهة</th>
+                        <th style="width: 100px; text-align: center;">المزيد</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="text-center">
+                            <div class="form-check"><input type="checkbox" class="form-check-input company-checkbox" value="1"></div>
+                        </td>
+                        <td>1</td>
+                        <td>البراق</td>
+                        <td>181</td>
+                        <td>جنوب</td>
+                        <td style="text-align: center;">
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    للمزيد
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="#" data-action="edit"><i class="ti ti-pencil me-1"></i> تعديل</a></li>
+                                    <li><a class="dropdown-item" href="#" data-action="view"><i class="ti ti-eye me-1"></i> مشاهدة</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="ti ti-trash me-1"></i> حذف</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">
+                            <div class="form-check"><input type="checkbox" class="form-check-input company-checkbox" value="2"></div>
+                        </td>
+                        <td>2</td>
+                        <td>العالميه اكسبرس</td>
+                        <td></td>
+                        <td>جنوب</td>
+                        <td style="text-align: center;">
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    للمزيد
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="#" data-action="edit"><i class="ti ti-pencil me-1"></i> تعديل</a></li>
+                                    <li><a class="dropdown-item" href="#" data-action="view"><i class="ti ti-eye me-1"></i> مشاهدة</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="ti ti-trash me-1"></i> حذف</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">
+                            <div class="form-check"><input type="checkbox" class="form-check-input company-checkbox" value="3"></div>
+                        </td>
+                        <td>3</td>
+                        <td>شركه لمع النجوم</td>
+                        <td></td>
+                        <td>جنوب</td>
+                        <td style="text-align: center;">
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    للمزيد
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="#" data-action="edit"><i class="ti ti-pencil me-1"></i> تعديل</a></li>
+                                    <li><a class="dropdown-item" href="#" data-action="view"><i class="ti ti-eye me-1"></i> مشاهدة</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="ti ti-trash me-1"></i> حذف</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">
+                            <div class="form-check"><input type="checkbox" class="form-check-input company-checkbox" value="4"></div>
+                        </td>
+                        <td>4</td>
+                        <td>النعمان(كويك)</td>
+                        <td></td>
+                        <td>جنوب</td>
+                        <td style="text-align: center;">
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    للمزيد
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="#" data-action="edit"><i class="ti ti-pencil me-1"></i> تعديل</a></li>
+                                    <li><a class="dropdown-item" href="#" data-action="view"><i class="ti ti-eye me-1"></i> مشاهدة</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="ti ti-trash me-1"></i> حذف</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">
+                            <div class="form-check"><input type="checkbox" class="form-check-input company-checkbox" value="5"></div>
+                        </td>
+                        <td>5</td>
+                        <td>صنعاء شركه العمقي(خاص باستلام حوالات الشمال)</td>
+                        <td></td>
+                        <td>جنوب</td>
+                        <td style="text-align: center;">
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    للمزيد
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="#" data-action="edit"><i class="ti ti-pencil me-1"></i> تعديل</a></li>
+                                    <li><a class="dropdown-item" href="#" data-action="view"><i class="ti ti-eye me-1"></i> مشاهدة</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="ti ti-trash me-1"></i> حذف</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">
+                            <div class="form-check"><input type="checkbox" class="form-check-input company-checkbox" value="6"></div>
+                        </td>
+                        <td>6</td>
+                        <td>صنعاء الصلاحي(خاص باستلام حوالات الشمال)</td>
+                        <td></td>
+                        <td>جنوب</td>
+                        <td style="text-align: center;">
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    للمزيد
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="#" data-action="edit"><i class="ti ti-pencil me-1"></i> تعديل</a></li>
+                                    <li><a class="dropdown-item" href="#" data-action="view"><i class="ti ti-eye me-1"></i> مشاهدة</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="ti ti-trash me-1"></i> حذف</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">
+                            <div class="form-check"><input type="checkbox" class="form-check-input company-checkbox" value="7"></div>
+                        </td>
+                        <td>7</td>
+                        <td>الصومعي/غير مباشر</td>
+                        <td></td>
+                        <td>جنوب</td>
+                        <td style="text-align: center;">
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    للمزيد
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="#" data-action="edit"><i class="ti ti-pencil me-1"></i> تعديل</a></li>
+                                    <li><a class="dropdown-item" href="#" data-action="view"><i class="ti ti-eye me-1"></i> مشاهدة</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="ti ti-trash me-1"></i> حذف</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">
+                            <div class="form-check"><input type="checkbox" class="form-check-input company-checkbox" value="8"></div>
+                        </td>
+                        <td>8</td>
+                        <td>الشارقه/غير مباشر</td>
+                        <td></td>
+                        <td>جنوب</td>
+                        <td style="text-align: center;">
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    للمزيد
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="#" data-action="edit"><i class="ti ti-pencil me-1"></i> تعديل</a></li>
+                                    <li><a class="dropdown-item" href="#" data-action="view"><i class="ti ti-eye me-1"></i> مشاهدة</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="ti ti-trash me-1"></i> حذف</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">
+                            <div class="form-check"><input type="checkbox" class="form-check-input company-checkbox" value="9"></div>
+                        </td>
+                        <td>9</td>
+                        <td>الامتياز/مباشر</td>
+                        <td>170</td>
+                        <td>شمال</td>
+                        <td style="text-align: center;">
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    للمزيد
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="#" data-action="edit"><i class="ti ti-pencil me-1"></i> تعديل</a></li>
+                                    <li><a class="dropdown-item" href="#" data-action="view"><i class="ti ti-eye me-1"></i> مشاهدة</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="ti ti-trash me-1"></i> حذف</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">
+                            <div class="form-check"><input type="checkbox" class="form-check-input company-checkbox" value="10"></div>
+                        </td>
+                        <td>10</td>
+                        <td>الاكوع</td>
+                        <td>180</td>
+                        <td>جنوب</td>
+                        <td style="text-align: center;">
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    للمزيد
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="#" data-action="edit"><i class="ti ti-pencil me-1"></i> تعديل</a></li>
+                                    <li><a class="dropdown-item" href="#" data-action="view"><i class="ti ti-eye me-1"></i> مشاهدة</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="ti ti-trash me-1"></i> حذف</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">
+                            <div class="form-check"><input type="checkbox" class="form-check-input company-checkbox" value="11"></div>
+                        </td>
+                        <td>11</td>
+                        <td>الحداد/غير مباشر</td>
+                        <td></td>
+                        <td>جنوب</td>
+                        <td style="text-align: center;">
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    للمزيد
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="#" data-action="edit"><i class="ti ti-pencil me-1"></i> تعديل</a></li>
+                                    <li><a class="dropdown-item" href="#" data-action="view"><i class="ti ti-eye me-1"></i> مشاهدة</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="ti ti-trash me-1"></i> حذف</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">
+                            <div class="form-check"><input type="checkbox" class="form-check-input company-checkbox" value="12"></div>
+                        </td>
+                        <td>12</td>
+                        <td>الشركه العربيه/غير مباشر</td>
+                        <td></td>
+                        <td>جنوب</td>
+                        <td style="text-align: center;">
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    للمزيد
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="#" data-action="edit"><i class="ti ti-pencil me-1"></i> تعديل</a></li>
+                                    <li><a class="dropdown-item" href="#" data-action="view"><i class="ti ti-eye me-1"></i> مشاهدة</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="ti ti-trash me-1"></i> حذف</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- نافذة منبثقة لإضافة شركة حوالات -->
+<div class="modal fade" id="addCompanyModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content" dir="rtl">
+
+      <!-- الهيدر -->
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title">دليل البيانات &gt; دليل شركات الحوالات</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="إغلاق"></button>
+      </div>
+
+      <!-- النموذج -->
+      <form id="addCompanyForm" method="post" enctype="multipart/form-data">
+        <div class="modal-body">
+          <div class="mb-3">
+            <label class="form-label fw-bold">اسم شركة الحوالات <span class="text-danger">*</span></label>
+            <input type="text" name="name" class="form-control" placeholder="ادخل اسم الشركة" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label fw-bold">رقم الربط مع المزود <span class="text-danger">*</span></label>
+            <input type="text" name="linkid" class="form-control" placeholder="ادخل رقم الربط" required>
+          </div>
+          <div class="mb-3 form-check">
+            <input type="checkbox" name="isstop" value="1" class="form-check-input" id="stopNetwork">
+            <label for="stopNetwork" class="form-check-label fw-bold">إيقاف الشبكة</label>
+          </div>
+
+          <!-- فئة الربط -->
+          <div class="mb-3">
+            <label class="form-label fw-bold">
+              فئة الربط (مثال: najmplus , hazmi , hitar) <span class="text-danger">*</span>
+            </label>
+            <input type="text" name="unit" id="srfhunitid" class="form-control mb-2" placeholder="ادخل فئة الربط" required>
+
+            <label class="form-label">أو اختر الفئة</label>
+            <select onchange="fillunitsrf(this.value)" name="unitsrfh" data-live-search="true" class="form-select selectpicker">
+              <option value="">فئة الشبكة</option>
+              <option value="najmplus">شبكة النجم</option>
+              <option value="hazmy">شبكة الحزمي</option>
+              <option value="imtyaz">شبكة الامتياز</option>
+              <option value="yemenexpress">شبكة يمن اكسبرس</option>
+              <option value="dadia">شبكة داديه</option>
+              <option value="hpfast">شبكة اتش بي فاست</option>
+              <option value="mall">شبكة مال اكسبرس (سويد)</option>
+              <option value="qutaibi">شبكة القطيبي</option>
+              <option value="hitar">شبكة الهتار</option>
+              <option value="momaiz">شبكة المميز</option>
+              <option value="alakwa">شبكة الاكوع</option>
+              <option value="albarg">شبكة البرق</option>
+              <option value="almoheet">شبكة المحيط</option>
+              <option value="alyabani">شبكة الياباني</option>
+              <option value="adenexch">شبكة عدن اكسبرس</option>
+              <option value="dadia">شبكة داديــه أونلاين</option>
+              <option value="floosak">محفظة فلوسك</option>
+              <option value="cash">محفظة كاش</option>
+              <option value="bankalamal">بيس - بنك الأمل</option>
+              <option value="shamel">محفظة الشامل موني</option>
+            </select>
+          </div>
+
+          <!-- الجهة -->
+          <div class="mb-3">
+            <label class="form-label fw-bold">الجهة <span class="text-danger">*</span></label>
+            <div class="alert alert-info">
+              ملاحظة: الشركة التي يتم تحديد الجهة لها (جنوب) يعني ذلك عدم اعتماد نسبة الزيادة لإرسال الحوالات لهذه الشركة.
+            </div>
+            <div class="form-check">
+              <input type="checkbox" value="1" name="iscormit" class="form-check-input" id="northSide">
+              <label for="northSide" class="form-check-label">شمال</label>
+            </div>
+            <div class="form-check">
+              <input type="checkbox" value="2" name="iscormit" class="form-check-input" id="southSide">
+              <label for="southSide" class="form-check-label">جنوب</label>
+            </div>
+          </div>
+
+          <!-- جهة الربط -->
+          <div class="mb-3">
+            <label class="form-label fw-bold">جهة الربط (شركات) <span class="text-danger">*</span></label>
+            <input type="text" name="linkibd" class="form-control" placeholder="ادخل جهة الربط" required>
+          </div>
+        </div>
+
+        <!-- الفوتر -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
+          <button type="submit" id="btnadd" name="btnadd" class="btn btn-success">
+           حفظ
+          </button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>
+
+<!-- Script لملء الفئة -->
+<script>
+  function fillunitsrf(v) {
+    document.getElementById("srfhunitid").value = v;
+  }
+</script>
+
+<!-- نافذة منبثقة لتعديل شركة حوالات -->
+<div class="modal fade" id="editCompanyModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content" dir="rtl">
+
+      <!-- الهيدر -->
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title">دليل البيانات &gt; دليل شركات الحوالات</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="إغلاق"></button>
+      </div>
+
+      <!-- النموذج -->
+      <form id="editCompanyForm" method="post" enctype="multipart/form-data">
+        <input type="hidden" id="editCompanyId" name="companyId">
+        <div class="modal-body">
+          <!-- اسم الشركة -->
+          <div class="mb-3">
+            <label class="form-label fw-bold">اسم شركة الحوالات <span class="text-danger">*</span></label>
+            <input type="text" name="name" class="form-control" placeholder="ادخل اسم الشركة" required>
+          </div>
+
+          <!-- رقم الربط مع المزود -->
+          <div class="mb-3">
+            <label class="form-label fw-bold">رقم الربط مع المزود <span class="text-danger">*</span></label>
+            <input type="text" name="linkid" class="form-control" placeholder="ادخل رقم الربط" required>
+          </div>
+
+          <!-- إيقاف الشبكة -->
+          <div class="mb-3 form-check">
+            <input type="checkbox" name="isstop" value="1" class="form-check-input" id="editStopNetwork">
+            <label for="editStopNetwork" class="form-check-label fw-bold">إيقاف الشبكة</label>
+          </div>
+
+          <!-- فئة الربط -->
+          <div class="mb-3">
+            <label class="form-label fw-bold">
+              فئة الربط (مثال: najmplus , hazmi , hitar) <span class="text-danger">*</span>
+            </label>
+            <input type="text" name="unit" id="editsrfhunitid" class="form-control mb-2" placeholder="ادخل فئة الربط" required>
+
+            <label class="form-label">أو اختر الفئة</label>
+            <select onchange="editfillunitsrf(this.value)" name="unitsrfh" data-live-search="true" class="form-select selectpicker">
+              <option value="">فئة الشبكة</option>
+              <option value="najmplus">شبكة النجم</option>
+              <option value="hazmy">شبكة الحزمي</option>
+              <option value="imtyaz">شبكة الامتياز</option>
+              <option value="yemenexpress">شبكة يمن اكسبرس</option>
+              <option value="dadia">شبكة داديه</option>
+              <option value="hpfast">شبكة اتش بي فاست</option>
+              <option value="mall">شبكة مال اكسبرس (سويد)</option>
+              <option value="qutaibi">شبكة القطيبي</option>
+              <option value="hitar">شبكة الهتار</option>
+              <option value="momaiz">شبكة المميز</option>
+              <option value="alakwa">شبكة الاكوع</option>
+              <option value="albarg">شبكة البرق</option>
+              <option value="almoheet">شبكة المحيط</option>
+              <option value="alyabani">شبكة الياباني</option>
+              <option value="adenexch">شبكة عدن اكسبرس</option>
+              <option value="dadia">شبكة داديــه أونلاين</option>
+              <option value="floosak">محفظة فلوسك</option>
+              <option value="cash">محفظة كاش</option>
+              <option value="bankalamal">بيس - بنك الأمل</option>
+              <option value="shamel">محفظة الشامل موني</option>
+            </select>
+          </div>
+
+          <!-- الجهة -->
+          <div class="mb-3">
+            <label class="form-label fw-bold">الجهة <span class="text-danger">*</span></label>
+            <div class="alert alert-info">
+              ملاحظة: الشركة التي يتم تحديد الجهة لها (جنوب) يعني ذلك عدم اعتماد نسبة الزيادة لإرسال الحوالات لهذه الشركة.
+            </div>
+            <div class="form-check">
+              <input type="checkbox" value="1" name="iscormit" class="form-check-input" id="editNorthSide">
+              <label for="editNorthSide" class="form-check-label">شمال</label>
+            </div>
+            <div class="form-check">
+              <input type="checkbox" value="2" name="iscormit" class="form-check-input" id="editSouthSide">
+              <label for="editSouthSide" class="form-check-label">جنوب</label>
+            </div>
+          </div>
+
+          <!-- جهة الربط -->
+          <div class="mb-3">
+            <label class="form-label fw-bold">جهة الربط (شركات) <span class="text-danger">*</span></label>
+            <input type="text" name="linkibd" class="form-control" placeholder="ادخل جهة الربط" required>
+          </div>
+        </div>
+
+        <!-- الفوتر -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
+          <button type="submit" id="btnedit" name="btnedit" class="btn btn-success">
+           حفظ
+          </button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>
+
+<!-- نافذة منبثقة لتعديل شركة حوالات -->
+<div class="modal fade" id="editCompanyModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content" dir="rtl">
+
+      <!-- الهيدر -->
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title">دليل البيانات &gt; شركات الحوالات</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="إغلاق"></button>
+      </div>
+
+      <!-- الجسم -->
+      <form id="editForm" method="post" action="edit_company.php">
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="company_name">اسم الشركة</label>
+                <input type="text" class="form-control" id="company_name" name="company_name" required>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="company_logo">شعار الشركة</label>
+                <input type="file" class="form-control" id="company_logo" name="company_logo" accept="image/*">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="company_website">الموقع الإلكتروني</label>
+                <input type="url" class="form-control" id="company_website" name="company_website">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="company_email">البريد الإلكتروني</label>
+                <input type="email" class="form-control" id="company_email" name="company_email">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="company_phone">رقم الهاتف</label>
+                <input type="tel" class="form-control" id="company_phone" name="company_phone">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="company_address">العنوان</label>
+                <input type="text" class="form-control" id="company_address" name="company_address">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="company_status">الحالة</label>
+                <select class="form-control" id="company_status" name="company_status">
+                  <option value="active">فعال</option>
+                  <option value="inactive">غير فعال</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+            <button type="submit" id="btnedit" name="btnedit" class="btn btn-success">
+           حفظ
+          </button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>
+
+<!-- نافذة منبثقة لإضافة شركة حوالات -->
+<div class="modal fade" id="addCompanyModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content" dir="rtl">
+
+      <!-- الهيدر -->
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title">دليل البيانات &gt; شركات الحوالات</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="إغلاق"></button>
+      </div>
+</div>
+
+<!-- View Company Modal -->
+<div class="modal fade" id="viewCompanyModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content" dir="rtl">
+
+      <!-- الهيدر -->
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title">دليل البيانات &gt; شركات الحوالات</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="إغلاق"></button>
+      </div>
+
+      <!-- الجسم -->
+      <form id="addForm" method="post" action="add_company.php">
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="company_name">اسم الشركة</label>
+                <input type="text" class="form-control" id="company_name" name="company_name" required>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="company_logo">شعار الشركة</label>
+                <input type="file" class="form-control" id="company_logo" name="company_logo" accept="image/*">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="company_website">الموقع الإلكتروني</label>
+                <input type="url" class="form-control" id="company_website" name="company_website">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="company_email">البريد الإلكتروني</label>
+                <input type="email" class="form-control" id="company_email" name="company_email">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="company_phone">رقم الهاتف</label>
+                <input type="tel" class="form-control" id="company_phone" name="company_phone">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="company_address">العنوان</label>
+                <input type="text" class="form-control" id="company_address" name="company_address">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="company_status">الحالة</label>
+                <select class="form-control" id="company_status" name="company_status">
+                  <option value="active">فعال</option>
+                  <option value="inactive">غير فعال</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+            <button type="submit" id="btnsubmit" name="btnsubmit" class="btn btn-success">
+              إضافة
+            </button>
+          </div>
+        </form>
+
+      </div>
+      </div>
+
+      <!-- الرسم البياني -->
+      <div class="modal-body">
+        <form id="formAddCompany" method="post" enctype="multipart/form-data">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label for="companyName" class="form-label">اسم الشركة</label>
+                <input type="text" class="form-control" id="companyName" name="companyName" required>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label for="contactName" class="form-label">اسم المسؤول</label>
+                <input type="text" class="form-control" id="contactName" name="contactName" required>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label for="contactEmail" class="form-label">البريد الإلكتروني</label>
+                <input type="email" class="form-control" id="contactEmail" name="contactEmail" required>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label for="contactPhone" class="form-label">رقم الهاتف</label>
+                <input type="tel" class="form-control" id="contactPhone" name="contactPhone" required>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label for="logo" class="form-label">شعار الشركة</label>
+                <input type="file" class="form-control" id="logo" name="logo" required>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label for="status" class="form-label">الحالة</label>
+                <select class="form-select" id="status" name="status" required>
+                  <option value="active">فعال</option>
+                  <option value="inactive">غير فعال</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="d-flex justify-content-end">
+            <button type="submit" id="btnAdd" name="btnAdd" class="btn btn-primary">
+              إضافة
+            </button>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Company Modal -->
+<div class="modal fade" id="editCompanyModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content" dir="rtl">
+
+      <!-- الهيدر -->
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title">دليل البيانات &gt; شركات الحوالات</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="إغلاق"></button>
+      </div>
+
+      <!-- الرسم البياني -->
+      <div class="modal-body">
+        <form id="formEditCompany" method="post" enctype="multipart/form-data">
+          <input type="hidden" id="companyId" name="companyId">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label for="companyNameEdit" class="form-label">اسم الشركة</label>
+                <input type="text" class="form-control" id="companyNameEdit" name="companyNameEdit" required>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label for="contactNameEdit" class="form-label">اسم المسؤول</label>
+                <input type="text" class="form-control" id="contactNameEdit" name="contactNameEdit" required>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label for="contactEmailEdit" class="form-label">البريد الإلكتروني</label>
+                <input type="email" class="form-control" id="contactEmailEdit" name="contactEmailEdit" required>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label for="contactPhoneEdit" class="form-label">رقم الهاتف</label>
+                <input type="tel" class="form-control" id="contactPhoneEdit" name="contactPhoneEdit" required>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label for="logoEdit" class="form-label">شعار الشركة</label>
+                <input type="file" class="form-control" id="logoEdit" name="logoEdit" required>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label for="statusEdit" class="form-label">الحالة</label>
+                <select class="form-select" id="statusEdit" name="statusEdit" required>
+                  <option value="active">فعال</option>
+                  <option value="inactive">غير فعال</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="d-flex justify-content-end">
+            <button type="submit" id="btnedit" name="btnedit" class="btn btn-success">
+           حفظ
+          </button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>
+
+<!-- View Company Modal -->
+<div class="modal fade" id="viewCompanyModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content" dir="rtl">
+
+      <!-- الهيدر -->
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title">دليل البيانات &gt; شركات الحوالات</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="إغلاق"></button>
+      </div>
+
+      <!-- النموذج -->
+      <div class="modal-body">
+        <!-- Service Basic Information Section -->
+        <div class="v-section">
+          <div class="v-cap">معلومات الشركة</div>
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="v-label">الرقم</label>
+              <div class="view-field" id="viewCompanyNumber"></div>
+            </div>
+            
+            <div class="col-md-6">
+              <label class="v-label">شركة الحوالات</label>
+              <div class="view-field" id="viewCompanyName"></div>
+            </div>
+            
+            <div class="col-md-6">
+              <label class="v-label">رقم الربط</label>
+              <div class="view-field" id="viewConnectionNumber"></div>
+            </div>
+            
+            <div class="col-md-6">
+              <label class="v-label">الجهة</label>
+              <div class="view-field" id="viewEntity"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- الفوتر -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+@section scripts {
+    <!-- jstree js -->
+    <!-- date range picker js -->
+    <script src="~/plugins/daterangepicker/moment.min.js"></script>
+    <script src="~/plugins/daterangepicker/daterangepicker.js"></script>
+    <!-- datatables js -->
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.5.0/js/responsive.bootstrap5.min.js"></script>
+    <!-- datatables buttons js -->
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.bootstrap5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.colVis.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
+    <!-- bootstrap-select js -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/js/bootstrap-select.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/js/i18n/defaults-ar_AR.min.js"></script>
+    
+    <script>
+        $(document).ready(function() {
+            // Set Bootstrap version for selectpicker
+            $.fn.selectpicker.Constructor.BootstrapVersion = '5';
+            
+            // Initialize DataTable
+            var table = $('#companiesTable').DataTable({
+                responsive: true,
+                pageLength: 10,
+                dom: 'Bfrtip', // Include buttons
+                language: {
+                    url: "//cdn.datatables.net/plug-ins/1.13.6/i18n/ar.json",
+                    emptyTable: "لا توجد بيانات",
+                    info: "إظهار _START_ إلى _END_ من _TOTAL_ سجل",
+                    infoEmpty: "إظهار 0 إلى 0 من 0",
+                    paginate: { first:"الأولى", last:"الأخيرة", next:"التالي", previous:"السابق" }
+                },
+                buttons: [
+                    {
+                        extend: 'print',
+                        text: 'طباعه',
+                        className: 'btn btn-outline-secondary btn-sm',
+                        exportOptions: {
+                            columns: ':visible'
+                        }
+                    },
+                    {
+                        extend: 'colvis',
+                        text: 'تحديد الحقول',
+                        className: 'btn btn-outline-secondary btn-sm',
+                        collectionLayout: 'fixed two-column',
+                        postfixButtons: ['colvisRestore']
+                    },
+                    {
+                        extend: 'excelHtml5',
+                        text: 'تصدير اكسل',
+                        className: 'btn btn-outline-secondary btn-sm',
+                        exportOptions: {
+                            columns: ':visible'
+                        }
+                    }
+                ]
+            });
+            
+            // Move buttons to filter section
+            table.buttons().container().appendTo('#datatables-buttons-container');
+            
+            // Hide the default buttons container
+            $('.dt-buttons').hide();
+            
+            // Toggle filter section
+            $('#toggleFilters').click(function() {
+                $('#filterSection').slideToggle();
+                var icon = $(this).find('i');
+                var text = $('#toggleFiltersText');
+                if (icon.hasClass('ti-filter-off')) {
+                    icon.removeClass('ti-filter-off').addClass('ti-filter');
+                    text.text('إخفاء الفلترة');
+                } else {
+                    icon.removeClass('ti-filter').addClass('ti-filter-off');
+                    text.text('إظهار الفلترة');
+                }
+            });
+            
+            // Select all checkboxes
+            $('#selectAll').click(function() {
+                $('.company-checkbox').prop('checked', this.checked);
+            });
+            
+            // Refresh button
+            $('#refreshBtn').click(function() {
+                location.reload();
+            });
+            
+            // Initialize bootstrap select
+            $('.selectpicker').selectpicker();
+            
+            // Initialize selectpickers in modals when they are shown
+            $('#addCompanyModal, #editCompanyModal').on('shown.bs.modal', function () {
+                $('.selectpicker', this).selectpicker('render');
+            });
+            
+            // Handle reset filters button
+            $('#resetFilters').on('click', function() {
+                // Reset all filter input fields
+                $('#filter-id').val('');
+                $('#filter-company-name').val('');
+                $('#filter-status').selectpicker('val', '');
+                $('#filter-records').selectpicker('val', '');
+                $('.selectpicker').selectpicker('refresh');
+                alert('تم إعادة تعيين الفلاتر');
+            });
+            
+            // Handle apply filters button (you can implement actual filtering logic here)
+            $('#applyFilters').on('click', function() {
+                alert('تم تطبيق الفلاتر');
+                // In a real application, you would filter the DataTable here
+            });
+            
+            // Handle print button
+            $('#printButton').on('click', function() {
+                table.button(0).trigger();
+            });
+            
+            // Handle export to Excel button
+            $('#exportExcelButton').on('click', function() {
+                table.button(2).trigger();
+            });
+            
+            // Handle select all columns button
+            $('#selectAllColumns').on('click', function() {
+                // Get all column visibility buttons
+                var columnButtons = table.buttons('.buttons-columnVisibility');
+                
+                // Check if all columns are currently visible
+                var allVisible = true;
+                $.each(columnButtons[0], function(index, buttonIndex) {
+                    var button = table.button(buttonIndex);
+                    if (!button.active()) {
+                        allVisible = false;
+                        return false;
+                    }
+                });
+                
+                // Toggle visibility of all columns
+                $.each(columnButtons[0], function(index, buttonIndex) {
+                    var button = table.button(buttonIndex);
+                    if (allVisible) {
+                        // Hide all columns
+                        if (button.active()) {
+                            button.trigger();
+                        }
+                    } else {
+                        // Show all columns
+                        if (!button.active()) {
+                            button.trigger();
+                        }
+                    }
+                });
+            });
+            
+            // Handle action buttons
+            $('#topEditButton').click(function(e) {
+                e.preventDefault();
+                var checkedBoxes = $('.company-checkbox:checked');
+                if (checkedBoxes.length === 0) {
+                    alert('الرجاء تحديد شركة واحدة على الأقل للتعديل');
+                    return;
+                }
+                
+                // For now, we'll just edit the first selected item
+                var firstChecked = checkedBoxes.first();
+                var row = firstChecked.closest('tr');
+                if (row.hasClass('child')) {
+                    row = row.prev();
+                }
+                
+                // Get row data
+                var companyId = firstChecked.val();
+                var companyNumber = row.find('td:eq(1)').text();
+                var companyName = row.find('td:eq(2)').text();
+                var connectionNumber = row.find('td:eq(3)').text();
+                var entity = row.find('td:eq(4)').text();
+                
+                // Populate edit modal
+                $('#editCompanyId').val(companyId);
+                $('input[name="name"]', $('#editCompanyForm')).val(companyName);
+                $('input[name="linkid"]', $('#editCompanyForm')).val(connectionNumber);
+                // TODO: Populate other fields as needed
+                
+                // Show edit modal
+                $('#editCompanyModal').modal('show');
+            });
+            
+            $('#topViewButton').click(function(e) {
+                e.preventDefault();
+                var checkedBoxes = $('.company-checkbox:checked');
+                if (checkedBoxes.length === 0) {
+                    alert('الرجاء تحديد شركة واحدة على الأقل للمشاهدة');
+                    return;
+                }
+                
+                // For now, we'll just view the first selected item
+                var firstChecked = checkedBoxes.first();
+                var row = firstChecked.closest('tr');
+                if (row.hasClass('child')) {
+                    row = row.prev();
+                }
+                
+                // Get row data
+                var companyNumber = row.find('td:eq(1)').text();
+                var companyName = row.find('td:eq(2)').text();
+                var connectionNumber = row.find('td:eq(3)').text();
+                var entity = row.find('td:eq(4)').text();
+                
+                // Populate view modal
+                $('#viewCompanyNumber').text(companyNumber);
+                $('#viewCompanyName').text(companyName);
+                $('#viewConnectionNumber').text(connectionNumber);
+                $('#viewEntity').text(entity);
+                
+                // Show view modal
+                $('#viewCompanyModal').modal('show');
+            });
+            
+            // Handle dropdown actions
+            $('#companiesTable').on('click', '[data-action="edit"]', function(e) {
+                e.preventDefault();
+                var row = $(this).closest('tr');
+                if (row.hasClass('child')) {
+                    row = row.prev();
+                }
+                
+                // Get row data
+                var companyId = row.find('.company-checkbox').val();
+                var companyNumber = row.find('td:eq(1)').text();
+                var companyName = row.find('td:eq(2)').text();
+                var connectionNumber = row.find('td:eq(3)').text();
+                var entity = row.find('td:eq(4)').text();
+                
+                // Populate edit modal
+                $('#editCompanyId').val(companyId);
+                $('input[name="name"]', $('#editCompanyForm')).val(companyName);
+                $('input[name="linkid"]', $('#editCompanyForm')).val(connectionNumber);
+                
+                // Show edit modal
+                $('#editCompanyModal').modal('show');
+            });
+            
+            $('#companiesTable').on('click', '[data-action="view"]', function(e) {
+                e.preventDefault();
+                var row = $(this).closest('tr');
+                if (row.hasClass('child')) {
+                    row = row.prev();
+                }
+                
+                // Get row data
+                var companyNumber = row.find('td:eq(1)').text();
+                var companyName = row.find('td:eq(2)').text();
+                var connectionNumber = row.find('td:eq(3)').text();
+                var entity = row.find('td:eq(4)').text();
+                
+                // Populate view modal
+                $('#viewCompanyNumber').text(companyNumber);
+                $('#viewCompanyName').text(companyName);
+                $('#viewConnectionNumber').text(connectionNumber);
+                $('#viewEntity').text(entity);
+                
+                // Show view modal
+                $('#viewCompanyModal').modal('show');
+            });
+            
+            // Handle form submissions
+            $('#addCompanyForm').on('submit', function(e) {
+                e.preventDefault();
+                
+                // In a real application, you would submit the form data via AJAX
+                alert('تم إضافة الشركة بنجاح!');
+                $('#addCompanyModal').modal('hide');
+                this.reset();
+            });
+            
+            $('#editCompanyForm').on('submit', function(e) {
+                e.preventDefault();
+                
+                // In a real application, you would submit the form data via AJAX
+                alert('تم تحديث الشركة بنجاح!');
+                $('#editCompanyModal').modal('hide');
+            });
+        });
+    </script>
+}

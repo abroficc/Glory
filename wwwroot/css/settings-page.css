@@ -1,0 +1,861 @@
+/* Settings Page Specific Styles - Based on Voucher Page */
+
+/* Define CSS variables for both light and dark themes */
+:root {
+    /* Light theme variables */
+    --section-bg: #f8f9fa;
+    --section-border: #e9ecef;
+    --text-primary: #495057;
+    --text-secondary: #6c757d;
+    --input-bg: #fff;
+    --input-border: #ced4da;
+    --view-field-bg: #f8f9fa;
+    --view-field-border: #e9ecef;
+    --view-field-color: #495057;
+    --icon-color: #6c757d;
+    --calendar-icon-color: #6b7280;
+    --alert-warning-bg: #fff3cd;
+    --alert-warning-border: #ffeaa7;
+    --alert-warning-color: #856404;
+    --alert-danger-bg: #f8d7da;
+    --alert-danger-border: #f5c6cb;
+    --alert-danger-color: #721c24;
+    --btn-info-bg: #23c6c8;
+    --btn-info-border: #23c6c8;
+    --btn-info-hover-bg: #1ea8aa;
+    --btn-info-hover-border: #1ea8aa;
+    --modal-header-bg: #1ab394;
+    --modal-header-border: #16987e;
+    --modal-footer-bg: #f0f8f8;
+    --modal-footer-border: #d1e8e8;
+    --form-plaintext-bg: #f8f9fa;
+    --form-plaintext-border: #dee2e6;
+    --form-label-color: #4b5563;
+    --form-placeholder-color: #9ca3af;
+    --table-card-bg: #fff;
+    --table-card-border: #e5e7eb;
+    --table-color: #374151;
+    --table-head-bg: linear-gradient(180deg, #f3f4f6, #e5e7eb);
+    --table-head-color: #111827;
+    --table-head-border: #d1d5db;
+    --table-row-bg: #fff;
+    --table-row-even-bg: #f9fafb;
+    --table-row-hover-bg: #f3f4f6;
+    --table-cell-border: #e5e7eb;
+    --btn-more-border: #d1d5db;
+    --btn-more-color: #3b82f6;
+    --btn-more-hover-bg: #2563eb;
+    --btn-more-hover-color: #fff;
+    --btn-more-hover-border: #2563eb;
+    --pagination-bg: #f9fafb;
+    --pagination-border: #e5e7eb;
+    --pagination-color: #111827;
+    --pagination-active-bg: #10b981;
+    --pagination-active-border: #10b981;
+    --pagination-active-color: #fff;
+    --pagination-hover-bg: #2563eb;
+    --pagination-hover-border: #2563eb;
+    --pagination-hover-color: #fff;
+}
+
+[data-bs-theme="dark"] {
+    /* Dark theme variables */
+    --section-bg: #272832;
+    --section-border: #293036;
+    --text-primary: #aab8c5;
+    --text-secondary: #8391a2;
+    --input-bg: #272832;
+    --input-border: #293036;
+    --view-field-bg: #272832;
+    --view-field-border: #293036;
+    --view-field-color: #aab8c5;
+    --icon-color: #8391a2;
+    --calendar-icon-color: #9ca3af;
+    --alert-warning-bg: #664d03;
+    --alert-warning-border: #7d5f04;
+    --alert-warning-color: #ffecb5;
+    --alert-danger-bg: #721c24;
+    --alert-danger-border: #842029;
+    --alert-danger-color: #f8d7da;
+    --btn-info-bg: #23c6c8;
+    --btn-info-border: #23c6c8;
+    --btn-info-hover-bg: #1ea8aa;
+    --btn-info-hover-border: #1ea8aa;
+    --modal-header-bg: #1ab394;
+    --modal-header-border: #16987e;
+    --modal-footer-bg: #272832;
+    --modal-footer-border: #293036;
+    --form-plaintext-bg: #272832;
+    --form-plaintext-border: #293036;
+    --form-label-color: #aab8c5;
+    --form-placeholder-color: #8391a2;
+    --table-card-bg: #111827;
+    --table-card-border: #1f2937;
+    --table-color: #e5e7eb;
+    --table-head-bg: linear-gradient(180deg, #1e293b, #111827);
+    --table-head-color: #f9fafb;
+    --table-head-border: #374151;
+    --table-row-bg: #111827;
+    --table-row-even-bg: #1a2234;
+    --table-row-hover-bg: #1f2937;
+    --table-cell-border: #1f2937;
+    --btn-more-border: #374151;
+    --btn-more-color: #93c5fd;
+    --btn-more-hover-bg: #2563eb;
+    --btn-more-hover-color: #fff;
+    --btn-more-hover-border: #2563eb;
+    --pagination-bg: #1e293b;
+    --pagination-border: #374151;
+    --pagination-color: #f9fafb;
+    --pagination-active-bg: #10b981;
+    --pagination-active-border: #10b981;
+    --pagination-hover-bg: #2563eb;
+    --pagination-hover-border: #2563eb;
+}
+
+body[dir="rtl"] * {
+    font-family: "Cairo", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+}
+
+/* Voucher-style section headers */
+.v-section {
+    background: var(--section-bg);
+    border: 1px solid var(--section-border);
+    border-radius: 0.375rem;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+.v-cap {
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.75rem;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.v-label {
+    display: block;
+    margin-bottom: 0.25rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    font-size: 0.875rem;
+}
+
+.v-req {
+    color: #dc3545;
+}
+
+.v-input, .v-select {
+    display: block;
+    width: 100%;
+    padding: 0.375rem 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--text-primary);
+    background-color: var(--input-bg);
+    background-clip: padding-box;
+    border: 1px solid var(--input-border);
+    border-radius: 0.375rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.v-input:focus, .v-select:focus {
+    color: var(--text-primary);
+    background-color: var(--input-bg);
+    border-color: #1ab394;
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem rgba(26, 179, 148, 0.25);
+}
+
+.v-input::placeholder, .v-select::placeholder {
+    color: var(--text-secondary);
+    opacity: 1;
+}
+
+.is-invalid {
+    border-color: #dc3545 !important;
+}
+
+.is-invalid:focus {
+    border-color: #dc3545 !important;
+    box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25) !important;
+}
+
+.view-field {
+    padding: 0.375rem 0.75rem;
+    background-color: var(--view-field-bg);
+    border: 1px solid var(--view-field-border);
+    border-radius: 0.375rem;
+    min-height: 38px;
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+    color: var(--view-field-color);
+}
+
+/* Date field styling */
+.date-field {
+    position: relative;
+}
+
+.d-wrap {
+    position: relative;
+}
+
+.d-ic {
+    position: absolute;
+    left: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    z-index: 2;
+    color: var(--icon-color);
+}
+
+.d-input {
+    padding-left: 2.5rem !important;
+}
+
+/* تعديل الجدول لإزالة المسافة بين الرأس والمحتوى */
+.table-bordered thead th {
+    border-bottom-width: 1px;
+}
+
+.table-bordered tbody tr:first-child td {
+    border-top: none;
+}
+
+.table {
+    margin-bottom: 0;
+}
+
+/* Select all checkboxes styling */
+.form-check-input:checked {
+    background-color: #1ab394;
+    border-color: #1ab394;
+}
+
+/* Alert styling for better visibility */
+.alert-warning {
+    background-color: var(--alert-warning-bg);
+    border-color: var(--alert-warning-border);
+    color: var(--alert-warning-color);
+}
+
+.alert-danger {
+    background-color: var(--alert-danger-bg);
+    border-color: var(--alert-danger-border);
+    color: var(--alert-danger-color);
+}
+
+/* Calendar icon positioning */
+.date-input-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.calendar-icon {
+    position: absolute;
+    left: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    z-index: 2;
+    color: var(--calendar-icon-color);
+}
+
+/* اجعل التقويم فوق المودال */
+.flatpickr-calendar {
+    z-index: 200000 !important;
+}
+
+/* Popup menu card styles */
+#popupMenuModal .card {
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+#popupMenuModal .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+#popupMenuModal .card i {
+    font-size: 2rem;
+}
+
+#popupMenuModal .card .btn {
+    transition: all 0.2s ease-in-out;
+}
+
+#popupMenuModal .card .btn:hover {
+    transform: scale(1.05);
+}
+
+/* Modal header styling - using project's primary color */
+.modal-header {
+    background-color: var(--modal-header-bg); /* Project's primary color */
+    color: white;
+    border-bottom: 1px solid var(--modal-header-border);
+}
+
+/* Modal title styling */
+.modal-header .modal-title {
+    font-weight: 500;
+    color: white;
+}
+
+/* Close button styling for modal headers */
+.modal-header .btn-close {
+    filter: invert(1) grayscale(100%) brightness(200%);
+}
+
+/* Modal footer styling - using a lighter shade */
+.modal-footer {
+    background-color: var(--modal-footer-bg); /* Light teal background */
+    border-top: 1px solid var(--modal-footer-border);
+}
+
+/* Primary buttons in modals */
+.modal-footer .btn-primary {
+    background-color: #1ab394;
+    border-color: #1ab394;
+}
+
+.modal-footer .btn-primary:hover {
+    background-color: #16987e;
+    border-color: #16987e;
+}
+
+/* View account modal specific styles */
+#viewSettingModal .form-control-plaintext {
+    background-color: var(--form-plaintext-bg);
+    border: 1px solid var(--form-plaintext-border);
+    min-height: 38px;
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+}
+
+/* Consistent button styling across all modals */
+.btn-info {
+    background-color: var(--btn-info-bg);
+    border-color: var(--btn-info-border);
+}
+
+.btn-info:hover {
+    background-color: var(--btn-info-hover-bg);
+    border-color: var(--btn-info-hover-border);
+}
+
+/* RTL adjustments for input group */
+[dir="rtl"] .input-group > :not(:first-child):not(.dropdown-menu):not(.valid-tooltip):not(.valid-feedback):not(.invalid-tooltip):not(.invalid-feedback) {
+    margin-left: -1px;
+    border-top-left-radius: 0.375rem;
+    border-bottom-left-radius: 0.375rem;
+}
+
+[dir="rtl"] .input-group > :not(:last-child):not(.dropdown-menu):not(.valid-tooltip):not(.valid-feedback):not(.invalid-tooltip):not(.invalid-feedback) {
+    border-top-right-radius: 0.375rem;
+    border-bottom-right-radius: 0.375rem;
+}
+
+[dir="rtl"] .input-group > :not(:first-child):not(.dropdown-menu):not(.valid-tooltip):not(.valid-feedback):not(.invalid-tooltip):not(.invalid-feedback) {
+    border-top-left-radius: 0.375rem;
+    border-bottom-left-radius: 0.375rem;
+}
+
+[dir="rtl"] .input-group > :not(:last-child):not(.dropdown-menu):not(.valid-tooltip):not(.valid-feedback):not(.invalid-tooltip):not(.invalid-feedback) {
+    border-top-right-radius: 0.375rem;
+    border-bottom-right-radius: 0.375rem;
+}
+
+/* RTL adjustments for date picker */
+[dir="rtl"] .daterangepicker {
+    direction: rtl;
+    text-align: right;
+}
+
+[dir="rtl"] .daterangepicker .calendar-table {
+    direction: rtl;
+}
+
+[dir="rtl"] .daterangepicker .drp-calendar.left {
+    float: right;
+}
+
+[dir="rtl"] .daterangepicker .drp-calendar.right {
+    float: left;
+}
+
+[dir="rtl"] .daterangepicker .ranges ul {
+    direction: rtl;
+    text-align: right;
+}
+
+[dir="rtl"] .daterangepicker .ranges li {
+    text-align: right;
+}
+
+[dir="rtl"] .daterangepicker .drp-buttons {
+    direction: rtl;
+    text-align: left;
+}
+
+/* Custom flatpickr calendar styling to match React component */
+.flatpickr-calendar {
+    direction: rtl;
+    display: block !important; /* Ensure calendar is always displayed */
+}
+
+.flatpickr-calendar .flatpickr-months {
+    background: #111827;
+    border-bottom: 1px solid #374151;
+}
+
+.flatpickr-calendar .flatpickr-weekdays {
+    background: #111827;
+    border-bottom: 1px solid #374151;
+}
+
+.flatpickr-calendar .flatpickr-weekday {
+    color: #e5e7eb;
+}
+
+.flatpickr-calendar .flatpickr-day {
+    color: #e5e7eb;
+    border-radius: 8px;
+}
+
+.flatpickr-calendar .flatpickr-day.today {
+    border-color: #60a5fa;
+}
+
+.flatpickr-calendar .flatpickr-day.selected {
+    background: #2563eb;
+    border-color: #2563eb;
+    color: #fff;
+}
+
+.flatpickr-calendar .flatpickr-day:hover {
+    background: #3b82f6;
+    border-color: #3b82f6;
+    color: #fff;
+}
+
+/* Light mode flatpickr styling */
+.flatpickr-calendar:not(.dark) {
+    background: #ffffff;
+    border: 1px solid #d1d5db;
+}
+
+.flatpickr-calendar:not(.dark) .flatpickr-months {
+    background: #f3f4f6;
+    border-bottom: 1px solid #d1d5db;
+}
+
+.flatpickr-calendar:not(.dark) .flatpickr-weekdays {
+    background: #f3f4f6;
+    border-bottom: 1px solid #d1d5db;
+}
+
+.flatpickr-calendar:not(.dark) .flatpickr-weekday {
+    color: #4b5563;
+}
+
+.flatpickr-calendar:not(.dark) .flatpickr-day {
+    color: #374151;
+}
+
+.flatpickr-calendar:not(.dark) .flatpickr-day.today {
+    border-color: #60a5fa;
+}
+
+.flatpickr-calendar:not(.dark) .flatpickr-day.selected {
+    background: #2563eb;
+    border-color: #2563eb;
+    color: #fff;
+}
+
+.flatpickr-calendar:not(.dark) .flatpickr-day:hover {
+    background: #3b82f6;
+    border-color: #3b82f6;
+    color: #fff;
+}
+
+/* Dark mode flatpickr styling */
+.dark .flatpickr-calendar {
+    background: #0a0a0a;
+    border-color: #3f3f46;
+    color: #e5e7eb;
+}
+
+.dark .flatpickr-calendar .flatpickr-months {
+    background: #111827;
+    border-bottom: 1px solid #374151;
+}
+
+.dark .flatpickr-calendar .flatpickr-weekdays {
+    background: #111827;
+    border-bottom: 1px solid #374151;
+}
+
+.dark .flatpickr-calendar .flatpickr-weekday {
+    color: #e5e7eb;
+}
+
+.dark .flatpickr-calendar .flatpickr-day {
+    color: #e5e7eb;
+    border-radius: 8px;
+}
+
+.dark .flatpickr-calendar .flatpickr-day.today {
+    border-color: #60a5fa;
+}
+
+.dark .flatpickr-calendar .flatpickr-day.selected,
+.dark .flatpickr-calendar .flatpickr-day:hover {
+    background: #2563eb;
+    border-color: #2563eb;
+    color: #fff;
+}
+
+/* Enhanced dark mode styling for settings modal */
+[data-bs-theme="dark"] #editSettingModal .card {
+    background-color: #1e1f27;
+    border-color: #293036;
+}
+
+[data-bs-theme="dark"] #editSettingModal .card-header {
+    background-color: #272832;
+    border-color: #293036;
+}
+
+[data-bs-theme="dark"] #editSettingModal .card-body {
+    background-color: #1e1f27;
+}
+
+[data-bs-theme="dark"] #editSettingModal .form-label {
+    color: var(--form-label-color);
+}
+
+[data-bs-theme="dark"] #editSettingModal .form-control,
+[data-bs-theme="dark"] #editSettingModal .form-select {
+    background-color: var(--input-bg);
+    border-color: var(--input-border);
+    color: var(--text-primary);
+}
+
+[data-bs-theme="dark"] #editSettingModal .form-control:focus,
+[data-bs-theme="dark"] #editSettingModal .form-select:focus {
+    background-color: var(--input-bg);
+    border-color: #1ab394;
+    color: var(--text-primary);
+    box-shadow: 0 0 0 0.25rem rgba(26, 179, 148, 0.25);
+}
+
+[data-bs-theme="dark"] #editSettingModal .form-control::placeholder {
+    color: var(--form-placeholder-color);
+}
+
+[data-bs-theme="dark"] #editSettingModal .input-group-text {
+    background-color: var(--input-bg);
+    border-color: var(--input-border);
+    color: var(--text-primary);
+}
+
+[data-bs-theme="dark"] #editSettingModal .date-picker-input {
+    background-color: var(--input-bg);
+    border-color: var(--input-border);
+    color: var(--text-primary);
+}
+
+[data-bs-theme="dark"] #editSettingModal .date-picker-input:focus {
+    background-color: var(--input-bg);
+    border-color: #1ab394;
+    color: var(--text-primary);
+    box-shadow: 0 0 0 0.25rem rgba(26, 179, 148, 0.25);
+}
+
+[data-bs-theme="dark"] #editSettingModal .is-invalid {
+    border-color: #f499a3 !important;
+}
+
+[data-bs-theme="dark"] #editSettingModal .is-invalid:focus {
+    box-shadow: 0 0 0 0.25rem rgba(244, 153, 163, 0.25) !important;
+}
+
+[data-bs-theme="dark"] #editSettingModal .modal-header {
+    background-color: var(--modal-header-bg);
+    border-color: var(--modal-header-border);
+}
+
+[data-bs-theme="dark"] #editSettingModal .modal-footer {
+    background-color: var(--modal-footer-bg);
+    border-color: var(--modal-footer-border);
+}
+
+[data-bs-theme="dark"] .text-muted {
+    color: var(--text-secondary) !important;
+}
+
+[data-bs-theme="dark"] .text-danger {
+    color: #f499a3 !important;
+}
+
+/* Additional dark mode styling for form elements in settings modal */
+[data-bs-theme="dark"] #editSettingModal .border {
+    border-color: #293036 !important;
+}
+
+[data-bs-theme="dark"] #editSettingModal .bg-white\/70 {
+    background-color: rgba(39, 40, 50, 0.7) !important;
+}
+
+[data-bs-theme="dark"] #editSettingModal .border-slate-300 {
+    border-color: #293036 !important;
+}
+
+[data-bs-theme="dark"] #editSettingModal .text-gray-500 {
+    color: var(--text-secondary) !important;
+}
+
+[data-bs-theme="dark"] #editSettingModal .text-gray-900 {
+    color: var(--text-primary) !important;
+}
+
+[data-bs-theme="dark"] #editSettingModal .border-gray-300 {
+    border-color: #293036 !important;
+}
+
+[data-bs-theme="dark"] #editSettingModal .bg-white {
+    background-color: var(--input-bg) !important;
+}
+
+[data-bs-theme="dark"] #editSettingModal .placeholder-gray-400::-webkit-input-placeholder {
+    color: var(--form-placeholder-color) !important;
+}
+
+[data-bs-theme="dark"] #editSettingModal .placeholder-gray-400::-moz-placeholder {
+    color: var(--form-placeholder-color) !important;
+}
+
+[data-bs-theme="dark"] #editSettingModal .placeholder-gray-400:-ms-input-placeholder {
+    color: var(--form-placeholder-color) !important;
+}
+
+[data-bs-theme="dark"] #editSettingModal .placeholder-gray-400::-ms-placeholder {
+    color: var(--form-placeholder-color) !important;
+}
+
+[data-bs-theme="dark"] #editSettingModal .placeholder-gray-400::placeholder {
+    color: var(--form-placeholder-color) !important;
+}
+
+/* Form controls for modals */
+#editSettingModal .form-control,
+#editSettingModal .form-select,
+#viewSettingModal .form-control,
+#viewSettingModal .form-select,
+#addSettingModal .form-control,
+#addSettingModal .form-select {
+    background-color: var(--input-bg);
+    border-color: var(--input-border);
+    color: var(--text-primary);
+}
+
+#editSettingModal .form-control:focus,
+#editSettingModal .form-select:focus,
+#viewSettingModal .form-control:focus,
+#viewSettingModal .form-select:focus,
+#addSettingModal .form-control:focus,
+#addSettingModal .form-select:focus {
+    background-color: var(--input-bg);
+    border-color: #1ab394;
+    color: var(--text-primary);
+    box-shadow: 0 0 0 0.25rem rgba(26, 179, 148, 0.25);
+}
+
+#editSettingModal .form-control::placeholder,
+#viewSettingModal .form-control::placeholder,
+#addSettingModal .form-control::placeholder {
+    color: var(--form-placeholder-color);
+}
+
+#editSettingModal .form-label,
+#viewSettingModal .form-label,
+#addSettingModal .form-label {
+    color: var(--form-label-color);
+}
+
+/* Table styles */
+.table-dark-card {
+    background: var(--table-card-bg);
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid var(--table-card-border);
+    box-shadow: 0 4px 20px rgba(0,0,0,.05);
+}
+
+.table-dark-card table {
+    width: 100%;
+    border-collapse: collapse;
+    color: var(--table-color);
+    font-size: 14px;
+}
+
+.table-dark-card thead {
+    background: var(--table-head-bg);
+}
+
+.table-dark-card thead th {
+    padding: 12px 14px;
+    text-align: center;
+    font-weight: 600;
+    color: var(--table-head-color);
+    border-bottom: 1px solid var(--table-head-border);
+    white-space: nowrap;
+}
+
+.table-dark-card tbody tr {
+    background: var(--table-row-bg);
+    transition: background 0.2s;
+}
+
+.table-dark-card tbody tr:nth-child(even) {
+    background: var(--table-row-even-bg);
+}
+
+.table-dark-card tbody tr:hover {
+    background: var(--table-row-hover-bg);
+}
+
+.table-dark-card td {
+    padding: 12px 14px;
+    text-align: center;
+    border-bottom: 1px solid var(--table-cell-border);
+}
+
+.btn-more {
+    border: 1px solid var(--btn-more-border);
+    background: transparent;
+    color: var(--btn-more-color);
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.btn-more:hover {
+    background: var(--btn-more-hover-bg);
+    color: var(--btn-more-hover-color);
+    border-color: var(--btn-more-hover-border);
+}
+
+/* Pagination styles */
+.pagination-dark {
+    display: flex;
+    justify-content: center;
+    margin-top: 12px;
+    gap: 4px;
+}
+
+.pagination-dark button {
+    background: var(--pagination-bg);
+    border: 1px solid var(--pagination-border);
+    color: var(--pagination-color);
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.pagination-dark button.active {
+    background: var(--pagination-active-bg);
+    border-color: var(--pagination-active-border);
+    color: var(--pagination-active-color);
+}
+
+.pagination-dark button:hover:not(.active) {
+    background: var(--pagination-hover-bg);
+    border-color: var(--pagination-hover-border);
+    color: var(--pagination-hover-color);
+}
+
+/* اجعل التقويم فوق أي عناصر أخرى */
+.flatpickr-calendar{z-index:200000 !important;direction:ltr}
+/* لو واجهت الصفحة RTL وأردت تقويم RTL فعّل التالي: */
+[dir="rtl"] .flatpickr-calendar{direction:rtl}
+
+[dir="rtl"] .flatpickr-calendar{direction:rtl}
+
+/* Ensure Flatpickr calendar is visible and properly positioned */
+.flatpickr-calendar.open {
+    display: block !important;
+    visibility: visible !important;
+}
+
+/* Additional positioning for modal calendars */
+.modal .flatpickr-calendar {
+    position: absolute !important;
+}
+
+/* Fix for bootstrap-select search box visibility in modals */
+.modal .bootstrap-select .bs-searchbox {
+    display: block !important;
+    visibility: visible !important;
+    padding: 5px;
+}
+
+.modal .bootstrap-select .bs-searchbox .form-control {
+    display: block !important;
+    visibility: visible !important;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Ensure dropdown menu is visible in modals */
+.modal .bootstrap-select .dropdown-menu {
+    z-index: 2000 !important;
+    overflow: visible !important;
+}
+
+/* Fix for selectpicker dropdown positioning in modals */
+.modal .bootstrap-select {
+    z-index: 1050 !important;
+}
+
+/* Ensure the search input is properly styled */
+.modal .bootstrap-select .bs-searchbox .form-control {
+    border: 1px solid #ced4da;
+    border-radius: 0.375rem;
+    padding: 0.375rem 0.75rem;
+    font-size: 0.875rem;
+    background-color: #fff;
+    color: #495057;
+}
+
+[data-bs-theme="dark"] .modal .bootstrap-select .bs-searchbox .form-control {
+    background-color: #272832;
+    border-color: #293036;
+    color: #aab8c5;
+}
+
+/* Fix for selectpicker dropdown menu in dark mode */
+[data-bs-theme="dark"] .modal .bootstrap-select .dropdown-menu {
+    background-color: #272832;
+    border-color: #293036;
+    color: #aab8c5;
+}
+
+[data-bs-theme="dark"] .modal .bootstrap-select .dropdown-menu .dropdown-item {
+    color: #aab8c5;
+}
+
+[data-bs-theme="dark"] .modal .bootstrap-select .dropdown-menu .dropdown-item:hover,
+[data-bs-theme="dark"] .modal .bootstrap-select .dropdown-menu .dropdown-item:focus {
+    background-color: #1ab394;
+    color: #fff;
+}

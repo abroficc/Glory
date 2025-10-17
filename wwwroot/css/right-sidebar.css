@@ -1,0 +1,121 @@
+/* Custom CSS to position sidebar on the right side */
+
+/* Position the sidebar on the right */
+.sidenav-menu {
+    left: auto;
+    right: 0;
+    border-right: 0;
+    border-left: 1px solid var(--ins-border-color);
+}
+
+/* Adjust the content page to account for right sidebar */
+.content-page {
+    margin-left: 0;
+    margin-right: 250px; /* Adjust this value based on your sidebar width */
+}
+
+/* Adjust topbar to account for right sidebar */
+.app-topbar {
+    margin-left: 0;
+    margin-right: 250px; /* Adjust this value based on your sidebar width */
+}
+
+/* For condensed sidebar mode */
+html[data-sidenav-size="condensed"] .content-page {
+    margin-left: 0;
+    margin-right: 70px; /* Adjust based on condensed sidebar width */
+}
+
+html[data-sidenav-size="condensed"] .app-topbar {
+    margin-left: 0;
+    margin-right: 70px; /* Adjust based on condensed sidebar width */
+}
+
+/* For compact sidebar mode */
+html[data-sidenav-size="compact"] .content-page {
+    margin-left: 0;
+    margin-right: 190px; /* Adjust based on compact sidebar width */
+}
+
+html[data-sidenav-size="compact"] .app-topbar {
+    margin-left: 0;
+    margin-right: 190px; /* Adjust based on compact sidebar width */
+}
+
+/* Responsive adjustments */
+@media (max-width: 991.98px) {
+    .sidenav-menu {
+        right: -250px; /* Hide sidebar off-screen to the right */
+        left: auto;
+        transition: right 0.3s ease;
+    }
+    
+    .content-page {
+        margin-right: 0;
+        transition: margin-right 0.3s ease;
+    }
+    
+    .app-topbar {
+        margin-right: 0;
+        transition: margin-right 0.3s ease;
+    }
+    
+    /* When sidebar is open on mobile */
+    .sidenav-menu.show {
+        right: 0;
+    }
+    
+    /* Adjust for mobile condensed mode */
+    html[data-sidenav-size="condensed"] .sidenav-menu {
+        right: -70px;
+    }
+    
+    html[data-sidenav-size="condensed"] .sidenav-menu.show {
+        right: 0;
+    }
+}
+
+/* Adjust scrollbar positioning for right sidebar */
+.sidenav-menu .scrollbar {
+    direction: rtl;
+}
+
+.sidenav-menu .scrollbar > * {
+    direction: ltr;
+}
+
+/* Adjust any dropdowns or popups that might be affected by the right positioning */
+.sidenav-menu .dropdown-menu {
+    right: 100%;
+    left: auto;
+}
+
+/* Adjust user profile dropdown */
+.sidenav-user .dropdown-menu {
+    right: 0;
+    left: auto;
+}
+
+/* Adjust submenu positioning for right sidebar */
+.sidenav-menu .sub-menu {
+    right: 100%;
+    left: auto;
+}
+
+/* Adjust hover menus for condensed mode */
+html[data-sidenav-size="condensed"] .sidenav-menu .side-nav-item:hover .sub-menu {
+    right: 70px;
+    left: auto;
+}
+
+/* Adjust the close button positioning */
+.button-close-offcanvas {
+    right: 15px;
+    left: auto;
+}
+
+/* Adjust the hover button positioning */
+.button-on-hover {
+    right: 15px;
+    left: auto;
+}

@@ -1,0 +1,21 @@
+CREATE TABLE matching_reports (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    provider_id INT,
+    report_time DATETIME,
+    networks TEXT,
+    total_ready_provider DECIMAL(15,2) DEFAULT 0,
+    total_ready_system DECIMAL(15,2) DEFAULT 0,
+    count_ready_provider INT DEFAULT 0,
+    count_ready_system INT DEFAULT 0,
+    total_cancelled_provider DECIMAL(15,2) DEFAULT 0,
+    total_cancelled_system DECIMAL(15,2) DEFAULT 0,
+    count_cancelled_provider INT DEFAULT 0,
+    count_cancelled_system INT DEFAULT 0,
+    total_pending_provider DECIMAL(15,2) DEFAULT 0,
+    total_pending_system DECIMAL(15,2) DEFAULT 0,
+    count_pending_provider INT DEFAULT 0,
+    count_pending_system INT DEFAULT 0,
+    matching_status VARCHAR(50),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (provider_id) REFERENCES providers(id)
+);

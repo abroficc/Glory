@@ -1,0 +1,1760 @@
+@{
+    Layout = "_VerticalLayout";
+    ViewData["Title"] = "الإعلانات";
+    ViewData["Direction"] = "rtl";
+}
+
+@section styles {
+    <!-- jstree css -->
+    <link href="~/plugins/jstree/style.min.css" rel="stylesheet" type="text/css">
+    <!-- date range picker css -->
+    <link href="~/plugins/daterangepicker/daterangepicker.css" rel="stylesheet" type="text/css">
+    <!-- datatables css -->
+    <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.bootstrap5.min.css" rel="stylesheet">
+    <!-- datatables buttons css -->
+    <link href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.bootstrap5.min.css" rel="stylesheet">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600&display=swap" rel="stylesheet">
+    
+    <!-- bootstrap-select CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/css/bootstrap-select.min.css" />
+
+    <!-- UI Polish CSS -->
+    <link href="~/css/ui-polish.css" rel="stylesheet" type="text/css">
+    
+    <!-- Voucher Modal CSS -->
+    <link href="~/css/voucher-modal.css" rel="stylesheet" type="text/css">
+    
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        body[dir="rtl"] * {
+            font-family: "Cairo", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+        }
+        
+        /* تعديل الجدول لإزالة المسافة بين الرأس والمحتوى */
+        .table-bordered thead th {
+            border-bottom-width: 1px;
+        }
+        
+        .table-bordered tbody tr:first-child td {
+            border-top: none;
+        }
+        
+        .table {
+            margin-bottom: 0;
+        }
+        
+        /* Select all checkboxes styling */
+        .form-check-input:checked {
+            background-color: #1ab394;
+            border-color: #1ab394;
+        }
+        
+        /* Alert styling for better visibility */
+        .alert-warning {
+            background-color: #fff3cd;
+            border-color: #ffeaa7;
+            color: #856404;
+        }
+        
+        .alert-danger {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+        
+        /* Dark mode alert adjustments */
+        [data-bs-theme="dark"] .alert-warning {
+            background-color: #664d03;
+            border-color: #7d5f04;
+            color: #ffecb5;
+        }
+        
+        [data-bs-theme="dark"] .alert-danger {
+            background-color: #721c24;
+            border-color: #842029;
+            color: #f8d7da;
+        }
+        
+        /* Tree view container */
+        #categories-tree {
+            min-height: 400px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 10px;
+        }
+        
+        /* Table card styling */
+        .table-dark-card {
+            background: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 4px 20px rgba(0,0,0,.05);
+        }
+
+        .table-dark-card table {
+            width: 100%;
+            border-collapse: collapse;
+            color: #374151;
+            font-size: 14px;
+        }
+
+        .table-dark-card thead {
+            background: linear-gradient(180deg, #f3f4f6, #e5e7eb);
+        }
+        
+        .table-dark-card thead th {
+            padding: 12px 14px;
+            text-align: center;
+            font-weight: 600;
+            color: #111827;
+            border-bottom: 1px solid #d1d5db;
+            white-space: nowrap;
+        }
+
+        .table-dark-card tbody tr {
+            background: #fff;
+            transition: background 0.2s;
+        }
+        
+        .table-dark-card tbody tr:nth-child(even) {
+            background: #f9fafb;
+        }
+        
+        .table-dark-card tbody tr:hover {
+            background: #f3f4f6;
+        }
+        
+        .table-dark-card td {
+            padding: 12px 14px;
+            text-align: center;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .btn-more {
+            border: 1px solid #d1d5db;
+            background: transparent;
+            color: #3b82f6;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 13px;
+            cursor: pointer;
+        }
+        
+        .btn-more:hover {
+            background: #2563eb;
+            color: #fff;
+            border-color: #2563eb;
+        }
+
+        /* Dark mode table styles */
+        [data-bs-theme="dark"] .table-dark-card {
+            background: #111827;
+            border: 1px solid #1f2937;
+            box-shadow: 0 4px 20px rgba(0,0,0,.4);
+        }
+
+        [data-bs-theme="dark"] .table-dark-card table {
+            color: #e5e7eb;
+        }
+
+        [data-bs-theme="dark"] .table-dark-card thead {
+            background: linear-gradient(180deg, #1e293b, #111827);
+        }
+        
+        [data-bs-theme="dark"] .table-dark-card thead th {
+            color: #f9fafb;
+            border-bottom: 1px solid #374151;
+        }
+
+        [data-bs-theme="dark"] .table-dark-card tbody tr {
+            background: #111827;
+        }
+        
+        [data-bs-theme="dark"] .table-dark-card tbody tr:nth-child(even) {
+            background: #1a2234;
+        }
+        
+        [data-bs-theme="dark"] .table-dark-card tbody tr:hover {
+            background: #1f2937;
+        }
+        
+        [data-bs-theme="dark"] .table-dark-card td {
+            border-bottom: 1px solid #1f2937;
+        }
+
+        [data-bs-theme="dark"] .btn-more {
+            border: 1px solid #374151;
+            color: #93c5fd;
+        }
+        
+        [data-bs-theme="dark"] .btn-more:hover {
+            background: #2563eb;
+            color: #fff;
+            border-color: #2563eb;
+        }
+        
+        /* Light mode pagination */
+        .pagination-dark {
+            display: flex;
+            justify-content: center;
+            margin-top: 12px;
+            gap: 4px;
+        }
+        
+        .pagination-dark button {
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            color: #111827;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        
+        .pagination-dark button.active {
+            background: #10b981;
+            border-color: #10b981;
+            color: #fff;
+        }
+        
+        .pagination-dark button:hover:not(.active) {
+            background: #2563eb;
+            border-color: #2563eb;
+            color: #fff;
+        }
+
+        /* Dark mode pagination */
+        [data-bs-theme="dark"] .pagination-dark button {
+            background: #1e293b;
+            border: 1px solid #374151;
+            color: #f9fafb;
+        }
+        
+        [data-bs-theme="dark"] .pagination-dark button.active {
+            background: #10b981;
+            border-color: #10b981;
+        }
+        
+        [data-bs-theme="dark"] .pagination-dark button:hover:not(.active) {
+            background: #2563eb;
+            border-color: #2563eb;
+        }
+        
+        /* Modal header styling - using project's primary color */
+        .modal-header {
+            background-color: #1ab394; /* Project's primary color */
+            color: white;
+            border-bottom: 1px solid #16987e;
+        }
+        
+        /* Modal title styling */
+        .modal-header .modal-title {
+            font-weight: 500;
+            color: white;
+        }
+        
+        /* Close button styling for modal headers */
+        .modal-header .btn-close {
+            filter: invert(1) grayscale(100%) brightness(200%);
+        }
+        
+        /* Modal footer styling - using a lighter shade */
+        .modal-footer {
+            background-color: #f0f8f8; /* Light teal background */
+            border-top: 1px solid #d1e8e8;
+        }
+        
+        /* Primary buttons in modals */
+        .modal-footer .btn-primary {
+            background-color: #1ab394;
+            border-color: #1ab394;
+        }
+        
+        .modal-footer .btn-primary:hover {
+            background-color: #16987e;
+            border-color: #16987e;
+        }
+        
+        /* Form styling */
+        .v-section {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid #e9ecef;
+        }
+        
+        [data-bs-theme="dark"] .v-section {
+            background: #1e1f27;
+            border-color: #293036;
+        }
+        
+        .v-cap {
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #495057;
+            font-size: 16px;
+        }
+        
+        [data-bs-theme="dark"] .v-cap {
+            color: #aab8c5;
+        }
+        
+        .v-label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #495057;
+        }
+        
+        [data-bs-theme="dark"] .v-label {
+            color: #aab8c5;
+        }
+        
+        .v-req {
+            color: #e02d2d;
+        }
+        
+        .v-input, .v-select {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            background-color: #fff;
+            color: #495057;
+        }
+        
+        [data-bs-theme="dark"] .v-input, 
+        [data-bs-theme="dark"] .v-select {
+            background-color: #272832;
+            border-color: #293036;
+            color: #aab8c5;
+        }
+        
+        .v-input:focus, .v-select:focus {
+            border-color: #1ab394;
+            outline: 0;
+            box-shadow: 0 0 0 0.2rem rgba(26, 179, 148, 0.25);
+        }
+        
+        .note-highlight {
+            background-color: #e7f4f0;
+            border-left: 3px solid #1ab394;
+            padding: 8px 12px;
+            margin-top: 5px;
+            font-size: 13px;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        [data-bs-theme="dark"] .note-highlight {
+            background-color: #1e3a35;
+            border-left-color: #1ab394;
+            color: #aab8c5;
+        }
+        
+        /* Fix for bootstrap-select dropdown shaking issue */
+        .bootstrap-select .dropdown-menu {
+            transform: translate3d(0, 0, 0) !important;
+            -webkit-transform: translate3d(0, 0, 0) !important;
+            -moz-transform: translate3d(0, 0, 0) !important;
+            -ms-transform: translate3d(0, 0, 0) !important;
+            -o-transform: translate3d(0, 0, 0) !important;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+        
+        /* Bootstrap Select Dropdown z-index fix */
+        .bootstrap-select .dropdown-menu {
+            z-index: 20000;
+        }
+        
+        /* Flatpickr calendar z-index fix */
+        .flatpickr-calendar {
+            z-index: 200000 !important;
+        }
+        
+        /* Table cell styling */
+        #categoriesTable td,
+        #categoriesTable th {
+            white-space: normal !important;
+            word-wrap: break-word;
+        }
+        
+        /* Responsive table */
+        .table-responsive {
+            overflow-x: hidden;
+        }
+        
+        /* Fix for dropdown positioning */
+        #filterSection, .card, .table-responsive {
+            overflow: visible !important;
+        }
+        
+        /* Form controls */
+        .form-control-plaintext {
+            color: #495057;
+            border: none;
+            background-color: transparent;
+            padding: 8px 12px;
+        }
+        
+        [data-bs-theme="dark"] .form-control-plaintext {
+            color: #aab8c5;
+        }
+        
+        /* Readonly input fields */
+        #viewCategoryModal .form-control[readonly] {
+            background-color: #f8f9fa;
+            border-color: #e9ecef;
+            color: #495057;
+            opacity: 1;
+        }
+        
+        [data-bs-theme="dark"] #viewCategoryModal .form-control[readonly] {
+            background-color: #272832;
+            border-color: #293036;
+            color: #aab8c5;
+        }
+        
+        /* Checkboxes */
+        .table th input[type="checkbox"],
+        .table td input[type="checkbox"],
+        #selectAll {
+            margin: 0;
+            vertical-align: middle;
+        }
+        
+        #selectAll {
+            transform: scale(1.2);
+        }
+        
+        /* Cards */
+        .card {
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .card-header {
+            font-weight: 600;
+        }
+        
+        [data-bs-theme="dark"] .card {
+            background-color: #1e1f27;
+            border-color: #293036;
+        }
+        
+        [data-bs-theme="dark"] .card-header {
+            background-color: #1e1f27;
+            border-color: #293036;
+        }
+        
+        /* Bootstrap Select */
+        .bootstrap-select .dropdown-menu {
+            text-align: right;
+            z-index: 20000;
+            max-height: 200px;
+        }
+        
+        .bootstrap-select.btn-group .dropdown-toggle .filter-option {
+            color: inherit;
+        }
+        
+        .bootstrap-select .dropdown-menu li a span.text {
+            display: block;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .bootstrap-select .dropdown-header {
+            background-color: #f8f9fa;
+            color: #495057;
+        }
+        
+        [data-bs-theme="dark"] .bootstrap-select .dropdown-header {
+            color: #aab8c5;
+            background-color: #1e1f27;
+        }
+        
+        .bootstrap-select .dropdown-toggle {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.875rem;
+        }
+        
+        .bootstrap-select .dropdown-toggle:focus {
+            box-shadow: 0 0 0 0.2rem rgba(26, 179, 148, 0.25);
+        }
+        
+        [data-bs-theme="dark"] .bootstrap-select .dropdown-toggle {
+            background-color: #272832;
+            border-color: #293036;
+            color: #aab8c5;
+        }
+        
+        [data-bs-theme="dark"] .bootstrap-select .dropdown-toggle:focus {
+            border-color: #16987e;
+            box-shadow: 0 0 0 0.2rem rgba(22, 152, 126, 0.25);
+        }
+        
+        /* Fix for select arrow in dark mode */
+        [data-bs-theme="dark"] .bootstrap-select .dropdown-toggle::after {
+            border-top-color: #aab8c5;
+        }
+        
+        /* Disabled options */
+        .bootstrap-select .dropdown-menu > .disabled > a {
+            color: #6c757d;
+            background-color: transparent;
+        }
+        
+        [data-bs-theme="dark"] .bootstrap-select .dropdown-menu > .disabled > a {
+            color: #6c757d;
+        }
+        
+        /* Select text visibility */
+        .modal-content .selectpicker,
+        .modal-content .bootstrap-select .filter-option {
+            width: 100%;
+            color: #495057;
+        }
+        
+        [data-bs-theme="dark"] .modal-content .selectpicker,
+        [data-bs-theme="dark"] .modal-content .bootstrap-select .filter-option {
+            background-color: #272832;
+            border-color: #293036;
+            color: #aab8c5;
+        }
+        
+        /* DataTables Buttons */
+        .dt-buttons .btn {
+            margin-right: 5px;
+            margin-bottom: 5px;
+        }
+        
+        .dt-button-collection {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-shadow: 0 6px 12px rgba(0,0,0,.175);
+        }
+        
+        [data-bs-theme="dark"] .dt-button-collection {
+            background-color: #1e1f27;
+            border: 1px solid #293036;
+            box-shadow: 0 6px 12px rgba(0,0,0,.4);
+        }
+        
+        .dt-button-collection .dropdown-item {
+            padding: 8px 15px;
+        }
+        
+        [data-bs-theme="dark"] .dt-button-collection .dropdown-item {
+            color: #aab8c5;
+        }
+        
+        [data-bs-theme="dark"] .dt-button-collection .dropdown-item:hover {
+            background-color: #16987e;
+            color: #fff;
+        }
+        
+        /* Button styling */
+        .dt-buttons .btn-outline-secondary {
+            color: #6c757d;
+            border-color: #6c757d;
+        }
+        
+        .dt-buttons .btn-outline-secondary:hover {
+            background-color: #6c757d;
+            color: #fff;
+        }
+        
+        [data-bs-theme="dark"] .dt-buttons .btn-outline-secondary {
+            color: #aab8c5;
+            border-color: #aab8c5;
+        }
+        
+        [data-bs-theme="dark"] .dt-buttons .btn-outline-secondary:hover {
+            background-color: #16987e;
+            color: #fff;
+            border-color: #16987e;
+        }
+        
+        /* Filter section */
+        #filterSection {
+            background-color: #ffffff;
+            border-radius: 10px;
+            padding: 16px;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        [data-bs-theme="dark"] #filterSection {
+            background-color: #111827;
+            border-radius: 10px;
+            padding: 16px;
+        }
+        
+        /* Filter form controls */
+        #filterSection .form-control {
+            background-color: #ffffff;
+            border: 1px solid #d1d5db;
+            color: #111827;
+            border-radius: 6px;
+            padding: 8px 10px;
+            transition: all 0.2s ease-in-out;
+            font-weight: 500;
+        }
+        
+        #filterSection .form-control:focus {
+            background-color: #ffffff;
+            border-color: #1ab394;
+            box-shadow: 0 0 0 0.25rem rgba(26, 179, 148, 0.2);
+            color: #111827;
+        }
+        
+        #filterSection .form-control::placeholder {
+            color: #9ca3af;
+            opacity: 1;
+        }
+        
+        [data-bs-theme="dark"] #filterSection .form-control {
+            background-color: #1f2937;
+            border: 1px solid #374151;
+            color: #f3f4f6;
+            border-radius: 6px;
+            padding: 8px 10px;
+            transition: all 0.2s ease-in-out;
+        }
+        
+        [data-bs-theme="dark"] #filterSection .form-control:focus {
+            background-color: #111827;
+            border-color: #06b6d4;
+            box-shadow: 0 0 6px rgba(6, 182, 212, 0.4);
+            color: #fff;
+        }
+        
+        [data-bs-theme="dark"] #filterSection .form-control::placeholder {
+            color: #9ca3af;
+            opacity: 0.85;
+        }
+        
+        /* Filter buttons */
+        #filterSection .btn {
+            border-radius: 6px;
+            font-weight: 600;
+            transition: all 0.2s ease-in-out;
+            padding: 6px 12px;
+        }
+        
+        #filterSection .btn-primary {
+            background-color: #1ab394;
+            border: none;
+            color: #fff;
+        }
+        
+        #filterSection .btn-primary:hover {
+            background-color: #16987e;
+        }
+        
+        #filterSection .btn-secondary {
+            background-color: #6b7280;
+            border: none;
+            color: #fff;
+        }
+        
+        #filterSection .btn-secondary:hover {
+            background-color: #4b5563;
+        }
+        
+        #filterSection .btn-info {
+            background-color: #3b82f6;
+            border: none;
+            color: #fff;
+        }
+        
+        #filterSection .btn-info:hover {
+            background-color: #2563eb;
+        }
+        
+        #filterSection .btn-success {
+            background-color: #10b981;
+            border: none;
+            color: #fff;
+        }
+        
+        #filterSection .btn-success:hover {
+            background-color: #059669;
+        }
+        
+        [data-bs-theme="dark"] #filterSection .btn {
+            border-radius: 6px;
+            font-weight: 500;
+            transition: all 0.2s ease-in-out;
+        }
+        
+        [data-bs-theme="dark"] #filterSection .btn-primary {
+            background-color: #06b6d4;
+            border: none;
+            color: #fff;
+        }
+        
+        [data-bs-theme="dark"] #filterSection .btn-primary:hover {
+            background-color: #0891b2;
+        }
+        
+        [data-bs-theme="dark"] #filterSection .btn-secondary {
+            background-color: #374151;
+            border: none;
+            color: #e5e7eb;
+        }
+        
+        [data-bs-theme="dark"] #filterSection .btn-secondary:hover {
+            background-color: #4b5563;
+        }
+        
+        /* DataTables selection effects */
+        table.dataTable tbody > tr.selected,
+        table.dataTable tbody > tr > .selected,
+        table.dataTable tbody > tr.selected > td,
+        table.dataTable tbody > tr > .selected > td {
+            background-color: transparent !important;
+            outline: none !important;
+            box-shadow: none !important;
+        }
+        
+        table.dataTable.stripe tbody > tr.odd.selected,
+        table.dataTable.stripe tbody > tr.odd > .selected,
+        table.dataTable.display tbody > tr.odd.selected,
+        table.dataTable.display tbody > tr.odd > .selected,
+        table.dataTable.stripe tbody > tr.odd.selected > td,
+        table.dataTable.stripe tbody > tr.odd > .selected > td,
+        table.dataTable.display tbody > tr.odd.selected > td,
+        table.dataTable.display tbody > tr.odd > .selected > td {
+            background-color: #f9fafb !important;
+        }
+        
+        [data-bs-theme="dark"] table.dataTable.stripe tbody > tr.odd.selected,
+        [data-bs-theme="dark"] table.dataTable.stripe tbody > tr.odd > .selected,
+        [data-bs-theme="dark"] table.dataTable.display tbody > tr.odd.selected,
+        [data-bs-theme="dark"] table.dataTable.display tbody > tr.odd > .selected,
+        [data-bs-theme="dark"] table.dataTable.stripe tbody > tr.odd.selected > td,
+        [data-bs-theme="dark"] table.dataTable.stripe tbody > tr.odd > .selected > td,
+        [data-bs-theme="dark"] table.dataTable.display tbody > tr.odd.selected > td,
+        [data-bs-theme="dark"] table.dataTable.display tbody > tr.odd > .selected > td {
+            background-color: #1a2234 !important;
+        }
+        
+        table.dataTable tbody > tr.even.selected,
+        table.dataTable tbody > tr.even > .selected,
+        table.dataTable.display tbody > tr.even.selected,
+        table.dataTable.display tbody > tr.even > .selected,
+        table.dataTable tbody > tr.even.selected > td,
+        table.dataTable tbody > tr.even > .selected > td,
+        table.dataTable.display tbody > tr.even.selected > td,
+        table.dataTable.display tbody > tr.even > .selected > td {
+            background-color: #ffffff !important;
+        }
+        
+        [data-bs-theme="dark"] table.dataTable tbody > tr.even.selected,
+        [data-bs-theme="dark"] table.dataTable tbody > tr.even > .selected,
+        [data-bs-theme="dark"] table.dataTable.display tbody > tr.even.selected,
+        [data-bs-theme="dark"] table.dataTable.display tbody > tr.even > .selected,
+        [data-bs-theme="dark"] table.dataTable tbody > tr.even.selected > td,
+        [data-bs-theme="dark"] table.dataTable tbody > tr.even > .selected > td,
+        [data-bs-theme="dark"] table.dataTable.display tbody > tr.even.selected > td,
+        [data-bs-theme="dark"] table.dataTable.display tbody > tr.even > .selected > td {
+            background-color: #111827 !important;
+        }
+        
+        /* DataTables focus and hover effects */
+        table.dataTable thead th,
+        table.dataTable thead td,
+        table.dataTable tbody td,
+        table.dataTable tbody th {
+            outline: none !important;
+            box-shadow: none !important;
+        }
+        
+        table.dataTable thead th:focus,
+        table.dataTable thead td:focus,
+        table.dataTable thead th:active,
+        table.dataTable thead td:active,
+        table.dataTable tbody td:focus,
+        table.dataTable tbody th:focus,
+        table.dataTable tbody td:active,
+        table.dataTable tbody th:active {
+            outline: none !important;
+            box-shadow: none !important;
+            background-color: inherit !important;
+        }
+        
+        /* DataTables sorting arrows */
+        table.dataTable thead .sorting,
+        table.dataTable thead .sorting_asc,
+        table.dataTable thead .sorting_desc,
+        table.dataTable thead .sorting_asc_disabled,
+        table.dataTable thead .sorting_desc_disabled {
+            outline: none !important;
+            box-shadow: none !important;
+        }
+        
+        /* DataTables selection background */
+        table.dataTable tbody tr:hover,
+        table.dataTable tbody tr:hover td {
+            background-color: inherit !important;
+        }
+        
+        /* Custom hover */
+        .table-dark-card tbody tr:hover {
+            background: #f3f4f6 !important;
+        }
+        
+        [data-bs-theme="dark"] .table-dark-card tbody tr:hover {
+            background: #1f2937 !important;
+        }
+        
+        /* Calendar z-index fix */
+        .flatpickr-calendar {
+            z-index: 200000 !important;
+        }
+        
+        /* Disabled top action buttons */
+        .btn-outline-primary.disabled,
+        .btn-outline-info.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        /* CKEditor validation */
+        .ck-editor.is-invalid .ck-editor__editable {
+            border-color: #e02d2d !important;
+            box-shadow: 0 0 0 0.2rem rgba(224, 45, 45, 0.25) !important;
+        }
+        
+        /* Fix modal scrolling issues */
+        .modal-dialog-scrollable .modal-content {
+            max-height: calc(100vh - 2rem);
+        }
+        
+        .modal-dialog-scrollable .modal-body {
+            overflow-y: auto;
+        }
+        
+        /* Fix modal scrolling and image section visibility */
+        .modal-body {
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+        
+        /* Ensure all form elements are visible within modal */
+        .modal-body .mb-3 {
+            margin-bottom: 1.5rem;
+        }
+        
+        /* Fix for icon picker overflow */
+        .icon-picker {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        /* Ensure color pickers are visible */
+        .form-control-color {
+            height: 40px;
+            padding: 5px;
+        }
+        
+        /* Fix modal scrolling and ensure all content is visible */
+        .modal-dialog-scrollable .modal-content {
+            max-height: 90vh;
+        }
+        
+        .modal-body {
+            max-height: 75vh;
+            overflow-y: auto;
+        }
+        
+        /* Ensure the file input section is visible */
+        .mb-3.mt-3 {
+            margin-bottom: 1rem !important;
+            margin-top: 1rem !important;
+        }
+        
+        /* تكبير النصوص داخل النافذة المنبثقة */
+        .modal-content {
+            font-size: 16px; /* حجم الخط الأساسي */
+            line-height: 1.8; /* تباعد الأسطر لسهولة القراءة */
+            padding: 20px;
+        }
+
+        /* العناوين */
+        .modal-header .modal-title {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        /* النصوص المساعدة الصغيرة */
+        .modal-body small,
+        .modal-body .form-text {
+            font-size: 14px;
+            color: #555; /* لون أوضح */
+        }
+
+        /* الحقول */
+        .modal-body .form-control,
+        .modal-body .form-select {
+            font-size: 16px;
+            padding: 10px 12px;
+        }
+
+        /* التكبير داخل Textarea */
+        .modal-body textarea {
+            font-size: 16px;
+            padding: 12px;
+        }
+
+        /* زر الحفظ والإغلاق */
+        .modal-footer .btn {
+            font-size: 15px;
+            padding: 8px 20px;
+        }
+    </style>
+}
+
+<!-- Filter toggle button -->
+<div class="mb-2">
+    <button id="toggleFilters" type="button" class="btn btn-primary">
+        <i class="ti ti-filter-off me-1"></i><span id="toggleFiltersText">إظهار الفلترة</span>
+    </button>
+</div>
+
+<!-- Filter section -->
+<div class="card mb-3" id="filterSection" style="display: none;">
+    <div class="card-body p-2">
+        <!-- DataTables Buttons Container -->
+        <div class="row g-2 mb-2">
+            <div class="col-12" id="datatables-buttons-container">
+                <!-- DataTables buttons will be inserted here by JavaScript -->
+            </div>
+        </div>
+        
+        <!-- Filter fields in grid layout (side by side) -->
+        <div class="row g-2 mb-2">
+            <div class="col-md">
+                <input type="text" class="form-control form-control-sm" placeholder="الرقم" id="filter-id">
+            </div>
+            <div class="col-md">
+                <input type="text" class="form-control form-control-sm" placeholder="اسم الإعلان" id="filter-category-name">
+            </div>
+            <div class="col-md">
+                <select class="selectpicker form-control form-control-sm" id="filter-year" data-live-search="true" title="اختر السنة">
+                    <option value="2025">2025</option>
+                    <option value="2024">2024</option>
+                    <option value="2023">2023</option>
+                    <option value="2022">2022</option>
+                    <option value="2021">2021</option>
+                </select>
+            </div>
+            <div class="col-md">
+                <select class="selectpicker form-control form-control-sm" id="filter-records" data-live-search="true" title="اختر السجلات">
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                </select>
+            </div>
+        </div>
+        
+        <!-- Unified action buttons -->
+        <div class="row g-2">
+            <div class="col">
+                <button type="button" class="btn btn-secondary btn-sm" id="resetFilters">إعادة تعيين</button>
+                <button type="button" class="btn btn-primary btn-sm" id="applyFilters">بحث</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Action buttons -->
+<div class="mb-3">
+    <div class="d-flex gap-2 flex-wrap">
+        <a href="#" class="btn btn-sm btn-outline-danger" title="حذف">
+            <i class="fa fa-trash"></i>
+        </a>
+        <!-- زر لفتح النافذة -->
+        <button type="button" class="btn btn-sm btn-outline-success" title="إضافة" data-bs-toggle="modal" data-bs-target="#addAdvertisementModal">
+            <i class="fa fa-plus"></i>
+        </button>
+        <a href="#" class="btn btn-sm btn-outline-primary" title="تعديل" id="topEditButton">
+            <i class="fa fa-pencil"></i>
+        </a>
+        <a href="#" class="btn btn-sm btn-outline-info" title="مشاهدة" id="topViewButton">
+            <i class="fa fa-eye"></i>
+        </a>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <div class="d-flex align-items-center">
+            <h5 class="card-title mb-0 fw-bold">@ViewData["Title"]</h5>
+            <div class="me-auto">
+                <!-- Refresh button -->
+                <button type="button" class="btn btn-sm btn-outline-secondary ms-2" id="refreshBtn" title="تحديث">
+                    <i class="fa fa-refresh"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table id="categoriesTable" class="table table-striped table-bordered dt-responsive nowrap w-100">
+                <thead>
+                    <tr>
+                        <th class="text-center" width="40px">
+                            <div class="form-check"><input type="checkbox" class="form-check-input" id="selectAll"></div>
+                        </th>
+                        <th>الرقم</th>
+                        <th>نص الاعلان</th>
+                        <th>تأريخ الانشاء</th>
+                        <th style="width: 100px; text-align: center;">المزيد</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="text-center">
+                            <div class="form-check"><input type="checkbox" class="form-check-input category-checkbox" value="1"></div>
+                        </td>
+                        <td>1</td>
+                        <td>عرض العيد</td>
+                        <td>2025-10-01</td>
+                        <td style="text-align: center;">
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    للمزيد
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="#" data-action="edit"><i class="fa fa-pencil me-1"></i> تعديل</a></li>
+                                    <li><a class="dropdown-item" href="#" data-action="view"><i class="fa fa-eye me-1"></i> مشاهدة</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="fa fa-trash me-1"></i> حذف</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">
+                            <div class="form-check"><input type="checkbox" class="form-check-input category-checkbox" value="2"></div>
+                        </td>
+                        <td>2</td>
+                        <td>عرض رمضان</td>
+                        <td>2025-03-10</td>
+                        <td style="text-align: center;">
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    للمزيد
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="#" data-action="edit"><i class="fa fa-pencil me-1"></i> تعديل</a></li>
+                                    <li><a class="dropdown-item" href="#" data-action="view"><i class="fa fa-eye me-1"></i> مشاهدة</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="fa fa-trash me-1"></i> حذف</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">
+                            <div class="form-check"><input type="checkbox" class="form-check-input category-checkbox" value="3"></div>
+                        </td>
+                        <td>3</td>
+                        <td>عرض الصيف</td>
+                        <td>2025-06-01</td>
+                        <td style="text-align: center;">
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    للمزيد
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="#" data-action="edit"><i class="fa fa-pencil me-1"></i> تعديل</a></li>
+                                    <li><a class="dropdown-item" href="#" data-action="view"><i class="fa fa-eye me-1"></i> مشاهدة</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="fa fa-trash me-1"></i> حذف</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">
+                            <div class="form-check"><input type="checkbox" class="form-check-input category-checkbox" value="4"></div>
+                        </td>
+                        <td>4</td>
+                        <td>عرض الشتاء</td>
+                        <td>2025-12-01</td>
+                        <td style="text-align: center;">
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    للمزيد
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="#" data-action="edit"><i class="fa fa-pencil me-1"></i> تعديل</a></li>
+                                    <li><a class="dropdown-item" href="#" data-action="view"><i class="fa fa-eye me-1"></i> مشاهدة</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="fa fa-trash me-1"></i> حذف</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">
+                            <div class="form-check"><input type="checkbox" class="form-check-input category-checkbox" value="5"></div>
+                        </td>
+                        <td>5</td>
+                        <td>عرض Back to School</td>
+                        <td>2025-08-15</td>
+                        <td style="text-align: center;">
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    للمزيد
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="#" data-action="edit"><i class="fa fa-pencil me-1"></i> تعديل</a></li>
+                                    <li><a class="dropdown-item" href="#" data-action="view"><i class="fa fa-eye me-1"></i> مشاهدة</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="fa fa-trash me-1"></i> حذف</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">
+                            <div class="form-check"><input type="checkbox" class="form-check-input category-checkbox" value="6"></div>
+                        </td>
+                        <td>6</td>
+                        <td>عرض الأزياء</td>
+                        <td>2025-01-20</td>
+                        <td style="text-align: center;">
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    للمزيد
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="#" data-action="edit"><i class="fa fa-pencil me-1"></i> تعديل</a></li>
+                                    <li><a class="dropdown-item" href="#" data-action="view"><i class="fa fa-eye me-1"></i> مشاهدة</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="fa fa-trash me-1"></i> حذف</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">
+                            <div class="form-check"><input type="checkbox" class="form-check-input category-checkbox" value="7"></div>
+                        </td>
+                        <td>7</td>
+                        <td>عرض الإلكترونيات</td>
+                        <td>2025-11-11</td>
+                        <td style="text-align: center;">
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    للمزيد
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="#" data-action="edit"><i class="fa fa-pencil me-1"></i> تعديل</a></li>
+                                    <li><a class="dropdown-item" href="#" data-action="view"><i class="fa fa-eye me-1"></i> مشاهدة</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="fa fa-trash me-1"></i> حذف</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">
+                            <div class="form-check"><input type="checkbox" class="form-check-input category-checkbox" value="8"></div>
+                        </td>
+                        <td>8</td>
+                        <td>عرض الأجهزة المنزلية</td>
+                        <td>2025-05-01</td>
+                        <td style="text-align: center;">
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    للمزيد
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="#" data-action="edit"><i class="fa fa-pencil me-1"></i> تعديل</a></li>
+                                    <li><a class="dropdown-item" href="#" data-action="view"><i class="fa fa-eye me-1"></i> مشاهدة</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="fa fa-trash me-1"></i> حذف</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">
+                            <div class="form-check"><input type="checkbox" class="form-check-input category-checkbox" value="9"></div>
+                        </td>
+                        <td>9</td>
+                        <td>عرض السيارات</td>
+                        <td>2025-04-01</td>
+                        <td style="text-align: center;">
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    للمزيد
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="#" data-action="edit"><i class="fa fa-pencil me-1"></i> تعديل</a></li>
+                                    <li><a class="dropdown-item" href="#" data-action="view"><i class="fa fa-eye me-1"></i> مشاهدة</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="fa fa-trash me-1"></i> حذف</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">
+                            <div class="form-check"><input type="checkbox" class="form-check-input category-checkbox" value="10"></div>
+                        </td>
+                        <td>10</td>
+                        <td>عرض العقارات</td>
+                        <td>2025-02-14</td>
+                        <td style="text-align: center;">
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    للمزيد
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="#" data-action="edit"><i class="fa fa-pencil me-1"></i> تعديل</a></li>
+                                    <li><a class="dropdown-item" href="#" data-action="view"><i class="fa fa-eye me-1"></i> مشاهدة</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="fa fa-trash me-1"></i> حذف</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">
+                            <div class="form-check"><input type="checkbox" class="form-check-input category-checkbox" value="11"></div>
+                        </td>
+                        <td>11</td>
+                        <td>عرض السفر</td>
+                        <td>2025-07-01</td>
+                        <td style="text-align: center;">
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    للمزيد
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="#" data-action="edit"><i class="fa fa-pencil me-1"></i> تعديل</a></li>
+                                    <li><a class="dropdown-item" href="#" data-action="view"><i class="fa fa-eye me-1"></i> مشاهدة</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="fa fa-trash me-1"></i> حذف</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">
+                            <div class="form-check"><input type="checkbox" class="form-check-input category-checkbox" value="12"></div>
+                        </td>
+                        <td>12</td>
+                        <td>عرض الأحذية</td>
+                        <td>2025-09-01</td>
+                        <td style="text-align: center;">
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    للمزيد
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="#" data-action="edit"><i class="fa fa-pencil me-1"></i> تعديل</a></li>
+                                    <li><a class="dropdown-item" href="#" data-action="view"><i class="fa fa-eye me-1"></i> مشاهدة</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="fa fa-trash me-1"></i> حذف</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">
+                            <div class="form-check"><input type="checkbox" class="form-check-input category-checkbox" value="13"></div>
+                        </td>
+                        <td>13</td>
+                        <td>عرض الأجهزة المحمولة</td>
+                        <td>2025-10-15</td>
+                        <td style="text-align: center;">
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    للمزيد
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="#" data-action="edit"><i class="fa fa-pencil me-1"></i> تعديل</a></li>
+                                    <li><a class="dropdown-item" href="#" data-action="view"><i class="fa fa-eye me-1"></i> مشاهدة</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="fa fa-trash me-1"></i> حذف</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">
+                            <div class="form-check"><input type="checkbox" class="form-check-input category-checkbox" value="14"></div>
+                        </td>
+                        <td>14</td>
+                        <td>عرض الألعاب</td>
+                        <td>2025-12-25</td>
+                        <td style="text-align: center;">
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    للمزيد
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="#" data-action="edit"><i class="fa fa-pencil me-1"></i> تعديل</a></li>
+                                    <li><a class="dropdown-item" href="#" data-action="view"><i class="fa fa-eye me-1"></i> مشاهدة</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="fa fa-trash me-1"></i> حذف</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- نافذة منبثقة -->
+<div class="modal fade" id="addAdvertisementModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-scrollable">
+    <div class="modal-content" dir="rtl">
+
+      <!-- الهيدر -->
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title">دليل البيانات &gt; الإعلانات</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="إغلاق"></button>
+      </div>
+
+      <!-- النموذج -->
+      <form id="addAdForm">
+        <div class="modal-body">
+
+          <!-- نص الإعلان -->
+          <div class="mb-3">
+            <label for="addAdText" class="form-label fw-bold">نص الإعلان <span class="text-danger">*</span></label>
+            <textarea id="addAdText" name="adText" class="form-control" rows="4" placeholder="اكتب نص الإعلان هنا..." required></textarea>
+            <small class="form-text text-muted d-block mt-2">
+              ملاحظة : يمكنك عمل تزامن تلقائي للتطبيق في جميع اجهزة العملاء وذلك بكتابة <code>refresh</code> في نص الاعلان وارساله.
+              بالامكان الان تغيير تصميم التطبيق الخاص بك من الادارة، إذا كان لديك التحديث الاخير للتطبيق (تحديث 2021) وذالك بارسال الامر <code>tmp=0</code> لاختيار التصميم الاول. او الامر <code>tmp=1</code> لاختيار التصميم الثاني. <code>tmp=-1</code> التصميم السابق
+              الاوامر التالية يمكن استخدامها عند ارسال اشعار. يمكنك اختيار تصميم معين لعميل معين وذلك بارسال اشعار للعميل يحتوي على الامر. او لمجموعة عملاء.
+            </small>
+          </div>
+
+          <!-- اختيار القسم -->
+          <div class="mb-3">
+            <small class="form-text text-muted d-block mb-2">
+              ختر الواجهة اذا تريد ان ينتقل اليها العميل عند ظهور الاعلان والنقر على موافق.
+              - الميزة تعمل فقط في حال كان العميل يستخدم التحديث الاخير، تحديث (غذي حسابك بنفسك!)
+            </small>
+            <label for="addAdSection" class="form-label fw-bold">اختر القسم</label>
+            <select id="addAdSection" name="adSection" class="selectpicker form-control" data-live-search="true" title="اختر القسم">
+              <option value="home">الواجهة الرئيسية</option>
+              <option value="login">الدخول، والتسجيل واستعادة كلمة السر</option>
+              <option value="payment">كبينة السداد</option>
+              <option value="offers">الإعلانات والعروض</option>
+              <option value="report">التقرير</option>
+              <option value="reports-guide">دليل التقارير</option>
+              <option value="settings">الإعدادات</option>
+              <option value="wifi">كبينة الواي فاي</option>
+              <option value="gallery">معرض شبكاتي</option>
+              <option value="safe">الخزنة</option>
+              <option value="full-version">النسخة الكاملة</option>
+              <option value="more">المزيد</option>
+              <option value="account-transfer">التحويل بين الحسابات</option>
+              <option value="direct-transfer">إرسال حوالة مباشر</option>
+              <option value="piggy-bank">الحصالة</option>
+              <option value="saddidli">سددلي</option>
+              <option value="myaccount">حسابي</option>
+              <option value="chat">الشات</option>
+              <option value="recharge-cards">كروت تغذية الرصيد</option>
+              <option value="bills">تسديد فواتير الكهرباء</option>
+              <option value="contests">المسابقات</option>
+              <option value="insurance">تأميناتي</option>
+              <option value="slides">معرض الشرائح</option>
+            </select>
+          </div>
+
+          <!-- رابط -->
+          <div class="mb-3">
+            <small class="form-text text-muted d-block mb-2">
+              رابط. يمكنك وضع رابط هنا لينتقل العميل اليه عند ظهور الاعلان والنقر على زر موافق. الرابط يجب ان يحتوي http
+            </small>
+            <label for="addAdLink" class="form-label fw-bold">رابط</label>
+            <input type="url" id="addAdLink" name="adLink" class="form-control" placeholder="http://example.com">
+            <small class="form-text text-muted">الرابط يجب أن يحتوي <code>http</code> لكي يعمل.</small>
+          </div>
+
+          <!-- صورة -->
+          <div class="mb-3">
+            <label for="addAdImage" class="form-label fw-bold">صورة <span class="text-danger">*</span></label>
+            <input type="file" id="addAdImage" name="adImage" class="form-control" accept="image/*" required>
+          </div>
+
+        </div>
+
+        <!-- الفوتر -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
+          <button type="submit" class="btn btn-success">حفظ</button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>
+
+<!-- Edit Advertisement Modal -->
+<div class="modal fade" id="editAdvertisementModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-scrollable">
+    <div class="modal-content" dir="rtl">
+
+      <!-- الهيدر -->
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title">دليل البيانات &gt; الإعلانات</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="إغلاق"></button>
+      </div>
+
+      <!-- النموذج -->
+      <form id="editAdForm">
+        <div class="modal-body">
+
+          <!-- نص الإعلان -->
+          <div class="mb-3">
+            <label for="editAdText" class="form-label fw-bold">نص الإعلان <span class="text-danger">*</span></label>
+            <textarea id="editAdText" name="adText" class="form-control" rows="4" placeholder="اكتب نص الإعلان هنا..." required>عرض خاص بمناسبة العيد</textarea>
+            <small class="form-text text-muted d-block mt-2">
+              ملاحظة : يمكنك عمل تزامن تلقائي للتطبيق في جميع اجهزة العملاء وذلك بكتابة <code>refresh</code> في نص الاعلان وارساله.
+              بالامكان الان تغيير تصميم التطبيق الخاص بك من الادارة، إذا كان لديك التحديث الاخير للتطبيق (تحديث 2021) وذالك بارسال الامر <code>tmp=0</code> لاختيار التصميم الاول. او الامر <code>tmp=1</code> لاختيار التصميم الثاني. <code>tmp=-1</code> التصميم السابق
+              الاوامر التالية يمكن استخدامها عند ارسال اشعار. يمكنك اختيار تصميم معين لعميل معين وذلك بارسال اشعار للعميل يحتوي على الامر. او لمجموعة عملاء.
+            </small>
+          </div>
+
+          <!-- اختيار القسم -->
+          <div class="mb-3">
+            <small class="form-text text-muted d-block mb-2">
+              ختر الواجهة اذا تريد ان ينتقل اليها العميل عند ظهور الاعلان والنقر على موافق.
+              - الميزة تعمل فقط في حال كان العميل يستخدم التحديث الاخير، تحديث (غذي حسابك بنفسك!)
+            </small>
+            <label for="editAdSection" class="form-label fw-bold">اختر القسم</label>
+            <select id="editAdSection" name="adSection" class="selectpicker form-control" data-live-search="true" title="اختر القسم">
+              <option value="home" selected>الواجهة الرئيسية</option>
+              <option value="login">الدخول، والتسجيل واستعادة كلمة السر</option>
+              <option value="payment">كبينة السداد</option>
+              <option value="offers">الإعلانات والعروض</option>
+              <option value="report">التقرير</option>
+              <option value="reports-guide">دليل التقارير</option>
+              <option value="settings">الإعدادات</option>
+              <option value="wifi">كبينة الواي فاي</option>
+              <option value="gallery">معرض شبكاتي</option>
+              <option value="safe">الخزنة</option>
+              <option value="full-version">النسخة الكاملة</option>
+              <option value="more">المزيد</option>
+              <option value="account-transfer">التحويل بين الحسابات</option>
+              <option value="direct-transfer">إرسال حوالة مباشر</option>
+              <option value="piggy-bank">الحصالة</option>
+              <option value="saddidli">سددلي</option>
+              <option value="myaccount">حسابي</option>
+              <option value="chat">الشات</option>
+              <option value="recharge-cards">كروت تغذية الرصيد</option>
+              <option value="bills">تسديد فواتير الكهرباء</option>
+              <option value="contests">المسابقات</option>
+              <option value="insurance">تأميناتي</option>
+              <option value="slides">معرض الشرائح</option>
+            </select>
+          </div>
+
+          <!-- رابط -->
+          <div class="mb-3">
+            <small class="form-text text-muted d-block mb-2">
+              رابط. يمكنك وضع رابط هنا لينتقل العميل اليه عند ظهور الاعلان والنقر على زر موافق. الرابط يجب ان يحتوي http
+            </small>
+            <label for="editAdLink" class="form-label fw-bold">رابط</label>
+            <input type="url" id="editAdLink" name="adLink" class="form-control" placeholder="http://example.com" value="https://example.com/promotion">
+            <small class="form-text text-muted">الرابط يجب أن يحتوي <code>http</code> لكي يعمل.</small>
+          </div>
+
+          <!-- صورة -->
+          <div class="mb-3">
+            <label for="editAdImage" class="form-label fw-bold">صورة <span class="text-danger">*</span></label>
+            <input type="file" id="editAdImage" name="adImage" class="form-control" accept="image/*">
+          </div>
+
+        </div>
+
+        <!-- الفوتر -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
+          <button type="submit" class="btn btn-success">حفظ</button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+<!-- View Advertisement Modal -->
+<div class="modal fade voucher-modal" id="viewAdvertisementModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content" dir="rtl">
+      <div class="modal-header">
+        <h5 class="modal-title">عرض الإعلان</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="اغلاق"></button>
+      </div>
+      <div class="modal-body">
+        <div class="v-section">
+          <div class="v-cap">معلومات الإعلان</div>
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="v-label">اسم الإعلان</label>
+              <div class="form-control-plaintext">عرض العيد</div>
+            </div>
+            
+            <div class="col-md-6">
+              <label class="v-label">ترتيب العرض</label>
+              <div class="form-control-plaintext">1</div>
+            </div>
+            
+            <div class="col-md-12">
+              <label class="v-label">الوصف</label>
+              <div class="form-control-plaintext">عرض خاص بمناسبة العيد</div>
+            </div>
+            
+            <div class="col-md-6">
+              <label class="v-label">عرض الصورة</label>
+              <div class="form-control-plaintext">نعم</div>
+            </div>
+            
+            <div class="col-md-6">
+              <label class="v-label">عرض الايقونة</label>
+              <div class="form-control-plaintext">نعم</div>
+            </div>
+            
+            <div class="col-md-12">
+              <label class="v-label">الايقونة</label>
+              <div class="border p-3 text-center" style="width: 80px; height: 80px;">
+                <i class="ti ti-gift fs-1"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+@section scripts {
+    <!-- jstree js -->
+    <script src="~/plugins/jstree/jstree.min.js"></script>
+    <!-- date range picker js -->
+    <script src="~/plugins/daterangepicker/moment.min.js"></script>
+    <script src="~/plugins/daterangepicker/daterangepicker.js"></script>
+    <!-- datatables js -->
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.5.0/js/responsive.bootstrap5.min.js"></script>
+    <!-- datatables buttons js -->
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.bootstrap5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
+    <!-- bootstrap-select js -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/js/bootstrap-select.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/js/i18n/defaults-ar_AR.min.js"></script>
+    
+    <script>
+        $(document).ready(function() {
+            // Variable to track the currently edited row
+            var currentEditRow = null;
+            
+            // Initialize DataTable
+            var table = $('#categoriesTable').DataTable({
+                responsive: true,
+                pageLength: 10,
+                dom: 'lrtip', // Include pagination controls
+                language: {
+                    url: "//cdn.datatables.net/plug-ins/1.13.6/i18n/ar.json",
+                    emptyTable: "لا توجد بيانات",
+                    info: "إظهار _START_ إلى _END_ من _TOTAL_ سجل",
+                    infoEmpty: "إظهار 0 إلى 0 من 0",
+                    paginate: { first:"الأولى", last:"الأخيرة", next:"التالي", previous:"السابق" }
+                },
+                buttons: [
+                    {
+                        extend: 'print',
+                        text: 'طباعه',
+                        className: 'btn btn-outline-secondary btn-sm',
+                        exportOptions: {
+                            columns: ':visible'
+                        }
+                    },
+                    {
+                        extend: 'colvis',
+                        text: 'تحديد الحقول',
+                        className: 'btn btn-outline-secondary btn-sm',
+                        collectionLayout: 'fixed two-column'
+                    },
+                    {
+                        extend: 'excelHtml5',
+                        text: 'تصدير اكسل',
+                        className: 'btn btn-outline-secondary btn-sm',
+                        exportOptions: {
+                            columns: ':visible'
+                        }
+                    }
+                ]
+            });
+            
+            // Move buttons to filter section
+            table.buttons().container().appendTo('#datatables-buttons-container');
+            
+            // Toggle filter section
+            $('#toggleFilters').click(function() {
+                $('#filterSection').slideToggle();
+                var icon = $(this).find('i');
+                var text = $('#toggleFiltersText');
+                if (icon.hasClass('ti-filter-off')) {
+                    icon.removeClass('ti-filter-off').addClass('ti-filter');
+                    text.text('إخفاء الفلترة');
+                } else {
+                    icon.removeClass('ti-filter').addClass('ti-filter-off');
+                    text.text('إظهار الفلترة');
+                }
+            });
+            
+            // Select all checkboxes
+            $('#selectAll').click(function() {
+                $('.category-checkbox').prop('checked', this.checked);
+            });
+            
+            // Refresh button
+            $('#refreshBtn').click(function() {
+                location.reload();
+            });
+            
+            // Initialize bootstrap select
+            $('.selectpicker').selectpicker();
+            
+            // Initialize selectpickers in modals when they are shown
+            $('#addAdvertisementModal, #editAdvertisementModal').on('shown.bs.modal', function () {
+                $('.selectpicker', this).selectpicker('render');
+            });
+            
+            // Reset currentEditRow when edit modal is closed
+            $('#editAdvertisementModal').on('hidden.bs.modal', function () {
+                currentEditRow = null;
+            });
+            
+            // Debug: Log when the add button is clicked
+            $('button[data-bs-target="#addAdvertisementModal"]').on('click', function() {
+                console.log('Add Advertisement button clicked');
+            });
+            
+            // Handle action buttons
+            $('#topEditButton').click(function(e) {
+                e.preventDefault();
+                if ($('.category-checkbox:checked').length === 0) {
+                    alert('الرجاء تحديد إعلان واحد على الأقل للتعديل');
+                    return;
+                }
+                // Set the current edit row
+                currentEditRow = $('#categoriesTable tbody tr').has('.category-checkbox:checked');
+                // Pre-fill the edit form with data from the selected row
+                if (currentEditRow.length > 0) {
+                    var text = currentEditRow.find('td:eq(2)').text();
+                    $('#editAdText').val(text);
+                    // Reset selectpicker selection
+                    $('#editAdSection').selectpicker('val', '');
+                }
+                $('#editAdvertisementModal').modal('show');
+            });
+            
+            $('#topViewButton').click(function(e) {
+                e.preventDefault();
+                if ($('.category-checkbox:checked').length === 0) {
+                    alert('الرجاء تحديد إعلان واحد على الأقل للمشاهدة');
+                    return;
+                }
+                $('#viewAdvertisementModal').modal('show');
+            });
+            
+            // Handle dropdown actions
+            $('#categoriesTable').on('click', '[data-action="edit"]', function(e) {
+                e.preventDefault();
+                // Set the current edit row
+                currentEditRow = $(this).closest('tr');
+                // Pre-fill the edit form with data from the selected row
+                if (currentEditRow.length > 0) {
+                    var text = currentEditRow.find('td:eq(2)').text();
+                    $('#editAdText').val(text);
+                    // Reset selectpicker selection
+                    $('#editAdSection').selectpicker('val', '');
+                }
+                $('#editAdvertisementModal').modal('show');
+            });
+            
+            $('#categoriesTable').on('click', '[data-action="view"]', function(e) {
+                e.preventDefault();
+                $('#viewAdvertisementModal').modal('show');
+            });
+            
+            // Handle form submission for adding new advertisement
+            $('#addAdForm').on('submit', function(e) {
+                e.preventDefault();
+                
+                var text = $('#addAdText').val();
+                var section = $('#addAdSection option:selected').text();
+                var link = $('#addAdLink').val();
+                var today = new Date().toISOString().split('T')[0];
+                
+                // Get the next ID
+                var nextId = table.rows().count() + 1;
+                
+                var newRow = [
+                    '<td class="text-center"><div class="form-check"><input type="checkbox" class="form-check-input category-checkbox" value="' + nextId + '"></div></td>',
+                    nextId,
+                    text,
+                    today,
+                    '<td style="text-align: center;"><div class="dropdown"><button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">للمزيد</button><ul class="dropdown-menu dropdown-menu-end"><li><a class="dropdown-item" href="#" data-action="edit"><i class="fa fa-pencil me-1"></i> تعديل</a></li><li><a class="dropdown-item" href="#" data-action="view"><i class="fa fa-eye me-1"></i> مشاهدة</a></li><li><a class="dropdown-item" href="#"><i class="fa fa-trash me-1"></i> حذف</a></li></ul></div></td>'
+                ];
+                
+                table.row.add(newRow).draw();
+                
+                $('#addAdvertisementModal').modal('hide');
+                this.reset();
+                $('#addAdSection').selectpicker('val', '');
+            });
+            
+            // Handle form submission for editing advertisement
+            $('#editAdForm').on('submit', function(e) {
+                e.preventDefault();
+                
+                var text = $('#editAdText').val();
+                var section = $('#editAdSection option:selected').text();
+                var link = $('#editAdLink').val();
+                
+                // Update the selected row in the table
+                if (currentEditRow && currentEditRow.length > 0) {
+                    // Update the text column
+                    currentEditRow.find('td:eq(2)').text(text);
+                    // Update the date column
+                    var today = new Date().toISOString().split('T')[0];
+                    currentEditRow.find('td:eq(3)').text(today);
+                } else {
+                    alert('لم يتم العثور على الصف المحدد للتحديث');
+                }
+                
+                $('#editAdvertisementModal').modal('hide');
+            });
+        });
+    </script>
+}

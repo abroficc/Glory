@@ -1,0 +1,1851 @@
+@{
+    Layout = "_VerticalLayout";
+    ViewData["Title"] = "اجهزة العملاء ويب ";
+    ViewData["Direction"] = "rtl";
+}
+
+@section styles {
+    <!-- date range picker css -->
+    <link href="~/plugins/daterangepicker/daterangepicker.css" rel="stylesheet" type="text/css">
+    <!-- datatables css -->
+    <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.bootstrap5.min.css" rel="stylesheet">
+    <!-- datatables buttons css -->
+    <link href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.bootstrap5.min.css" rel="stylesheet">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600&display=swap" rel="stylesheet">
+    
+    <!-- bootstrap-select CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/css/bootstrap-select.min.css" />
+
+    <!-- UI Polish CSS -->
+    <link href="~/css/ui-polish.css" rel="stylesheet" type="text/css">
+    
+    <!-- Voucher Modal CSS -->
+    <link href="~/css/voucher-modal.css" rel="stylesheet" type="text/css">
+    
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        body[dir="rtl"] * {
+            font-family: "Cairo", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+        }
+        
+        /* تعديل الجدول لإزالة المسافة بين الرأس والمحتوى */
+        .table-bordered thead th {
+            border-bottom-width: 1px;
+        }
+        
+        .table-bordered tbody tr:first-child td {
+            border-top: none;
+        }
+        
+        .table {
+            margin-bottom: 0;
+        }
+        
+        /* Select all checkboxes styling */
+        .form-check-input:checked {
+            background-color: #1ab394;
+            border-color: #1ab394;
+        }
+        
+        /* Alert styling for better visibility */
+        .alert-warning {
+            background-color: #fff3cd;
+            border-color: #ffeaa7;
+            color: #856404;
+        }
+        
+        .alert-danger {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+        
+        /* Dark mode alert adjustments */
+        [data-bs-theme="dark"] .alert-warning {
+            background-color: #664d03;
+            border-color: #7d5f04;
+            color: #ffecb5;
+        }
+        
+        [data-bs-theme="dark"] .alert-danger {
+            background-color: #721c24;
+            border-color: #842029;
+            color: #f8d7da;
+        }
+        
+        /* Tree view container */
+        #reports-tree {
+            min-height: 400px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 10px;
+        }
+        
+        /* Table card styling */
+        .table-dark-card {
+            background: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 4px 20px rgba(0,0,0,.05);
+        }
+
+        .table-dark-card table {
+            width: 100%;
+            border-collapse: collapse;
+            color: #374151;
+            font-size: 14px;
+        }
+
+        .table-dark-card thead {
+            background: linear-gradient(180deg, #f3f4f6, #e5e7eb);
+        }
+        
+        .table-dark-card thead th {
+            padding: 12px 14px;
+            text-align: center;
+            font-weight: 600;
+            color: #111827;
+            border-bottom: 1px solid #d1d5db;
+            white-space: nowrap;
+        }
+
+        .table-dark-card tbody tr {
+            background: #fff;
+            transition: background 0.2s;
+        }
+        
+        .table-dark-card tbody tr:nth-child(even) {
+            background: #f9fafb;
+        }
+        
+        .table-dark-card tbody tr:hover {
+            background: #f3f4f6;
+        }
+        
+        .table-dark-card td {
+            padding: 12px 14px;
+            text-align: center;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .btn-more {
+            border: 1px solid #d1d5db;
+            background: transparent;
+            color: #3b82f6;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 13px;
+            cursor: pointer;
+        }
+        
+        .btn-more:hover {
+            background: #2563eb;
+            color: #fff;
+            border-color: #2563eb;
+        }
+
+        /* Dark mode table styles */
+        [data-bs-theme="dark"] .table-dark-card {
+            background: #111827;
+            border: 1px solid #1f2937;
+            box-shadow: 0 4px 20px rgba(0,0,0,.4);
+        }
+
+        [data-bs-theme="dark"] .table-dark-card table {
+            color: #e5e7eb;
+        }
+
+        [data-bs-theme="dark"] .table-dark-card thead {
+            background: linear-gradient(180deg, #1e293b, #111827);
+        }
+        
+        [data-bs-theme="dark"] .table-dark-card thead th {
+            color: #f9fafb;
+            border-bottom: 1px solid #374151;
+        }
+
+        [data-bs-theme="dark"] .table-dark-card tbody tr {
+            background: #111827;
+        }
+        
+        [data-bs-theme="dark"] .table-dark-card tbody tr:nth-child(even) {
+            background: #1a2234;
+        }
+        
+        [data-bs-theme="dark"] .table-dark-card tbody tr:hover {
+            background: #1f2937;
+        }
+        
+        [data-bs-theme="dark"] .table-dark-card td {
+            border-bottom: 1px solid #1f2937;
+        }
+
+        [data-bs-theme="dark"] .btn-more {
+            border: 1px solid #374151;
+            color: #93c5fd;
+        }
+        
+        [data-bs-theme="dark"] .btn-more:hover {
+            background: #2563eb;
+            color: #fff;
+            border-color: #2563eb;
+        }
+        
+        /* Light mode pagination */
+        .pagination-dark {
+            display: flex;
+            justify-content: center;
+            margin-top: 12px;
+            gap: 4px;
+        }
+        
+        .pagination-dark button {
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            color: #111827;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        
+        .pagination-dark button.active {
+            background: #10b981;
+            border-color: #10b981;
+            color: #fff;
+        }
+        
+        .pagination-dark button:hover:not(.active) {
+            background: #2563eb;
+            border-color: #2563eb;
+            color: #fff;
+        }
+
+        /* Dark mode pagination */
+        [data-bs-theme="dark"] .pagination-dark button {
+            background: #1e293b;
+            border: 1px solid #374151;
+            color: #f9fafb;
+        }
+        [data-bs-theme="dark"] .pagination-dark button.active {
+            background: #10b981;
+            border-color: #10b981;
+        }
+        
+        [data-bs-theme="dark"] .pagination-dark button:hover:not(.active) {
+            background: #2563eb;
+            border-color: #2563eb;
+        }
+        
+        /* Modal header styling - using project's primary color */
+        .modal-header {
+            background-color: #1ab394; /* Project's primary color */
+            color: white;
+            border-bottom: 1px solid #16987e;
+        }
+        
+        /* Modal title styling */
+        .modal-header .modal-title {
+            font-weight: 500;
+            color: white;
+        }
+        
+        /* Close button styling for modal headers */
+        .modal-header .btn-close {
+            filter: invert(1) grayscale(100%) brightness(200%);
+        }
+        
+        /* Modal footer styling - using a lighter shade */
+        .modal-footer {
+            background-color: #f0f8f8; /* Light teal background */
+            border-top: 1px solid #d1e8e8;
+        }
+        
+        /* Primary buttons in modals */
+        .modal-footer .btn-primary {
+            background-color: #1ab394;
+            border-color: #1ab394;
+        }
+        
+        .modal-footer .btn-primary:hover {
+            background-color: #16987e;
+            border-color: #16987e;
+        }
+        
+        /* Form styling */
+        .v-section {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid #e9ecef;
+        }
+        
+        [data-bs-theme="dark"] .v-section {
+            background: #1e1f27;
+            border-color: #293036;
+        }
+        
+        .v-cap {
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #495057;
+            font-size: 16px;
+        }
+        
+        [data-bs-theme="dark"] .v-cap {
+            color: #aab8c5;
+        }
+        
+        .v-label {
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 5px;
+            display: block;
+        }
+        
+        [data-bs-theme="dark"] .v-label {
+            color: #e5e7eb;
+        }
+        
+        /* Note highlight */
+        .note-highlight {
+            background-color: #fff9db;
+            border-left: 4px solid #ffd43b;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 0 4px 4px 0;
+            font-size: 13px;
+        }
+        
+        [data-bs-theme="dark"] .note-highlight {
+            background-color: #373016;
+            border-left: 4px solid #facc15;
+            color: #fef3c7;
+        }
+        
+        /* DataTables styling */
+        table.dataTable thead th {
+            border-bottom: 2px solid #dee2e6;
+        }
+        
+        table.dataTable tfoot th {
+            border-top: 2px solid #dee2e6;
+        }
+        
+        table.dataTable.no-footer {
+            border-bottom: 1px solid #dee2e6;
+        }
+        
+        [data-bs-theme="dark"] table.dataTable thead th {
+            border-bottom: 2px solid #374151;
+        }
+        
+        [data-bs-theme="dark"] table.dataTable tfoot th {
+            border-top: 2px solid #374151;
+        }
+        
+        [data-bs-theme="dark"] table.dataTable.no-footer {
+            border-bottom: 1px solid #374151;
+        }
+        
+        /* DataTables info and pagination */
+        .dataTables_info,
+        .dataTables_paginate {
+            margin-top: 15px !important;
+            padding-top: 0 !important;
+            display: block !important;
+        }
+        
+        /* Ensure DataTables info is visible and positioned correctly */
+        .dataTables_info {
+            clear: both;
+            float: right; /* Changed from left to right */
+            padding-top: 0.755em;
+            padding-bottom: 0.755em;
+            text-align: right; /* Added for proper text alignment */
+        }
+        
+        /* Ensure DataTables pagination is visible and positioned correctly */
+        .dataTables_paginate {
+            float: left; /* Changed from right to left */
+            text-align: left; /* Changed from right to left */
+            padding-top: 0.755em;
+            padding-bottom: 0.755em;
+        }
+        
+        /* Pagination buttons styling */
+        .paginate_button {
+            display: inline-block;
+            padding: 0.5rem 0.75rem;
+            margin-left: -1px;
+            line-height: 1.25;
+            color: #007bff;
+            background-color: #fff;
+            border: 1px solid #dee2e6;
+            cursor: pointer;
+        }
+        
+        .paginate_button.current {
+            z-index: 3;
+            color: #fff;
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+        
+        .paginate_button.disabled {
+            color: #6c757d;
+            pointer-events: none;
+            cursor: auto;
+            background-color: #fff;
+            border-color: #dee2e6;
+        }
+        
+        .paginate_button:hover:not(.disabled):not(.current) {
+            color: #0056b3;
+            background-color: #e9ecef;
+            border-color: #a7a7a7;
+        }
+        
+        /* Dark mode pagination */
+        [data-bs-theme="dark"] .paginate_button {
+            color: #93c5fd;
+            background-color: #1e293b;
+            border: 1px solid #374151;
+        }
+        
+        [data-bs-theme="dark"] .paginate_button.current {
+            background-color: #10b981;
+            border-color: #10b981;
+        }
+        
+        [data-bs-theme="dark"] .paginate_button.disabled {
+            color: #6b7280;
+            background-color: #1e293b;
+            border-color: #374151;
+        }
+        
+        [data-bs-theme="dark"] .paginate_button:hover:not(.disabled):not(.current) {
+            color: #ffffff;
+            background-color: #2563eb;
+            border-color: #2563eb;
+        }
+        
+        /* DataTables buttons container */
+        #datatables-buttons-container {
+            margin-bottom: 15px;
+            padding: 10px 0;
+        }
+        
+        #datatables-buttons-container .btn {
+            margin-right: 5px;
+            margin-bottom: 5px;
+        }
+        
+        /* Column visibility dropdown */
+        .dt-button-collection {
+            z-index: 9999 !important;
+        }
+        
+        .dt-button-collection .dropdown-item {
+            padding: 8px 15px;
+        }
+        
+        /* DataTables odd and even row styling */
+        table.dataTable tbody tr.odd,
+        table.dataTable.stripe tbody tr.odd {
+            background-color: #f8f9fa;
+        }
+        
+        [data-bs-theme="dark"] table.dataTable tbody tr.odd,
+        [data-bs-theme="dark"] table.dataTable.stripe tbody tr.odd {
+            background-color: #1a2234;
+        }
+        
+        table.dataTable tbody tr.even,
+        table.dataTable.stripe tbody tr.even {
+            background-color: #ffffff;
+        }
+        
+        [data-bs-theme="dark"] table.dataTable tbody tr.even,
+        [data-bs-theme="dark"] table.dataTable.stripe tbody tr.even {
+            background-color: #111827;
+        }
+        
+        table.dataTable tbody tr.odd:hover,
+        table.dataTable.stripe tbody tr.odd:hover,
+        table.dataTable tbody tr.even:hover,
+        table.dataTable.stripe tbody tr.even:hover {
+            background-color: #e9ecef !important;
+        }
+        
+        [data-bs-theme="dark"] table.dataTable tbody tr.odd:hover,
+        [data-bs-theme="dark"] table.dataTable.stripe tbody tr.odd:hover,
+        [data-bs-theme="dark"] table.dataTable tbody tr.even:hover,
+        [data-bs-theme="dark"] table.dataTable.stripe tbody tr.even:hover {
+            background-color: #1f2937 !important;
+        }
+        
+        table.dataTable.display tbody tr.odd > .sorting_1,
+        table.dataTable.order-column.stripe tbody tr.odd > .sorting_1 {
+            background-color: #f1f3f4;
+        }
+        
+        [data-bs-theme="dark"] table.dataTable.display tbody tr.odd > .sorting_1,
+        [data-bs-theme="dark"] table.dataTable.order-column.stripe tbody tr.odd > .sorting_1 {
+            background-color: #1a2234;
+        }
+        
+        table.dataTable.display tbody tr.even > .sorting_1,
+        table.dataTable.order-column.stripe tbody tr.even > .sorting_1 {
+            background-color: #f8f9fa;
+        }
+        
+        [data-bs-theme="dark"] table.dataTable.display tbody tr.even > .sorting_1,
+        [data-bs-theme="dark"] table.dataTable.order-column.stripe tbody tr.even > .sorting_1 {
+            background-color: #111827;
+        }
+        
+        /* DataTables selected row styling */
+        table.dataTable tbody tr.selected,
+        table.dataTable.display tbody tr.selected {
+            background-color: #e6f7ff !important;
+        }
+        
+        [data-bs-theme="dark"] table.dataTable tbody tr.selected,
+        [data-bs-theme="dark"] table.dataTable.display tbody tr.selected {
+            background-color: #1a2234 !important;
+        }
+        
+        table.dataTable tbody tr.selected > td,
+        table.dataTable.display tbody tr.selected > td {
+            background-color: inherit !important;
+        }
+        
+        table.dataTable.stripe tbody > tr.odd.selected,
+        table.dataTable.stripe tbody > tr.odd > .selected,
+        table.dataTable.display tbody > tr.odd.selected,
+        table.dataTable.display tbody > tr.odd > .selected,
+        table.dataTable.stripe tbody > tr.odd.selected > td,
+        table.dataTable.stripe tbody > tr.odd > .selected > td,
+        table.dataTable.display tbody > tr.odd.selected > td,
+        table.dataTable.display tbody > tr.odd > .selected > td {
+            background-color: #e6f7ff !important;
+        }
+        
+        [data-bs-theme="dark"] table.dataTable.stripe tbody > tr.odd.selected,
+        [data-bs-theme="dark"] table.dataTable.stripe tbody > tr.odd > .selected,
+        [data-bs-theme="dark"] table.dataTable.display tbody > tr.odd.selected,
+        [data-bs-theme="dark"] table.dataTable.display tbody > tr.odd > .selected,
+        [data-bs-theme="dark"] table.dataTable.stripe tbody > tr.odd.selected > td,
+        [data-bs-theme="dark"] table.dataTable.stripe tbody > tr.odd > .selected > td,
+        [data-bs-theme="dark"] table.dataTable.display tbody > tr.odd.selected > td,
+        [data-bs-theme="dark"] table.dataTable.display tbody > tr.odd > .selected > td {
+            background-color: #1a2234 !important;
+        }
+        
+        table.dataTable tbody > tr.even.selected,
+        table.dataTable tbody > tr.even > .selected,
+        table.dataTable.display tbody > tr.even.selected,
+        table.dataTable.display tbody > tr.even > .selected,
+        table.dataTable tbody > tr.even.selected > td,
+        table.dataTable tbody > tr.even > .selected > td,
+        table.dataTable.display tbody > tr.even.selected > td,
+        table.dataTable.display tbody > tr.even > .selected > td {
+            background-color: #ffffff !important;
+        }
+        
+        [data-bs-theme="dark"] table.dataTable tbody > tr.even.selected,
+        [data-bs-theme="dark"] table.dataTable tbody > tr.even > .selected,
+        [data-bs-theme="dark"] table.dataTable.display tbody > tr.even.selected,
+        [data-bs-theme="dark"] table.dataTable.display tbody > tr.even > .selected,
+        [data-bs-theme="dark"] table.dataTable tbody > tr.even.selected > td,
+        [data-bs-theme="dark"] table.dataTable tbody > tr.even > .selected > td,
+        [data-bs-theme="dark"] table.dataTable.display tbody > tr.even.selected > td,
+        [data-bs-theme="dark"] table.dataTable.display tbody > tr.even > .selected > td {
+            background-color: #111827 !important;
+        }
+        
+        /* DataTables focus and hover effects */
+        table.dataTable thead th,
+        table.dataTable thead td,
+        table.dataTable tbody td,
+        table.dataTable tbody th {
+            outline: none !important;
+            box-shadow: none !important;
+        }
+        
+        table.dataTable thead th:focus,
+        table.dataTable thead td:focus,
+        table.dataTable thead th:active,
+        table.dataTable thead td:active,
+        table.dataTable tbody td:focus,
+        table.dataTable tbody th:focus,
+        table.dataTable tbody td:active,
+        table.dataTable tbody th:active {
+            outline: none !important;
+            box-shadow: none !important;
+            background-color: inherit !important;
+        }
+        
+        /* DataTables sorting arrows */
+        table.dataTable thead .sorting,
+        table.dataTable thead .sorting_asc,
+        table.dataTable thead .sorting_desc,
+        table.dataTable thead .sorting_asc_disabled,
+        table.dataTable thead .sorting_desc_disabled {
+            outline: none !important;
+            box-shadow: none !important;
+        }
+        
+        /* DataTables selection background */
+        table.dataTable tbody tr:hover,
+        table.dataTable tbody tr:hover td {
+            background-color: inherit !important;
+        }
+        
+        /* Custom hover */
+        .table-dark-card tbody tr:hover {
+            background: #f3f4f6 !important;
+        }
+        
+        [data-bs-theme="dark"] .table-dark-card tbody tr:hover {
+            background: #1f2937 !important;
+        }
+        
+        /* Calendar z-index fix */
+        .flatpickr-calendar {
+            z-index: 200000 !important;
+        }
+        
+        /* Disabled top action buttons */
+        .btn-outline-primary.disabled,
+        .btn-outline-info.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        /* CKEditor validation */
+        .ck-editor.is-invalid .ck-editor__editable {
+            border-color: #e02d2d !important;
+            box-shadow: 0 0 0 0.2rem rgba(224, 45, 45, 0.25) !important;
+        }
+        
+        /* Fix modal scrolling */
+        .modal-dialog-scrollable .modal-content {
+            max-height: calc(100vh - 2rem);
+        }
+        
+        .modal-dialog-scrollable .modal-body,
+        .modal-body {
+            max-height: 75vh;
+            overflow-y: auto;
+        }
+        
+        /* Ensure all form elements are visible within modal */
+        .modal-body .mb-3 {
+            margin-bottom: 1.5rem;
+        }
+        
+        /* Fix for icon picker overflow */
+        .icon-picker {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        /* Ensure color pickers are visible */
+        .form-control-color {
+            height: 40px;
+            padding: 5px;
+        }
+        
+        /* Ensure the file input section is visible */
+        .mb-3.mt-3 {
+            margin-bottom: 1rem !important;
+            margin-top: 1rem !important;
+        }
+        
+        /* تكبير النصوص داخل النافذة المنبثقة */
+        .modal-content {
+            font-size: 16px; /* حجم الخط الأساسي */
+            line-height: 1.8; /* تباعد الأسطر لسهولة القراءة */
+        }
+
+        /* العناوين */
+        .modal-header .modal-title {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        /* النصوص المساعدة الصغيرة */
+        .modal-body small,
+        .modal-body .form-text {
+            font-size: 14px;
+            color: #555; /* لون أقوى */
+        }
+
+        /* الحقول */
+        .modal-body .form-control,
+        .modal-body .form-select {
+            font-size: 16px;
+            padding: 10px 12px;
+        }
+
+        /* التكبير داخل Textarea */
+        .modal-body textarea {
+            font-size: 16px;
+            padding: 12px;
+        }
+
+        /* زر الحفظ والإغلاق */
+        .modal-footer .btn {
+            font-size: 15px;
+            padding: 8px 20px;
+        }
+        
+        /* Image preview enhancement */
+        #reportsTable td img:hover {
+            transform: scale(2);
+            transition: transform 0.2s;
+            z-index: 1000;
+            position: relative;
+        }
+        
+        /* Modal section styling */
+        .modal-section {
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+        }
+        
+        [data-bs-theme="dark"] .modal-section {
+            background-color: #1e1f27;
+            border: 1px solid #293036;
+        }
+        
+        .modal-section-title {
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #495057;
+            font-size: 16px;
+            border-bottom: 1px solid #dee2e6;
+            padding-bottom: 8px;
+        }
+        
+        [data-bs-theme="dark"] .modal-section-title {
+            color: #aab8c5;
+            border-bottom: 1px solid #374151;
+        }
+        
+        .modal-section-title {
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #495057;
+            font-size: 18px;
+            border-bottom: 1px solid #dee2e6;
+            padding-bottom: 8px;
+        }
+        
+        [data-bs-theme="dark"] .modal-section-title {
+            color: #aab8c5;
+            border-bottom: 1px solid #374151;
+        }
+        
+        .v-label {
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 5px;
+            display: block;
+        }
+        
+        [data-bs-theme="dark"] .v-label {
+            color: #e5e7eb;
+        }
+        
+        /* Checkbox column styling */
+        .form-check {
+            display: inline-block;
+            margin-bottom: 0;
+        }
+        
+        .form-check-input {
+            margin-top: 0.3rem;
+        }
+        
+        /* Larger modal for better viewing */
+        .modal-xl {
+            max-width: 80%;
+        }
+    </style>
+}
+
+<!-- Filter toggle button -->
+<div class="mb-2">
+    <button id="toggleFilters" type="button" class="btn btn-primary">
+        <i class="ti ti-filter-off me-1"></i><span id="toggleFiltersText">إظهار الفلترة</span>
+    </button>
+</div>
+
+<!-- Filter section -->
+<div class="card mb-3" id="filterSection" style="display: none;">
+    <div class="card-body p-2">
+        <!-- DataTables Buttons Container -->
+        <div class="row g-2 mb-2">
+            <div class="col-12" id="datatables-buttons-container">
+                <!-- DataTables buttons will be inserted here by JavaScript -->
+            </div>
+        </div>
+        
+        <!-- Filter fields in grid layout (side by side) -->
+        <div class="row g-2 mb-2">
+            <div class="col-md">
+                <input type="text" class="form-control form-control-sm" placeholder="رقم العميل" id="filter-customer-id">
+            </div>
+            <div class="col-md">
+                <input type="text" class="form-control form-control-sm" placeholder="اسم العميل" id="filter-customer-name">
+            </div>
+            <div class="col-md">
+                <input type="text" class="form-control form-control-sm" placeholder="رقم الهاتف" id="filter-phone">
+            </div>
+            <div class="col-md">
+                <input type="text" class="form-control form-control-sm" placeholder="العنوان" id="filter-address">
+            </div>
+        </div>
+        <div class="row g-2 mb-2">
+            <div class="col-md">
+                <select class="selectpicker form-control form-control-sm" id="filter-status" data-live-search="true" title="الحالة">
+                    <option value="Active">نشط</option>
+                    <option value="Inactive">غير نشط</option>
+                    <option value="Suspended">معلق</option>
+                </select>
+            </div>
+            <div class="col-md">
+                <input type="text" class="form-control form-control-sm" placeholder="تاريخ التسجيل" id="filter-registration-date">
+            </div>
+            <div class="col-md">
+                <input type="text" class="form-control form-control-sm" placeholder="آخر نشاط" id="filter-last-activity">
+            </div>
+            <div class="col-md">
+                <select class="selectpicker form-control form-control-sm" id="filter-records" data-live-search="true" title="اختر السجلات">
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                </select>
+            </div>
+        </div>
+        
+        <!-- Unified action buttons -->
+        <div class="row g-2">
+            <div class="col">
+                <button type="button" class="btn btn-secondary btn-sm" id="resetFilters">إعادة تعيين</button>
+                <button type="button" class="btn btn-primary btn-sm" id="applyFilters">بحث</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Action buttons -->
+<div class="mb-3">
+    <div class="d-flex gap-2 flex-wrap">
+        <a href="#" class="btn btn-sm btn-outline-danger" title="حذف">
+            <i class="fa fa-trash"></i>
+        </a>
+        <!-- زر لفتح النافذة -->
+        <button type="button" class="btn btn-sm btn-outline-success" title="إضافة" data-bs-toggle="modal" data-bs-target="#addReportModal">
+            <i class="fa fa-plus"></i>
+        </button>
+        <a href="#" class="btn btn-sm btn-outline-primary" title="تعديل" id="topEditButton">
+            <i class="fa fa-pencil"></i>
+        </a>
+        <a href="#" class="btn btn-sm btn-outline-info" title="مشاهدة" id="topViewButton">
+            <i class="fa fa-eye"></i>
+        </a>
+        <button id="refreshBtn" class="btn btn-sm btn-outline-secondary">
+            <i class="fa fa-refresh"></i>
+        </button>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <div class="d-flex align-items-center">
+            <h5 class="card-title mb-0 fw-bold">@ViewData["Title"]</h5>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table id="reportsTable" class="table table-striped table-bordered dt-responsive nowrap w-100">
+                <thead>
+                    <tr>
+                        <th class="text-center" width="40px">
+                            <div class="form-check"><input type="checkbox" class="form-check-input" id="selectAll"></div>
+                        </th>
+                        <th>رقم العميل</th>
+                        <th>اسم العميل</th>
+                        <th>رقم الهاتف</th>
+                        <th>العنوان</th>
+                        <th>الحالة</th>
+                        <th>تاريخ التسجيل</th>
+                        <th>آخر نشاط</th>
+                        <th style="width: 100px; text-align: center;">المزيد</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="text-center">
+                            <div class="form-check"><input type="checkbox" class="form-check-input report-checkbox" value="1"></div>
+                        </td>
+                        <td>1001</td>
+                        <td>أحمد محمد</td>
+                        <td>777123456</td>
+                        <td>صنعاء</td>
+                        <td>نشط</td>
+                        <td>2023-01-15</td>
+                        <td>2023-10-05</td>
+                        <td style="text-align: center;">
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    للمزيد
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="#" data-action="view"><i class="fa fa-eye me-1"></i> مشاهدة</a></li>
+                                    <li><a class="dropdown-item" href="#" data-action="edit"><i class="fa fa-pencil me-1"></i> تعديل</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item text-danger" href="#" data-action="delete"><i class="fa fa-trash me-1"></i> حذف</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">
+                            <div class="form-check"><input type="checkbox" class="form-check-input report-checkbox" value="2"></div>
+                        </td>
+                        <td>1002</td>
+                        <td>فاطمة علي</td>
+                        <td>712987654</td>
+                        <td>عدن</td>
+                        <td>نشط</td>
+                        <td>2023-02-20</td>
+                        <td>2023-10-03</td>
+                        <td style="text-align: center;">
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    للمزيد
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="#" data-action="view"><i class="fa fa-eye me-1"></i> مشاهدة</a></li>
+                                    <li><a class="dropdown-item" href="#" data-action="edit"><i class="fa fa-pencil me-1"></i> تعديل</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item text-danger" href="#" data-action="delete"><i class="fa fa-trash me-1"></i> حذف</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">
+                            <div class="form-check"><input type="checkbox" class="form-check-input report-checkbox" value="3"></div>
+                        </td>
+                        <td>1003</td>
+                        <td>محمد عبدالله</td>
+                        <td>733456789</td>
+                        <td>تعز</td>
+                        <td>معلق</td>
+                        <td>2023-03-10</td>
+                        <td>2023-09-28</td>
+                        <td style="text-align: center;">
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    للمزيد
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="#" data-action="view"><i class="fa fa-eye me-1"></i> مشاهدة</a></li>
+                                    <li><a class="dropdown-item" href="#" data-action="edit"><i class="fa fa-pencil me-1"></i> تعديل</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item text-danger" href="#" data-action="delete"><i class="fa fa-trash me-1"></i> حذف</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Add Report Modal -->
+<div class="modal fade voucher-modal" id="addReportModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content" dir="rtl">
+      <div class="modal-header">
+        <h5 class="modal-title">إضافة تقرير - العملاء</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="إغلاق"></button>
+      </div>
+
+      <form id="addReportForm">
+        <div class="modal-body">
+          <div class="v-section">
+            <div class="v-cap">معلومات العميل</div>
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="v-label">اسم العميل <span class="v-req">*</span></label>
+                <input class="v-input form-control" id="add-customer-name" name="customerName" placeholder="ادخل اسم العميل" type="text" required>
+                <div class="invalid-feedback">الرجاء إدخال اسم العميل</div>
+              </div>
+              <div class="col-md-6">
+                <label class="v-label">رقم الهاتف <span class="v-req">*</span></label>
+                <input class="v-input form-control" id="add-phone" name="phone" placeholder="رقم الهاتف" type="text" required>
+                <div class="invalid-feedback">الرجاء إدخال رقم الهاتف</div>
+              </div>
+              <div class="col-md-6">
+                <label class="v-label">العنوان <span class="v-req">*</span></label>
+                <input class="v-input form-control" id="add-address" name="address" placeholder="العنوان" type="text" required>
+                <div class="invalid-feedback">الرجاء إدخال العنوان</div>
+              </div>
+              <div class="col-md-6">
+                <label class="v-label">الحالة <span class="v-req">*</span></label>
+                <select class="v-input form-select" id="add-status" name="status" required>
+                  <option value="">اختر الحالة</option>
+                  <option value="Active">نشط</option>
+                  <option value="Inactive">غير نشط</option>
+                  <option value="Suspended">معلق</option>
+                </select>
+                <div class="invalid-feedback">الرجاء اختيار الحالة</div>
+              </div>
+              <div class="col-md-6">
+                <label class="v-label">تاريخ التسجيل <span class="v-req">*</span></label>
+                <input class="v-input form-control" id="add-registration-date" name="registrationDate" placeholder="تاريخ التسجيل" type="date" required>
+                <div class="invalid-feedback">الرجاء إدخال تاريخ التسجيل</div>
+              </div>
+              <div class="col-md-6">
+                <label class="v-label">آخر نشاط <span class="v-req">*</span></label>
+                <input class="v-input form-control" id="add-last-activity" name="lastActivity" placeholder="آخر نشاط" type="date" required>
+                <div class="invalid-feedback">الرجاء إدخال تاريخ آخر نشاط</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <small class="text-muted me-auto">الحقول بعلامة <span class="v-req">*</span> مطلوبة</small>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+          <button type="submit" class="btn btn-primary">
+            <i class="ti ti-check me-1"></i>حفظ
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Report Modal -->
+<div class="modal fade voucher-modal" id="editReportModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content" dir="rtl">
+      <div class="modal-header">
+        <h5 class="modal-title">تعديل تقرير - العملاء</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="إغلاق"></button>
+      </div>
+      <form id="editReportForm">
+        <div class="modal-body">
+          <div class="v-section">
+            <div class="v-cap">معلومات العميل</div>
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="v-label">اسم العميل <span class="v-req">*</span></label>
+                <input class="v-input form-control" id="edit-customer-name" name="customerName" placeholder="ادخل اسم العميل" type="text" required>
+                <div class="invalid-feedback">الرجاء إدخال اسم العميل</div>
+              </div>
+              <div class="col-md-6">
+                <label class="v-label">رقم الهاتف <span class="v-req">*</span></label>
+                <input class="v-input form-control" id="edit-phone" name="phone" placeholder="رقم الهاتف" type="text" required>
+                <div class="invalid-feedback">الرجاء إدخال رقم الهاتف</div>
+              </div>
+              <div class="col-md-6">
+                <label class="v-label">العنوان <span class="v-req">*</span></label>
+                <input class="v-input form-control" id="edit-address" name="address" placeholder="العنوان" type="text" required>
+                <div class="invalid-feedback">الرجاء إدخال العنوان</div>
+              </div>
+              <div class="col-md-6">
+                <label class="v-label">الحالة <span class="v-req">*</span></label>
+                <select class="v-input form-select" id="edit-status" name="status" required>
+                  <option value="">اختر الحالة</option>
+                  <option value="Active">نشط</option>
+                  <option value="Inactive">غير نشط</option>
+                  <option value="Suspended">معلق</option>
+                </select>
+                <div class="invalid-feedback">الرجاء اختيار الحالة</div>
+              </div>
+              <div class="col-md-6">
+                <label class="v-label">تاريخ التسجيل <span class="v-req">*</span></label>
+                <input class="v-input form-control" id="edit-registration-date" name="registrationDate" placeholder="تاريخ التسجيل" type="date" required>
+                <div class="invalid-feedback">الرجاء إدخال تاريخ التسجيل</div>
+              </div>
+              <div class="col-md-6">
+                <label class="v-label">آخر نشاط <span class="v-req">*</span></label>
+                <input class="v-input form-control" id="edit-last-activity" name="lastActivity" placeholder="آخر نشاط" type="date" required>
+                <div class="invalid-feedback">الرجاء إدخال تاريخ آخر نشاط</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <small class="text-muted me-auto">الحقول بعلامة <span class="v-req">*</span> مطلوبة</small>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+          <button type="submit" class="btn btn-primary">
+            <i class="ti ti-check me-1"></i>حفظ
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- View Report Modal -->
+<div class="modal fade voucher-modal" id="viewReportModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content" dir="rtl">
+      <div class="modal-header">
+        <h5 class="modal-title">عرض تقرير - العملاء</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="إغلاق"></button>
+      </div>
+      <form id="viewReportForm">
+        <div class="modal-body">
+          <div class="v-section">
+            <div class="v-cap">معلومات العميل</div>
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="v-label">اسم العميل</label>
+                <div class="form-control-plaintext" id="view-customer-name"></div>
+              </div>
+              <div class="col-md-6">
+                <label class="v-label">رقم الهاتف</label>
+                <div class="form-control-plaintext" id="view-phone"></div>
+              </div>
+              <div class="col-md-6">
+                <label class="v-label">العنوان</label>
+                <div class="form-control-plaintext" id="view-address"></div>
+              </div>
+              <div class="col-md-6">
+                <label class="v-label">الحالة</label>
+                <div class="form-control-plaintext" id="view-status"></div>
+              </div>
+              <div class="col-md-6">
+                <label class="v-label">تاريخ التسجيل</label>
+                <div class="form-control-plaintext" id="view-registration-date"></div>
+              </div>
+              <div class="col-md-6">
+                <label class="v-label">آخر نشاط</label>
+                <div class="form-control-plaintext" id="view-last-activity"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <small class="text-muted me-auto">الحقول بعلامة <span class="v-req">*</span> مطلوبة</small>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
+          <button type="button" class="btn btn-primary" id="editFromViewBtn">
+            <i class="ti ti-pencil me-1"></i>تعديل
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+@section scripts {
+    <!-- jstree js -->
+    <!-- date range picker js -->
+    <script src="~/plugins/daterangepicker/moment.min.js"></script>
+    <script src="~/plugins/daterangepicker/daterangepicker.js"></script>
+    <!-- datatables js -->
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.5.0/js/responsive.bootstrap5.min.js"></script>
+    <!-- datatables buttons js -->
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.bootstrap5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.colVis.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
+    <!-- bootstrap-select js -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/js/bootstrap-select.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/js/i18n/defaults-ar_AR.min.js"></script>
+    
+    <script>
+        $(document).ready(function() {
+            // Check if Bootstrap is loaded
+            if (typeof bootstrap === 'undefined') {
+                console.error('Bootstrap is not loaded properly!');
+                return;
+            }
+            
+            // Set Bootstrap version for selectpicker
+            $.fn.selectpicker.Constructor.BootstrapVersion = '5';
+            
+            // Initialize DataTable
+            var table = $('#reportsTable').DataTable({
+                responsive: true,
+                pageLength: 10,
+                dom: 'Bfrtpi', // Include pagination controls and buttons
+                language: {
+                    "sEmptyTable":     "لا توجد بيانات",
+                    "sInfo":           "إظهار _START_ إلى _END_ من _TOTAL_ سجل",
+                    "sInfoEmpty":      "إظهار 0 إلى 0 من 0 سجل",
+                    "sInfoFiltered":   "(مفلتر من _MAX_ سجل)",
+                    "sInfoPostFix":    "",
+                    "sInfoThousands":  ",",
+                    "sLengthMenu":     "أظهر _MENU_ سجل",
+                    "sLoadingRecords": "جارٍ التحميل...",
+                    "sProcessing":     "جارٍ التحميل...",
+                    "sSearch":         "ابحث:",
+                    "sZeroRecords":    "لم يعثر على أية سجلات",
+                    "oPaginate": {
+                        "sFirst":    "الأولى",
+                        "sLast":     "الأخيرة",
+                        "sNext":     "التالي",
+                        "sPrevious": "السابق"
+                    },
+                    "oAria": {
+                        "sSortAscending":  ": تفعيل لترتيب العمود تصاعدياً",
+                        "sSortDescending": ": تفعيل لترتيب العمود تنازلياً"
+                    },
+                    "buttons": {
+                        "colvis": 'تحديد الحقول',
+                        "print": 'طباعه',
+                        "excel": 'تصدير اكسل'
+                    }
+                },
+                buttons: [
+                    {
+                        extend: 'print',
+                        text: 'طباعه',
+                        className: 'btn btn-outline-secondary btn-sm',
+                        exportOptions: {
+                            columns: ':visible'
+                        }
+                    },
+                    {
+                        extend: 'colvis',
+                        text: 'تحديد الحقول',
+                        className: 'btn btn-outline-secondary btn-sm',
+                        collectionLayout: 'fixed two-column',
+                        postfixButtons: ['colvisRestore']
+                    },
+                    {
+                        extend: 'excelHtml5',
+                        text: 'تصدير اكسل',
+                        className: 'btn btn-outline-secondary btn-sm',
+                        exportOptions: {
+                            columns: ':visible'
+                        }
+                    }
+                ]
+            });
+            
+            // Move buttons to filter section
+            table.buttons().container().appendTo('#datatables-buttons-container');
+            
+            // Show the filter section buttons container
+            $('#datatables-buttons-container').show();
+            
+            // Toggle filter section
+            $('#toggleFilters').click(function() {
+                $('#filterSection').slideToggle();
+                var icon = $(this).find('i');
+                var text = $('#toggleFiltersText');
+                if (icon.hasClass('ti-filter-off')) {
+                    icon.removeClass('ti-filter-off').addClass('ti-filter');
+                    text.text('إخفاء الفلترة');
+                } else {
+                    icon.removeClass('ti-filter').addClass('ti-filter-off');
+                    text.text('إظهار الفلترة');
+                }
+            });
+            
+            // Refresh button
+            $('#refreshBtn').click(function() {
+                location.reload();
+            });
+            
+            // Initialize bootstrap select
+            $('.selectpicker').selectpicker();
+            
+            // Initialize selectpickers in modals when they are shown
+            $('#addReportModal, #editReportModal').on('shown.bs.modal', function () {
+                $('.selectpicker', this).selectpicker('render');
+            });
+            
+            // Select all functionality
+            $('#selectAll').on('change', function() {
+                $('.report-checkbox').prop('checked', $(this).prop('checked'));
+            });
+            
+            // Individual checkbox functionality
+            $('.report-checkbox').on('change', function() {
+                if (!$(this).prop('checked')) {
+                    $('#selectAll').prop('checked', false);
+                } else {
+                    if ($('.report-checkbox:checked').length === $('.report-checkbox').length) {
+                        $('#selectAll').prop('checked', true);
+                    }
+                }
+            });
+            
+            // Handle action buttons (Fixed)
+            $('#topEditButton').click(function(e) {
+                e.preventDefault();
+                var checkedBoxes = $('.report-checkbox:checked');
+                if (checkedBoxes.length === 0) {
+                    alert('الرجاء تحديد تقرير واحد على الأقل للتعديل');
+                    return;
+                }
+                
+                if (checkedBoxes.length > 1) {
+                    alert('الرجاء تحديد تقرير واحد فقط للتعديل');
+                    return;
+                }
+                
+                // For now, we'll just edit the first selected item
+                var firstChecked = checkedBoxes.first();
+                var row = firstChecked.closest('tr');
+                if (row.hasClass('child')) {
+                    row = row.prev();
+                }
+                
+                // Get row data
+                var reportId = firstChecked.val();
+                var customerName = row.find('td:eq(1)').text();
+                var phone = row.find('td:eq(2)').text();
+                var address = row.find('td:eq(3)').text();
+                var status = row.find('td:eq(4)').text();
+                var registrationDate = row.find('td:eq(5)').text();
+                var lastActivity = row.find('td:eq(6)').text();
+                
+                // Populate edit modal
+                $('#edit-customer-name').val(customerName);
+                $('#edit-phone').val(phone);
+                $('#edit-address').val(address);
+                $('#edit-status').val(status);
+                $('#edit-registration-date').val(registrationDate);
+                $('#edit-last-activity').val(lastActivity);
+                
+                // Show edit modal using Bootstrap 5 method
+                var editModalElement = document.getElementById('editReportModal');
+                if (editModalElement) {
+                    try {
+                        const editModal = new bootstrap.Modal(editModalElement);
+                        editModal.show();
+                    } catch (error) {
+                        console.error('Error showing edit modal:', error);
+                        // Fallback to jQuery method
+                        $('#editReportModal').modal('show');
+                    }
+                }
+            });
+            
+            $('#topViewButton').click(function(e) {
+                e.preventDefault();
+                var checkedBoxes = $('.report-checkbox:checked');
+                if (checkedBoxes.length === 0) {
+                    alert('الرجاء تحديد تقرير واحد على الأقل للمشاهدة');
+                    return;
+                }
+                
+                if (checkedBoxes.length > 1) {
+                    alert('الرجاء تحديد تقرير واحد فقط للمشاهدة');
+                    return;
+                }
+                
+                // For now, we'll just view the first selected item
+                var firstChecked = checkedBoxes.first();
+                var row = firstChecked.closest('tr');
+                if (row.hasClass('child')) {
+                    row = row.prev();
+                }
+                
+                // Get row data
+                var reportId = row.find('td:eq(0)').text();
+                var customerName = row.find('td:eq(1)').text();
+                var phone = row.find('td:eq(2)').text();
+                var address = row.find('td:eq(3)').text();
+                var status = row.find('td:eq(4)').text();
+                var registrationDate = row.find('td:eq(5)').text();
+                var lastActivity = row.find('td:eq(6)').text();
+                
+                // Populate view modal
+                $('#view-customer-name').text(customerName);
+                $('#view-phone').text(phone);
+                $('#view-address').text(address);
+                $('#view-status').text(status);
+                $('#view-registration-date').text(registrationDate);
+                $('#view-last-activity').text(lastActivity);
+                
+                // Show view modal using Bootstrap 5 method
+                var viewModalElement = document.getElementById('viewReportModal');
+                if (viewModalElement) {
+                    try {
+                        const viewModal = new bootstrap.Modal(viewModalElement);
+                        viewModal.show();
+                    } catch (error) {
+                        console.error('Error showing view modal:', error);
+                        // Fallback to jQuery method
+                        $('#viewReportModal').modal('show');
+                    }
+                }
+            });
+            
+            // Handle dropdown actions (Consolidated and fixed with additional debugging)
+            $('#reportsTable').on('click', '[data-action]', function(e) {
+                e.preventDefault();
+                e.stopPropagation(); // Prevent event bubbling
+                
+                var action = $(this).data('action');
+                var row = $(this).closest('tr');
+                if (row.hasClass('child')) {
+                    row = row.prev();
+                }
+                
+                // Get row data
+                var reportId = row.find('.report-checkbox').val();
+                var customerName = row.find('td:eq(1)').text();
+                var phone = row.find('td:eq(2)').text();
+                var address = row.find('td:eq(3)').text();
+                var status = row.find('td:eq(4)').text();
+                var registrationDate = row.find('td:eq(5)').text();
+                var lastActivity = row.find('td:eq(6)').text();
+                
+                console.log('Action triggered:', action);
+                console.log('Customer Name:', customerName);
+                console.log('Phone:', phone);
+                
+                if (action === 'view') {
+                    // Check if modal exists
+                    var viewModalElement = document.getElementById('viewReportModal');
+                    if (!viewModalElement) {
+                        console.error('View modal not found!');
+                        alert('خطأ: نافذة العرض غير موجودة');
+                        return;
+                    }
+                    
+                    // Populate view modal
+                    $('#view-customer-name').text(customerName);
+                    $('#view-phone').text(phone);
+                    $('#view-address').text(address);
+                    $('#view-status').text(status);
+                    $('#view-registration-date').text(registrationDate);
+                    $('#view-last-activity').text(lastActivity);
+                    
+                    // Debug: Check if elements exist
+                    console.log('View customer name element exists:', $('#view-customer-name').length > 0);
+                    console.log('View phone element exists:', $('#view-phone').length > 0);
+                    
+                    // Show view modal using Bootstrap 5 method
+                    console.log('Showing view modal');
+                    try {
+                        const viewModal = new bootstrap.Modal(viewModalElement);
+                        viewModal.show();
+                    } catch (error) {
+                        console.error('Error showing view modal:', error);
+                        // Fallback to jQuery method
+                        $('#viewReportModal').modal('show');
+                    }
+                } else if (action === 'edit') {
+                    // Check if modal exists
+                    var editModalElement = document.getElementById('editReportModal');
+                    if (!editModalElement) {
+                        console.error('Edit modal not found!');
+                        alert('خطأ: نافذة التعديل غير موجودة');
+                        return;
+                    }
+                    
+                    console.log('Edit modal element found:', editModalElement);
+                    
+                    // Populate edit modal
+                    $('#edit-customer-name').val(customerName);
+                    $('#edit-phone').val(phone);
+                    $('#edit-address').val(address);
+                    $('#edit-status').val(status);
+                    $('#edit-registration-date').val(registrationDate);
+                    $('#edit-last-activity').val(lastActivity);
+                    
+                    // Debug: Check if elements exist
+                    console.log('Edit customer name element exists:', $('#edit-customer-name').length > 0);
+                    console.log('Edit phone element exists:', $('#edit-phone').length > 0);
+                    
+                    // Show edit modal using Bootstrap 5 method
+                    console.log('Showing edit modal');
+                    try {
+                        const editModal = new bootstrap.Modal(editModalElement);
+                        editModal.show();
+                        console.log('Edit modal shown successfully');
+                    } catch (error) {
+                        console.error('Error showing edit modal:', error);
+                        // Fallback to jQuery method
+                        console.log('Trying jQuery method to show edit modal');
+                        $('#editReportModal').modal('show');
+                    }
+                } else if (action === 'delete') {
+                    // Handle delete action
+                    if (confirm('هل أنت متأكد من رغبتك في حذف التقرير "' + customerName + '"؟')) {
+                        // In a real application, you would send an AJAX request to delete the report
+                        console.log('Deleting report:', customerName);
+                        alert('تم حذف التقرير "' + customerName + '" بنجاح!');
+                        
+                        // Remove the row from the table
+                        row.fadeOut(300, function() {
+                            $(this).remove();
+                        });
+                    }
+                }
+            });
+            
+            // Handle top action buttons (Fixed with debugging)
+            $('#topEditButton').click(function(e) {
+                e.preventDefault();
+                var checkedBoxes = $('.report-checkbox:checked');
+                if (checkedBoxes.length === 0) {
+                    alert('الرجاء تحديد تقرير واحد على الأقل للتعديل');
+                    return;
+                }
+                
+                if (checkedBoxes.length > 1) {
+                    alert('الرجاء تحديد تقرير واحد فقط للتعديل');
+                    return;
+                }
+                
+                // For now, we'll just edit the first selected item
+                var firstChecked = checkedBoxes.first();
+                var row = firstChecked.closest('tr');
+                if (row.hasClass('child')) {
+                    row = row.prev();
+                }
+                
+                // Get row data
+                var reportId = firstChecked.val();
+                var customerName = row.find('td:eq(1)').text();
+                var phone = row.find('td:eq(2)').text();
+                var address = row.find('td:eq(3)').text();
+                var status = row.find('td:eq(4)').text();
+                var registrationDate = row.find('td:eq(5)').text();
+                var lastActivity = row.find('td:eq(6)').text();
+                
+                console.log('Top edit button clicked');
+                console.log('Customer Name:', customerName);
+                console.log('Phone:', phone);
+                
+                // Populate edit modal
+                $('#edit-customer-name').val(customerName);
+                $('#edit-phone').val(phone);
+                $('#edit-address').val(address);
+                $('#edit-status').val(status);
+                $('#edit-registration-date').val(registrationDate);
+                $('#edit-last-activity').val(lastActivity);
+                
+                // Show edit modal using Bootstrap 5 method
+                var editModalElement = document.getElementById('editReportModal');
+                if (editModalElement) {
+                    console.log('Edit modal element found:', editModalElement);
+                    try {
+                        const editModal = new bootstrap.Modal(editModalElement);
+                        editModal.show();
+                        console.log('Edit modal shown successfully');
+                    } catch (error) {
+                        console.error('Error showing edit modal:', error);
+                        // Fallback to jQuery method
+                        console.log('Trying jQuery method to show edit modal');
+                        $('#editReportModal').modal('show');
+                    }
+                } else {
+                    console.error('Edit modal element not found!');
+                    alert('خطأ: نافذة التعديل غير موجودة');
+                }
+            });
+            
+            $('#topViewButton').click(function(e) {
+                e.preventDefault();
+                var checkedBoxes = $('.report-checkbox:checked');
+                if (checkedBoxes.length === 0) {
+                    alert('الرجاء تحديد تقرير واحد على الأقل للمشاهدة');
+                    return;
+                }
+                
+                if (checkedBoxes.length > 1) {
+                    alert('الرجاء تحديد تقرير واحد فقط للمشاهدة');
+                    return;
+                }
+                
+                // For now, we'll just view the first selected item
+                var firstChecked = checkedBoxes.first();
+                var row = firstChecked.closest('tr');
+                if (row.hasClass('child')) {
+                    row = row.prev();
+                }
+                
+                // Get row data
+                var reportId = row.find('td:eq(0)').text();
+                var customerName = row.find('td:eq(1)').text();
+                var phone = row.find('td:eq(2)').text();
+                var address = row.find('td:eq(3)').text();
+                var status = row.find('td:eq(4)').text();
+                var registrationDate = row.find('td:eq(5)').text();
+                var lastActivity = row.find('td:eq(6)').text();
+                
+                // Populate view modal
+                $('#view-customer-name').text(customerName);
+                $('#view-phone').text(phone);
+                $('#view-address').text(address);
+                $('#view-status').text(status);
+                $('#view-registration-date').text(registrationDate);
+                $('#view-last-activity').text(lastActivity);
+                
+                // Show view modal using Bootstrap 5 method
+                var viewModalElement = document.getElementById('viewReportModal');
+                if (viewModalElement) {
+                    try {
+                        const viewModal = new bootstrap.Modal(viewModalElement);
+                        viewModal.show();
+                    } catch (error) {
+                        console.error('Error showing view modal:', error);
+                        // Fallback to jQuery method
+                        $('#viewReportModal').modal('show');
+                    }
+                }
+            });
+            
+            // Handle top delete button
+            $('.btn-outline-danger').click(function(e) {
+                e.preventDefault();
+                var checkedBoxes = $('.report-checkbox:checked');
+                if (checkedBoxes.length === 0) {
+                    alert('الرجاء تحديد تقرير واحد على الأقل للحذف');
+                    return;
+                }
+                
+                // Get customer names for confirmation message
+                var customerNames = [];
+                checkedBoxes.each(function() {
+                    var row = $(this).closest('tr');
+                    if (row.hasClass('child')) {
+                        row = row.prev();
+                    }
+                    var customerName = row.find('td:eq(1)').text();
+                    customerNames.push(customerName);
+                });
+                
+                var message = 'هل أنت متأكد من رغبتك في حذف ' + customerNames.length + ' تقرير(تقارير)؟\n';
+                message += customerNames.join('\n');
+                
+                if (confirm(message)) {
+                    // In a real application, you would send an AJAX request to delete the reports
+                    console.log('Deleting reports:', customerNames);
+                    alert('تم حذف ' + customerNames.length + ' تقرير(تقارير) بنجاح!');
+                    
+                    // Remove the rows from the table
+                    checkedBoxes.each(function() {
+                        var row = $(this).closest('tr');
+                        if (row.hasClass('child')) {
+                            row = row.prev();
+                        }
+                        row.fadeOut(300, function() {
+                            $(this).remove();
+                        });
+                    });
+                    
+                    // Uncheck select all checkbox
+                    $('#selectAll').prop('checked', false);
+                }
+            });
+            
+            // Handle form submissions
+            $('#addReportForm').on('submit', function(e) {
+                e.preventDefault();
+                
+                // Get form element
+                var form = this;
+                
+                // Check if form is valid using Bootstrap validation
+                if (!form.checkValidity()) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+                
+                // Add validation classes
+                form.classList.add('was-validated');
+                
+                // If form is valid, proceed with submission
+                if (form.checkValidity()) {
+                    // In a real application, you would submit the form data via AJAX
+                    alert('تم إضافة التقرير بنجاح!');
+                    // Hide modal using Bootstrap 5 method
+                    var addModalElement = document.getElementById('addReportModal');
+                    if (addModalElement) {
+                        try {
+                            const addModal = bootstrap.Modal.getInstance(addModalElement);
+                            if (addModal) {
+                                addModal.hide();
+                            } else {
+                                // Fallback to jQuery method
+                                $('#addReportModal').modal('hide');
+                            }
+                        } catch (error) {
+                            console.error('Error hiding add modal:', error);
+                            // Fallback to jQuery method
+                            $('#addReportModal').modal('hide');
+                        }
+                    }
+                    form.reset();
+                    // Remove validation classes after reset
+                    form.classList.remove('was-validated');
+                }
+            });
+            
+            $('#editReportForm').on('submit', function(e) {
+                e.preventDefault();
+                
+                // Get form element
+                var form = this;
+                
+                // Check if form is valid using Bootstrap validation
+                if (!form.checkValidity()) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+                
+                // Add validation classes
+                form.classList.add('was-validated');
+                
+                // If form is valid, proceed with submission
+                if (form.checkValidity()) {
+                    // In a real application, you would submit the form data via AJAX
+                    alert('تم تحديث التقرير بنجاح!');
+                    // Hide modal using Bootstrap 5 method
+                    var editModalElement = document.getElementById('editReportModal');
+                    if (editModalElement) {
+                        try {
+                            const editModal = bootstrap.Modal.getInstance(editModalElement);
+                            if (editModal) {
+                                editModal.hide();
+                            } else {
+                                // Fallback to jQuery method
+                                $('#editReportModal').modal('hide');
+                            }
+                        } catch (error) {
+                            console.error('Error hiding edit modal:', error);
+                            // Fallback to jQuery method
+                            $('#editReportModal').modal('hide');
+                        }
+                    }
+                    // Remove validation classes after submission
+                    form.classList.remove('was-validated');
+                }
+            });
+            
+            // Handle reset filters button
+            $('#resetFilters').on('click', function() {
+                // Reset all filter input fields
+                $('#filter-customer-id').val('');
+                $('#filter-customer-name').val('');
+                $('#filter-phone').val('');
+                $('#filter-address').val('');
+                $('#filter-status').selectpicker('val', '');
+                $('#filter-registration-date').val('');
+                $('#filter-last-activity').val('');
+                $('#filter-records').selectpicker('val', '');
+                $('.selectpicker').selectpicker('refresh');
+                alert('تم إعادة تعيين الفلاتر');
+            });
+            
+            // Handle apply filters button (you can implement actual filtering logic here)
+            $('#applyFilters').on('click', function() {
+                alert('تم تطبيق الفلاتر');
+                // In a real application, you would filter the DataTable here
+            });
+            
+            // Handle edit from view button
+            $('#editFromViewBtn').on('click', function() {
+                // Hide the view modal
+                var viewModalElement = document.getElementById('viewReportModal');
+                if (viewModalElement) {
+                    try {
+                        const viewModal = bootstrap.Modal.getInstance(viewModalElement);
+                        if (viewModal) {
+                            viewModal.hide();
+                        } else {
+                            // Fallback to jQuery method
+                            $('#viewReportModal').modal('hide');
+                        }
+                    } catch (error) {
+                        console.error('Error hiding view modal:', error);
+                        // Fallback to jQuery method
+                        $('#viewReportModal').modal('hide');
+                    }
+                }
+                
+                // Show the edit modal
+                setTimeout(function() {
+                    var editModalElement = document.getElementById('editReportModal');
+                    if (editModalElement) {
+                        try {
+                            const editModal = new bootstrap.Modal(editModalElement);
+                            editModal.show();
+                        } catch (error) {
+                            console.error('Error showing edit modal:', error);
+                            // Fallback to jQuery method
+                            $('#editReportModal').modal('show');
+                        }
+                    }
+                }, 300);
+            });
+            
+            // Handle select all checkbox
+            $('#selectAll').on('change', function () {
+                const isChecked = $(this).prop('checked');
+                $('.report-checkbox').prop('checked', isChecked);
+            });
+            
+            // Handle individual row checkbox changes
+            $('#reportsTable tbody').on('change', '.report-checkbox', function () {
+                // Update the main selectAll checkbox state
+                if ($('.report-checkbox:checked').length === $('.report-checkbox').length) {
+                    $('#selectAll').prop('checked', true);
+                } else {
+                    $('#selectAll').prop('checked', false);
+                }
+            });
+            
+            // Initialize bootstrap-select for category selection with enhanced options
+            function initializeSelectPicker() {
+                $('.selectpicker').selectpicker({
+                    style: 'btn-light',
+                    liveSearch: true,
+                    liveSearchPlaceholder: 'ابحث...',
+                    noneSelectedText: 'لم يتم تحديد أي شيء',
+                    noneResultsText: 'لا توجد نتائج لـ {0}',
+                    selectAllText: 'تحديد الكل',
+                    deselectAllText: 'إلغاء تحديد الكل',
+                    dropupAuto: false,   // منع السلوك التلقائي
+                    width: '100%',
+                    container: 'body'    // إخراج القائمة خارج أي كارد/مودال
+                });
+            }
+            
+            // Initialize selectpickers when document is ready
+            initializeSelectPicker();
+            
+            // Re-initialize bootstrap-select when modals are shown or hidden
+            $('.modal').on('shown.bs.modal hidden.bs.modal', function () {
+                $('.selectpicker').selectpicker('refresh');
+            });
+        });
+    </script>
+}

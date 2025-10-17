@@ -1,0 +1,625 @@
+@{
+    ViewBag.Title = "لوحة تحكم الكهرباء";
+}
+
+
+@section styles
+{
+}
+
+
+<div class="container-fluid">
+    <div class="row mt-3">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body p-0">
+                    <div class="row g-0">
+                        <div class="col-xxl-3 col-xl-6 order-xl-1 order-xxl-0">
+                            <div class="p-4 border-end border-dashed">
+                                <h4 class="fs-lg mb-1">مرحبا بكم في نظام إدارة الكهرباء الذكي</h4>
+                                <span class="text-muted">لديك <span class="text-primary fw-semibold">3</span> تنبيهات و2 إشعارات.</span>
+                                <ul class="list-group list-group-flush mt-3">
+                                    <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0">
+                                        <div>
+                                            <span class="badge text-bg-danger avatar-xs me-2"><span class="avatar-title fw-medium fs-sm">1</span></span>
+                                            انقطاع كهرباء في محافظة صنعاء
+                                        </div>
+                                        <span class="text-muted">09:30 صباحاً</span>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0">
+                                        <div>
+                                            <span class="badge text-bg-warning avatar-xs me-2"><span class="avatar-title fw-medium fs-sm">2</span></span>
+                                            صيانة مجدولة لعدادات الذكاء الاصطناعي
+                                        </div>
+                                        <span class="text-muted">11:00 صباحاً</span>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0">
+                                        <div>
+                                            <span class="badge text-bg-info avatar-xs me-2"><span class="avatar-title fw-medium fs-sm">3</span></span>
+                                            تحديث برامج الشريحة الإلكترونية
+                                        </div>
+                                        <span class="text-muted">01:15 مساءً</span>
+                                    </li>
+                                </ul>
+
+                                <div class="text-center mt-2">
+                                    <a href="#!" class="btn btn-secondary rounded-pill">عرض التنبيهات</a>
+                                </div>
+                            </div> <!-- end .p-4-->
+                            <hr class="d-xxl-none border-light m-0">
+                        </div> <!-- end col-->
+                        <div class="col-xxl-6 order-xl-3 order-xxl-1">
+                            <div class="px-4 py-3 border-end border-dashed">
+                                <div class="d-flex justify-content-between mb-3">
+                                    <h4 class="card-title">استهلاك الكهرباء عبر العدادات الذكية</h4>
+                                    <a href="#!" class="link-reset text-decoration-underline fw-semibold link-offset-3">عرض التقارير <i class="ti ti-arrow-right"></i></a>
+                                </div>
+
+                                <div class="row text-center mb-3">
+                                    <div class="col">
+                                        <div class="bg-light bg-opacity-50 p-2">
+                                            <h5 class="m-0"><span class="text-muted">الاستهلاك الحالي:</span> <span data-target="45.2">0</span> ميجاواط</h5>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="bg-light bg-opacity-50 p-2">
+                                            <h5 class="m-0"><span class="text-muted">الطاقة المتاحة:</span> <span data-target="120.8">0</span> ميجاواط</h5>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div dir="ltr" class="position-relative">
+                                    <div class="py-2 px-3 rounded-3 bg-light-subtle border text-primary z-1 position-absolute" style="top: 4.5%; left: 12%;">
+                                        <p class="mb-2 text-uppercase fs-xxs fw-semibold">الكفاءة</p>
+                                        <h4 class="mb-0 fw-bold text-primary">92.4% <i class="ti ti-trending-up"></i></h4>
+                                    </div>
+                                    <div id="revenue-chart" style="min-height: 252px;"></div>
+                                </div>
+                            </div> <!-- end .px-4-->
+                        </div> <!-- end col-->
+                        <div class="col-xxl-3 col-xl-6 order-xl-2 order-xxl-2">
+                            <div class="p-3">
+                                <h4 class="card-title mb-1">حالة الشبكة الذكية</h4>
+                                <p class="text-muted fs-xs">
+                                    حالة الشبكة في الوقت الفعلي مع العدادات الذكية
+                                </p>
+                                <div class="row mt-4">
+                                    <div class="col-lg-12">
+                                        <div dir="ltr">
+                                            <div id="project-progress-chart" style="min-height: 278px;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr class="d-xxl-none border-light m-0">
+                        </div> <!-- end col-->
+                    </div> <!-- end row-->
+                </div> <!-- end card-body-->
+            </div> <!-- end card-->
+        </div> <!-- end col-->
+    </div> <!-- end row-->
+
+    <div class="row row-cols-xxl-5 row-cols-md-3 row-cols-1 align-items-center">
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <a href="#!" class="text-muted float-end mt-n1 fs-xl"><i class="ti ti-external-link"></i></a>
+                    <h5 title="عدد المحولات">المحولات الذكية</h5>
+                    <div class="d-flex align-items-center gap-2 my-3">
+                        <div class="avatar-md flex-shrink-0">
+                            <span class="avatar-title text-bg-light rounded-circle fs-22">
+                                <i class="ti ti-transform"></i>
+                            </span>
+                        </div>
+                        <h3 class="mb-0"><span data-target="42">0</span></h3>
+                        <span class="badge badge-soft-primary fw-medium ms-2 fs-xs ms-auto">+2 جديدة</span>
+                    </div>
+                    <p class="mb-0">
+                        <span class="text-primary"><i class="ti ti-point-filled"></i></span>
+                        <span class="text-nowrap text-muted">إجمالي المحولات</span>
+                        <span class="float-end"><b>42</b></span>
+                    </p>
+                </div> <!-- end card-body-->
+            </div> <!-- end card-->
+        </div> <!-- end col-->
+
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <a href="#!" class="text-muted float-end mt-n1 fs-xl"><i class="ti ti-external-link"></i></a>
+                    <h5 title="عدد الخطوط">العدادات الذكية</h5>
+                    <div class="d-flex align-items-center gap-2 my-3">
+                        <div class="avatar-md flex-shrink-0">
+                            <span class="avatar-title text-bg-light rounded-circle fs-22">
+                                <i class="ti ti-bolt"></i>
+                            </span>
+                        </div>
+                        <h3 class="mb-0"><span data-target="18">0</span></h3>
+                        <span class="badge badge-soft-secondary fw-medium ms-2 fs-xs ms-auto">+1 جديدة</span>
+                    </div>
+                    <p class="mb-0">
+                        <span class="text-secondary"><i class="ti ti-point-filled"></i></span>
+                        <span class="text-nowrap text-muted">إجمالي العدادات</span>
+                        <span class="float-end"><b>18</b></span>
+                    </p>
+                </div> <!-- end card-body-->
+            </div> <!-- end card-->
+        </div> <!-- end col-->
+
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <a href="#!" class="text-muted float-end mt-n1 fs-xl"><i class="ti ti-external-link"></i></a>
+                    <h5 title="الانقطاعات">الانقطاعات</h5>
+                    <div class="d-flex align-items-center gap-2 my-3">
+                        <div class="avatar-md flex-shrink-0">
+                            <span class="avatar-title text-bg-light rounded-circle fs-22">
+                                <i class="ti ti-power"></i>
+                            </span>
+                        </div>
+                        <h3 class="mb-0"><span data-target="3">0</span></h3>
+                        <span class="badge text-bg-danger fw-medium ms-2 fs-xs ms-auto">+1 جديدة</span>
+                    </div>
+                    <p class="mb-0">
+                        <span class="text-danger"><i class="ti ti-point-filled"></i></span>
+                        <span class="text-nowrap text-muted">الانقطاعات الحالية</span>
+                        <span class="float-end"><b>3</b></span>
+                    </p>
+                </div> <!-- end card-body-->
+            </div> <!-- end card-->
+        </div> <!-- end col-->
+
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <a href="#!" class="text-muted float-end mt-n1 fs-xl"><i class="ti ti-external-link"></i></a>
+                    <h5 title="المحافظات">المحافظات</h5>
+                    <div class="d-flex align-items-center gap-2 my-3">
+                        <div class="avatar-md flex-shrink-0">
+                            <span class="avatar-title text-bg-light rounded-circle fs-22">
+                                <i class="ti ti-map-pin"></i>
+                            </span>
+                        </div>
+                        <h3 class="mb-0"><span data-target="12">0</span></h3>
+                        <span class="badge badge-soft-secondary fw-medium ms-2 fs-xs ms-auto">+0 جديدة</span>
+                    </div>
+                    <p class="mb-0">
+                        <span class="text-secondary"><i class="ti ti-point-filled"></i></span>
+                        <span class="text-nowrap text-muted">إجمالي المحافظات</span>
+                        <span class="float-end"><b>12</b></span>
+                    </p>
+                </div> <!-- end card-body-->
+            </div> <!-- end card-->
+        </div> <!-- end col-->
+
+        <div class="col-lg col-md-auto">
+            <div class="card">
+                <div class="card-body">
+                    <a href="#!" class="text-muted float-end mt-n1 fs-xl"><i class="ti ti-external-link"></i></a>
+                    <h5 title="الصيانة">الصيانة</h5>
+                    <div class="d-flex align-items-center gap-2 my-3">
+                        <div class="avatar-md flex-shrink-0">
+                            <span class="avatar-title text-bg-light rounded-circle fs-22">
+                                <i class="ti ti-tool"></i>
+                            </span>
+                        </div>
+                        <h3 class="mb-0"><span data-target="8">0</span></h3>
+                        <span class="badge badge-soft-primary fw-medium ms-2 fs-xs ms-auto">+2 مجدولة</span>
+                    </div>
+                    <p class="mb-0">
+                        <span class="text-primary"><i class="ti ti-point-filled"></i></span>
+                        <span class="text-nowrap text-muted">مهام الصيانة</span>
+                        <span class="float-end"><b>8</b></span>
+                    </p>
+                </div> <!-- end card-body-->
+            </div> <!-- end card-->
+        </div> <!-- end col-->
+    </div><!-- end row -->
+
+    <div class="row">
+        <div class="col-xxl-4">
+            <div class="card">
+                <div class="card-header justify-content-between align-items-center">
+                    <h5 class="card-title">استهلاك الطاقة حسب المحافظة <span class="badge text-bg-primary">KW+</span></h5>
+                    <div class="card-action">
+                        <a href="#!" class="card-action-item" data-action="card-toggle"><i class="ti ti-chevron-up"></i></a>
+                        <a href="#!" class="card-action-item" data-action="card-refresh"><i class="ti ti-refresh"></i></a>
+                        <a href="#!" class="card-action-item" data-action="card-close"><i class="ti ti-x"></i></a>
+                    </div>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-custom table-nowrap table-hover table-centered mb-0">
+                            <thead class="bg-light bg-opacity-25 thead-sm">
+                                <tr class="text-uppercase fs-xxs">
+                                    <th class="text-muted">المحافظة</th>
+                                    <th class="text-muted">الاستهلاك</th>
+                                    <th class="text-muted">الحد الأقصى</th>
+                                    <th class="text-muted">الحالة</th>
+                                    <th class="text-muted">•••</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <h5 class="fs-sm mb-1 fw-normal">صنعاء</h5>
+                                        <span class="text-muted fs-xs">عاصمة الجمهورية</span>
+                                    </td>
+                                    <td>24.8 MW</td>
+                                    <td>30 MW</td>
+                                    <td><span class="badge badge-soft-warning">مرتفع</span></td>
+                                    <td style="width: 60px;">
+                                        <div dir="ltr">
+                                            <div class="donut-chart" data-chart="donut" style="min-height: 30px;"></div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h5 class="fs-sm mb-1 fw-normal">عدن</h5>
+                                        <span class="text-muted fs-xs">مدينة الجنوب</span>
+                                    </td>
+                                    <td>18.2 MW</td>
+                                    <td>22 MW</td>
+                                    <td><span class="badge badge-soft-success">طبيعي</span></td>
+                                    <td style="width: 60px;">
+                                        <div dir="ltr">
+                                            <div class="donut-chart" data-chart="donut" style="min-height: 30px;"></div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h5 class="fs-sm mb-1 fw-normal">إب</h5>
+                                        <span class="text-muted fs-xs">محافظة الجبال</span>
+                                    </td>
+                                    <td>12.5 MW</td>
+                                    <td>15 MW</td>
+                                    <td><span class="badge badge-soft-success">طبيعي</span></td>
+                                    <td style="width: 60px;">
+                                        <div dir="ltr">
+                                            <div class="donut-chart" data-chart="donut" style="min-height: 30px;"></div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h5 class="fs-sm mb-1 fw-normal">تعز</h5>
+                                        <span class="text-muted fs-xs">مدينة الجنوب الغربي</span>
+                                    </td>
+                                    <td>15.8 MW</td>
+                                    <td>18 MW</td>
+                                    <td><span class="badge badge-soft-success">طبيعي</span></td>
+                                    <td style="width: 60px;">
+                                        <div dir="ltr">
+                                            <div class="donut-chart" data-chart="donut" style="min-height: 30px;"></div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h5 class="fs-sm mb-1 fw-normal">ذمار</h5>
+                                        <span class="text-muted fs-xs">محافظة الوسط</span>
+                                    </td>
+                                    <td>9.7 MW</td>
+                                    <td>12 MW</td>
+                                    <td><span class="badge badge-soft-success">طبيعي</span></td>
+                                    <td style="width: 60px;">
+                                        <div dir="ltr">
+                                            <div class="donut-chart" data-chart="donut" style="min-height: 30px;"></div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div> <!-- end table-responsive-->
+                </div> <!-- end card-body-->
+            </div> <!-- end card-->
+
+            <div class="card">
+                <div class="card-header justify-content-between align-items-center">
+                    <h5 class="card-title">حالة المعدات الذكية</h5>
+                    <div class="card-action">
+                        <a href="#!" class="card-action-item" data-action="card-toggle"><i class="ti ti-chevron-up"></i></a>
+                        <a href="#!" class="card-action-item" data-action="card-refresh"><i class="ti ti-refresh"></i></a>
+                        <a href="#!" class="card-action-item" data-action="card-close"><i class="ti ti-x"></i></a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div>
+                        <div class="d-flex justify-content-between">
+                            <h5 class="fs-base mb-2">العدادات الذكية العاملة</h5>
+                            <div>
+                                <span>38</span>
+                                <span><i class="ti ti-circle-filled text-light mx-3 fs-10"></i> 90.48%</span>
+                            </div>
+                        </div>
+                        <div class="progress progress-sm mb-1">
+                            <div class="progress-bar bg-success" role="progressbar" style="width: 90.48%" aria-valuenow="90.48" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+
+                    <div class="mt-4">
+                        <div class="d-flex justify-content-between">
+                            <h5 class="fs-base mb-2">العدادات قيد الصيانة</h5>
+                            <div>
+                                <span>4</span>
+                                <span><i class="ti ti-circle-filled text-light mx-3 fs-10"></i> 9.52%</span>
+                            </div>
+                        </div>
+                        <div class="progress progress-sm mb-1">
+                            <div class="progress-bar bg-warning" role="progressbar" style="width: 9.52%" aria-valuenow="9.52" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+                </div> <!-- end card-body-->
+            </div> <!-- end card-->
+        </div> <!-- end col-->
+
+        <div class="col-xxl-4 col-xl-6">
+            <div class="card">
+                <div class="card-header justify-content-between align-items-center">
+                    <h5 class="card-title">آخر التحديثات</h5>
+                    <span class="badge text-bg-warning fs-xxs p-1"> 6 إشعارات</span>
+                </div>
+                <div class="card-body">
+                    <div class="timeline timeline-icon-bordered">
+                        <!-- Event 1 -->
+                        <div class="timeline-item d-flex align-items-stretch">
+                            <div class="timeline-dot">
+                                <i class="ti ti-alert-triangle fs-xl text-danger"></i>
+                            </div>
+                            <div class="timeline-content ps-3">
+                                <div class="d-flex justify-content-between">
+                                    <h5 class="mb-1 fs-base">انقطاع كهرباء <span class="badge badge-label badge-soft-danger ms-2">طوارئ</span></h5>
+                                    <span class="text-muted fs-xxs">اليوم في 3:45 مساءً</span>
+                                </div>
+                                <p class="mb-1 text-muted">انقطاع كهرباء في محافظة صنعاء بسبب عطل في المحول الرئيسي.</p>
+                                <div class="d-flex align-items-center gap-2">
+                                    <img src="~/images/users/user-6.jpg" alt="محمد أحمد" class="rounded-circle avatar-xxs">
+                                    <a href=@Url.Action("Profile", "Pages") class="fw-medium link-reset text-muted">محمد أحمد</a>
+                                </div>
+
+                                <hr class="border-dashed">
+                            </div>
+                        </div>
+
+                        <!-- Event 2 -->
+                        <div class="timeline-item d-flex align-items-stretch">
+                            <div class="timeline-dot">
+                                <i class="ti ti-calendar-event fs-xl text-info"></i>
+                            </div>
+                            <div class="timeline-content ps-3">
+                                <div class="d-flex justify-content-between">
+                                    <h5 class="mb-1 fs-base">صيانة مجدولة <span class="badge badge-label badge-soft-info ms-2">صيانة</span></h5>
+                                    <span class="text-muted fs-xxs">اليوم في 2:00 مساءً</span>
+                                </div>
+                                <p class="mb-1 text-muted">صيانة دورية للعدادات الذكية في محافظة إب.</p>
+                                <div class="d-flex align-items-center gap-2">
+                                    <img src="~/images/users/user-4.jpg" alt="علي حسن" class="rounded-circle avatar-xxs">
+                                    <a href=@Url.Action("Profile", "Pages") class="fw-medium link-reset text-muted">علي حسن</a>
+                                </div>
+
+                                <hr class="border-dashed">
+                            </div>
+                        </div>
+
+                        <!-- Event 3 -->
+                        <div class="timeline-item d-flex align-items-stretch">
+                            <div class="timeline-dot">
+                                <i class="ti ti-palette fs-xl text-success"></i>
+                            </div>
+                            <div class="timeline-content ps-3">
+                                <div class="d-flex justify-content-between">
+                                    <h5 class="mb-1 fs-base">تحديث البرامج <span class="badge badge-label badge-soft-success ms-2">تحديث</span></h5>
+                                    <span class="text-muted fs-xxs">اليوم في 1:15 مساءً</span>
+                                </div>
+                                <p class="mb-1 text-muted">تحديث برامج الشريحة الإلكترونية في العدادات الذكية.</p>
+                                <div class="d-flex align-items-center gap-2">
+                                    <img src="~/images/users/user-9.jpg" alt="يوسف عبدالله" class="rounded-circle avatar-xxs">
+                                    <a href=@Url.Action("Profile", "Pages") class="fw-medium link-reset text-muted">يوسف عبدالله</a>
+                                </div>
+
+                                <hr class="border-dashed">
+                            </div>
+                        </div>
+
+                        <!-- Event 4 -->
+                        <div class="timeline-item d-flex align-items-stretch">
+                            <div class="timeline-dot">
+                                <i class="ti ti-database fs-xl text-primary"></i>
+                            </div>
+                            <div class="timeline-content ps-3">
+                                <div class="d-flex justify-content-between">
+                                    <h5 class="mb-1 fs-base">تحليل البيانات <span class="badge badge-label badge-soft-primary ms-2">تحليل</span></h5>
+                                    <span class="text-muted fs-xxs">اليوم في 12:30 مساءً</span>
+                                </div>
+                                <p class="mb-1 text-muted">تحليل استهلاك الطاقة لشهر أغسطس - تحسن بنسبة 12%.</p>
+                                <div class="d-flex align-items-center gap-2">
+                                    <img src="~/images/users/user-10.jpg" alt="عمر خالد" class="rounded-circle avatar-xxs">
+                                    <a href=@Url.Action("Profile", "Pages") class="fw-medium link-reset text-muted">عمر خالد</a>
+                                </div>
+
+                                <hr class="border-dashed">
+                            </div>
+                        </div>
+
+                        <!-- Event 5 -->
+                        <div class="timeline-item d-flex align-items-stretch">
+                            <div class="timeline-dot">
+                                <i class="ti ti-shield-check fs-xl text-warning"></i>
+                            </div>
+                            <div class="timeline-content ps-3">
+                                <div class="d-flex justify-content-between">
+                                    <h5 class="mb-1 fs-base">فحص أمان <span class="badge badge-label badge-soft-warning ms-2">أمان</span></h5>
+                                    <span class="text-muted fs-xxs">اليوم في 11:00 صباحاً</span>
+                                </div>
+                                <p class="mb-1 text-muted">فحص أمان الشبكة الذكية - جميع الأنظمة آمنة.</p>
+                                <div class="d-flex align-items-center gap-2">
+                                    <img src="~/images/users/user-8.jpg" alt=" أحمد محمود" class="rounded-circle avatar-xxs">
+                                    <a href=@Url.Action("Profile", "Pages") class="fw-medium link-reset text-muted">أحمد محمود</a>
+                                </div>
+
+                                <hr class="border-dashed">
+                            </div>
+                        </div>
+
+                        <!-- Event 6 -->
+                        <div class="timeline-item d-flex align-items-stretch">
+                            <div class="timeline-dot">
+                                <i class="ti ti-user-plus fs-xl text-success"></i>
+                            </div>
+                            <div class="timeline-content ps-3">
+                                <div class="d-flex justify-content-between">
+                                    <h5 class="mb-1 fs-base">انضمام موظف جديد <span class="badge badge-label badge-soft-success ms-2">توظيف</span></h5>
+                                    <span class="text-muted fs-xxs">اليوم في 10:15 صباحاً</span>
+                                </div>
+                                <p class="mb-1 text-muted">مصطفى علي انضم إلى فريق صيانة العدادات الذكية.</p>
+                                <div class="d-flex align-items-center gap-2">
+                                    <img src="~/images/users/user-7.jpg" alt="سارة محمد" class="rounded-circle avatar-xxs">
+                                    <a href=@Url.Action("Profile", "Pages") class="fw-medium link-reset text-muted">سارة محمد</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div> <!-- end timeline-->
+                </div> <!-- end card-body-->
+            </div> <!-- end card-->
+        </div> <!-- end col-->
+
+        <div class="col-xxl-4 col-xl-6">
+            <div class="card">
+                <div class="card-header justify-content-between align-items-center">
+                    <h5 class="card-title">
+                        التنبيهات
+                        <span class="badge bg-primary-subtle text-primary">Alert+</span>
+                    </h5>
+                    <a href="#!" class="badge text-bg-light fs-xs fw-semibold p-1">وضع علامة كمقروء</a>
+                </div>
+
+                <div class="card-body bg-light-subtle border-bottom border-dashed">
+                    <div class="d-flex gap-2">
+                        <div class="me-2 flex-shrink-0">
+                            <img src="~/images/dashboard-1.png" height="36" alt="تنبيه الكهرباء">
+                        </div>
+                        <div class="flex-grow-1">
+                            <h4 class="fs-sm mb-1">تنبيهات مهمة</h4>
+                            <p class="fs-xs mb-0 text-body-secondary">
+                                لديك <span class="text-body fw-semibold">3</span> تنبيهات حرجة و
+                                <span class="text-body fw-semibold">2</span> في انتظار المراجعة.
+                            </p>
+                        </div>
+                    </div>
+                </div> <!-- end card-body-->
+
+                <div class="card-body pt-1">
+                    <ul class="list-group list-group-flush mb-3">
+
+                        <!-- Alert 1 -->
+                        <li class="list-group-item px-0 border-light">
+                            <div class="d-flex gap-2">
+                                <div class="me-2 flex-shrink-0">
+                                    <img src="~/images/users/user-8.jpg" class="avatar-md rounded-circle" alt=" karim hassan">
+                                </div>
+                                <div class="flex-grow-1 text-muted">
+                                    <h6 class="text-body mb-1 fs-base d-flex justify-content-between">
+                                        كريم حسن
+                                        <small class="fs-xs text-body-secondary">منذ 10 دقائق</small>
+                                    </h6>
+                                    <p class="mb-1">انقطاع غير طبيعي في الشريحة الإلكترونية بمحافظة صنعاء!</p>
+                                    <a href=@Url.Action("Chat", "Apps") class="badge badge-soft-danger p-1">حرج</a>
+                                </div>
+                            </div>
+                        </li>
+
+                        <!-- Alert 2 -->
+                        <li class="list-group-item px-0 border-light">
+                            <div class="d-flex gap-2">
+                                <div class="me-2 flex-shrink-0">
+                                    <div class="avatar avatar-md">
+                                        <span class="avatar-title bg-warning-subtle text-warning rounded-circle fw-bold">SM</span>
+                                    </div>
+                                </div>
+                                <div class="flex-grow-1 text-muted">
+                                    <h6 class="text-body mb-1 fs-base d-flex justify-content-between">
+                                        سارة محمد
+                                        <small class="fs-xs text-body-secondary">منذ ساعة</small>
+                                    </h6>
+                                    <p class="mb-1">انقطاع كهرباء متوقع في محافظة تعز غداً.</p>
+                                    <a href=@Url.Action("Chat", "Apps") class="badge badge-soft-warning p-1">مجدول</a>
+                                </div>
+                            </div>
+                        </li>
+
+                        <!-- Alert 3 -->
+                        <li class="list-group-item px-0 border-light">
+                            <div class="d-flex gap-2">
+                                <div class="me-2 flex-shrink-0">
+                                    <img src="~/images/users/user-10.jpg" class="avatar-md rounded-circle" alt="ali abdullah">
+                                </div>
+                                <div class="flex-grow-1 text-muted">
+                                    <h6 class="text-body mb-1 fs-base d-flex justify-content-between">
+                                        علي عبدالله
+                                        <small class="fs-xs text-body-secondary">منذ 16 ساعة</small>
+                                    </h6>
+                                    <p class="mb-1">صيانة طارئة للمحول الرئيسي - محافظة إب.</p>
+                                    <a href=@Url.Action("Chat", "Apps") class="badge badge-soft-info p-1">صيانة</a>
+                                </div>
+                            </div>
+                        </li>
+
+                        <!-- Alert 4 -->
+                        <li class="list-group-item px-0 border-light">
+                            <div class="d-flex gap-2">
+                                <div class="me-2 flex-shrink-0">
+                                    <img src="~/images/users/user-1.jpg" class="avatar-md rounded-circle" alt="omar khaled">
+                                </div>
+                                <div class="flex-grow-1 text-muted">
+                                    <h6 class="text-body mb-1 fs-base d-flex justify-content-between">
+                                        عمر خالد
+                                        <small class="fs-xs text-body-secondary">منذ 20 ساعة</small>
+                                    </h6>
+                                    <p class="mb-1">تحديث برامج الشريحة الإلكترونية завر завر.</p>
+                                    <a href=@Url.Action("Chat", "Apps") class="badge badge-soft-primary p-1">تحديث</a>
+                                </div>
+                            </div>
+                        </li>
+
+                        <!-- Alert 5 -->
+                        <li class="list-group-item px-0 border-light">
+                            <div class="d-flex gap-2">
+                                <div class="me-2 flex-shrink-0">
+                                    <img src="~/images/users/user-6.jpg" class="avatar-md rounded-circle" alt="mona ali">
+                                </div>
+                                <div class="flex-grow-1 text-muted">
+                                    <h6 class="text-body mb-1 fs-base d-flex justify-content-between">
+                                        منى علي
+                                        <small class="fs-xs text-body-secondary">منذ يومين</small>
+                                    </h6>
+                                    <p class="mb-1">فحص أمان الشبكة الذكية - جميع الأنظمة آمنة.</p>
+                                    <a href=@Url.Action("Chat", "Apps") class="badge badge-soft-success p-1">آمن</a>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+
+                    <div class="text-center mt-3">
+                        <a href=@Url.Action("Chat", "Apps") class="link-reset text-decoration-underline fw-semibold link-offset-3">
+                            الذهاب إلى مركز التنبيهات <i class="ti ti-bell"></i>
+                        </a>
+                    </div>
+
+                </div> <!-- end card-body-->
+            </div> <!-- end card-->
+
+        </div> <!-- end col-->
+    </div><!-- end row-->
+
+</div>
+
+@section scripts
+{
+    <!-- E Charts js -->
+    <script src="~/plugins/echarts/echarts.min.js"></script>
+
+    <!-- Dashboard Page js -->
+    <script src="~/js/pages/dashboard.js"></script>
+}

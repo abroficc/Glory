@@ -1,0 +1,1253 @@
+@{
+    Layout = "_VerticalLayout";
+    ViewData["Title"] = "باقات يمن فورجي";
+    ViewData["Direction"] = "rtl";
+}
+
+@section styles {
+    <!-- jstree css -->
+    <link href="~/plugins/jstree/style.min.css" rel="stylesheet" type="text/css">
+    <!-- date range picker css -->
+    <link href="~/plugins/daterangepicker/daterangepicker.css" rel="stylesheet" type="text/css">
+    <!-- datatables css -->
+    <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.bootstrap5.min.css" rel="stylesheet">
+    <!-- datatables buttons css -->
+    <link href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.bootstrap5.min.css" rel="stylesheet">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600&display=swap" rel="stylesheet">
+    
+    <!-- bootstrap-select CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/css/bootstrap-select.min.css" />
+
+    <!-- UI Polish CSS -->
+    <link href="~/css/ui-polish.css" rel="stylesheet" type="text/css">
+    
+    <!-- Voucher Modal CSS -->
+    <link href="~/css/voucher-modal.css" rel="stylesheet" type="text/css">
+    
+    <style>
+        body[dir="rtl"] * {
+            font-family: "Cairo", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+        }
+        
+        /* تعديل الجدول لإزالة المسافة بين الرأس والمحتوى */
+        .table-bordered thead th {
+            border-bottom-width: 1px;
+        }
+        
+        .table-bordered tbody tr:first-child td {
+            border-top: none;
+        }
+        
+        .table {
+            margin-bottom: 0;
+        }
+        
+        /* Select all checkboxes styling */
+        .form-check-input:checked {
+            background-color: #1ab394;
+            border-color: #1ab394;
+        }
+        
+        /* Alert styling for better visibility */
+        .alert-warning {
+            background-color: #fff3cd;
+            border-color: #ffeaa7;
+            color: #856404;
+        }
+        
+        .alert-danger {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+        
+        /* Dark mode alert adjustments */
+        [data-bs-theme="dark"] .alert-warning {
+            background-color: #664d03;
+            border-color: #7d5f04;
+            color: #ffecb5;
+        }
+        
+        [data-bs-theme="dark"] .alert-danger {
+            background-color: #721c24;
+            border-color: #842029;
+            color: #f8d7da;
+        }
+        
+        /* Tree view container */
+        #categories-tree {
+            min-height: 400px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 10px;
+        }
+        
+        /* Table card styling */
+        .table-dark-card {
+            background: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 4px 20px rgba(0,0,0,.05);
+        }
+
+        .table-dark-card table {
+            width: 100%;
+            border-collapse: collapse;
+            color: #374151;
+            font-size: 14px;
+        }
+
+        .table-dark-card thead {
+            background: linear-gradient(180deg, #f3f4f6, #e5e7eb);
+        }
+        
+        .table-dark-card thead th {
+            padding: 12px 14px;
+            text-align: center;
+            font-weight: 600;
+            color: #111827;
+            border-bottom: 1px solid #d1d5db;
+            white-space: nowrap;
+        }
+
+        .table-dark-card tbody tr {
+            background: #fff;
+            transition: background 0.2s;
+        }
+        
+        .table-dark-card tbody tr:nth-child(even) {
+            background: #f9fafb;
+        }
+        
+        .table-dark-card tbody tr:hover {
+            background: #f3f4f6;
+        }
+        
+        .table-dark-card td {
+            padding: 12px 14px;
+            text-align: center;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .btn-more {
+            border: 1px solid #d1d5db;
+            background: transparent;
+            color: #3b82f6;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 13px;
+            cursor: pointer;
+        }
+        
+        .btn-more:hover {
+            background: #2563eb;
+            color: #fff;
+            border-color: #2563eb;
+        }
+
+        /* Dark mode table styles */
+        [data-bs-theme="dark"] .table-dark-card {
+            background: #111827;
+            border: 1px solid #1f2937;
+            box-shadow: 0 4px 20px rgba(0,0,0,.4);
+        }
+
+        [data-bs-theme="dark"] .table-dark-card table {
+            color: #e5e7eb;
+        }
+
+        [data-bs-theme="dark"] .table-dark-card thead {
+            background: linear-gradient(180deg, #1e293b, #111827);
+        }
+        
+        [data-bs-theme="dark"] .table-dark-card thead th {
+            color: #f9fafb;
+            border-bottom: 1px solid #374151;
+        }
+
+        [data-bs-theme="dark"] .table-dark-card tbody tr {
+            background: #111827;
+        }
+        
+        [data-bs-theme="dark"] .table-dark-card tbody tr:nth-child(even) {
+            background: #1a2234;
+        }
+        
+        [data-bs-theme="dark"] .table-dark-card tbody tr:hover {
+            background: #1f2937;
+        }
+        
+        [data-bs-theme="dark"] .table-dark-card td {
+            border-bottom: 1px solid #1f2937;
+        }
+
+        [data-bs-theme="dark"] .btn-more {
+            border: 1px solid #374151;
+            color: #93c5fd;
+        }
+        
+        [data-bs-theme="dark"] .btn-more:hover {
+            background: #2563eb;
+            color: #fff;
+            border-color: #2563eb;
+        }
+
+        /* Light mode pagination */
+        .pagination-dark {
+            display: flex;
+            justify-content: center;
+            margin-top: 12px;
+            gap: 4px;
+        }
+        
+        .pagination-dark button {
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            color: #111827;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        
+        .pagination-dark button.active {
+            background: #10b981;
+            border-color: #10b981;
+            color: #fff;
+        }
+        
+        .pagination-dark button:hover:not(.active) {
+            background: #2563eb;
+            border-color: #2563eb;
+            color: #fff;
+        }
+
+        /* Dark mode pagination */
+        [data-bs-theme="dark"] .pagination-dark button {
+            background: #1e293b;
+            border: 1px solid #374151;
+            color: #f9fafb;
+        }
+        
+        [data-bs-theme="dark"] .pagination-dark button.active {
+            background: #10b981;
+            border-color: #10b981;
+        }
+        
+        [data-bs-theme="dark"] .pagination-dark button:hover:not(.active) {
+            background: #2563eb;
+            border-color: #2563eb;
+        }
+        
+        /* Modal header styling - using project's primary color */
+        .modal-header {
+            background-color: #1ab394; /* Project's primary color */
+            color: white;
+            border-bottom: 1px solid #16987e;
+        }
+        
+        /* Modal title styling */
+        .modal-header .modal-title {
+            font-weight: 500;
+            color: white;
+        }
+        
+        /* Close button styling for modal headers */
+        .modal-header .btn-close {
+            filter: invert(1) grayscale(100%) brightness(200%);
+        }
+        
+        /* Modal footer styling - using a lighter shade */
+        .modal-footer {
+            background-color: #f0f8f8; /* Light teal background */
+            border-top: 1px solid #d1e8e8;
+        }
+        
+        /* Primary buttons in modals */
+        .modal-footer .btn-primary {
+            background-color: #1ab394;
+            border-color: #1ab394;
+        }
+        
+        .modal-footer .btn-primary:hover {
+            background-color: #16987e;
+            border-color: #16987e;
+        }
+        
+        /* Form styling */
+        .v-section {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid #e9ecef;
+        }
+        
+        [data-bs-theme="dark"] .v-section {
+            background: #1e1f27;
+            border-color: #293036;
+        }
+        
+        .v-cap {
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #495057;
+            font-size: 16px;
+        }
+        
+        [data-bs-theme="dark"] .v-cap {
+            color: #aab8c5;
+        }
+        
+        .v-label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #495057;
+        }
+        
+        [data-bs-theme="dark"] .v-label {
+            color: #aab8c5;
+        }
+        
+        .v-req {
+            color: #e02d2d;
+        }
+        
+        .v-input, .v-select {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            background-color: #fff;
+            color: #495057;
+        }
+        
+        [data-bs-theme="dark"] .v-input, 
+        [data-bs-theme="dark"] .v-select {
+            background-color: #272832;
+            border-color: #293036;
+            color: #aab8c5;
+        }
+        
+        .v-input:focus, .v-select:focus {
+            border-color: #1ab394;
+            outline: 0;
+            box-shadow: 0 0 0 0.2rem rgba(26, 179, 148, 0.25);
+        }
+        
+        .note-highlight {
+            background-color: #e7f4f0;
+            border-left: 3px solid #1ab394;
+            padding: 8px 12px;
+            margin-top: 5px;
+            font-size: 13px;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        [data-bs-theme="dark"] .note-highlight {
+            background-color: #1e3a35;
+            border-left-color: #1ab394;
+            color: #aab8c5;
+        }
+        
+        /* Fix for bootstrap-select dropdown shaking issue */
+        .bootstrap-select .dropdown-menu {
+            transform: translate3d(0, 0, 0) !important;
+            -webkit-transform: translate3d(0, 0, 0) !important;
+            -moz-transform: translate3d(0, 0, 0) !important;
+            -ms-transform: translate3d(0, 0, 0) !important;
+            -o-transform: translate3d(0, 0, 0) !important;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+        
+        /* Bootstrap Select Dropdown z-index fix */
+        .bootstrap-select .dropdown-menu {
+            z-index: 20000;
+        }
+        
+        /* Flatpickr calendar z-index fix */
+        .flatpickr-calendar {
+            z-index: 200000 !important;
+        }
+        
+        /* Allow text wrapping in table cells to prevent horizontal scrolling */
+        #categoriesTable td {
+            white-space: normal !important;
+            word-wrap: break-word;
+        }
+        
+        #categoriesTable th {
+            white-space: normal !important;
+            word-wrap: break-word;
+        }
+        
+        /* Remove table responsive wrapper horizontal scrolling */
+        .table-responsive {
+            overflow-x: hidden;
+        }
+        
+        /* Fix for dropdown positioning - remove overflow constraints */
+        #filterSection, .card, .table-responsive {
+            overflow: visible !important;
+        }
+        
+        /* Style for readonly input fields in view modal */
+        #viewCategoryModal .form-control[readonly] {
+            background-color: #f8f9fa;
+            border-color: #e9ecef;
+            color: #495057;
+            opacity: 1;
+        }
+        
+        [data-bs-theme="dark"] #viewCategoryModal .form-control[readonly] {
+            background-color: #272832;
+            border-color: #293036;
+            color: #aab8c5;
+        }
+        
+        /* Style for checkboxes in table */
+        .table th input[type="checkbox"],
+        .table td input[type="checkbox"] {
+            margin: 0;
+            vertical-align: middle;
+        }
+        
+        /* Style for select all checkbox in header */
+        #selectAll {
+            transform: scale(1.2);
+        }
+        
+        /* Bootstrap Select RTL Support */
+        .bootstrap-select .dropdown-menu {
+            text-align: right;
+        }
+        
+        /* Additional enhancements for better visibility in both modes */
+        .bootstrap-select.btn-group .dropdown-toggle .filter-option {
+            color: inherit;
+        }
+        
+        .bootstrap-select .dropdown-menu li a span.text {
+            display: block;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        [data-bs-theme="dark"] .bootstrap-select .dropdown-header {
+            color: #aab8c5;
+            background-color: #1e1f27;
+        }
+        
+        .bootstrap-select .dropdown-header {
+            background-color: #f8f9fa;
+            color: #495057;
+        }
+        
+        /* Fix for select arrow in dark mode */
+        [data-bs-theme="dark"] .bootstrap-select .dropdown-toggle::after {
+            border-top-color: #aab8c5;
+        }
+        
+        /* Ensure proper contrast for disabled options */
+        .bootstrap-select .dropdown-menu > .disabled > a {
+            color: #6c757d;
+            background-color: transparent;
+        }
+        
+        [data-bs-theme="dark"] .bootstrap-select .dropdown-menu > .disabled > a {
+            color: #6c757d;
+        }
+        
+        /* Fix for select text visibility in dark mode modals */
+        [data-bs-theme="dark"] .modal-content .bootstrap-select .filter-option {
+            color: #aab8c5;
+        }
+        
+        .modal-content .bootstrap-select .filter-option {
+            color: #495057;
+        }
+        
+        /* Additional fixes for select box visibility */
+        .modal-content .selectpicker {
+            width: 100%;
+        }
+        
+        [data-bs-theme="dark"] .modal-content .selectpicker {
+            background-color: #272832;
+            border-color: #293036;
+            color: #aab8c5;
+        }
+        
+        /* View Category Modal specific styling */
+        .form-control-plaintext {
+            color: #495057;
+            border: none;
+            background-color: transparent;
+            padding: 8px 12px;
+        }
+        
+        [data-bs-theme="dark"] .form-control-plaintext {
+            color: #aab8c5;
+        }
+        
+        /* Card styling in View Category Modal */
+        .card {
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .card-header {
+            font-weight: 600;
+        }
+        
+        [data-bs-theme="dark"] .card {
+            background-color: #1e1f27;
+            border-color: #293036;
+        }
+        
+        [data-bs-theme="dark"] .card-header {
+            background-color: #1e1f27;
+            border-color: #293036;
+        }
+        
+        /* DataTables Buttons Styling */
+        .dt-buttons .btn {
+            margin-right: 5px;
+            margin-bottom: 5px;
+        }
+        
+        .dt-button-collection {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-shadow: 0 6px 12px rgba(0,0,0,.175);
+        }
+        
+        [data-bs-theme="dark"] .dt-button-collection {
+            background-color: #1e1f27;
+            border: 1px solid #293036;
+            box-shadow: 0 6px 12px rgba(0,0,0,.4);
+        }
+        
+        .dt-button-collection .dropdown-item {
+            padding: 8px 15px;
+        }
+        
+        [data-bs-theme="dark"] .dt-button-collection .dropdown-item {
+            color: #aab8c5;
+        }
+        
+        [data-bs-theme="dark"] .dt-button-collection .dropdown-item:hover {
+            background-color: #16987e;
+            color: #fff;
+        }
+        
+        /* Ensure buttons are visible in both modes */
+        .dt-buttons .btn-outline-secondary {
+            color: #6c757d;
+            border-color: #6c757d;
+        }
+        
+        .dt-buttons .btn-outline-secondary:hover {
+            background-color: #6c757d;
+            color: #fff;
+        }
+        
+        [data-bs-theme="dark"] .dt-buttons .btn-outline-secondary {
+            color: #aab8c5;
+            border-color: #aab8c5;
+        }
+        
+        [data-bs-theme="dark"] .dt-buttons .btn-outline-secondary:hover {
+            background-color: #16987e;
+            color: #fff;
+            border-color: #16987e;
+        }
+        
+        /* Bootstrap Select Styling for Filter Section */
+        .bootstrap-select .dropdown-menu {
+            max-height: 200px;
+        }
+        
+        .bootstrap-select .dropdown-toggle {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.875rem;
+        }
+        
+        [data-bs-theme="dark"] .bootstrap-select .dropdown-toggle {
+            background-color: #272832;
+            border-color: #293036;
+            color: #aab8c5;
+        }
+        
+        [data-bs-theme="dark"] .bootstrap-select .dropdown-toggle:focus {
+            border-color: #16987e;
+            box-shadow: 0 0 0 0.2rem rgba(22, 152, 126, 0.25);
+        }
+        
+        /* خلفية قسم الفلترة - الوضع النهاري */
+        #filterSection {
+            background-color: #ffffff;   /* أبيض نقاء */
+            border-radius: 10px;
+            padding: 16px;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        /* حقول الإدخال - الوضع النهاري */
+        #filterSection .form-control {
+            background-color: #ffffff;   /* أبيض */
+            border: 1px solid #d1d5db;   /* حدود رمادية فاتحة */
+            color: #111827;              /* خط داكن */
+            border-radius: 6px;
+            padding: 8px 10px;
+            transition: all 0.2s ease-in-out;
+            font-weight: 500;
+        }
+        
+        /* عند التركيز - الوضع النهاري */
+        #filterSection .form-control:focus {
+            background-color: #ffffff;
+            border-color: #1ab394;       /* أخضر سماوي */
+            box-shadow: 0 0 0 0.25rem rgba(26, 179, 148, 0.2);
+            color: #111827;
+        }
+        
+        /* Placeholder - الوضع النهاري */
+        #filterSection .form-control::placeholder {
+            color: #9ca3af; /* رمادي فاتح */
+            opacity: 1;
+        }
+        
+        /* الأزرار - الوضع النهاري */
+        #filterSection .btn {
+            border-radius: 6px;
+            font-weight: 600;
+            transition: all 0.2s ease-in-out;
+            padding: 6px 12px;
+        }
+        
+        /* زر أساسي (بحث مثلاً) - الوضع النهاري */
+        #filterSection .btn-primary {
+            background-color: #1ab394; /* أخضر سماوي */
+            border: none;
+            color: #fff;
+        }
+        #filterSection .btn-primary:hover {
+            background-color: #16987e;
+        }
+        
+        /* زر ثانوي - الوضع النهاري */
+        #filterSection .btn-secondary {
+            background-color: #6b7280; /* رمادي متوسط */
+            border: none;
+            color: #fff;
+        }
+        #filterSection .btn-secondary:hover {
+            background-color: #4b5563;
+        }
+        
+        /* زر معلومات - الوضع النهاري */
+        #filterSection .btn-info {
+            background-color: #3b82f6; /* أزرق سماوي */
+            border: none;
+            color: #fff;
+        }
+        #filterSection .btn-info:hover {
+            background-color: #2563eb;
+        }
+        
+        /* زر نجاح - الوضع النهاري */
+        #filterSection .btn-success {
+            background-color: #10b981; /* أخضر سعادة */
+            border: none;
+            color: #fff;
+        }
+        #filterSection .btn-success:hover {
+            background-color: #059669;
+        }
+        
+        /* خلفية قسم الفلترة - الوضع المظلم */
+        [data-bs-theme="dark"] #filterSection {
+            background-color: #111827;   /* غامق أنعم */
+            border-radius: 10px;
+            padding: 16px;
+        }
+        
+        /* حقول الإدخال - الوضع المظلم */
+        [data-bs-theme="dark"] #filterSection .form-control {
+            background-color: #1f2937;   /* رمادي داكن ناعم */
+            border: 1px solid #374151;   /* حدود أنعم */
+            color: #f3f4f6;              /* خط فاتح */
+            border-radius: 6px;
+            padding: 8px 10px;
+            transition: all 0.2s ease-in-out;
+        }
+        
+        /* عند التركيز - الوضع المظلم */
+        [data-bs-theme="dark"] #filterSection .form-control:focus {
+            background-color: #111827;   /* يغمق قليلاً */
+            border-color: #06b6d4;       /* أزرق سماوي */
+            box-shadow: 0 0 6px rgba(6, 182, 212, 0.4);
+            color: #fff;
+        }
+        
+        /* Placeholder - الوضع المظلم */
+        [data-bs-theme="dark"] #filterSection .form-control::placeholder {
+            color: #9ca3af; /* رمادي فاتح */
+            opacity: 0.85;
+        }
+        
+        /* الأزرار - الوضع المظلم */
+        [data-bs-theme="dark"] #filterSection .btn {
+            border-radius: 6px;
+            font-weight: 500;
+            transition: all 0.2s ease-in-out;
+        }
+        
+        /* زر أساسي (بحث مثلاً) - الوضع المظلم */
+        [data-bs-theme="dark"] #filterSection .btn-primary {
+            background-color: #06b6d4; /* أزرق سماوي */
+            border: none;
+            color: #fff;
+        }
+        [data-bs-theme="dark"] #filterSection .btn-primary:hover {
+            background-color: #0891b2;
+        }
+        
+        /* زر ثانوي - الوضع المظلم */
+        [data-bs-theme="dark"] #filterSection .btn-secondary {
+            background-color: #374151; /* رمادي متوسط */
+            border: none;
+            color: #e5e7eb;
+        }
+        [data-bs-theme="dark"] #filterSection .btn-secondary:hover {
+            background-color: #4b5563;
+        }
+        
+        /* Fix for DataTables column selection - remove ALL selection effects */
+        table.dataTable tbody > tr.selected,
+        table.dataTable tbody > tr > .selected,
+        table.dataTable tbody > tr.selected > td,
+        table.dataTable tbody > tr > .selected > td {
+            background-color: transparent !important;
+            outline: none !important;
+            box-shadow: none !important;
+        }
+        
+        table.dataTable.stripe tbody > tr.odd.selected,
+        table.dataTable.stripe tbody > tr.odd > .selected,
+        table.dataTable.display tbody > tr.odd.selected,
+        table.dataTable.display tbody > tr.odd > .selected,
+        table.dataTable.stripe tbody > tr.odd.selected > td,
+        table.dataTable.stripe tbody > tr.odd > .selected > td,
+        table.dataTable.display tbody > tr.odd.selected > td,
+        table.dataTable.display tbody > tr.odd > .selected > td {
+            background-color: #f9fafb !important;
+        }
+        
+        [data-bs-theme="dark"] table.dataTable.stripe tbody > tr.odd.selected,
+        [data-bs-theme="dark"] table.dataTable.stripe tbody > tr.odd > .selected,
+        [data-bs-theme="dark"] table.dataTable.display tbody > tr.odd.selected,
+        [data-bs-theme="dark"] table.dataTable.display tbody > tr.odd > .selected,
+        [data-bs-theme="dark"] table.dataTable.stripe tbody > tr.odd.selected > td,
+        [data-bs-theme="dark"] table.dataTable.stripe tbody > tr.odd > .selected > td,
+        [data-bs-theme="dark"] table.dataTable.display tbody > tr.odd.selected > td,
+        [data-bs-theme="dark"] table.dataTable.display tbody > tr.odd > .selected > td {
+            background-color: #1a2234 !important;
+        }
+        
+        table.dataTable tbody > tr.even.selected,
+        table.dataTable tbody > tr.even > .selected,
+        table.dataTable.display tbody > tr.even.selected,
+        table.dataTable.display tbody > tr.even > .selected,
+        table.dataTable tbody > tr.even.selected > td,
+        table.dataTable tbody > tr.even > .selected > td,
+        table.dataTable.display tbody > tr.even.selected > td,
+        table.dataTable.display tbody > tr.even > .selected > td {
+            background-color: #ffffff !important;
+        }
+        
+        [data-bs-theme="dark"] table.dataTable tbody > tr.even.selected,
+        [data-bs-theme="dark"] table.dataTable tbody > tr.even > .selected,
+        [data-bs-theme="dark"] table.dataTable.display tbody > tr.even.selected,
+        [data-bs-theme="dark"] table.dataTable.display tbody > tr.even > .selected,
+        [data-bs-theme="dark"] table.dataTable tbody > tr.even.selected > td,
+        [data-bs-theme="dark"] table.dataTable tbody > tr.even > .selected > td,
+        [data-bs-theme="dark"] table.dataTable.display tbody > tr.even.selected > td,
+        [data-bs-theme="dark"] table.dataTable.display tbody > tr.even > .selected > td {
+            background-color: #111827 !important;
+        }
+        
+        /* Remove ALL focus and hover effects on table headers */
+        table.dataTable thead th,
+        table.dataTable thead td {
+            outline: none !important;
+            box-shadow: none !important;
+        }
+        
+        table.dataTable thead th:focus,
+        table.dataTable thead td:focus,
+        table.dataTable thead th:active,
+        table.dataTable thead td:active {
+            outline: none !important;
+            box-shadow: none !important;
+            background-color: inherit !important;
+        }
+        
+        /* Remove ALL focus and hover effects on table cells */
+        table.dataTable tbody td,
+        table.dataTable tbody th {
+            outline: none !important;
+            box-shadow: none !important;
+        }
+        
+        table.dataTable tbody td:focus,
+        table.dataTable tbody th:focus,
+        table.dataTable tbody td:active,
+        table.dataTable tbody th:active {
+            outline: none !important;
+            box-shadow: none !important;
+            background-color: inherit !important;
+        }
+        
+        /* Remove column sorting arrows highlight */
+        table.dataTable thead .sorting,
+        table.dataTable thead .sorting_asc,
+        table.dataTable thead .sorting_desc,
+        table.dataTable thead .sorting_asc_disabled,
+        table.dataTable thead .sorting_desc_disabled {
+            outline: none !important;
+            box-shadow: none !important;
+        }
+        
+        /* Remove any selection background */
+        table.dataTable tbody tr:hover,
+        table.dataTable tbody tr:hover td {
+            background-color: inherit !important;
+        }
+        
+        /* Ensure our custom hover still works */
+        .table-dark-card tbody tr:hover {
+            background: #f3f4f6 !important;
+        }
+        
+        [data-bs-theme="dark"] .table-dark-card tbody tr:hover {
+            background: #1f2937 !important;
+        }
+        
+        /* Bootstrap Select Dropdown z-index fix */
+        .bootstrap-select .dropdown-menu {
+            z-index: 20000;
+        }
+        
+        /* Flatpickr calendar z-index fix */
+        .flatpickr-calendar {
+            z-index: 200000 !important;
+        }
+        
+        /* Allow text wrapping in table cells to prevent horizontal scrolling */
+        #categoriesTable td {
+            white-space: normal !important;
+            word-wrap: break-word;
+        }
+        
+        #categoriesTable th {
+            white-space: normal !important;
+            word-wrap: break-word;
+        }
+        
+        /* Remove table responsive wrapper horizontal scrolling */
+        .table-responsive {
+            overflow-x: hidden;
+        }
+        
+        /* Fix for dropdown positioning - remove overflow constraints */
+        #filterSection, .card, .table-responsive {
+            overflow: visible !important;
+        }
+        
+        /* Style for disabled top action buttons */
+        .btn-outline-primary.disabled,
+        .btn-outline-info.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+    </style>
+}
+
+<!-- Filter toggle button -->
+<div class="mb-2">
+    <button id="toggleFilters" type="button" class="btn btn-primary">
+        <i class="ti ti-filter-off me-1"></i><span id="toggleFiltersText">إظهار الفلترة</span>
+    </button>
+</div>
+
+<!-- Filter section -->
+<div class="card mb-3" id="filterSection" style="display: none;">
+    <div class="card-body p-2">
+        <!-- DataTables Buttons Container -->
+        <div class="row g-2 mb-2">
+            <div class="col-12" id="datatables-buttons-container">
+                <!-- DataTables buttons will be inserted here by JavaScript -->
+            </div>
+        </div>
+        
+        <!-- Filter fields in grid layout (side by side) -->
+        <div class="row g-2 mb-2">
+            <div class="col-md">
+                <input type="text" class="form-control form-control-sm" placeholder="الرقم" id="filter-id">
+            </div>
+            <div class="col-md">
+                <input type="text" class="form-control form-control-sm" placeholder="الباقة" id="filter-package-name">
+            </div>
+            <div class="col-md">
+                <input type="text" class="form-control form-control-sm" placeholder="السعر" id="filter-price">
+            </div>
+            <div class="col-md">
+                <select class="selectpicker form-control form-control-sm" id="filter-year" data-live-search="true" title="اختر السنة">
+                    <option value="2025">2025</option>
+                    <option value="2024">2024</option>
+                    <option value="2023">2023</option>
+                    <option value="2022">2022</option>
+                    <option value="2021">2021</option>
+                </select>
+            </div>
+            <div class="col-md">
+                <select class="selectpicker form-control form-control-sm" id="filter-records" data-live-search="true" title="اختر السجلات">
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                </select>
+            </div>
+        </div>
+        
+        <!-- Unified action buttons -->
+        <div class="row g-2">
+            <div class="col">
+                <button type="button" class="btn btn-secondary btn-sm" id="resetFilters">إعادة تعيين</button>
+                <button type="button" class="btn btn-primary btn-sm" id="applyFilters">بحث</button>
+                <button type="button" class="btn btn-info btn-sm" id="printButton">طباعة</button>
+                <button type="button" class="btn btn-success btn-sm" id="exportExcelButton">تصدير اكسل</button>
+                <div class="d-inline-flex gap-2" style="vertical-align: middle;">
+                    <button type="button" class="btn btn-primary btn-sm" id="selectAllColumns" title="تحديد جميع الحقول">
+                        تحديد جميع
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Action buttons -->
+<div class="mb-3">
+    <div class="d-flex gap-2 flex-wrap">
+        <a href="#" class="btn btn-sm btn-outline-danger" title="حذف">
+            <i class="ti ti-trash"></i>
+        </a>
+        <a href="#" class="btn btn-sm btn-outline-success" title="إضافة" data-bs-toggle="modal" data-bs-target="#addPackageModal">
+            <i class="ti ti-plus"></i>
+        </a>
+        <a href="#" class="btn btn-sm btn-outline-primary" title="تعديل" id="topEditButton">
+            <i class="ti ti-pencil"></i>
+        </a>
+        <a href="#" class="btn btn-sm btn-outline-info" title="مشاهدة" id="topViewButton">
+            <i class="ti ti-eye"></i>
+        </a>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <div class="d-flex align-items-center">
+            <h5 class="card-title mb-0 fw-bold">@ViewData["Title"]</h5>
+            <div class="me-auto">
+                <!-- Refresh button -->
+                <button type="button" class="btn btn-sm btn-outline-secondary ms-2" id="refreshBtn" title="تحديث">
+                    <i class="ti ti-refresh"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table id="categoriesTable" class="table table-striped table-bordered dt-responsive nowrap w-100">
+                <thead>
+                    <tr>
+                        <th class="text-center" width="40px">
+                            <div class="form-check"><input type="checkbox" class="form-check-input" id="selectAll"></div>
+                        </th>
+                        <th>الرقم</th>
+                        <th>الباقة</th>
+                        <th>السعر</th>
+                        <th style="width: 100px; text-align: center;">المزيد</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="text-center">
+                            <div class="form-check"><input type="checkbox" class="form-check-input category-checkbox" value="1"></div>
+                        </td>
+                        <td>1</td>
+                        <td>500 G</td>
+                        <td>46000</td>
+                        <td style="text-align: center;">
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    للمزيد
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="#" data-action="edit"><i class="ti ti-pencil me-1"></i> تعديل</a></li>
+                                    <li><a class="dropdown-item" href="#" data-action="view"><i class="ti ti-eye me-1"></i> مشاهدة</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="ti ti-trash me-1"></i> حذف</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">
+                            <div class="form-check"><input type="checkbox" class="form-check-input category-checkbox" value="2"></div>
+                        </td>
+                        <td>2</td>
+                        <td>250 G</td>
+                        <td>26000</td>
+                        <td style="text-align: center;">
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    للمزيد
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="#" data-action="edit"><i class="ti ti-pencil me-1"></i> تعديل</a></li>
+                                    <li><a class="dropdown-item" href="#" data-action="view"><i class="ti ti-eye me-1"></i> مشاهدة</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="ti ti-trash me-1"></i> حذف</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">
+                            <div class="form-check"><input type="checkbox" class="form-check-input category-checkbox" value="3"></div>
+                        </td>
+                        <td>3</td>
+                        <td>130 G</td>
+                        <td>16000</td>
+                        <td style="text-align: center;">
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    للمزيد
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="#" data-action="edit"><i class="ti ti-pencil me-1"></i> تعديل</a></li>
+                                    <li><a class="dropdown-item" href="#" data-action="view"><i class="ti ti-eye me-1"></i> مشاهدة</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="ti ti-trash me-1"></i> حذف</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">
+                            <div class="form-check"><input type="checkbox" class="form-check-input category-checkbox" value="4"></div>
+                        </td>
+                        <td>4</td>
+                        <td>60 G</td>
+                        <td>8000</td>
+                        <td style="text-align: center;">
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    للمزيد
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="#" data-action="edit"><i class="ti ti-pencil me-1"></i> تعديل</a></li>
+                                    <li><a class="dropdown-item" href="#" data-action="view"><i class="ti ti-eye me-1"></i> مشاهدة</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="ti ti-trash me-1"></i> حذف</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">
+                            <div class="form-check"><input type="checkbox" class="form-check-input category-checkbox" value="5"></div>
+                        </td>
+                        <td>5</td>
+                        <td>25 G</td>
+                        <td>4000</td>
+                        <td style="text-align: center;">
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    للمزيد
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="#" data-action="edit"><i class="ti ti-pencil me-1"></i> تعديل</a></li>
+                                    <li><a class="dropdown-item" href="#" data-action="view"><i class="ti ti-eye me-1"></i> مشاهدة</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="ti ti-trash me-1"></i> حذف</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">
+                            <div class="form-check"><input type="checkbox" class="form-check-input category-checkbox" value="6"></div>
+                        </td>
+                        <td>6</td>
+                        <td>15 G</td>
+                        <td>2400</td>
+                        <td style="text-align: center;">
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    للمزيد
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="#" data-action="edit"><i class="ti ti-pencil me-1"></i> تعديل</a></li>
+                                    <li><a class="dropdown-item" href="#" data-action="view"><i class="ti ti-eye me-1"></i> مشاهدة</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="ti ti-trash me-1"></i> حذف</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Add Package Modal -->
+<div class="modal fade voucher-modal" id="addPackageModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content" dir="rtl">
+      <div class="modal-header">
+        <h5 class="modal-title">التسديدات > باقات يمن فورجي</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="اغلاق"></button>
+      </div>
+
+      <form id="addPackageForm">
+        <div class="modal-body">
+          <!-- Package Basic Information Section -->
+          <div class="v-section">
+            <div class="v-cap">معلومات الباقة الأساسية</div>
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="v-label">اسم الباقة<span class="v-req">*</span></label>
+                <input type="text" class="v-input" id="add-package-name" placeholder="أدخل اسم الباقة">
+              </div>
+
+              <div class="col-md-6">
+                <label class="v-label">السعر<span class="v-req">*</span></label>
+                <input type="number" class="v-input" id="add-price" placeholder="أدخل السعر" step="0.01">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <small class="text-muted me-auto">الحقول بعلامة <span class="v-req">*</span> مطلوبة</small>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+          <button type="submit" class="btn btn-primary">
+            <i class="ti ti-check me-1"></i>حفظ
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Package Modal -->
+<div class="modal fade voucher-modal" id="editPackageModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content" dir="rtl">
+      <div class="modal-header">
+        <h5 class="modal-title">التسديدات > باقات يمن فورجي</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="اغلاق"></button>
+      </div>
+      <form id="editPackageForm">
+        <div class="modal-body">
+          <!-- Package Basic Information Section -->
+          <div class="v-section">
+            <div class="v-cap">معلومات الباقة الأساسية</div>
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="v-label">اسم الباقة<span class="v-req">*</span></label>
+                <input type="text" class="v-input" id="edit-package-name" placeholder="أدخل اسم الباقة">
+              </div>
+
+              <div class="col-md-6">
+                <label class="v-label">السعر<span class="v-req">*</span></label>
+                <input type="number" class="v-input" id="edit-price" placeholder="أدخل السعر" step="0.01">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <small class="text-muted me-auto">الحقول بعلامة <span class="v-req">*</span> مطلوبة</small>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+          <button type="submit" class="btn btn-primary">
+            <i class="ti ti-check me-1"></i>حفظ
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- View Package Modal -->
+<div class="modal fade voucher-modal" id="viewPackageModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content" dir="rtl">
+      <div class="modal-header">
+        <h5 class="modal-title">التسديدات > باقات يمن فورجي</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="اغلاق"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Package Basic Information Section -->
+        <div class="v-section">
+          <div class="v-cap">معلومات الباقة الأساسية</div>
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="v-label">اسم الباقة</label>
+              <div class="view-field" id="view-package-name">500 G</div>
+            </div>
+
+            <div class="col-md-6">
+              <label class="v-label">السعر</label>
+              <div class="view-field" id="view-price">46000</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
+        <button type="button" class="btn btn-primary" id="editFromViewBtn">
+          <i class="ti ti-pencil me-1"></i>تعديل
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+@section Scripts {
+    <!-- jstree js -->
+    <script src="~/plugins/jstree/jstree.min.js"></script>
+    <!-- date range picker js -->
+    <script src="~/plugins/daterangepicker/moment.min.js"></script>
+    <script src="~/plugins/daterangepicker/daterangepicker.js"></script>
+    <!-- DataTables Js -->
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.5.0/js/responsive.bootstrap5.min.js"></script>
+    <!-- DataTables Buttons Extension -->
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.bootstrap5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.colVis.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
+    
+    <!-- bootstrap-select js -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/js/bootstrap-select.min.js"></script>
+
+    <script src="~/js/yemen-forge-packages.js"></script>
+}

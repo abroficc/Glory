@@ -1,0 +1,135 @@
+@{
+    ViewBag.Title = "SignIn";
+    Layout = "~/Views/Shared/_BaseLayout.cshtml";
+    ViewData["Direction"] = "rtl";
+}
+
+@model Inspinia.Models.LoginViewModel
+
+@section styles
+{
+    <link href="~/css/news-ticker.css" rel="stylesheet" type="text/css">
+}
+
+<div class="auth-box p-0 w-100">
+    <div class="row w-100 g-0">
+        <!-- النموذج على اليمين في نمط RTL -->
+        <div class="col-md-auto order-md-last">
+            <div class="card auth-box-form border-0 mb-0">
+                <div class="card-body min-vh-100 d-flex flex-column justify-content-center">
+                    <!-- شعار -->
+                    <div class="auth-brand mb-0 text-center">
+                        <a href="/" class="logo-dark">
+                            <img src="~/images/logo-black.png" alt="dark logo" height="32">
+                        </a>
+                        <a href="/" class="logo-light">
+                            <img src="~/images/logo.png" alt="logo" height="32">
+                        </a>
+                    </div>
+
+                    <div class="mt-auto text-center">
+                        <h4 class="fw-bold">مرحباً بكم في منصة المجد للخدمات الإلكترونية</h4>
+                        <p class="text-muted auth-sub-text mx-auto">
+                            هيا بنا نبدأ تسجيل الدخول. أدخل بريدك الإلكتروني وكلمة المرور للمتابعة.
+                        </p>
+
+                        <!-- شريط الإشعارات -->
+                        <div class="news-ticker-container mb-4">
+                            <div class="ticker-header">
+                                <span class="ticker-title">إشعارات:</span>
+                            </div>
+                            <div class="ticker-content">
+                                <div class="ticker-items">
+                                    <span class="ticker-item">يعمل النظام حالياً في وضع التطوير الشامل ضمن إطار شركة ميتا تك للحلول البرمجية.</span>
+                                    <span class="ticker-item">نأمل منكم الاطلاع على صفحات النظام وتجربته، كما نرحب بتزويدنا بأي ملاحظات تتعلق بالأخطاء البرمجية أو اللغوية.</span>
+                                    <span class="ticker-item">شكرًا لكم على تعاونكم ودعمكم المتواصل.</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- أزرار تسجيل الدخول السريع -->
+                        <div class="mb-4">
+                            <p class="text-muted mb-2">اختر حساباً لتسجيل الدخول بسرعة:</p>
+                            <div class="d-grid gap-2">
+                                <button type="button" class="btn btn-outline-primary btn-sm" onclick="populateLogin('admin@example.com', 'admin123')">
+                                    <i class="ti ti-user"></i> حساب المدير
+                                </button>
+                                <button type="button" class="btn btn-outline-success btn-sm" onclick="populateLogin('user@example.com', 'user123')">
+                                    <i class="ti ti-user"></i> حساب المستخدم
+                                </button>
+                                <button type="button" class="btn btn-outline-info btn-sm" onclick="populateLogin('test@example.com', 'password123')">
+                                    <i class="ti ti-user"></i> حساب تجريبي
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- نموذج تسجيل الدخول -->
+                        <form class="mt-4" method="post" id="loginForm">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="returnUrl" value="@ViewData["ReturnUrl"]" />
+
+                            <div class="mb-3">
+                                <input asp-for="Email" type="email" class="form-control py-2 px-3 bg-light bg-opacity-40 border-light" placeholder="أدخل اسم المستخدم أو البريد الإلكتروني" required>
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+
+                            <div class="mb-3">
+                                <input asp-for="Password" type="password" class="form-control py-2 px-3 bg-light bg-opacity-40 border-light" placeholder="أدخل كلمة المرور" required>
+                                <span asp-validation-for="Password" class="text-danger"></span>
+                            </div>
+
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <div class="form-check">
+                                    <input asp-for="RememberMe" class="form-check-input form-check-input-light fs-14" type="checkbox" id="rememberMe">
+                                    <label class="form-check-label" for="rememberMe">ابقني مسجلاً</label>
+                                </div>
+
+                                <a href=@Url.Action("ResetPass", "Auth3") class="text-decoration-underline link-offset-3 text-muted">نسيت كلمة المرور؟</a>
+                            </div>
+
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary fw-bold py-2">تسجيل الدخول</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <p class="text-muted text-center mt-4 mb-0">
+                        جديد هنا؟ <a href=@Url.Action("SignUp", "Auth3") class="text-decoration-underline fw-semibold">أنشئ حساباً</a>
+                    </p>
+
+                    <p class="text-center text-muted mt-auto mb-0">
+                        إعداد وتطوير <span class="fw-semibold">ميتا تك للحلول البرمجية</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- الصورة الجانبية -->
+        <div class="col order-md-first">
+            <div class="h-100 position-relative card-side-img rounded-0 overflow-hidden" style="min-height: 100vh;">
+                <div class="p-4 card-img-overlay auth-overlay d-flex align-items-end justify-content-center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/notifications.js"></script>
+
+    <script>
+        function populateLogin(email, password) {
+            document.getElementById('Email').value = email;
+            document.getElementById('Password').value = password;
+        }
+        
+        // Play sound on first user interaction if it hasn't played yet
+        document.addEventListener('click', function() {
+            if (window.audioNotifications && !window.audioNotifications.userInteracted) {
+                window.audioNotifications.userInteracted = true;
+                window.audioNotifications.playSound();
+            }
+        }, { once: true });
+    </script>
+}

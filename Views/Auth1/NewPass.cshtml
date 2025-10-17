@@ -1,0 +1,114 @@
+@{
+    ViewBag.Title = "NewPass";
+    Layout = "~/Views/Shared/_BaseLayout.cshtml";
+    // Set direction to RTL for Arabic
+    ViewData["Direction"] = "rtl";
+}
+
+
+@section styles
+{
+}
+
+    <div class="auth-box p-0 w-100">
+        <div class="row w-100 g-0">
+            <!-- Move the form column to the right for RTL -->
+            <div class="col-xl-auto order-xl-last">
+                <!--Auth Box content -->
+                <div class="card auth-box-form border-0 mb-0">
+                    <div class="card-body min-vh-100 d-flex flex-column justify-content-center">
+                        <div class="auth-brand mb-0 text-center">
+                            <a href="/" class="logo-dark">
+                                <img src="~/images/logo-black.png" alt="dark logo" height="32">
+                            </a>
+                            <a href="/" class="logo-light">
+                                <img src="~/images/logo.png" alt="logo" height="32">
+                            </a>
+                        </div>
+
+                        <div class="mt-auto text-center">
+                            <h4 class="fw-bold">إعداد كلمة مرور جديدة! | منصة المجد للخدمات الالكترونية</h4>
+                            <p class="text-muted auth-sub-text mx-auto mb-4">لقد أرسلنا لك رمز تحقق مكون من 6 أرقام عبر البريد الإلكتروني. يرجى إدخاله أدناه لتأكيد عنوان بريدك الإلكتروني.</p>
+
+                            <form>
+                                <div class="mb-3">
+                                    <div class="input-group">
+                                        <input type="email" class="form-control py-2 px-3 bg-light bg-opacity-40 border-light" id="userEmail" placeholder="you@example.com" disabled="">
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label d-flex">أدخل رمز التحقق المكون من 6 أرقام <span class="text-danger">*</span></label>
+                                    <div class="d-flex gap-2 two-factor">
+                                        <input type="text" class="form-control py-2 bg-light bg-opacity-40 border-light text-center" required>
+                                        <input type="text" class="form-control py-2 bg-light bg-opacity-40 border-light text-center" required>
+                                        <input type="text" class="form-control py-2 bg-light bg-opacity-40 border-light text-center" required>
+                                        <input type="text" class="form-control py-2 bg-light bg-opacity-40 border-light text-center" required>
+                                        <input type="text" class="form-control py-2 bg-light bg-opacity-40 border-light text-center" required>
+                                        <input type="text" class="form-control py-2 bg-light bg-opacity-40 border-light text-center" required>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3" data-password="bar">
+                                    <div class="input-group">
+                                        <input type="password" class="form-control py-2 px-3 bg-light bg-opacity-40 border-light" id="userPassword" placeholder="أدخل كلمة المرور" required>
+                                    </div>
+                                    <div class="password-bar my-2"></div>
+                                    <p class="text-muted fs-xs mb-0">استخدم 8+ أحرف مع حروف وأرقام ورموز.</p>
+                                </div>
+
+                                <div class="mb-3">
+                                    <div class="input-group">
+                                        <input type="password" class="form-control py-2 px-3 bg-light bg-opacity-40 border-light" id="userPassword" placeholder="أعد إدخال كلمة المرور الجديدة" required>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3 d-flex">
+                                    <div class="form-check">
+                                        <input class="form-check-input form-check-input-light fs-14" type="checkbox" checked id="termAndPolicy">
+                                        <label class="form-check-label" for="termAndPolicy">أوافق على الشروط والسياسات</label>
+                                    </div>
+                                </div>
+
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-primary fw-semibold py-2">تحديث كلمة المرور</button>
+                                </div>
+
+
+                                <p class="mt-4 text-muted text-center mb-4">لا تملك رمز؟ <a href="#" class="text-decoration-underline link-offset-2 fw-semibold">إعادة إرسال</a> أو <a href="#" class="text-decoration-underline link-offset-2 fw-semibold">اتصل بنا</a></p>
+                            </form>
+                        </div>
+
+                        <p class="text-muted text-center mt-4 mb-0">
+                            العودة إلى <a href=@Url.Action("SignIn", "Auth3") class="text-decoration-underline link-offset-3 fw-semibold">تسجيل الدخول</a>
+                        </p>
+
+                        <p class="text-center text-muted mt-auto mb-0">
+                            إعداد وتطوير <span class="fw-semibold">ميتا تك للحلول البرمجية</span>
+                        </p>
+                    </div>
+                </div>
+                <!-- End Auth Box Content -->
+            </div>
+            <!-- Move the image column to the left for RTL -->
+            <div class="col order-xl-first">
+                <div class="h-100 position-relative card-side-img rounded-0 overflow-hidden" style="min-height: 100vh;">
+                    <div class="p-4 card-img-overlay auth-overlay d-flex align-items-end justify-content-center">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+@section scripts
+{
+ <!-- Two Factor Validator Js -->
+    <script src="~/js/pages/auth-two-factor.js"></script>
+
+    <!-- Password Suggestion Js -->
+    <script src="~/js/pages/auth-password.js"></script>
+}

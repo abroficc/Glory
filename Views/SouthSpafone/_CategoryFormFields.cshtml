@@ -1,0 +1,55 @@
+@model dynamic
+
+<div class="card" dir="rtl">
+    <div class="card-body">
+        <div class="row g-3 mb-3">
+            <!-- الفئة* -->
+            <div class="col-md-6">
+                <label for="@(ViewData["Prefix"])-package-name" class="form-label fw-bold">
+                    الفئة<span class="text-danger">*</span>
+                </label>
+                <input type="text" class="form-control" id="@(ViewData["Prefix"])-package-name" placeholder="الفئة">
+            </div>
+
+            <!-- السعر* -->
+            <div class="col-md-6">
+                <label for="@(ViewData["Prefix"])-price" class="form-label fw-bold">
+                    السعر<span class="text-danger">*</span>
+                </label>
+                <input type="text" class="form-control" id="@(ViewData["Prefix"])-price" placeholder="السعر">
+            </div>
+
+            <!-- مبلغ الربط6* -->
+            <div class="col-md-6">
+                <label for="@(ViewData["Prefix"])-binding-amount6" class="form-label fw-bold">
+                    مبلغ الربط6<span class="text-danger">*</span>
+                </label>
+                <input type="text" class="form-control" id="@(ViewData["Prefix"])-binding-amount6" placeholder="مبلغ الربط6 (يجب اخذ مبلغ الربط من المزود)">
+            </div>
+
+            <!-- تحويل الفئة الى روبوت؟* -->
+            <div class="col-md-6">
+                <label for="@(ViewData["Prefix"])-convert-to-robot" class="form-label fw-bold">
+                    تحويل الفئة الى روبوت؟
+                </label>
+                <input type="text" class="form-control" id="@(ViewData["Prefix"])-convert-to-robot" placeholder="اكتب 1 إذا نعم. اترك الحقل فارغاً إذا لا.">
+            </div>
+
+            <!-- الكمية* -->
+            <div class="col-md-6">
+                <label for="@(ViewData["Prefix"])-quantity" class="form-label fw-bold">
+                    الكمية<span class="text-danger">*</span>
+                </label>
+                <input type="text" class="form-control" id="@(ViewData["Prefix"])-quantity" placeholder="الكمية">
+            </div>
+
+            <!-- سعر الوحدة* -->
+            <div class="col-md-6">
+                <label for="@(ViewData["Prefix"])-unit-price" class="form-label fw-bold">
+                    سعر الوحدة<span class="text-danger">*</span>
+                </label>
+                <input type="text" class="form-control" id="@(ViewData["Prefix"])-unit-price" placeholder="سعر الوحدة">
+            </div>
+        </div>
+    </div>
+</div>

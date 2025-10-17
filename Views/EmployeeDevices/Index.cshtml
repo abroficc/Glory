@@ -1,0 +1,1736 @@
+@{
+    Layout = "_VerticalLayout";
+    ViewData["Title"] = "أجهزة الموظفين";
+    ViewData["Direction"] = "rtl";
+}
+
+@section styles {
+    <!-- date range picker css -->
+    <link href="~/plugins/daterangepicker/daterangepicker.css" rel="stylesheet" type="text/css">
+    <!-- datatables css -->
+    <!-- jstree css -->
+    <link href="~/plugins/jstree/style.min.css" rel="stylesheet" type="text/css">
+    <!-- date range picker css -->
+    <link href="~/plugins/daterangepicker/daterangepicker.css" rel="stylesheet" type="text/css">
+    <!-- datatables css -->
+    <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.bootstrap5.min.css" rel="stylesheet">
+    <!-- datatables buttons css -->
+    <link href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.bootstrap5.min.css" rel="stylesheet">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600&display=swap" rel="stylesheet">
+    
+    <!-- bootstrap-select CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/css/bootstrap-select.min.css" />
+
+    <!-- UI Polish CSS -->
+    <link href="~/css/ui-polish.css" rel="stylesheet" type="text/css">
+    
+    <!-- Voucher Modal CSS -->
+    <link href="~/css/voucher-modal.css" rel="stylesheet" type="text/css">
+    
+    <style>
+        body[dir="rtl"] * {
+            font-family: "Cairo", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+        }
+        
+        /* تحسين القائمة المنسدلة داخل المودال */
+        .bootstrap-select {
+            width: 100% !important;
+            max-width: 400px !important;
+        }
+
+        .bootstrap-select .dropdown-menu {
+            max-height: 240px !important;
+            overflow-y: auto !important;
+            background-color: #1e1e1e !important;
+            border: 1px solid #333 !important;
+            z-index: 2000000 !important;
+        }
+
+        .bs-searchbox input {
+            background-color: #2d2d2d !important;
+            color: #fff !important;
+            border: 1px solid #444 !important;
+            border-radius: 4px !important;
+        }
+
+        .bootstrap-select .dropdown-menu li a span.text {
+            color: #fff !important;
+        }
+
+        .bootstrap-select .dropdown-menu li a:hover {
+            background-color: #0d6efd !important;
+            color: #fff !important;
+        }
+
+        .bootstrap-select .dropdown-toggle {
+            background-color: #2d2d2d !important;
+            color: #fff !important;
+            border-color: #444 !important;
+        }
+        
+        /* تعديل الجدول لإزالة المسافة بين الرأس والمحتوى */
+        .table-bordered thead th {
+            border-bottom-width: 1px;
+        }
+        
+        .table-bordered tbody tr:first-child td {
+            border-top: none;
+        }
+        
+        .table {
+            margin-bottom: 0;
+        }
+        
+        /* Select all checkboxes styling */
+        .form-check-input:checked {
+            background-color: #1ab394;
+            border-color: #1ab394;
+        }
+        
+        /* Alert styling for better visibility */
+        .alert-warning {
+            background-color: #fff3cd;
+            border-color: #ffeaa7;
+            color: #856404;
+        }
+        
+        .alert-danger {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+        
+        /* Dark mode alert adjustments */
+        [data-bs-theme="dark"] .alert-warning {
+            background-color: #664d03;
+            border-color: #7d5f04;
+            color: #ffecb5;
+        }
+        
+        [data-bs-theme="dark"] .alert-danger {
+            background-color: #721c24;
+            border-color: #842029;
+            color: #f8d7da;
+        }
+        
+        /* Tree view container */
+        #categories-tree {
+            min-height: 400px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 10px;
+        }
+        
+        /* Table card styling */
+        .table-dark-card {
+            background: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 4px 20px rgba(0,0,0,.05);
+        }
+
+        .table-dark-card table {
+            width: 100%;
+            border-collapse: collapse;
+            color: #374151;
+            font-size: 14px;
+        }
+
+        .table-dark-card thead {
+            background: linear-gradient(180deg, #f3f4f6, #e5e7eb);
+        }
+        
+        .table-dark-card thead th {
+            padding: 12px 14px;
+            text-align: center;
+            font-weight: 600;
+            color: #111827;
+            border-bottom: 1px solid #d1d5db;
+            white-space: nowrap;
+        }
+
+        .table-dark-card tbody tr {
+            background: #fff;
+            transition: background 0.2s;
+        }
+        
+        .table-dark-card tbody tr:nth-child(even) {
+            background: #f9fafb;
+        }
+        
+        .table-dark-card tbody tr:hover {
+            background: #f3f4f6;
+        }
+        
+        .table-dark-card td {
+            padding: 12px 14px;
+            text-align: center;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .btn-more {
+            border: 1px solid #d1d5db;
+            background: transparent;
+            color: #3b82f6;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 13px;
+            cursor: pointer;
+        }
+        
+        .btn-more:hover {
+            background: #2563eb;
+            color: #fff;
+            border-color: #2563eb;
+        }
+
+        /* Dark mode table styles */
+        [data-bs-theme="dark"] .table-dark-card {
+            background: #111827;
+            border: 1px solid #1f2937;
+            box-shadow: 0 4px 20px rgba(0,0,0,.4);
+        }
+
+        [data-bs-theme="dark"] .table-dark-card table {
+            color: #e5e7eb;
+        }
+
+        [data-bs-theme="dark"] .table-dark-card thead {
+            background: linear-gradient(180deg, #1e293b, #111827);
+        }
+        
+        [data-bs-theme="dark"] .table-dark-card thead th {
+            color: #f9fafb;
+            border-bottom: 1px solid #374151;
+        }
+
+        [data-bs-theme="dark"] .table-dark-card tbody tr {
+            background: #111827;
+        }
+        
+        [data-bs-theme="dark"] .table-dark-card tbody tr:nth-child(even) {
+            background: #1a2234;
+        }
+        
+        [data-bs-theme="dark"] .table-dark-card tbody tr:hover {
+            background: #1f2937;
+        }
+        
+        [data-bs-theme="dark"] .table-dark-card td {
+            border-bottom: 1px solid #1f2937;
+        }
+
+        [data-bs-theme="dark"] .btn-more {
+            border: 1px solid #374151;
+            color: #93c5fd;
+        }
+        
+        [data-bs-theme="dark"] .btn-more:hover {
+            background: #2563eb;
+            color: #fff;
+            border-color: #2563eb;
+        }
+
+        /* Light mode pagination */
+        .pagination-dark {
+            display: flex;
+            justify-content: center;
+            margin-top: 12px;
+            gap: 4px;
+        }
+        
+        /* Note highlight */
+        .note-highlight {
+            background-color: #fff9db;
+            border-left: 4px solid #ffd43b;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 0 4px 4px 0;
+            font-size: 13px;
+        }
+        
+        [data-bs-theme="dark"] .note-highlight {
+            background-color: #373016;
+            border-left: 4px solid #facc15;
+            color: #fef3c7;
+        }
+        
+        /* DataTables styling */
+        table.dataTable thead th {
+            border-bottom: 2px solid #dee2e6;
+        }
+        
+        table.dataTable tfoot th {
+            border-top: 2px solid #dee2e6;
+        }
+        
+        table.dataTable.no-footer {
+            border-bottom: 1px solid #dee2e6;
+        }
+        
+        [data-bs-theme="dark"] table.dataTable thead th {
+            border-bottom: 2px solid #374151;
+        }
+        
+        [data-bs-theme="dark"] table.dataTable tfoot th {
+            border-top: 2px solid #374151;
+        }
+        
+        [data-bs-theme="dark"] table.dataTable.no-footer {
+            border-bottom: 1px solid #374151;
+        }
+        
+        /* DataTables info and pagination */
+        .dataTables_info,
+        .dataTables_paginate {
+            margin-top: 15px !important;
+            padding-top: 0 !important;
+            display: block !important;
+        }
+        
+        /* Ensure DataTables info is visible and positioned correctly */
+        .dataTables_info {
+            clear: both;
+            float: right; /* Changed from left to right */
+            padding-top: 0.755em;
+            padding-bottom: 0.755em;
+            text-align: right; /* Added for proper text alignment */
+        }
+        
+        /* Ensure DataTables pagination is visible and positioned correctly */
+        .dataTables_paginate {
+            float: left; /* Changed from right to left */
+            text-align: left; /* Changed from right to left */
+            padding-top: 0.755em;
+            padding-bottom: 0.755em;
+        }
+        
+        /* Pagination buttons styling */
+        .paginate_button {
+            display: inline-block;
+            padding: 0.5rem 0.75rem;
+            margin-left: -1px;
+            line-height: 1.25;
+            color: #007bff;
+            background-color: #fff;
+            border: 1px solid #dee2e6;
+            cursor: pointer;
+        }
+        
+        .paginate_button.current {
+            z-index: 3;
+            color: #fff;
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+        
+        .paginate_button.disabled {
+            color: #6c757d;
+            pointer-events: none;
+            background-color: #fff;
+            border-color: #dee2e6;
+        }
+        
+        [data-bs-theme="dark"] .paginate_button {
+            color: #3b82f6;
+            background-color: #1f2937;
+            border: 1px solid #374151;
+        }
+        
+        [data-bs-theme="dark"] .paginate_button.current {
+            color: #fff;
+            background-color: #3b82f6;
+            border-color: #3b82f6;
+        }
+        
+        [data-bs-theme="dark"] .paginate_button.disabled {
+            color: #6b7280;
+            background-color: #1f2937;
+            border-color: #374151;
+        }
+        
+        /* Fix for DataTables column selection - remove ALL selection effects */
+        table.dataTable tbody > tr.selected,
+        table.dataTable tbody > tr > .selected,
+        table.dataTable tbody > tr.selected > td,
+        table.dataTable tbody > tr > .selected > td {
+            background-color: transparent !important;
+            outline: none !important;
+            box-shadow: none !important;
+        }
+        
+        table.dataTable.stripe tbody > tr.odd.selected,
+        table.dataTable.stripe tbody > tr.odd > .selected,
+        table.dataTable.display tbody > tr.odd.selected,
+        table.dataTable.display tbody > tr.odd > .selected,
+        table.dataTable.stripe tbody > tr.odd.selected > td,
+        table.dataTable.stripe tbody > tr.odd > .selected > td,
+        table.dataTable.display tbody > tr.odd.selected > td,
+        table.dataTable.display tbody > tr.odd > .selected > td {
+            background-color: #f9fafb !important;
+        }
+        
+        [data-bs-theme="dark"] table.dataTable.stripe tbody > tr.odd.selected,
+        [data-bs-theme="dark"] table.dataTable.stripe tbody > tr.odd > .selected,
+        [data-bs-theme="dark"] table.dataTable.display tbody > tr.odd.selected,
+        [data-bs-theme="dark"] table.dataTable.display tbody > tr.odd > .selected,
+        [data-bs-theme="dark"] table.dataTable.stripe tbody > tr.odd.selected > td,
+        [data-bs-theme="dark"] table.dataTable.stripe tbody > tr.odd > .selected > td,
+        [data-bs-theme="dark"] table.dataTable.display tbody > tr.odd.selected > td,
+        [data-bs-theme="dark"] table.dataTable.display tbody > tr.odd > .selected > td {
+            background-color: #1a2234 !important;
+        }
+        
+        table.dataTable tbody > tr.even.selected,
+        table.dataTable tbody > tr.even > .selected,
+        table.dataTable.display tbody > tr.even.selected,
+        table.dataTable.display tbody > tr.even > .selected,
+        table.dataTable tbody > tr.even.selected > td,
+        table.dataTable tbody > tr.even > .selected > td,
+        table.dataTable.display tbody > tr.even.selected > td,
+        table.dataTable.display tbody > tr.even > .selected > td {
+            background-color: #ffffff !important;
+        }
+        
+        [data-bs-theme="dark"] table.dataTable tbody > tr.even.selected,
+        [data-bs-theme="dark"] table.dataTable tbody > tr.even > .selected,
+        [data-bs-theme="dark"] table.dataTable.display tbody > tr.even.selected,
+        [data-bs-theme="dark"] table.dataTable.display tbody > tr.even > .selected,
+        [data-bs-theme="dark"] table.dataTable tbody > tr.even.selected > td,
+        [data-bs-theme="dark"] table.dataTable tbody > tr.even > .selected > td,
+        [data-bs-theme="dark"] table.dataTable.display tbody > tr.even.selected > td,
+        [data-bs-theme="dark"] table.dataTable.display tbody > tr.even > .selected > td {
+            background-color: #111827 !important;
+        }
+        
+        /* Remove ALL focus and hover effects on table headers */
+        table.dataTable thead th,
+        table.dataTable thead td {
+            outline: none !important;
+            box-shadow: none !important;
+        }
+        
+        table.dataTable thead th:focus,
+        table.dataTable thead td:focus,
+        table.dataTable thead th:active,
+        table.dataTable thead td:active {
+            outline: none !important;
+            box-shadow: none !important;
+            background-color: inherit !important;
+        }
+        
+        /* Remove ALL focus and hover effects on table cells */
+        table.dataTable tbody td,
+        table.dataTable tbody th {
+            outline: none !important;
+            box-shadow: none !important;
+        }
+        
+        table.dataTable tbody td:focus,
+        table.dataTable tbody th:focus,
+        table.dataTable tbody td:active,
+        table.dataTable tbody th:active {
+            outline: none !important;
+            box-shadow: none !important;
+            background-color: inherit !important;
+        }
+        
+        /* Remove column sorting arrows highlight */
+        table.dataTable thead .sorting,
+        table.dataTable thead .sorting_asc,
+        table.dataTable thead .sorting_desc,
+        table.dataTable thead .sorting_asc_disabled,
+        table.dataTable thead .sorting_desc_disabled {
+            outline: none !important;
+            box-shadow: none !important;
+        }
+        
+        /* Remove any selection background */
+        table.dataTable tbody tr:hover,
+        table.dataTable tbody tr:hover td {
+            background-color: inherit !important;
+        }
+        
+        /* Ensure our custom hover still works */
+        .table-dark-card tbody tr:hover {
+            background: #f3f4f6 !important;
+        }
+        
+        [data-bs-theme="dark"] .table-dark-card tbody tr:hover {
+            background: #1f2937 !important;
+        }
+        
+        .pagination-dark button {
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            color: #111827;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        
+        .pagination-dark button.active {
+            background: #10b981;
+            border-color: #10b981;
+            color: #fff;
+        }
+        
+        .pagination-dark button:hover:not(.active) {
+            background: #2563eb;
+            border-color: #2563eb;
+            color: #fff;
+        }
+
+        /* Dark mode pagination */
+        [data-bs-theme="dark"] .pagination-dark button {
+            background: #1e293b;
+            border: 1px solid #374151;
+            color: #f9fafb;
+        }
+        
+        [data-bs-theme="dark"] .pagination-dark button.active {
+            background: #10b981;
+            border-color: #10b981;
+        }
+        
+        [data-bs-theme="dark"] .pagination-dark button:hover:not(.active) {
+            background: #2563eb;
+            border-color: #2563eb;
+        }
+        
+        /* Modal header styling - using project's primary color */
+        .modal-header {
+            background-color: #1ab394; /* Project's primary color */
+            color: white;
+            border-bottom: 1px solid #16987e;
+        }
+        
+        /* Modal title styling */
+        .modal-header .modal-title {
+            font-weight: 500;
+            color: white;
+        }
+        
+        /* Close button styling for modal headers */
+        .modal-header .btn-close {
+            filter: invert(1) grayscale(100%) brightness(200%);
+        }
+        
+        /* Modal footer styling - using a lighter shade */
+        .modal-footer {
+            background-color: #f0f8f8; /* Light teal background */
+            border-top: 1px solid #d1e8e8;
+        }
+        
+        /* Primary buttons in modals */
+        .modal-footer .btn-primary {
+            background-color: #1ab394;
+            border-color: #1ab394;
+        }
+        
+        .modal-footer .btn-primary:hover {
+            background-color: #16987e;
+            border-color: #16987e;
+        }
+        
+        /* Form styling */
+        .v-section {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid #e9ecef;
+        }
+        
+        [data-bs-theme="dark"] .v-section {
+            background: #1e1f27;
+            border-color: #293036;
+        }
+        
+        .v-cap {
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #495057;
+            font-size: 16px;
+        }
+        
+        [data-bs-theme="dark"] .v-cap {
+            color: #aab8c5;
+        }
+        
+        .v-label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #495057;
+        }
+        
+        [data-bs-theme="dark"] .v-label {
+            color: #aab8c5;
+        }
+        
+        .v-req {
+            color: #e02d2d;
+        }
+        
+        .v-input, .v-select {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            background-color: #fff;
+            color: #495057;
+        }
+        
+        [data-bs-theme="dark"] .v-input, 
+        [data-bs-theme="dark"] .v-select {
+            background-color: #272832;
+            border-color: #293036;
+            color: #aab8c5;
+        }
+        
+        .v-input:focus, .v-select:focus {
+            border-color: #1ab394;
+            outline: 0;
+            box-shadow: 0 0 0 0.2rem rgba(26, 179, 148, 0.25);
+        }
+        
+        .note-highlight {
+            background-color: #e7f4f0;
+            border-left: 3px solid #1ab394;
+            padding: 8px 12px;
+            margin-top: 5px;
+            font-size: 13px;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        [data-bs-theme="dark"] .note-highlight {
+            background-color: #1e3a35;
+            border-left-color: #1ab394;
+            color: #aab8c5;
+        }
+        
+        /* Fix for bootstrap-select dropdown shaking issue */
+        .bootstrap-select .dropdown-menu {
+            transform: translate3d(0, 0, 0) !important;
+            -webkit-transform: translate3d(0, 0, 0) !important;
+            -moz-transform: translate3d(0, 0, 0) !important;
+            -ms-transform: translate3d(0, 0, 0) !important;
+            -o-transform: translate3d(0, 0, 0) !important;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+        
+        /* Bootstrap Select Dropdown z-index fix */
+        .bootstrap-select .dropdown-menu {
+            z-index: 20000;
+        }
+        
+        /* Flatpickr calendar z-index fix */
+        .flatpickr-calendar {
+            z-index: 200000 !important;
+        }
+        
+        /* Allow text wrapping in table cells to prevent horizontal scrolling */
+        #categoriesTable td {
+            white-space: normal !important;
+            word-wrap: break-word;
+        }
+        
+        #categoriesTable th {
+            white-space: normal !important;
+            word-wrap: break-word;
+        }
+        
+        /* Remove table responsive wrapper horizontal scrolling */
+        .table-responsive {
+            overflow-x: hidden;
+        }
+        
+        /* Fix for dropdown positioning - remove overflow constraints */
+        #filterSection, .card, .table-responsive {
+            overflow: visible !important;
+        }
+        
+        /* Style for readonly input fields in view modal */
+        #viewCategoryModal .form-control[readonly] {
+            background-color: #f8f9fa;
+            border-color: #e9ecef;
+            color: #495057;
+            opacity: 1;
+        }
+        
+        [data-bs-theme="dark"] #viewCategoryModal .form-control[readonly] {
+            background-color: #272832;
+            border-color: #293036;
+            color: #aab8c5;
+        }
+        
+        /* Style for checkboxes in table */
+        .table th input[type="checkbox"],
+        .table td input[type="checkbox"] {
+            margin: 0;
+            vertical-align: middle;
+        }
+        
+        /* Style for select all checkbox in header */
+        #selectAll {
+            transform: scale(1.2);
+        }
+        
+        /* Bootstrap Select RTL Support */
+        .bootstrap-select .dropdown-menu {
+            text-align: right;
+        }
+        
+        /* Additional enhancements for better visibility in both modes */
+        .bootstrap-select.btn-group .dropdown-toggle .filter-option {
+            color: inherit;
+        }
+        
+        .bootstrap-select .dropdown-menu li a span.text {
+            display: block;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        [data-bs-theme="dark"] .bootstrap-select .dropdown-header {
+            color: #aab8c5;
+            background-color: #1e1f27;
+        }
+        
+        .bootstrap-select .dropdown-header {
+            background-color: #f8f9fa;
+            color: #495057;
+        }
+        
+        /* Fix for select arrow in dark mode */
+        [data-bs-theme="dark"] .bootstrap-select .dropdown-toggle::after {
+            border-top-color: #aab8c5;
+        }
+        
+        /* Ensure proper contrast for disabled options */
+        .bootstrap-select .dropdown-menu > .disabled > a {
+            color: #6c757d;
+            background-color: transparent;
+        }
+        
+        [data-bs-theme="dark"] .bootstrap-select .dropdown-menu > .disabled > a {
+            color: #6c757d;
+        }
+        
+        /* Fix for select text visibility in dark mode modals */
+        [data-bs-theme="dark"] .modal-content .bootstrap-select .filter-option {
+            color: #aab8c5;
+        }
+        
+        .modal-content .bootstrap-select .filter-option {
+            color: #495057;
+        }
+        
+        /* Additional fixes for select box visibility */
+        .modal-content .selectpicker {
+            width: 100%;
+        }
+        
+        [data-bs-theme="dark"] .modal-content .selectpicker {
+            background-color: #272832;
+            border-color: #293036;
+            color: #aab8c5;
+        }
+        
+        /* View Category Modal specific styling */
+        .form-control-plaintext {
+            color: #495057;
+            border: none;
+            background-color: transparent;
+            padding: 8px 12px;
+        }
+        
+        [data-bs-theme="dark"] .form-control-plaintext {
+            color: #aab8c5;
+        }
+        
+        /* Card styling in View Category Modal */
+        .card {
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .card-header {
+            font-weight: 600;
+        }
+        
+        [data-bs-theme="dark"] .card {
+            background-color: #1e1f27;
+            border-color: #293036;
+        }
+        
+        [data-bs-theme="dark"] .card-header {
+            background-color: #1e1f27;
+            border-color: #293036;
+        }
+        
+        /* DataTables Buttons Styling */
+        .dt-buttons .btn {
+            margin-right: 5px;
+            margin-bottom: 5px;
+        }
+        
+        .dt-button-collection {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-shadow: 0 6px 12px rgba(0,0,0,.175);
+        }
+        
+        [data-bs-theme="dark"] .dt-button-collection {
+            background-color: #1e1f27;
+            border: 1px solid #293036;
+            box-shadow: 0 6px 12px rgba(0,0,0,.4);
+        }
+        
+        .dt-button-collection .dropdown-item {
+            padding: 8px 15px;
+        }
+        
+        [data-bs-theme="dark"] .dt-button-collection .dropdown-item {
+            color: #aab8c5;
+        }
+        
+        [data-bs-theme="dark"] .dt-button-collection .dropdown-item:hover {
+            background-color: #16987e;
+            color: #fff;
+        }
+        
+        /* Ensure buttons are visible in both modes */
+        .dt-buttons .btn-outline-secondary {
+            color: #6c757d;
+            border-color: #6c757d;
+        }
+        
+        .dt-buttons .btn-outline-secondary:hover {
+            background-color: #6c757d;
+            color: #fff;
+        }
+        
+        [data-bs-theme="dark"] .dt-buttons .btn-outline-secondary {
+            color: #aab8c5;
+            border-color: #aab8c5;
+        }
+        
+        [data-bs-theme="dark"] .dt-buttons .btn-outline-secondary:hover {
+            background-color: #16987e;
+            color: #fff;
+            border-color: #16987e;
+        }
+        
+        /* Bootstrap Select Styling for Filter Section */
+        .bootstrap-select .dropdown-menu {
+            max-height: 200px;
+        }
+        
+        .bootstrap-select .dropdown-toggle {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.875rem;
+        }
+        
+        [data-bs-theme="dark"] .bootstrap-select .dropdown-toggle {
+            background-color: #272832;
+            border-color: #293036;
+            color: #aab8c5;
+        }
+        
+        [data-bs-theme="dark"] .bootstrap-select .dropdown-toggle:focus {
+            border-color: #16987e;
+            box-shadow: 0 0 0 0.2rem rgba(22, 152, 126, 0.25);
+        }
+        
+        /* خلفية قسم الفلترة - الوضع النهاري */
+        #filterSection {
+            background-color: #ffffff;   /* أبيض نقاء */
+            border-radius: 10px;
+            padding: 16px;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        /* حقول الإدخال - الوضع النهاري */
+        #filterSection .form-control {
+            background-color: #ffffff;   /* أبيض */
+            border: 1px solid #d1d5db;   /* حدود رمادية فاتحة */
+            color: #111827;              /* خط داكن */
+            border-radius: 6px;
+            padding: 8px 10px;
+            transition: all 0.2s ease-in-out;
+            font-weight: 500;
+        }
+        
+        /* عند التركيز - الوضع النهاري */
+        #filterSection .form-control:focus {
+            background-color: #ffffff;
+            border-color: #1ab394;       /* أخضر سماوي */
+            box-shadow: 0 0 0 0.25rem rgba(26, 179, 148, 0.2);
+            color: #111827;
+        }
+        
+        /* Placeholder - الوضع النهاري */
+        #filterSection .form-control::placeholder {
+            color: #9ca3af; /* رمادي فاتح */
+            opacity: 1;
+        }
+        
+        /* الأزرار - الوضع النهاري */
+        #filterSection .btn {
+            border-radius: 6px;
+            font-weight: 600;
+            transition: all 0.2s ease-in-out;
+            padding: 6px 12px;
+        }
+        
+        /* زر أساسي (بحث مثلاً) - الوضع النهاري */
+        #filterSection .btn-primary {
+            background-color: #1ab394; /* أخضر سماوي */
+            border: none;
+            color: #fff;
+        }
+        #filterSection .btn-primary:hover {
+            background-color: #16987e;
+        }
+        
+        /* زر ثانوي - الوضع النهاري */
+        #filterSection .btn-secondary {
+            background-color: #6b7280; /* رمادي متوسط */
+            border: none;
+            color: #fff;
+        }
+        #filterSection .btn-secondary:hover {
+            background-color: #4b5563;
+        }
+        
+        /* زر معلومات - الوضع النهاري */
+        #filterSection .btn-info {
+            background-color: #3b82f6; /* أزرق سماوي */
+            border: none;
+            color: #fff;
+        }
+        #filterSection .btn-info:hover {
+            background-color: #2563eb;
+        }
+        
+        /* زر نجاح - الوضع النهاري */
+        #filterSection .btn-success {
+            background-color: #10b981; /* أخضر سعادة */
+            border: none;
+            color: #fff;
+        }
+        #filterSection .btn-success:hover {
+            background-color: #059669;
+        }
+        
+        /* خلفية قسم الفلترة - الوضع المظلم */
+        [data-bs-theme="dark"] #filterSection {
+            background-color: #111827;   /* غامق أنعم */
+            border-radius: 10px;
+            padding: 16px;
+        }
+        
+        /* حقول الإدخال - الوضع المظلم */
+        [data-bs-theme="dark"] #filterSection .form-control {
+            background-color: #1f2937;   /* رمادي داكن ناعم */
+            border: 1px solid #374151;   /* حدود أنعم */
+            color: #f3f4f6;              /* خط فاتح */
+            border-radius: 6px;
+            padding: 8px 10px;
+            transition: all 0.2s ease-in-out;
+        }
+        
+        /* عند التركيز - الوضع المظلم */
+        [data-bs-theme="dark"] #filterSection .form-control:focus {
+            background-color: #111827;   /* يغمق قليلاً */
+            border-color: #06b6d4;       /* أزرق سماوي */
+            box-shadow: 0 0 6px rgba(6, 182, 212, 0.4);
+            color: #fff;
+        }
+        
+        /* Placeholder - الوضع المظلم */
+        [data-bs-theme="dark"] #filterSection .form-control::placeholder {
+            color: #9ca3af; /* رمادي فاتح */
+            opacity: 0.85;
+        }
+        
+        /* الأزرار - الوضع المظلم */
+        [data-bs-theme="dark"] #filterSection .btn {
+            border-radius: 6px;
+            font-weight: 500;
+            transition: all 0.2s ease-in-out;
+        }
+        
+        /* زر أساسي (بحث مثلاً) - الوضع المظلم */
+        [data-bs-theme="dark"] #filterSection .btn-primary {
+            background-color: #06b6d4; /* أزرق سماوي */
+            border: none;
+            color: #fff;
+        }
+        [data-bs-theme="dark"] #filterSection .btn-primary:hover {
+            background-color: #0891b2;
+        }
+        
+        /* زر ثانوي - الوضع المظلم */
+        [data-bs-theme="dark"] #filterSection .btn-secondary {
+            background-color: #374151; /* رمادي متوسط */
+            border: none;
+            color: #e5e7eb;
+        }
+        [data-bs-theme="dark"] #filterSection .btn-secondary:hover {
+            background-color: #4b5563;
+        }
+        
+        /* Fix for DataTables column selection - remove ALL selection effects */
+        table.dataTable tbody > tr.selected,
+        table.dataTable tbody > tr > .selected,
+        table.dataTable tbody > tr.selected > td,
+        table.dataTable tbody > tr > .selected > td {
+            background-color: transparent !important;
+            outline: none !important;
+            box-shadow: none !important;
+        }
+        
+        table.dataTable.stripe tbody > tr.odd.selected,
+        table.dataTable.stripe tbody > tr.odd > .selected,
+        table.dataTable.display tbody > tr.odd.selected,
+        table.dataTable.display tbody > tr.odd > .selected,
+        table.dataTable.stripe tbody > tr.odd.selected > td,
+        table.dataTable.stripe tbody > tr.odd > .selected > td,
+        table.dataTable.display tbody > tr.odd.selected > td,
+        table.dataTable.display tbody > tr.odd > .selected > td {
+            background-color: #f9fafb !important;
+        }
+        
+        [data-bs-theme="dark"] table.dataTable.stripe tbody > tr.odd.selected,
+        [data-bs-theme="dark"] table.dataTable.stripe tbody > tr.odd > .selected,
+        [data-bs-theme="dark"] table.dataTable.display tbody > tr.odd.selected,
+        [data-bs-theme="dark"] table.dataTable.display tbody > tr.odd > .selected,
+        [data-bs-theme="dark"] table.dataTable.stripe tbody > tr.odd.selected > td,
+        [data-bs-theme="dark"] table.dataTable.stripe tbody > tr.odd > .selected > td,
+        [data-bs-theme="dark"] table.dataTable.display tbody > tr.odd.selected > td,
+        [data-bs-theme="dark"] table.dataTable.display tbody > tr.odd > .selected > td {
+            background-color: #1a2234 !important;
+        }
+        
+        table.dataTable tbody > tr.even.selected,
+        table.dataTable tbody > tr.even > .selected,
+        table.dataTable.display tbody > tr.even.selected,
+        table.dataTable.display tbody > tr.even > .selected,
+        table.dataTable tbody > tr.even.selected > td,
+        table.dataTable tbody > tr.even > .selected > td,
+        table.dataTable.display tbody > tr.even.selected > td,
+        table.dataTable.display tbody > tr.even > .selected > td {
+            background-color: #ffffff !important;
+        }
+        
+        [data-bs-theme="dark"] table.dataTable tbody > tr.even.selected,
+        [data-bs-theme="dark"] table.dataTable tbody > tr.even > .selected,
+        [data-bs-theme="dark"] table.dataTable.display tbody > tr.even.selected,
+        [data-bs-theme="dark"] table.dataTable.display tbody > tr.even > .selected,
+        [data-bs-theme="dark"] table.dataTable tbody > tr.even.selected > td,
+        [data-bs-theme="dark"] table.dataTable tbody > tr.even > .selected > td,
+        [data-bs-theme="dark"] table.dataTable.display tbody > tr.even.selected > td,
+        [data-bs-theme="dark"] table.dataTable.display tbody > tr.even > .selected > td {
+            background-color: #111827 !important;
+        }
+        
+        /* Remove ALL focus and hover effects on table headers */
+        table.dataTable thead th,
+        table.dataTable thead td {
+            outline: none !important;
+            box-shadow: none !important;
+        }
+        
+        table.dataTable thead th:focus,
+        table.dataTable thead td:focus,
+        table.dataTable thead th:active,
+        table.dataTable thead td:active {
+            outline: none !important;
+            box-shadow: none !important;
+            background-color: inherit !important;
+        }
+        
+        /* Remove ALL focus and hover effects on table cells */
+        table.dataTable tbody td,
+        table.dataTable tbody th {
+            outline: none !important;
+            box-shadow: none !important;
+        }
+        
+        table.dataTable tbody td:focus,
+        table.dataTable tbody th:focus,
+        table.dataTable tbody td:active,
+        table.dataTable tbody th:active {
+            outline: none !important;
+            box-shadow: none !important;
+            background-color: inherit !important;
+        }
+        
+        /* Remove column sorting arrows highlight */
+        table.dataTable thead .sorting,
+        table.dataTable thead .sorting_asc,
+        table.dataTable thead .sorting_desc,
+        table.dataTable thead .sorting_asc_disabled,
+        table.dataTable thead .sorting_desc_disabled {
+            outline: none !important;
+            box-shadow: none !important;
+        }
+        
+        /* Remove any selection background */
+        table.dataTable tbody tr:hover,
+        table.dataTable tbody tr:hover td {
+            background-color: inherit !important;
+        }
+        
+        /* Ensure our custom hover still works */
+        .table-dark-card tbody tr:hover {
+            background: #f3f4f6 !important;
+        }
+        
+        [data-bs-theme="dark"] .table-dark-card tbody tr:hover {
+            background: #1f2937 !important;
+        }
+        
+        /* Bootstrap Select Dropdown z-index fix */
+        .bootstrap-select .dropdown-menu {
+            z-index: 20000;
+        }
+        
+        /* Flatpickr calendar z-index fix */
+        .flatpickr-calendar {
+            z-index: 200000 !important;
+        }
+        
+        /* Allow text wrapping in table cells to prevent horizontal scrolling */
+        #categoriesTable td {
+            white-space: normal !important;
+            word-wrap: break-word;
+        }
+        
+        #categoriesTable th {
+            white-space: normal !important;
+            word-wrap: break-word;
+        }
+        
+        /* Remove table responsive wrapper horizontal scrolling */
+        .table-responsive {
+            overflow-x: hidden;
+        }
+        
+        /* Fix for dropdown positioning - remove overflow constraints */
+        #filterSection, .card, .table-responsive {
+            overflow: visible !important;
+        }
+        
+        /* Style for disabled top action buttons */
+        .btn-outline-primary.disabled,
+        .btn-outline-info.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        /* CKEditor validation styles */
+        .ck-editor.is-invalid .ck-editor__editable {
+            border-color: #e02d2d !important;
+            box-shadow: 0 0 0 0.2rem rgba(224, 45, 45, 0.25) !important;
+        }
+        
+
+    </style>
+}
+
+<!-- Filter toggle button -->
+<div class="mb-2">
+    <button id="toggleFilters" type="button" class="btn btn-primary">
+        <i class="ti ti-filter-off me-1"></i><span id="toggleFiltersText">إظهار الفلترة</span>
+    </button>
+</div>
+
+<!-- Filter section -->
+<div class="card mb-3" id="filterSection" style="display: none;">
+    <div class="card-body p-2">
+        <!-- DataTables Buttons Container -->
+        <div class="row g-2 mb-2">
+            <div class="col-12" id="datatables-buttons-container">
+                <!-- DataTables buttons will be inserted here by JavaScript -->
+            </div>
+        </div>
+        
+        <!-- Filter fields in grid layout (side by side) -->
+        <div class="row g-2 mb-2">
+            <div class="col-md">
+                <input type="text" class="form-control form-control-sm" placeholder="الرقم" id="filter-id">
+            </div>
+            <div class="col-md">
+                <input type="text" class="form-control form-control-sm" placeholder="الموظف" id="filter-employee">
+            </div>
+            <div class="col-md">
+                <input type="text" class="form-control form-control-sm" placeholder="رقم الجهاز" id="filter-device">
+            </div>
+            <div class="col-md">
+                <input type="text" class="form-control form-control-sm" placeholder="بواسطة رقم الموظف" id="filter-employee-id">
+            </div>
+        </div>
+        <div class="row g-2 mb-2">
+            <div class="col-md">
+                <input type="text" class="form-control form-control-sm" placeholder="تاريخ الاضافة" id="filter-date">
+            </div>
+            <div class="col-md">
+                <select class="selectpicker form-control form-control-sm" id="filter-records" data-live-search="true" title="اختر السجلات">
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                </select>
+            </div>
+        </div>
+        
+        <!-- Unified action buttons -->
+        <div class="row g-2">
+            <div class="col">
+                <button type="button" class="btn btn-secondary btn-sm" id="resetFilters">إعادة تعيين</button>
+                <button type="button" class="btn btn-primary btn-sm" id="applyFilters">بحث</button>
+                <button type="button" class="btn btn-info btn-sm" id="printButton">طباعة</button>
+                <button type="button" class="btn btn-success btn-sm" id="exportExcelButton">تصدير اكسل</button>
+                <div class="d-inline-flex gap-2" style="vertical-align: middle;">
+                    <button type="button" class="btn btn-primary btn-sm" id="selectAllColumns" title="تحديد جميع الحقول">
+                        تحديد جميع
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Action buttons -->
+<div class="mb-3">
+    <div class="d-flex gap-2 flex-wrap">
+        <a href="#" class="btn btn-sm btn-outline-danger" title="حذف">
+            <i class="ti ti-trash"></i>
+        </a>
+        <a href="#" class="btn btn-sm btn-outline-success" title="إضافة" data-bs-toggle="modal" data-bs-target="#addDeviceModal">
+            <i class="ti ti-plus"></i>
+        </a>
+        <a href="#" class="btn btn-sm btn-outline-primary" title="تعديل" id="topEditButton">
+            <i class="ti ti-pencil"></i>
+        </a>
+        <a href="#" class="btn btn-sm btn-outline-info" title="مشاهدة" id="topViewButton">
+            <i class="ti ti-eye"></i>
+        </a>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <div class="d-flex align-items-center">
+            <h5 class="card-title mb-0 fw-bold">@ViewData["Title"]</h5>
+            <div class="me-auto">
+                <!-- Refresh button -->
+                <button type="button" class="btn btn-sm btn-outline-secondary ms-2" id="refreshBtn" title="تحديث">
+                    <i class="ti ti-refresh"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <!-- جدول أجهزة الموظفين -->
+        <div class="table-responsive">
+          <table class="table table-bordered align-middle text-center" id="reportsTable">
+            <thead>
+              <tr>
+                <th><input type="checkbox" class="form-check-input" id="selectAll"></th>
+                <th>الرقم</th>
+                <th>الموظف</th>
+                <th>رقم الجهاز</th>
+                <th>بواسطة رقم الموظف</th>
+                <th>تاريخ الاضافة</th>
+                <th>رقم الموظف</th>
+                <th>المزيد</th>
+              </tr>
+            </thead>
+            <tbody>
+              @foreach (var device in Model.EmployeeDevices)
+              {
+              <tr>
+                <td><input type="checkbox" class="form-check-input"></td>
+                <td>@device.Id</td>
+                <td>@device.EmployeeName</td>
+                <td>933452716725e4029794577eb9262949</td>
+                <td>@device.EmployeeId</td>
+                <td>@device.DeliveryDate.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                <td>@device.EmployeeId</td>
+                <td><button class="btn btn-more dropdown-toggle" data-bs-toggle="dropdown">المزيد</button></td>
+              </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+    </div>
+</div>
+
+<!-- Add Device Modal -->
+<div class="modal fade" id="addDeviceModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-scrollable">
+    <div class="modal-content" dir="rtl">
+
+      <!-- الهيدر -->
+      <div class="modal-header">
+        <h5 class="modal-title">دليل البيانات &gt; أجهزة الموظفين</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="اغلاق"></button>
+      </div>
+
+      <!-- النموذج -->
+      <form id="addDeviceForm">
+        <div class="modal-body">
+          <div class="container-fluid">
+            <div class="row">
+              <!-- Left Column -->
+              <div class="col-md-6">
+                <!-- الموظف* -->
+                <div class="mb-3">
+                  <label for="employee" class="form-label fw-bold">الموظف <span class="text-danger">*</span></label>
+                  <select class="form-select selectpicker" id="employee" name="employee" data-live-search="true" required>
+                    <option value="">اختر الموظف</option>
+                    <option value="123">المدير</option>
+                    <option value="124">محمد عبدالرحمن يحيى الوشلي</option>
+                    <option value="125">جراندكول</option>
+                    <option value="126">صنعاء كاش</option>
+                    <option value="127">اتصالاتي</option>
+                    <option value="128">المياس الاتصالات</option>
+                    <option value="129">المجد كاش</option>
+                    <option value="130">توايس تيليكوم</option>
+                    <option value="131">ركن الأمين تيليكوم</option>
+                    <option value="132">مازن الوشلي</option>
+                  </select>
+                </div>
+
+                <!-- رقم الجهاز* -->
+                <div class="mb-3">
+                  <label for="deviceNumber" class="form-label fw-bold">رقم الجهاز <span class="text-danger">*</span></label>
+                  <input type="text" id="deviceNumber" name="deviceNumber" class="form-control" placeholder="رقم الجهاز" required>
+                  <div class="note-highlight">
+                    ملاحظة: رقم الجهاز يتم أخذه من صفحة الدخول للموظفين.  
+                    بعد محاولة الموظف الدخول للحساب، سيطلب النظام تأكيد جهازه إذا لم يكن مضافًا هنا من قبل.
+                  </div>
+                </div>
+              </div>
+
+              <!-- Right Column -->
+              <div class="col-md-6">
+                <!-- بواسطة رقم الموظف -->
+                <div class="mb-3">
+                  <label for="employeeId" class="form-label fw-bold">بواسطة رقم الموظف</label>
+                  <input type="text" id="employeeId" name="employeeId" class="form-control" placeholder="رقم الموظف">
+                </div>
+
+                <!-- تاريخ الاضافة* -->
+                <div class="mb-3">
+                  <label for="deliveryDate" class="form-label fw-bold">تاريخ الاضافة <span class="text-danger">*</span></label>
+                  <input type="date" id="deliveryDate" name="deliveryDate" class="form-control" required>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- الفوتر -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
+          <button type="submit" class="btn btn-primary">
+            <i class="ti ti-device-floppy me-1"></i>حفظ
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- View Device Modal -->
+<div class="modal fade" id="viewDeviceModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-scrollable">
+    <div class="modal-content" dir="rtl">
+
+      <!-- الهيدر -->
+      <div class="modal-header">
+        <h5 class="modal-title">دليل البيانات &gt; أجهزة الموظفين</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="اغلاق"></button>
+      </div>
+
+      <!-- النموذج -->
+      <div class="modal-body">
+        <div class="container-fluid">
+          <div class="row">
+            <!-- Left Column -->
+            <div class="col-md-6">
+              <div class="v-section">
+                <div class="v-cap">معلومات الجهاز</div>
+                <div class="row g-3">
+                  <div class="col-md-12">
+                    <label class="v-label">الرقم</label>
+                    <div class="form-control-plaintext" id="viewId"></div>
+                  </div>
+                  
+                  <div class="col-md-12">
+                    <label class="v-label">الموظف</label>
+                    <div class="form-control-plaintext" id="viewEmployee"></div>
+                  </div>
+                  
+                  <div class="col-md-12">
+                    <label class="v-label">رقم الجهاز</label>
+                    <div class="form-control-plaintext" id="viewSerialNumber">933452716725e4029794577eb9262949</div>
+                  </div>
+                  
+                  <div class="col-md-12">
+                    <label class="v-label">بواسطة رقم الموظف</label>
+                    <div class="form-control-plaintext" id="viewEmployeeId"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right Column -->
+            <div class="col-md-6">
+              <div class="v-section">
+                <div class="v-cap">تفاصيل إضافية</div>
+                <div class="row g-3">
+                  <div class="col-md-12">
+                    <label class="v-label">تاريخ الاضافة</label>
+                    <div class="form-control-plaintext" id="viewDeliveryDate"></div>
+                  </div>
+                  
+                  <div class="col-md-12">
+                    <label class="v-label">رقم الموظف</label>
+                    <div class="form-control-plaintext" id="viewEmployeeId2"></div>
+                  </div>
+                  
+                  <div class="col-md-12">
+                    <label class="v-label">ملاحظات</label>
+                    <div class="form-control-plaintext" id="viewNotes"></div>
+                  </div>
+                  
+                  <div class="col-md-12">
+                    <label class="v-label">صورة الجهاز</label>
+                    <div class="form-control-plaintext" id="viewDeviceImage">
+                      <img src="" alt="صورة الجهاز" class="img-fluid" style="max-height: 150px;">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- الفوتر -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
+        <button type="button" class="btn btn-primary" id="editFromViewBtn" data-bs-toggle="modal" data-bs-target="#addDeviceModal">
+          <i class="ti ti-pencil me-1"></i>تعديل
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+@section scripts {
+    <!-- jstree js -->
+    <script src="~/plugins/jstree/jstree.min.js"></script>
+    <!-- date range picker js -->
+    <script src="~/plugins/daterangepicker/moment.min.js"></script>
+    <script src="~/plugins/daterangepicker/daterangepicker.js"></script>
+    <!-- DataTables Js -->
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.5.0/js/responsive.bootstrap5.min.js"></script>
+    <!-- DataTables Buttons Extension -->
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.bootstrap5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.colVis.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
+    
+    <!-- bootstrap-select js -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/js/bootstrap-select.min.js"></script>
+
+    <script>
+        $(function () {
+            // Variable to track the currently selected row
+            let selectedRow = null;
+            
+            // Initialize DataTable
+            const dt = $("#reportsTable").DataTable({
+                paging: true,
+                lengthChange: false,
+                searching: false,
+                ordering: true,
+                info: true,
+                autoWidth: false,
+                responsive: true,
+                // Add buttons extension - using 'frtip' to avoid default button placement
+                dom: 'frtip',
+                buttons: [
+                    {
+                        extend: 'print',
+                        text: 'طباعه',
+                        className: 'btn btn-outline-secondary btn-sm',
+                        exportOptions: {
+                            columns: ':visible'
+                        }
+                    },
+                    {
+                        extend: 'colvis',
+                        text: 'تحديد الحقول',
+                        className: 'btn btn-outline-secondary btn-sm',
+                        collectionLayout: 'fixed two-column'
+                    },
+                    {
+                        extend: 'excelHtml5',
+                        text: 'تصدير اكسل',
+                        className: 'btn btn-outline-secondary btn-sm',
+                        exportOptions: {
+                            columns: ':visible'
+                        }
+                    }
+                ],
+                language: {
+                    emptyTable: "لا توجد بيانات",
+                    info: "إظهار _START_ إلى _END_ من _TOTAL_ سجل",
+                    infoEmpty: "إظهار 0 إلى 0 من 0",
+                    paginate: { first:"الأولى", last:"الأخيرة", next:"التالي", previous:"السابق" },
+                    buttons: {
+                        colvis: 'تحديد الحقول',
+                        print: 'طباعه',
+                        excel: 'تصدير اكسل'
+                    }
+                }
+            });
+            
+            // Create and move buttons to filter section
+            dt.buttons().container().appendTo('#datatables-buttons-container');
+            
+            // Initially hide the buttons container until filter section is shown
+            $('#datatables-buttons-container').hide();
+            
+            // Style the buttons after they are created
+            setTimeout(function() {
+                $('#datatables-buttons-container .btn').addClass('btn-sm');
+            }, 100);
+            
+            // Handle filter toggle button
+            $('#toggleFilters').on('click', function() {
+                $('#filterSection').slideToggle();
+                var icon = $(this).find('i');
+                var textSpan = $('#toggleFiltersText');
+                
+                if (icon.hasClass('ti-filter-off')) {
+                    icon.removeClass('ti-filter-off').addClass('ti-filter');
+                    textSpan.text('إخفاء الفلترة');
+                    $('#datatables-buttons-container').show();
+                } else {
+                    icon.removeClass('ti-filter').addClass('ti-filter-off');
+                    textSpan.text('إظهار الفلترة');
+                    $('#datatables-buttons-container').hide();
+                }
+            });
+            
+            // Initialize bootstrap-select for category selection with enhanced options
+            function initializeSelectPicker() {
+                $('.selectpicker').selectpicker({
+                    style: 'btn-light',
+                    liveSearch: true,
+                    liveSearchPlaceholder: 'ابحث...',
+                    noneSelectedText: 'لم يتم تحديد أي شيء',
+                    noneResultsText: 'لا توجد نتائج لـ {0}',
+                    selectAllText: 'تحديد الكل',
+                    deselectAllText: 'إلغاء تحديد الكل',
+                    dropupAuto: false,   // منع السلوك التلقائي
+                    width: '100%',
+                    container: 'body'    // إخراج القائمة خارج أي كارد/مودال
+                });
+            }
+            
+            // Initialize selectpickers when document is ready
+            initializeSelectPicker();
+            
+            // Re-initialize bootstrap-select when modals are shown or hidden
+            $('.modal').on('shown.bs.modal hidden.bs.modal', function () {
+                $('.selectpicker').selectpicker('refresh');
+            });
+
+            // Handle reset filters button
+            $('#resetFilters').on('click', function() {
+                // Reset all filter input fields
+                $('#filter-id').val('');
+                $('#filter-employee').val('');
+                $('#filter-device').val('');
+                $('#filter-employee-id').val('');
+                $('#filter-date').val('');
+                $('#filter-records').selectpicker('val', '');
+                $('.selectpicker').selectpicker('refresh');
+                alert('تم إعادة تعيين الفلاتر');
+            });
+            
+            // Handle row selection
+            $('#reportsTable tbody').on('click', 'tr', function(e) {
+                // Prevent row selection when clicking on action buttons or dropdowns
+                if ($(e.target).closest('.dropdown-toggle, .dropdown-menu, .btn').length) {
+                    return;
+                }
+                
+                // Toggle selection
+                if ($(this).hasClass('selected')) {
+                    $(this).removeClass('selected');
+                    selectedRow = null;
+                } else {
+                    // Remove selection from other rows
+                    $('#reportsTable tbody tr.selected').removeClass('selected');
+                    $(this).addClass('selected');
+                    selectedRow = $(this);
+                }
+                
+                // Enable/disable top action buttons based on selection
+                if (selectedRow) {
+                    $('#topEditButton, #topViewButton').removeClass('disabled');
+                } else {
+                    $('#topEditButton, #topViewButton').addClass('disabled');
+                }
+            });
+            
+            // Handle select all checkbox
+            $('#selectAll').on('change', function() {
+                const isChecked = $(this).is(':checked');
+                $('#reportsTable tbody .form-check-input').not(this).prop('checked', isChecked);
+                
+                // If all rows are selected, enable top action buttons
+                if (isChecked) {
+                    $('#topEditButton, #topViewButton').removeClass('disabled');
+                } else {
+                    $('#topEditButton, #topViewButton').addClass('disabled');
+                    selectedRow = null;
+                }
+            });
+            
+            // Handle individual checkbox selection
+            $('#reportsTable tbody').on('change', '.form-check-input', function() {
+                // If any checkbox is checked, enable top action buttons
+                if ($('#reportsTable tbody .form-check-input:checked').length > 0) {
+                    $('#topEditButton, #topViewButton').removeClass('disabled');
+                } else {
+                    $('#topEditButton, #topViewButton').addClass('disabled');
+                    selectedRow = null;
+                }
+            });
+            
+            // Handle top action buttons
+            $('#topEditButton').on('click', function(e) {
+                e.preventDefault();
+                if (selectedRow) {
+                    editPackage(selectedRow);
+                } else {
+                    alert('الرجاء تحديد صف أولاً');
+                }
+            });
+            
+            $('#topViewButton').on('click', function(e) {
+                e.preventDefault();
+                if (selectedRow) {
+                    viewPackage(selectedRow);
+                } else {
+                    alert('الرجاء تحديد صف أولاً');
+                }
+            });
+            
+            // Handle action buttons in the table
+            $('#reportsTable').on('click', '[data-action]', function (e) {
+                e.preventDefault(); // Prevent default action
+                const action = $(this).data('action');
+                const row = $(this).closest('tr');
+                
+                switch (action) {
+                    case 'view':
+                        viewPackage(row);
+                        break;
+                    case 'edit':
+                        editPackage(row);
+                        break;
+                }
+            });
+            
+            // Function to view package
+            function viewPackage(row) {
+                // In a real application, you would fetch the data from the server
+                // For now, we'll just show the modal with placeholder content
+                console.log('Showing view modal');
+                
+                $('#viewDeviceModal').modal('show');
+            }
+            
+            // Function to edit package (show the new add device modal)
+            function editPackage(row) {
+                // In a real application, you would populate the form with data from the server
+                // For now, we'll just show the new add device modal
+                console.log('Showing add device modal');
+                
+                // Show the new add device modal
+                $('.wrapper-layout').show();
+            }
+            
+            // Handle refresh button
+            $('#refreshBtn').on('click', function() {
+                location.reload();
+            });
+            
+            // Handle apply filters button
+            $('#applyFilters').on('click', function() {
+                alert('تم تطبيق الفلاتر');
+                // In a real application, you would filter the DataTable here
+            });
+            
+            // Handle edit from view modal
+            $('#editFromViewBtn').on('click', function() {
+                $('#viewDeviceModal').modal('hide');
+                // Show the new add device modal
+                $('.wrapper-layout').show();
+            });
+            
+            // Handle form submission
+            $('#addDeviceForm').on('submit', function(e) {
+                e.preventDefault();
+                // In a real application, you would submit the form data to the server
+                console.log('Form submitted');
+                // Close the modal after submission
+                $('#addDeviceModal').modal('hide');
+                // Show success message
+                alert('تم حفظ الجهاز بنجاح');
+            });
+            
+            // Show the modal when the add button is clicked
+            $('.btn-outline-success').on('click', function(e) {
+                e.preventDefault();
+                $('#addDeviceModal').modal('show');
+            });
+            
+            // Handle edit from view modal
+            $('#editFromViewBtn').on('click', function() {
+                $('#viewDeviceModal').modal('hide');
+                $('#addDeviceModal').modal('show');
+            });
+            
+            // Select all checkboxes
+            $('#selectAll').on('change', function() {
+                $('#reportsTable tbody .form-check-input').not(this).prop('checked', this.checked);
+            });
+        });
+    </script>
+}

@@ -1,0 +1,1206 @@
+@{
+    ViewBag.Title = "الرئيسية";
+    Layout = "~/Views/Shared/_BaseLayout.cshtml";
+}
+
+@section styles
+{
+}
+
+<body class="bg-body-secondary" data-bs-spy="scroll" data-bs-target="#navbar-example">
+    <!-- Top Alert -->
+    <div class="alert alert-primary top-alert text-center mb-0 rounded-0 alert-dismissible" role="alert">
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="إغلاق"></button>
+        <div class="fst-italic fw-medium">🚀 نظام المجد - سداد الرصيد والفواتير من مكان واحد وبثوانٍ <a href="#contact" class="fw-semibold fst-normal text-white text-decoration-underline link-offset-3 ms-2">جرّب الآن!</a></div>
+    </div>
+
+    <!-- Header START -->
+    <header>
+        <!-- Nav START -->
+        <nav class="navbar navbar-expand-lg py-3 sticky-top" id="landing-navbar">
+            <div class="container">
+                <div class="auth-brand mb-0">
+                    <a href=@Url.Action("Index1", "Dashboards") class="logo-dark">
+                        <img src="~/images/logo-black.png" alt="الشعار الداكن" height="32">
+                    </a>
+                    <a href=@Url.Action("Index1", "Dashboards") class="logo-light">
+                        <img src="~/images/logo.png" alt="الشعار" height="32">
+                    </a>
+                </div>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="تبديل التنقل">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav fw-medium gap-2 fs-sm mx-auto mt-2 mt-lg-0" id="navbar-example">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#hero">الرئيسية</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#services">الخدمات</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#features">لماذا المجد؟</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#plans">التسعير</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#how-it-works">كيف يعمل؟</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#faq">الأسئلة الشائعة</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#contact">اتصل بنا</a>
+                        </li>
+                    </ul>
+
+                    <div>
+                        <button class="btn btn-link btn-icon fw-semibold text-body" type="button" id="theme-toggle"> <i class="ti ti-contrast fs-22"></i> </button>
+                        <a href=@Url.Action("SignIn", "Auth1") class="btn btn-link fw-semibold text-body ps-2">تسجيل الدخول</a>
+                        <a href=@Url.Action("SignUp", "Auth1") class="btn btn-sm btn-primary">افتح حساب تاجر</a>
+                    </div>
+                </div> <!-- end .navbar-collapse-->
+
+            </div> <!-- end container-->
+        </nav>
+        <!-- Nav END -->
+    </header>
+    <!-- Header END -->
+    <!-- =======================
+            HERO SECTION
+    ======================= -->
+    <section class="bg-light bg-opacity-50 border-top border-light position-relative" id="hero">
+
+        <!-- Background Pattern -->
+        <div class="position-absolute top-0 start-50 translate-middle-x mt-5">
+            <img src="~/images/bg-pattern.png" alt="">
+        </div>
+
+        <div class="container pt-5 position-relative">
+            <!-- Hero Content Row -->
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center">
+
+                    <!-- Pre Info Text -->
+                    <span class="fw-semibold text-muted fst-italic">+50 مزوّد خدمة · %99.9 جاهزية · آلاف العمليات يوميًا</span>
+
+                    <!-- Avatar Group -->
+                    <div class="avatar-group avatar-group-sm justify-content-center mt-2">
+                        <div class="avatar">
+                            <img src="~/images/users/user-7.jpg" alt="آفا لي" class="avatar-sm rounded-circle">
+                        </div>
+                        <div class="avatar">
+                            <img src="~/images/users/user-8.jpg" alt="إيثان كينغ" class="avatar-sm rounded-circle">
+                        </div>
+                        <div class="avatar">
+                            <img src="~/images/users/user-9.jpg" alt="لو كاس وايت" class="avatar-sm rounded-circle">
+                        </div>
+                        <div class="avatar">
+                            <img src="~/images/users/user-1.jpg" alt="لو كاس وايت" class="avatar-sm rounded-circle">
+                        </div>
+                        <div class="avatar">
+                            <img src="~/images/users/user-2.jpg" alt="لو كاس وايت" class="avatar-sm rounded-circle">
+                        </div>
+                    </div>
+
+                    <!-- Hero Title -->
+                    <h1 class="my-4 fs-36 fw-bold lh-base">
+                        سداد الرصيد والفواتير… من مكان واحد وبثوانٍ
+                    </h1>
+
+                    <!-- Hero Description -->
+                    <p class="mb-4 fs-sm text-muted lh-lg">
+                        نظام المجد يوفّر منصة موحّدة لتعبئة رصيد شبكات الجوال والإنترنت، وسداد فواتير الكهرباء والماء للمتاجر والوكلاء والشركات مع تقارير فورية، تسعير مرن، وتكاملات API.
+                    </p>
+
+                    <!-- Call to Action Buttons -->
+                    <div class="d-flex gap-1 gap-sm-2 flex-wrap justify-content-center">
+                        <a class="btn btn-secondary py-2 fw-semibold" href="#contact">
+                            <i class="ti ti-basket fs-xl me-2"></i>جرّب الآن
+                        </a>
+                        <a class="btn btn-light py-2 fw-semibold" href="#contact">
+                            <i class="ti ti-confetti fs-xl me-2"></i>تواصل معنا
+                        </a>
+                        <a class="btn btn-primary py-2 fw-semibold" href=@Url.Action("SignUp", "Auth1")>
+                            <i class="ti ti-user-plus fs-xl me-2"></i>افتح حساب تاجر
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Images & Clients Section -->
+            <div class="container position-relative">
+                <!-- Hero Illustration Image Row -->
+                <div class="row">
+                    <div class="col-md-10 mx-auto position-relative">
+
+                        <!-- Decorative SVG Element -->
+                        <figure class="position-absolute top-0 start-0 translate-middle mt-5 opacity-50">
+                            <svg width="111" height="170" viewBox="0 0 111 170" fill="#1ab394" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M99.2319 7.37436C100.054 7.30936 101.638 15.7474 102.856 26.059C104.147 36.3089 105.01 48.3589 105.287 55.3911C105.778 69.3822 104.459 80.6992 102.753 80.7559C100.986 80.7391 99.5737 69.5262 99.0765 55.6027C98.7941 48.638 98.612 36.5788 98.4807 26.2931C98.3494 16.0074 98.3422 7.43353 99.2319 7.37436Z" />
+                                <path d="M80.3888 75.0118C79.555 75.2119 77.8208 71.6599 75.6665 67.4591C73.5063 63.3259 70.8525 58.6057 69.3802 55.9609C66.4471 50.5361 64.4804 45.7392 65.8687 44.6345C67.1836 43.5915 71.6484 47.0394 74.8842 52.8986C76.5416 55.7636 78.7318 61.1241 79.8822 65.9185C81.0327 70.7128 81.2226 74.8118 80.3888 75.0118Z" />
+                                <path d="M61.7883 89.4615C61.3805 90.2428 54.8078 87.5652 47.1688 83.8428C39.5297 80.1205 30.9035 75.2241 26.0659 72.1522C16.3908 66.0084 9.53733 59.4962 10.5438 58.0863C11.5502 56.6764 19.903 60.8007 29.4489 66.8652C34.2189 69.9313 42.3932 75.3329 49.4043 80.0217C56.4097 84.7779 62.1902 88.7478 61.7883 89.4615Z" />
+                                <path d="M46.1586 113.626C46.0151 114.498 42.6533 114.82 38.7186 114.684C34.7105 114.609 30.1297 114.077 27.4574 113.506C22.1804 112.369 18.3033 109.993 18.7195 108.328C19.1356 106.663 23.5897 106.299 28.7317 107.424C31.2689 107.984 35.6563 109.18 39.43 110.39C43.2037 111.601 46.2962 112.821 46.1586 113.626Z" />
+                                <path d="M52.2364 144.838C52.4365 145.672 46.3447 147.663 39.1256 150.101C31.9065 152.538 23.5601 155.423 18.719 157.114C9.04856 160.36 0.851466 162.305 0.169487 160.749C-0.512493 159.193 6.75837 154.583 16.7107 151.225C21.6868 149.545 30.3976 147.169 38.0635 145.858C45.6002 144.469 52.0363 144.005 52.2364 144.838Z" />
+                            </svg>
+                        </figure>
+
+                        <!-- Hero Main Image -->
+                        <img src="~/images/dashboard-1.png" class="rounded-top-4 shadow-lg img-fluid mt-5" alt="صورة تطبيق">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- =======================
+            HERO SECTION END
+    ======================= -->
+    <!-- =======================
+        SERVICES SECTION
+    ======================= -->
+    <section class="section-custom pb-5" id="services">
+        <div class="container">
+
+            <!-- Section Heading -->
+            <div class="row">
+                <div class="col-12 text-center">
+                    <span class="text-muted rounded-3 d-inline-block">🚀 خدمات نظام المجد</span>
+                    <h2 class="mt-3 fw-bold mb-5">الخدمات <mark class="fst-italic">المتوفرة</mark></h2>
+                </div>
+            </div>
+
+            <!-- First Row of Service Cards -->
+            <div class="row">
+                <!-- Digital Strategy Card -->
+                <div class="col-xl-3 col-md-6">
+                    <div class="card border-0 p-2 card-h-100">
+                        <div class="card-body pb-0">
+                            <div class="avatar-xl mb-3">
+                                <span class="avatar-title text-bg-secondary rounded-circle fs-22">
+                                    <i class="ti ti-device-mobile"></i>
+                                </span>
+                            </div>
+                            <h4 class="mb-2">سداد رصيد الشبكات</h4>
+                            <p class="text-muted mb-3">تعبئة رصيد، باقات بيانات، وبطاقات شحن (أمثلة: YOU، يمن موبايل، سبأفون، واي، عدن نت – أو استبدلها بمزوّدي بلدك).</p>
+                        </div>
+                        <div class="card-footer border-0 pt-0">
+                            <a class="link-primary fw-semibold" href="#">اعرف المزيد<i class="ti ti-arrow-right ms-2 align-middle"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SEO Optimization Card -->
+                <div class="col-xl-3 col-md-6">
+                    <div class="card border-0 p-2 card-h-100">
+                        <div class="card-body pb-0">
+                            <div class="avatar-xl mb-3">
+                                <span class="avatar-title text-bg-secondary rounded-circle fs-22">
+                                    <i class="ti ti-bolt"></i>
+                                </span>
+                            </div>
+                            <h4 class="mb-2">فواتير الكهرباء</h4>
+                            <p class="text-muted mb-3">استعلام وسداد الفواتير مع إيصال رقمي وختم موثّق.</p>
+                        </div>
+                        <div class="card-footer border-0 pt-0">
+                            <a class="link-primary fw-semibold" href="#">اعرف المزيد<i class="ti ti-arrow-right ms-2 align-middle"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Social Media Marketing Card -->
+                <div class="col-xl-3 col-md-6">
+                    <div class="card border-0 p-2 card-h-100">
+                        <div class="card-body pb-0">
+                            <div class="avatar-xl mb-3">
+                                <span class="avatar-title text-bg-secondary rounded-circle fs-22">
+                                    <i class="ti ti-droplet"></i>
+                                </span>
+                            </div>
+                            <h4 class="mb-2">فواتير المياه</h4>
+                            <p class="text-muted mb-3">سداد وإدارة المشتركين وتنبيهات الاستحقاق.</p>
+                        </div>
+                        <div class="card-footer border-0 pt-0">
+                            <a class="link-primary fw-semibold" href="#">اعرف المزيد<i class="ti ti-arrow-right ms-2 align-middle"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Web Development Card -->
+                <div class="col-xl-3 col-md-6">
+                    <div class="card border-0 p-2 card-h-100">
+                        <div class="card-body pb-0">
+                            <div class="avatar-xl mb-3">
+                                <span class="avatar-title text-bg-secondary rounded-circle fs-22">
+                                    <i class="ti ti-wallet"></i>
+                                </span>
+                            </div>
+                            <h4 class="mb-2">محفظة وتحصيل</h4>
+                            <p class="text-muted mb-3">شحن محفظة التاجر، تسوية تلقائية، وضبط سقوف للوكلاء.</p>
+                        </div>
+                        <div class="card-footer border-0 pt-0">
+                            <a class="link-primary fw-semibold" href="#">اعرف المزيد<i class="ti ti-arrow-right ms-2 align-middle"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- end row-->
+            <!-- Second Row of Service Cards -->
+            <div class="row">
+                <!-- Email Marketing Card -->
+                <div class="col-xl-3 col-md-6">
+                    <div class="card border-0 p-2 card-h-100">
+                        <div class="card-body pb-0">
+                            <div class="avatar-xl mb-3">
+                                <span class="avatar-title text-bg-secondary rounded-circle fs-22">
+                                    <i class="ti ti-users"></i>
+                                </span>
+                            </div>
+                            <h4 class="mb-2">إدارة المستخدمين والوكلاء</h4>
+                            <p class="text-muted mb-3">أدوار وصلاحيات، حدود ائتمانية، وتتبع الأداء.</p>
+                        </div>
+                        <div class="card-footer border-0 pt-0">
+                            <a class="link-primary fw-semibold" href="#">اعرف المزيد<i class="ti ti-arrow-right ms-2 align-middle"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- E-Commerce Solutions Card -->
+                <div class="col-xl-3 col-md-6">
+                    <div class="card border-0 p-2 card-h-100">
+                        <div class="card-body pb-0">
+                            <div class="avatar-xl mb-3">
+                                <span class="avatar-title text-bg-secondary rounded-circle fs-22">
+                                    <i class="ti ti-bell"></i>
+                                </span>
+                            </div>
+                            <h4 class="mb-2">التنبيهات والإشعارات</h4>
+                            <p class="text-muted mb-3">رسائل SMS/واتساب وبريد إلكتروني للعمليات والرصيد المنخفض.</p>
+                        </div>
+                        <div class="card-footer border-0 pt-0">
+                            <a class="link-primary fw-semibold" href="#">اعرف المزيد<i class="ti ti-arrow-right ms-2 align-middle"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Content Creation Card -->
+                <div class="col-xl-3 col-md-6">
+                    <div class="card border-0 p-2 card-h-100">
+                        <div class="card-body pb-0">
+                            <div class="avatar-xl mb-3">
+                                <span class="avatar-title text-bg-secondary rounded-circle fs-22">
+                                    <i class="ti ti-report"></i>
+                                </span>
+                            </div>
+                            <h4 class="mb-2">تقارير وتقارير مالية</h4>
+                            <p class="text-muted mb-3">تقارير مالية مفصلة، كشوفات لحظية للأرصدة، العمولات، وحركة الوكلاء.</p>
+                        </div>
+                        <div class="card-footer border-0 pt-0">
+                            <a class="link-primary fw-semibold" href="#">اعرف المزيد<i class="ti ti-arrow-right ms-2 align-middle"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Security Audits Card -->
+                <div class="col-xl-3 col-md-6">
+                    <div class="card border-0 p-2 card-h-100">
+                        <div class="card-body pb-0">
+                            <div class="avatar-xl mb-3">
+                                <span class="avatar-title text-bg-secondary rounded-circle fs-22">
+                                    <i class="ti ti-shield-lock"></i>
+                                </span>
+                            </div>
+                            <h4 class="mb-2">أمان وحماية البيانات</h4>
+                            <p class="text-muted mb-3">أمان على مستوى مؤسسي: صلاحيات متعددة، سجلات تدقيق، تشفير، وتحقّق ثنائي.</p>
+                        </div>
+                        <div class="card-footer border-0 pt-0">
+                            <a class="link-primary fw-semibold" href="#">اعرف المزيد<i class="ti ti-arrow-right ms-2 align-middle"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- end row-->
+
+        </div> <!-- end container-->
+    </section>
+    <!-- =======================
+        SERVICES SECTION END
+    ======================= -->
+    <!-- =======================
+        Features SECTION
+    ======================= -->
+    <section class="section-custom bg-light bg-opacity-30 border-top border-light border-bottom" id="features">
+        <div class="container">
+            <div class="row align-items-center pb-5">
+                <div class="col-lg-6 col-xl-5 py-3">
+                    <div class="position-relative">
+                        <figure class="position-absolute top-0 start-0 translate-middle mt-5 opacity-25">
+                            <svg width="111" height="170" viewBox="0 0 111 170" fill="#1ab394" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M99.2319 7.37436C100.054 7.30936 101.638 15.7474 102.856 26.059C104.147 36.3089 105.01 48.3589 105.287 55.3911C105.778 69.3822 104.459 80.6992 102.753 80.7559C100.986 80.7391 99.5737 69.5262 99.0765 55.6027C98.7941 48.638 98.612 36.5788 98.4807 26.2931C98.3494 16.0074 98.3422 7.43353 99.2319 7.37436Z" />
+                                <path d="M80.3888 75.0118C79.555 75.2119 77.8208 71.6599 75.6665 67.4591C73.5063 63.3259 70.8525 58.6057 69.3802 55.9609C66.4471 50.5361 64.4804 45.7392 65.8687 44.6345C67.1836 43.5915 71.6484 47.0394 74.8842 52.8986C76.5416 55.7636 78.7318 61.1241 79.8822 65.9185C81.0327 70.7128 81.2226 74.8118 80.3888 75.0118Z" />
+                                <path d="M61.7883 89.4615C61.3805 90.2428 54.8078 87.5652 47.1688 83.8428C39.5297 80.1205 30.9035 75.2241 26.0659 72.1522C16.3908 66.0084 9.53733 59.4962 10.5438 58.0863C11.5502 56.6764 19.903 60.8007 29.4489 66.8652C34.2189 69.9313 42.3932 75.3329 49.4043 80.0217C56.4097 84.7779 62.1902 88.7478 61.7883 89.4615Z" />
+                                <path d="M46.1586 113.626C46.0151 114.498 42.6533 114.82 38.7186 114.684C34.7105 114.609 30.1297 114.077 27.4574 113.506C22.1804 112.369 18.3033 109.993 18.7195 108.328C19.1356 106.663 23.5897 106.299 28.7317 107.424C31.2689 107.984 35.6563 109.18 39.43 110.39C43.2037 111.601 46.2962 112.821 46.1586 113.626Z" />
+                                <path d="M52.2364 144.838C52.4365 145.672 46.3447 147.663 39.1256 150.101C31.9065 152.538 23.5601 155.423 18.719 157.114C9.04856 160.36 0.851466 162.305 0.169487 160.749C-0.512493 159.193 6.75837 154.583 16.7107 151.225C21.6868 149.545 30.3976 147.169 38.0635 145.858C45.6002 144.469 52.0363 144.005 52.2364 144.838Z" />
+                            </svg>
+                        </figure>
+
+                        <!-- Main image -->
+                        <img src="~/images/chat.png" class="rounded-3 shadow-lg img-fluid mt-5 z-1 position-relative" alt="صورة تطبيق">
+
+                        <figure class="position-absolute bottom-0 end-0 me-n5 mb-n5 opacity-25">
+                            <svg width="120" height="120" xmlns="http://www.w3.org/2000/svg">
+                                <g fill="#1c84c6">
+                                    <circle cx="10" cy="10" r="4" />
+                                    <circle cx="26" cy="10" r="4" />
+                                    <circle cx="42" cy="10" r="4" />
+                                    <circle cx="58" cy="10" r="4" />
+                                    <circle cx="74" cy="10" r="4" />
+                                    <circle cx="90" cy="10" r="4" />
+
+                                    <!-- Row 1 -->
+                                    <circle cx="10" cy="26" r="4" />
+                                    <circle cx="26" cy="26" r="4" />
+                                    <circle cx="42" cy="26" r="4" />
+                                    <circle cx="58" cy="26" r="4" />
+                                    <circle cx="74" cy="26" r="4" />
+                                    <circle cx="90" cy="26" r="4" />
+
+                                    <!-- Row 2 -->
+                                    <circle cx="10" cy="42" r="4" />
+                                    <circle cx="26" cy="42" r="4" />
+                                    <circle cx="42" cy="42" r="4" />
+                                    <circle cx="58" cy="42" r="4" />
+                                    <circle cx="74" cy="42" r="4" />
+                                    <circle cx="90" cy="42" r="4" />
+
+                                    <!-- Row 3 -->
+                                    <circle cx="10" cy="58" r="4" />
+                                    <circle cx="26" cy="58" r="4" />
+                                    <circle cx="42" cy="58" r="4" />
+                                    <circle cx="58" cy="58" r="4" />
+                                    <circle cx="74" cy="58" r="4" />
+                                    <circle cx="90" cy="58" r="4" />
+
+                                    <!-- Row 4 -->
+                                    <circle cx="10" cy="74" r="4" />
+                                    <circle cx="26" cy="74" r="4" />
+                                    <circle cx="42" cy="74" r="4" />
+                                    <circle cx="58" cy="74" r="4" />
+                                    <circle cx="74" cy="74" r="4" />
+                                    <circle cx="90" cy="74" r="4" />
+
+                                    <!-- Row 5 -->
+                                    <circle cx="10" cy="90" r="4" />
+                                    <circle cx="26" cy="90" r="4" />
+                                    <circle cx="42" cy="90" r="4" />
+                                    <circle cx="58" cy="90" r="4" />
+                                    <circle cx="74" cy="90" r="4" />
+                                    <circle cx="90" cy="90" r="4" />
+                                </g>
+                            </svg>
+                        </figure>
+                    </div> <!-- end position relative -->
+                </div> <!-- end col-->
+                <!-- Content -->
+                <div class="col-lg-5 ms-auto py-3">
+                    <h2 class="mb-4 lh-base">لماذا نظام المجد؟</h2>
+                    <p class="mb-2 lead">منصة موحّدة: رصيد شبكات الجوال والإنترنت + فواتير الكهرباء والماء في لوحة واحدة.</p>
+                    <p class="text-muted fs-sm mb-4">نظام المجد يوفّر منصة موحّدة لتعبئة رصيد شبكات الجوال والإنترنت، وسداد فواتير الكهرباء والماء للمتاجر والوكلاء والشركات مع تقارير فورية، تسعير مرن، وتكاملات API.</p>
+                    
+                    <ul class="list-unstyled text-start fs-sm fw-medium mb-4">
+                        <li class="mb-2"><i class="ti ti-check text-success me-2 fs-5"></i> سرعة وتنفيذ فوري: أوامر السداد تصل لمزوّد الخدمة خلال ثوانٍ مع تأكيد فوري.</li>
+                        <li class="mb-2"><i class="ti ti-check text-success me-2 fs-5"></i> أمان على مستوى مؤسسي: صلاحيات متعددة، سجلات تدقيق، تشفير، وتحقّق ثنائي.</li>
+                        <li class="mb-2"><i class="ti ti-check text-success me-2 fs-5"></i> تقارير وشفافية: كشوفات لحظية للأرصدة، العمولات، وحركة الوكلاء.</li>
+                        <li class="mb-2"><i class="ti ti-check text-success me-2 fs-5"></i> تسعير مرن: نسب عمولة وتخفيضات للجملة، مع حدائث يومية/شهرية.</li>
+                        <li class="mb-2"><i class="ti ti-check text-success me-2 fs-5"></i> دعم متجاوب: قنوات دعم 24/7 عبر واتساب والبريد ولوحة التذاكر.</li>
+                    </ul>
+                </div><!-- end col-->
+            </div> <!-- end row-->
+
+            <div class="row align-items-center py-5">
+                <div class="col-lg-5 py-5 order-2 order-lg-1">
+                    <h2 class="mb-4 lh-base">المزايا التقنية</h2>
+                    <p class="mb-2 lead">REST API / JSON مع مفاتيح آمنة ودعم Webhooks.</p>
+                    <p class="text-muted fs-sm mb-4">نظام المجد مزود بتقنيات حديثة تضمن الاستقرار والأداء العالي.</p>
+                    
+                    <ul class="list-unstyled text-start fs-sm fw-medium mb-4">
+                        <li class="mb-2"><i class="ti ti-check text-success me-2 fs-5"></i> تكاملات سهلة: أجهزة نقاط بيع، طابعات حرارية، واتساب بوت.</li>
+                        <li class="mb-2"><i class="ti ti-check text-success me-2 fs-5"></i> إتاحة عالية (High Availability) ونُسخ احتياطية تلقائية.</li>
+                        <li class="mb-2"><i class="ti ti-check text-success me-2 fs-5"></i> متعدد الفروع والعملات: دعم ضريبة/رسوم محلية وتعريب كامل RTL.</li>
+                    </ul>
+                </div> <!-- end col-->
+
+                <div class="col-lg-6 col-xl-5 ms-auto py-5 order-1 order-lg-2">
+                    <div class="position-relative">
+                        <figure class="position-absolute top-0 start-0 translate-middle mt-5 opacity-25">
+                            <svg width="111" height="170" viewBox="0 0 111 170" fill="#1c84c6" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M99.2319 7.37436C100.054 7.30936 101.638 15.7474 102.856 26.059C104.147 36.3089 105.01 48.3589 105.287 55.3911C105.778 69.3822 104.459 80.6992 102.753 80.7559C100.986 80.7391 99.5737 69.5262 99.0765 55.6027C98.7941 48.638 98.612 36.5788 98.4807 26.2931C98.3494 16.0074 98.3422 7.43353 99.2319 7.37436Z" />
+                                <path d="M80.3888 75.0118C79.555 75.2119 77.8208 71.6599 75.6665 67.4591C73.5063 63.3259 70.8525 58.6057 69.3802 55.9609C66.4471 50.5361 64.4804 45.7392 65.8687 44.6345C67.1836 43.5915 71.6484 47.0394 74.8842 52.8986C76.5416 55.7636 78.7318 61.1241 79.8822 65.9185C81.0327 70.7128 81.2226 74.8118 80.3888 75.0118Z" />
+                                <path d="M61.7883 89.4615C61.3805 90.2428 54.8078 87.5652 47.1688 83.8428C39.5297 80.1205 30.9035 75.2241 26.0659 72.1522C16.3908 66.0084 9.53733 59.4962 10.5438 58.0863C11.5502 56.6764 19.903 60.8007 29.4489 66.8652C34.2189 69.9313 42.3932 75.3329 49.4043 80.0217C56.4097 84.7779 62.1902 88.7478 61.7883 89.4615Z" />
+                                <path d="M46.1586 113.626C46.0151 114.498 42.6533 114.82 38.7186 114.684C34.7105 114.609 30.1297 114.077 27.4574 113.506C22.1804 112.369 18.3033 109.993 18.7195 108.328C19.1356 106.663 23.5897 106.299 28.7317 107.424C31.2689 107.984 35.6563 109.18 39.43 110.39C43.2037 111.601 46.2962 112.821 46.1586 113.626Z" />
+                                <path d="M52.2364 144.838C52.4365 145.672 46.3447 147.663 39.1256 150.101C31.9065 152.538 23.5601 155.423 18.719 157.114C9.04856 160.36 0.851466 162.305 0.169487 160.749C-0.512493 159.193 6.75837 154.583 16.7107 151.225C21.6868 149.545 30.3976 147.169 38.0635 145.858C45.6002 144.469 52.0363 144.005 52.2364 144.838Z" />
+                            </svg>
+                        </figure>
+
+                        <!-- Main image -->
+                        <img src="~/images/file-manager.png" class="rounded-3 shadow-lg img-fluid mt-5 z-1 position-relative" alt="صورة تطبيق">
+
+                        <figure class="position-absolute bottom-0 end-0 me-n5 mb-n5 opacity-25">
+                            <svg width="120" height="120" xmlns="http://www.w3.org/2000/svg">
+                                <g fill="#f8ac59">
+                                    <circle cx="10" cy="10" r="4" />
+                                    <circle cx="26" cy="10" r="4" />
+                                    <circle cx="42" cy="10" r="4" />
+                                    <circle cx="58" cy="10" r="4" />
+                                    <circle cx="74" cy="10" r="4" />
+                                    <circle cx="90" cy="10" r="4" />
+
+                                    <!-- Row 1 -->
+                                    <circle cx="10" cy="26" r="4" />
+                                    <circle cx="26" cy="26" r="4" />
+                                    <circle cx="42" cy="26" r="4" />
+                                    <circle cx="58" cy="26" r="4" />
+                                    <circle cx="74" cy="26" r="4" />
+                                    <circle cx="90" cy="26" r="4" />
+
+                                    <!-- Row 2 -->
+                                    <circle cx="10" cy="42" r="4" />
+                                    <circle cx="26" cy="42" r="4" />
+                                    <circle cx="42" cy="42" r="4" />
+                                    <circle cx="58" cy="42" r="4" />
+                                    <circle cx="74" cy="42" r="4" />
+                                    <circle cx="90" cy="42" r="4" />
+
+                                    <!-- Row 3 -->
+                                    <circle cx="10" cy="58" r="4" />
+                                    <circle cx="26" cy="58" r="4" />
+                                    <circle cx="42" cy="58" r="4" />
+                                    <circle cx="58" cy="58" r="4" />
+                                    <circle cx="74" cy="58" r="4" />
+                                    <circle cx="90" cy="58" r="4" />
+
+                                    <!-- Row 4 -->
+                                    <circle cx="10" cy="74" r="4" />
+                                    <circle cx="26" cy="74" r="4" />
+                                    <circle cx="42" cy="74" r="4" />
+                                    <circle cx="58" cy="74" r="4" />
+                                    <circle cx="74" cy="74" r="4" />
+                                    <circle cx="90" cy="74" r="4" />
+
+                                    <!-- Row 5 -->
+                                    <circle cx="10" cy="90" r="4" />
+                                    <circle cx="26" cy="90" r="4" />
+                                    <circle cx="42" cy="90" r="4" />
+                                    <circle cx="58" cy="90" r="4" />
+                                    <circle cx="74" cy="90" r="4" />
+                                    <circle cx="90" cy="90" r="4" />
+                                </g>
+                            </svg>
+                        </figure>
+                    </div> <!-- end .position-relative -->
+                </div> <!-- end col-->
+            </div> <!-- end row-->
+
+            <div class="row align-items-center py-5">
+                <div class="col-lg-6 col-xl-5 py-3">
+                    <div class="position-relative">
+                        <figure class="position-absolute top-0 start-0 translate-middle mt-5 opacity-25">
+                            <svg width="111" height="170" viewBox="0 0 111 170" fill="#7b70ef" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M99.2319 7.37436C100.054 7.30936 101.638 15.7474 102.856 26.059C104.147 36.3089 105.01 48.3589 105.287 55.3911C105.778 69.3822 104.459 80.6992 102.753 80.7559C100.986 80.7391 99.5737 69.5262 99.0765 55.6027C98.7941 48.638 98.612 36.5788 98.4807 26.2931C98.3494 16.0074 98.3422 7.43353 99.2319 7.37436Z" />
+                                <path d="M80.3888 75.0118C79.555 75.2119 77.8208 71.6599 75.6665 67.4591C73.5063 63.3259 70.8525 58.6057 69.3802 55.9609C66.4471 50.5361 64.4804 45.7392 65.8687 44.6345C67.1836 43.5915 71.6484 47.0394 74.8842 52.8986C76.5416 55.7636 78.7318 61.1241 79.8822 65.9185C81.0327 70.7128 81.2226 74.8118 80.3888 75.0118Z" />
+                                <path d="M61.7883 89.4615C61.3805 90.2428 54.8078 87.5652 47.1688 83.8428C39.5297 80.1205 30.9035 75.2241 26.0659 72.1522C16.3908 66.0084 9.53733 59.4962 10.5438 58.0863C11.5502 56.6764 19.903 60.8007 29.4489 66.8652C34.2189 69.9313 42.3932 75.3329 49.4043 80.0217C56.4097 84.7779 62.1902 88.7478 61.7883 89.4615Z" />
+                                <path d="M46.1586 113.626C46.0151 114.498 42.6533 114.82 38.7186 114.684C34.7105 114.609 30.1297 114.077 27.4574 113.506C22.1804 112.369 18.3033 109.993 18.7195 108.328C19.1356 106.663 23.5897 106.299 28.7317 107.424C31.2689 107.984 35.6563 109.18 39.43 110.39C43.2037 111.601 46.2962 112.821 46.1586 113.626Z" />
+                                <path d="M52.2364 144.838C52.4365 145.672 46.3447 147.663 39.1256 150.101C31.9065 152.538 23.5601 155.423 18.719 157.114C9.04856 160.36 0.851466 162.305 0.169487 160.749C-0.512493 159.193 6.75837 154.583 16.7107 151.225C21.6868 149.545 30.3976 147.169 38.0635 145.858C45.6002 144.469 52.0363 144.005 52.2364 144.838Z" />
+                            </svg>
+                        </figure>
+
+                        <!-- Main image -->
+                        <img src="~/images/team.png" class="rounded-3 shadow-lg img-fluid mt-5 z-1 position-relative" alt="صورة تطبيق">
+
+                        <figure class="position-absolute bottom-0 end-0 me-n5 mb-n5 opacity-25">
+                            <svg width="120" height="120" xmlns="http://www.w3.org/2000/svg">
+                                <g fill="#ed5565">
+                                    <circle cx="10" cy="10" r="4" />
+                                    <circle cx="26" cy="10" r="4" />
+                                    <circle cx="42" cy="10" r="4" />
+                                    <circle cx="58" cy="10" r="4" />
+                                    <circle cx="74" cy="10" r="4" />
+                                    <circle cx="90" cy="10" r="4" />
+
+                                    <!-- Row 1 -->
+                                    <circle cx="10" cy="26" r="4" />
+                                    <circle cx="26" cy="26" r="4" />
+                                    <circle cx="42" cy="26" r="4" />
+                                    <circle cx="58" cy="26" r="4" />
+                                    <circle cx="74" cy="26" r="4" />
+                                    <circle cx="90" cy="26" r="4" />
+
+                                    <!-- Row 2 -->
+                                    <circle cx="10" cy="42" r="4" />
+                                    <circle cx="26" cy="42" r="4" />
+                                    <circle cx="42" cy="42" r="4" />
+                                    <circle cx="58" cy="42" r="4" />
+                                    <circle cx="74" cy="42" r="4" />
+                                    <circle cx="90" cy="42" r="4" />
+
+                                    <!-- Row 3 -->
+                                    <circle cx="10" cy="58" r="4" />
+                                    <circle cx="26" cy="58" r="4" />
+                                    <circle cx="42" cy="58" r="4" />
+                                    <circle cx="58" cy="58" r="4" />
+                                    <circle cx="74" cy="58" r="4" />
+                                    <circle cx="90" cy="58" r="4" />
+
+                                    <!-- Row 4 -->
+                                    <circle cx="10" cy="74" r="4" />
+                                    <circle cx="26" cy="74" r="4" />
+                                    <circle cx="42" cy="74" r="4" />
+                                    <circle cx="58" cy="74" r="4" />
+                                    <circle cx="74" cy="74" r="4" />
+                                    <circle cx="90" cy="74" r="4" />
+
+                                    <!-- Row 5 -->
+                                    <circle cx="10" cy="90" r="4" />
+                                    <circle cx="26" cy="90" r="4" />
+                                    <circle cx="42" cy="90" r="4" />
+                                    <circle cx="58" cy="90" r="4" />
+                                    <circle cx="74" cy="90" r="4" />
+                                    <circle cx="90" cy="90" r="4" />
+                                </g>
+                            </svg>
+                        </figure>
+                    </div>
+                </div> <!-- end col-->
+                <!-- Content -->
+                <div class="col-lg-5 ms-auto py-3">
+                    <h2 class="mb-4 lh-base">لمن هذا النظام؟</h2>
+                    <p class="mb-2 lead">نظام المجد مصمم خصيصًا لخدمة مختلف الفئات من المستخدمين.</p>
+                    <p class="text-muted fs-sm mb-4">سواء كنت تمتلك محل اتصالات أو شركة كبيرة، نظام المجد يلبي احتياجاتك.</p>
+                    
+                    <ul class="list-unstyled text-start fs-sm fw-medium mb-4">
+                        <li class="mb-2"><i class="ti ti-check text-success me-2 fs-5"></i> محلات الاتصالات ونقاط البيع.</li>
+                        <li class="mb-2"><i class="ti ti-check text-success me-2 fs-5"></i> المكتبات والسوبرماركت والكيوسكات.</li>
+                        <li class="mb-2"><i class="ti ti-check text-success me-2 fs-5"></i> الشركات ومراكز خدمة العملاء.</li>
+                        <li class="mb-2"><i class="ti ti-check text-success me-2 fs-5"></i> المطوّرون: تكامل API وخدمات Webhook.</li>
+                    </ul>
+                </div> <!-- end col-->
+            </div> <!-- end row-->
+        </div>	<!-- end container-->
+    </section>
+    <!-- =======================
+        Features SECTION END
+    ======================= -->
+    <!-- =======================
+        How It Works SECTION
+    ======================= -->
+    <section class="section-custom bg-light bg-opacity-30 border-top border-light border-bottom" id="how-it-works">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <span class="text-muted rounded-3 d-inline-block">⚙️ كيف يعمل النظام</span>
+                    <h2 class="mt-3 fw-bold mb-5">خطوات <mark class="fst-italic">الاستخدام</mark></h2>
+                </div>
+            </div>  <!-- end row-->
+            
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <div class="row g-4">
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card border-0 text-center p-4 h-100">
+                                <div class="avatar-md mx-auto mb-4">
+                                    <div class="avatar-title bg-primary-subtle text-primary rounded-circle fs-24">
+                                        <i class="ti ti-user-plus"></i>
+                                    </div>
+                                </div>
+                                <h5 class="mb-3">1. افتح حساب تاجر</h5>
+                                <p class="text-muted mb-0">افتح حساب كتاجر أو نقطة بيع.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card border-0 text-center p-4 h-100">
+                                <div class="avatar-md mx-auto mb-4">
+                                    <div class="avatar-title bg-primary-subtle text-primary rounded-circle fs-24">
+                                        <i class="ti ti-wallet"></i>
+                                    </div>
+                                </div>
+                                <h5 class="mb-3">2. اشحن المحفظة</h5>
+                                <p class="text-muted mb-0">اشحن المحفظة عبر التحويل أو مزوّد دفع معتمد.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card border-0 text-center p-4 h-100">
+                                <div class="avatar-md mx-auto mb-4">
+                                    <div class="avatar-title bg-primary-subtle text-primary rounded-circle fs-24">
+                                        <i class="ti ti-users"></i>
+                                    </div>
+                                </div>
+                                <h5 class="mb-3">3. أضف المستخدمين</h5>
+                                <p class="text-muted mb-0">أضف المستخدمين/الوكلاء وحدّد الصلاحيات والسقوف.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card border-0 text-center p-4 h-100">
+                                <div class="avatar-md mx-auto mb-4">
+                                    <div class="avatar-title bg-primary-subtle text-primary rounded-circle fs-24">
+                                        <i class="ti ti-credit-card"></i>
+                                    </div>
+                                </div>
+                                <h5 class="mb-3">4. ابدأ السداد</h5>
+                                <p class="text-muted mb-0">ابدأ السداد (رصيد الشبكات أو فواتير الكهرباء والماء) بضغطة واحدة.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card border-0 text-center p-4 h-100">
+                                <div class="avatar-md mx-auto mb-4">
+                                    <div class="avatar-title bg-primary-subtle text-primary rounded-circle fs-24">
+                                        <i class="ti ti-report"></i>
+                                    </div>
+                                </div>
+                                <h5 class="mb-3">5. تابع التقارير</h5>
+                                <p class="text-muted mb-0">تابع التقارير الفورية والعمولات وحالة العمليات.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card border-0 text-center p-4 h-100">
+                                <div class="avatar-md mx-auto mb-4">
+                                    <div class="avatar-title bg-primary-subtle text-primary rounded-circle fs-24">
+                                        <i class="ti ti-shield-check"></i>
+                                    </div>
+                                </div>
+                                <h5 class="mb-3">6. استمتع بالأمان</h5>
+                                <p class="text-muted mb-0">استمتع بأمان على مستوى مؤسسي وسجلات تدقيق لجميع العمليات.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- =======================
+        How It Works SECTION END
+    ======================= -->
+    <!-- =======================
+        PLANS SECTION
+    ======================= -->
+    <section class="section-custom" id="plans">
+        <div class="container">
+
+            <div class="row">
+                <div class="col-12 text-center">
+                    <span class="text-muted rounded-3 d-inline-block">💰 خطط التسعير</span>
+                    <h2 class="mt-3 fw-bold mb-5">اختر <mark class="fst-italic">الخطة</mark> التي تناسب احتياجاتك</h2>
+                </div>
+            </div>  <!-- end row-->
+
+            <div class="row justify-content-center">
+                <div class="col-xxl-10">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="card h-100 bg-light bg-opacity-10 border-light rounded-3">
+                                <div class="card-body px-lg-4 p-5 pb-2 text-center">
+                                    <div class="text-center">
+                                        <h3 class="fw-bold mb-1">الخطة الأساسية</h3>
+                                        <p class="text-muted mb-0">للمبتدئين</p>
+                                    </div>
+                                    <div class="my-4">
+                                        <h1 class="display-6 fw-bold mb-0">مجاني</h1>
+                                        <small class="d-block text-muted fs-base fw-medium">لتجربة النظام</small>
+                                        <small class="d-block text-muted fw-medium">مستخدم واحد</small>
+                                    </div>
+
+                                    <ul class="list-unstyled text-start fs-sm fw-medium mb-0">
+                                        <li class="mb-2"><i class="ti ti-check text-success me-2 fs-5"></i> سداد شبكات + كهرباء + ماء</li>
+                                        <li class="mb-2"><i class="ti ti-check text-success me-2 fs-5"></i> مستخدم واحد · تقارير أساسية</li>
+                                        <li class="mb-2"><i class="ti ti-check text-success me-2 fs-5"></i> دعم خلال ساعات العمل</li>
+                                        <li class="mb-2"><i class="ti ti-x text-danger me-2 fs-5"></i> لا توجد أذونات وسقوف</li>
+                                        <li class="mb-2"><i class="ti ti-x text-danger me-2 fs-5"></i> لا توجد تقارير متقدمة</li>
+                                    </ul>
+                                </div>
+                                <div class="card-footer bg-transparent border-0 px-5 pb-4">
+                                    <a href=@Url.Action("SignUp", "Auth1") class="btn btn-outline-primary w-100 py-2 fw-semibold rounded-pill">ابدأ مجانًا</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <div class="card h-100 bg-light bg-opacity-10 border-dashed border my-4 my-lg-0 rounded-3">
+                                <div class="card-body px-lg-4 p-5 pb-2 text-center">
+                                    <div class="text-center">
+                                        <h3 class="fw-bold mb-1">الخطة الاحترافية</h3>
+                                        <p class="text-muted mb-0">للمتاجر</p>
+                                    </div>
+                                    <div class="my-4">
+                                        <h1 class="display-6 fw-bold mb-0">$49</h1>
+                                        <small class="d-block text-muted fs-base fw-medium">شهريًا</small>
+                                        <small class="d-block text-muted fw-medium">مستخدمون متعددون</small>
+                                    </div>
+
+                                    <ul class="list-unstyled text-start fs-sm fw-medium mb-0">
+                                        <li class="mb-2"><i class="ti ti-check text-success me-2 fs-5"></i> كل ما في الخطة الأساسية</li>
+                                        <li class="mb-2"><i class="ti ti-check text-success me-2 fs-5"></i> مستخدمون متعددون · أذونات وسقوف</li>
+                                        <li class="mb-2"><i class="ti ti-check text-success me-2 fs-5"></i> تقارير متقدمة وملفات Excel</li>
+                                        <li class="mb-2"><i class="ti ti-check text-success me-2 fs-5"></i> دعم سريع + إشعارات واتساب</li>
+                                        <li class="mb-2"><i class="ti ti-check text-success me-2 fs-5"></i> حدود ائتمانية مخصصة</li>
+                                    </ul>
+                                </div>
+                                <div class="card-footer bg-transparent border-0 px-5 pb-4">
+                                    <a href=@Url.Action("SignUp", "Auth1") class="btn btn-primary w-100 py-2 fw-semibold rounded-pill">اشترك الآن</a>
+                                </div>
+                                <span class="position-absolute top-0 start-50 translate-middle-x badge bg-primary-subtle text-primary rounded-pill px-3 py-1 mt-3">
+                                    الأكثر شعبية
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <div class="card h-100 bg-light bg-opacity-10 border-light rounded-3">
+                                <div class="card-body px-lg-4 p-5 pb-2 text-center">
+                                    <div class="text-center">
+                                        <h3 class="fw-bold mb-1">خطة الشركات</h3>
+                                        <p class="text-muted mb-0">للمؤسسات</p>
+                                    </div>
+                                    <div class="my-4">
+                                        <h1 class="display-6 fw-bold mb-0">$199</h1>
+                                        <small class="d-block text-muted fs-base fw-medium">شهريًا</small>
+                                        <small class="d-block text-muted fw-medium">REST API / Webhooks / SSO</small>
+                                    </div>
+
+                                    <ul class="list-unstyled text-start fs-sm fw-medium mb-0">
+                                        <li class="mb-2"><i class="ti ti-check text-success me-2 fs-5"></i> كل ما في الخطة الاحترافية</li>
+                                        <li class="mb-2"><i class="ti ti-check text-success me-2 fs-5"></i> REST API / Webhooks / SSO</li>
+                                        <li class="mb-2"><i class="ti ti-check text-success me-2 fs-5"></i> اتفاقية مستوى خدمة (SLA)</li>
+                                        <li class="mb-2"><i class="ti ti-check text-success me-2 fs-5"></i> مدير حساب مخصص</li>
+                                        <li class="mb-2"><i class="ti ti-check text-success me-2 fs-5"></i> تقارير مخصّصة وتكاملات</li>
+                                    </ul>
+                                </div>
+                                <div class="card-footer bg-transparent border-0 px-5 pb-4">
+                                    <a href="#contact" class="btn btn-dark w-100 py-2 fw-semibold rounded-pill">تواصل للحصول على عرض</a>
+                                </div>
+                            </div>
+                        </div> <!-- end col-->
+                    </div> <!-- end row-->
+
+                </div> <!-- end col-->
+            </div> <!-- end row-->
+        </div> <!-- end container-->
+    </section>
+    <!-- =======================
+        PLANS SECTION END
+    ======================= -->
+    <!-- =======================
+        CTA SECTION
+    ======================= -->
+
+    <section>
+        <div class="section-cta position-relative card-side-img overflow-hidden" style="background-image: url(/images/landing-cta.jpg);">
+            <div class="card-img-overlay d-flex align-items-center flex-column gap-3 justify-content-center auth-overlay text-center">
+                <h3 class="text-white fs-24 mb-0 fw-bold">
+                    ابدأ مجانًا اليوم — جرّب لوحة التحكم وتعرّف على السرعة والشفافية بنقرة واحدة
+                </h3>
+                <p class="text-white text-opacity-75 fs-md">
+                    نظام المجد يوفّر منصة موحّدة لتعبئة رصيد شبكات الجوال والإنترنت، وسداد فواتير الكهرباء والماء. <br> جرّب النظام مجانًا لمدة 14 يومًا — لا حاجة لبطاقة الائتمان.
+                </p>
+                <a href=@Url.Action("SignUp", "Auth1") class="btn btn-light rounded-pill">ابدأ مجانًا</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- =======================
+        CTA SECTION END
+    ======================= -->
+    <!-- =======================
+        REVIEWS SECTION
+    ======================= -->
+    <section class="section-custom position-relative overflow-hidden" id="reviews">
+
+        <!-- background pattern -->
+        <div class="position-absolute top-0 start-50 translate-middle-x mt-5 opacity-50">
+            <img src="~/images/bg-pattern.png" alt="">
+        </div>
+
+        <div class="container position-relative">
+
+            <div class="row">
+                <div class="col-12 text-center">
+                    <span class="text-muted rounded-3 d-inline-block">💬 آراء العملاء</span>
+                    <h2 class="mt-3 fw-bold mb-5">آراء <mark class="fst-italic">العملاء</mark> حول النظام</h2>
+                </div>
+            </div>  <!-- end row-->
+
+            <div class="row justify-content-center">
+                <div class="col-lg-4">
+                    <div class="card border-light rounded-4 p-3 card-h-100">
+                        <div class="card-body pb-0 text-center">
+                            <div class="avatar avatar-xl mx-auto mb-3">
+                                <img src="~/images/users/user-1.jpg" alt="محمد أحمد" class="img-fluid rounded-circle">
+                            </div>
+                            <span class="text-warning fs-lg mb-3 d-block">
+                                <span class="ti ti-star-filled"></span>
+                                <span class="ti ti-star-filled"></span>
+                                <span class="ti ti-star-filled"></span>
+                                <span class="ti ti-star-filled"></span>
+                                <span class="ti ti-star-filled"></span>
+                            </span>
+                            <h4 class="mb-2 fs-md">اختصر علينا إدارة الرصيد والفواتير</h4>
+                            <p class="text-muted mb-3 fst-italic fs-sm">"اختصر علينا إدارة الرصيد والفواتير، وصارت التقارير دقيقة بالثانية."</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="card border-light rounded-4 p-3 card-h-100">
+                        <div class="card-body pb-0 text-center">
+                            <div class="avatar avatar-xl mx-auto mb-3">
+                                <img src="~/images/users/user-2.jpg" alt="فاطمة علي" class="img-fluid rounded-circle">
+                            </div>
+                            <span class="text-warning fs-lg mb-3 d-block">
+                                <span class="ti ti-star-filled"></span>
+                                <span class="ti ti-star-filled"></span>
+                                <span class="ti ti-star-filled"></span>
+                                <span class="ti ti-star-filled"></span>
+                                <span class="ti ti-star-filled"></span>
+                            </span>
+                            <h4 class="mb-2 fs-md">التنبيهات على واتساب أنقذت نقاط البيع</h4>
+                            <p class="text-muted mb-3 fst-italic fs-sm">"التنبيهات على واتساب أنقذت نقاط البيع من التوقف بسبب نفاد الرصيد."</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="card border-light rounded-4 p-3 card-h-100">
+                        <div class="card-body pb-0 text-center">
+                            <div class="avatar avatar-xl mx-auto mb-3">
+                                <img src="~/images/users/user-3.jpg" alt="أحمد سعيد" class="img-fluid rounded-circle">
+                            </div>
+                            <span class="text-warning fs-lg mb-3 d-block">
+                                <span class="ti ti-star-filled"></span>
+                                <span class="ti ti-star-filled"></span>
+                                <span class="ti ti-star-filled"></span>
+                                <span class="ti ti-star-filled"></span>
+                                <span class="ti ti-star-filled"></span>
+                            </span>
+                            <h4 class="mb-2 fs-md">أمان وموثوقية عالية</h4>
+                            <p class="text-muted mb-3 fst-italic fs-sm">"النظام آمن وموثوق، وسجلات التدقيق تساعدنا في مراقبة جميع العمليات."</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="card border-light rounded-4 p-3 card-h-100">
+                        <div class="card-body pb-0 text-center">
+                            <div class="avatar avatar-xl mx-auto mb-3">
+                                <img src="~/images/users/user-4.jpg" alt="سارة محمد" class="img-fluid rounded-circle">
+                            </div>
+                            <span class="text-warning fs-lg mb-3 d-block">
+                                <span class="ti ti-star-filled"></span>
+                                <span class="ti ti-star-filled"></span>
+                                <span class="ti ti-star-filled"></span>
+                                <span class="ti ti-star-filled"></span>
+                                <span class="ti ti-star-filled"></span>
+                            </span>
+                            <h4 class="mb-2 fs-md">تقارير مفصلة ودقيقة</h4>
+                            <p class="text-muted mb-3 fst-italic fs-sm">"التقارير المالية المفصلة ساعدتنا في اتخاذ قرارات أفضل وإدارة الأرباح."</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="card border-light rounded-4 p-3 card-h-100">
+                        <div class="card-body pb-0 text-center">
+                            <div class="avatar avatar-xl mx-auto mb-3">
+                                <img src="~/images/users/user-5.jpg" alt="علي حسن" class="img-fluid rounded-circle">
+                            </div>
+                            <span class="text-warning fs-lg mb-3 d-block">
+                                <span class="ti ti-star-filled"></span>
+                                <span class="ti ti-star-filled"></span>
+                                <span class="ti ti-star-filled"></span>
+                                <span class="ti ti-star-filled"></span>
+                                <span class="ti ti-star-filled"></span>
+                            </span>
+                            <h4 class="mb-2 fs-md">دعم فني ممتاز</h4>
+                            <p class="text-muted mb-3 fst-italic fs-sm">"فريق الدعم يتجاوب بسرعة مع أي استفسار أو مشكلة نواجهها."</p>
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- end row-->
+        </div> <!-- end container-->
+    </section>
+    <!-- =======================
+        REVIEWS SECTION END
+    ======================= -->
+    <!-- =======================
+        FAQ SECTION
+    ======================= -->
+    <section class="section-custom bg-light bg-opacity-30 border-top border-light border-bottom" id="faq">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <span class="text-muted rounded-3 d-inline-block">❓ الأسئلة الشائعة</span>
+                    <h2 class="mt-3 fw-bold mb-5">الأسئلة <mark class="fst-italic">الشائعة</mark></h2>
+                </div>
+            </div>  <!-- end row-->
+            
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="accordion" id="accordionFAQ">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingOne">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                    هل أستطيع سداد الكهرباء والماء من نفس الحساب؟
+                                </button>
+                            </h2>
+                            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionFAQ">
+                                <div class="accordion-body">
+                                    نعم، النظام يدعم شبكات الاتصالات وفواتير الكهرباء والماء من لوحة واحدة.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingTwo">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                    كيف تُدار العمولات والسقوف؟
+                                </button>
+                            </h2>
+                            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionFAQ">
+                                <div class="accordion-body">
+                                    يمكن ضبط نسب عمولة للتاجر/الوكلاء، وحدود يومية/شهرية مع تقارير تفصيلية.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingThree">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                    هل يوجد تطبيق جوّال؟
+                                </button>
+                            </h2>
+                            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionFAQ">
+                                <div class="accordion-body">
+                                    نعم، واجهة متجاوبة وتطبيق للأندرويد (يمكن إضافة iOS حسب البلد).
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingFour">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                    كيف يتم إشعار العميل؟
+                                </button>
+                            </h2>
+                            <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionFAQ">
+                                <div class="accordion-body">
+                                    إيصال رقمي فوري داخل النظام، مع خيار إرسال SMS/واتساب وبريد.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingFive">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                                    هل النظام آمن؟
+                                </button>
+                            </h2>
+                            <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#accordionFAQ">
+                                <div class="accordion-body">
+                                    يدعم 2FA، صلاحيات دقيقة، تشفير، وسجلات تدقيق لجميع العمليات.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- =======================
+        FAQ SECTION END
+    ======================= -->
+    <!-- =======================
+        CONTACT SECTION
+    ======================= -->
+    <section class="section-custom" id="contact">
+
+        <div class="container">
+
+            <div class="row">
+                <div class="col-12 text-center">
+                    <span class="text-muted rounded-3 d-inline-block">📞 اتصل بنا</span>
+                    <h2 class="mt-3 fw-bold mb-5">تواصل <mark class="fst-italic">معنا</mark></h2>
+                </div>
+            </div>    <!-- end row-->
+
+            <div class="row">
+                <div class="col-xxl-4">
+                    <div class="p-4">
+                        <div class="d-flex gap-3 mb-5">
+                            <div class="avatar-xl flex-shrink-0">
+                                <span class="avatar-title bg-secondary-subtle text-secondary rounded-circle fs-22">
+                                    <i class="ti ti-phone-call"></i>
+                                </span>
+                            </div>
+                            <div>
+                                <span class="text-muted">أرقام التواصل</span>
+                                <h5 class="my-2">+967 777 777 777</h5>
+                                <h5 class="mb-0">+967 1 234 567</h5>
+                            </div>
+                        </div>
+
+                        <div class="d-flex gap-3 mb-5">
+                            <div class="avatar-xl flex-shrink-0">
+                                <span class="avatar-title bg-secondary-subtle text-secondary rounded-circle fs-22">
+                                    <i class="ti ti-mail"></i>
+                                </span>
+                            </div>
+                            <div>
+                                <span class="text-muted">البريد الإلكتروني</span>
+                                <h5 class="my-2">support@majd-system.com</h5>
+                                <h5 class="mb-0">info@majd-system.com</h5>
+                            </div>
+                        </div>
+
+                        <div class="d-flex gap-3">
+                            <div class="avatar-xl flex-shrink-0">
+                                <span class="avatar-title bg-secondary-subtle text-secondary rounded-circle fs-22">
+                                    <i class="ti ti-map-pin"></i>
+                                </span>
+                            </div>
+                            <div>
+                                <span class="text-muted">العنوان</span>
+                                <h5 class="my-1 lh-lg">صنعاء، اليمن</h5>
+                            </div>
+                        </div>
+                    </div> <!-- end .p-4-->
+                </div> <!-- end col-->
+
+                <div class="col-xxl-8">
+                    <form class="p-4 border rounded-4 border-dashed">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="name" class="form-label">الاسم الكامل</label>
+                                <input type="text" class="form-control py-2" id="name" autocomplete="name" placeholder="أدخل اسمك الكامل">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="phone" class="form-label">رقم الجوال</label>
+                                <input type="tel" class="form-control py-2" id="phone" placeholder="أدخل رقم جوالك">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="email" class="form-label">البريد الإلكتروني</label>
+                                <input type="email" class="form-control py-2" id="email" autocomplete="email" placeholder="أدخل بريدك الإلكتروني">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="business" class="form-label">نوع النشاط</label>
+                                <select class="form-select py-2" id="business">
+                                    <option selected>اختر نوع النشاط</option>
+                                    <option>محل اتصالات</option>
+                                    <option>سوبر ماركت</option>
+                                    <option>شركة</option>
+                                    <option>وكيل</option>
+                                    <option>آخر</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-12">
+                                <label for="message" class="form-label">الرسالة</label>
+                                <textarea class="form-control py-2" id="message" rows="5" placeholder="اكتب رسالتك هنا..."></textarea>
+                            </div>
+
+                            <div class="col-md-12 text-end">
+                                <button type="submit" class="btn btn-primary rounded-pill">إرسال الرسالة</button>
+                            </div>
+                        </div>
+                    </form>
+                </div> <!-- end col-->
+            </div>   <!-- end row-->
+        </div> <!-- end container-->
+    </section>
+    <!-- =======================
+        CONTACT SECTION END
+    ======================= -->
+    <!-- =======================
+        FOOTER SECTION
+    ======================= -->
+    <footer class="section-custom section-footer pb-2">
+
+        <div class="container">
+            <div class="row g-4 justify-content-between">
+                <div class="col-lg-3">
+                    <img src="~/images/logo-white.png" alt="الشعار" height="30">
+                    <p class="mt-3 fs-sm">نظام المجد هو نظام موحد لسداد الرصيد والفواتير للمتاجر والوكلاء والشركات مع تقارير فورية، تسعير مرن، وتكاملات API.</p>
+
+                    <div class="d-flex gap-2 mt-4 mb-2">
+                        <a href="#!" class="btn btn-sm btn-icon rounded-circle btn-dark" title="فيسبوك">
+                            <i class="ti ti-brand-facebook fs-sm"></i>
+                        </a>
+                        <a href="#!" class="btn btn-sm btn-icon rounded-circle btn-dark" title="تويتر">
+                            <i class="ti ti-brand-twitter fs-sm"></i>
+                        </a>
+                        <a href="#!" class="btn btn-sm btn-icon rounded-circle btn-dark" title="واتساب">
+                            <i class="ti ti-brand-whatsapp fs-sm"></i>
+                        </a>
+                        <a href="#!" class="btn btn-sm btn-icon rounded-circle btn-dark" title="يوتيوب">
+                            <i class="ti ti-brand-youtube fs-sm"></i>
+                        </a>
+                    </div>
+                </div> <!-- end col-->
+
+                <div class="col-lg-8 col-xxl-7">
+                    <div class="row g-4">
+                        <div class="col-6 col-md-4">
+                            <h5 class="text-white mb-4 ps-2">روابط سريعة</h5>
+                            <ul class="nav flex-column">
+                                <li class="nav-item"><a class="nav-link pt-0" href="#hero">الرئيسية</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#features">لماذا المجد؟</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#plans">التسعير</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#how-it-works">كيف يعمل؟</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#faq">الأسئلة الشائعة</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#contact">اتصل بنا</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="col-6 col-md-4">
+                            <h5 class="text-white mb-4 ps-2">قانوني</h5>
+                            <ul class="nav flex-column">
+                                <li class="nav-item"><a class="nav-link pt-0" href="#!">سياسة الخصوصية</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#!">شروط الاستخدام</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#!">سياسة الاسترداد</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#!">اتفاقية مستوى الخدمة</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="col-6 col-md-4">
+                            <h5 class="text-white mb-4 ps-2">للمؤسسات</h5>
+                            <ul class="nav flex-column">
+                                <li class="nav-item"><a class="nav-link pt-0" href="#!">حلول مخصّصة</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#!">ضمان التوافرية</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#!">الامتثال</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#!">التكاملات المؤسسية</a></li>
+                            </ul>
+                        </div>
+                    </div> <!-- end row-->
+                </div> <!-- end col-->
+            </div> <!-- end row-->
+
+            <div class="row mt-5">
+                <div class="col-12 text-center">
+                    <p class="mb-4">© 2025 نظام المجد. جميع الحقوق محفوظة.</p>
+                </div>
+            </div> <!-- end row-->
+        </div> <!-- end container-->
+    </footer>
+    <!-- =======================
+        FOOTER SECTION END
+    ======================= -->
+  
+</body>
+
+@section scripts
+{
+
+    <!-- Landing Page js -->
+    <script src="~/js/pages/landing.js"></script>
+
+}

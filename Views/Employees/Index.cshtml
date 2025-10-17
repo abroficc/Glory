@@ -1,0 +1,1252 @@
+@using System.Globalization
+@model ASP.Net_Core_MVC.Full.Models.EmployeesIndexVm
+
+@{
+    ViewData["Title"] = "الموظفين";
+    ViewData["Direction"] = "rtl";
+}
+
+<!-- Add this script section to make permissions data available to JavaScript -->
+<script>
+    // Make permissions data available globally
+    window.permissionsData = @Html.Raw(Json.Serialize(Model.Pages));
+    
+    // Add debugging to check if permissionsData is properly populated
+    console.log("window.permissionsData:", window.permissionsData);
+    console.log("Model.Pages count:", @Model.Pages.Count);
+    console.log("Model.Pages data:", @Html.Raw(Json.Serialize(Model.Pages)));
+    
+    // Check if window.permissionsData is valid
+    if (window.permissionsData && window.permissionsData.length > 0) {
+        console.log("Permissions data is valid");
+    } else {
+        console.log("Permissions data is invalid or empty");
+    }
+</script>
+
+<!-- Filter toggle button -->
+<div class="mb-2">
+    <button id="toggleFilters" type="button" class="btn btn-primary">
+        <i class="ti ti-filter-off me-1"></i><span id="toggleFiltersText">إظهار الفلترة</span>
+    </button>
+</div>
+
+<!-- Filter section -->
+<div class="card mb-3" id="filterSection" style="display: none;">
+    <div class="card-body p-2">
+        <!-- Filter row -->
+        <div class="row g-2 mb-2">
+            <div class="col">
+                <input type="text" class="form-control form-control-sm" placeholder="اسم الموظف" id="filter-name">
+            </div>
+            <div class="col">
+                <input type="text" class="form-control form-control-sm" placeholder="رقم الهاتف" id="filter-phone">
+            </div>
+            <div class="col">
+                <input type="text" class="form-control form-control-sm" placeholder="الحساب" id="filter-account">
+            </div>
+            <div class="col">
+                <button type="button" class="btn btn-secondary btn-sm" id="resetFilters">إعادة تعيين</button>
+                <button type="button" class="btn btn-primary btn-sm" id="applyFilters">تطبيق</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Action buttons - simplified to only show essential actions -->
+<div class="mb-3">
+    <div class="d-flex gap-2 flex-wrap">
+        <a href="#" class="btn btn-sm btn-outline-danger" title="حذف">
+            <i class="ti ti-trash"></i>
+        </a>
+        <a href="#" class="btn btn-sm btn-outline-success" title="إضافة" data-bs-toggle="modal" data-bs-target="#addEmployeeModal">
+            <i class="ti ti-plus"></i>
+        </a>
+        <a href="#" class="btn btn-sm btn-outline-primary" title="تعديل" id="topEditButton">
+            <i class="ti ti-pencil"></i>
+        </a>
+        <a href="#" class="btn btn-sm btn-outline-info" title="مشاهدة" id="topViewButton">
+            <i class="ti ti-eye"></i>
+        </a>
+        <!-- New Popup Menu Button -->
+        <a href="#" class="btn btn-sm btn-outline-dark" title="قائمة الإجراءات" data-bs-toggle="modal" data-bs-target="#popupMenuModal">
+            <i class="ti ti-menu-2"></i>
+        </a>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <div class="d-flex align-items-center">
+            <h5 class="card-title mb-0 fw-bold">@ViewData["Title"]</h5>
+            <div class="me-auto">
+                <!-- Refresh button -->
+                <button type="button" class="btn btn-sm btn-outline-secondary ms-2" id="refreshBtn" title="تحديث">
+                    <i class="ti ti-refresh"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table id="employees-table" class="table table-striped table-bordered dt-responsive nowrap w-100">
+                <thead>
+                    <tr>
+                        <th class="text-center" width="40px">
+                            <div class="form-check"><input type="checkbox" class="form-check-input" id="selectAll"></div>
+                        </th>
+                        <th>id</th>
+                        <th>اسم الموظف</th>
+                        <th>رقم التلفون</th>
+                        <th>الحساب</th>
+                        <th style="width: 100px; text-align: center;">المزيد</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var employee in Model.Employees)
+                    {
+                        <tr>
+                            <td class="text-center">
+                                <div class="form-check"><input type="checkbox" class="form-check-input employee-checkbox" value="@employee.Id"></div>
+                            </td>
+                            <td>@employee.Id</td>
+                            <td>@employee.FullName</td>
+                            <td>@employee.PhoneNumber</td>
+                            <td>@employee.AccountId</td>
+                            <td style="text-align: center;">
+                                <div class="dropdown">
+                                    <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton@employee.Id" data-bs-toggle="dropdown" aria-expanded="false">
+                                        للمزيد
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end">
+                                        <li><a class="dropdown-item" href="#" data-action="edit"><i class="ti ti-pencil me-1"></i> تعديل</a></li>
+                                        <li><a class="dropdown-item" href="#" data-action="view"><i class="ti ti-eye me-1"></i> مشاهدة</a></li>
+                                        <li><a class="dropdown-item" href="#"><i class="ti ti-trash me-1"></i> حذف</a></li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Pagination -->
+<div class="d-flex justify-content-center mt-3">
+    <nav aria-label="Page navigation">
+        <ul class="pagination">
+            <li class="page-item">
+                <a class="page-link" href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#" aria-label="Previous">
+                    <span aria-hidden="true">‹</span>
+                    <span>السابق</span>
+                </a>
+            </li>
+            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+            <li class="page-item">
+                <a class="page-link" href="#" aria-label="Next">
+                    <span>التالي</span>
+                    <span aria-hidden="true">›</span>
+                </a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>
+
+<!-- Modal for Adding Employee -->
+<div class="modal fade" id="addEmployeeModal" tabindex="-1" aria-labelledby="addEmployeeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 1200px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addEmployeeModalLabel">إضافة موظف جديد</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Form Fields -->
+                <form id="addEmployeeForm" method="post">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="employeeName" class="form-label">الاسم الثلاثي للموظف <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="employeeName" name="employeeName" required>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="phoneNumber" class="form-label">رقم التلفون <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" required>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="employeeAccount" class="form-label">حساب الموظف <span class="text-danger">*</span></label>
+                            <select class="form-select" id="employeeAccount" name="employeeAccount" required>
+                                <option value="" selected disabled>اختر المصدر الحسابي</option>
+                                <option value="1">حساب 1</option>
+                                <option value="2">حساب 2</option>
+                                <option value="3"> الحساب 3</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <!-- Permissions section -->
+                    <div class="permissions" dir="rtl">
+                        <div class="mb-3">
+                            <button type="button" class="btn btn-info" id="loadAddPermissionsBtn">
+                                <i class="ti ti-lock"></i> تحميل الصلاحيات
+                            </button>
+                            <div id="addPermissionsContainer" style="display: none;">
+                                <!-- Permissions will be loaded here via AJAX -->
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+                <button type="button" class="btn btn-primary" id="saveEmployeeBtn">حفظ الموظف</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- New Popup Menu Modal (Modified from Add Employee Modal) -->
+<div class="modal fade" id="popupMenuModal" tabindex="-1" aria-labelledby="popupMenuModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 1200px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="popupMenuModalLabel">قائمة الإجراءات</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Popup Menu Content -->
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12 mb-3">
+                            <h6 class="text-primary">الإجراءات المتاحة</h6>
+                            <p>اختر الإجراء الذي ترغب في تنفيذه من القائمة التالية:</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Action Buttons Grid -->
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <div class="card h-100">
+                                <div class="card-body text-center">
+                                    <i class="ti ti-user-plus fs-1 text-primary mb-2"></i>
+                                    <h6 class="card-title">إضافة موظف</h6>
+                                    <p class="card-text">إضافة موظف جديد إلى النظام</p>
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addEmployeeModal">
+                                        <i class="ti ti-plus"></i> إضافة
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <div class="card h-100">
+                                <div class="card-body text-center">
+                                    <i class="ti ti-file-export fs-1 text-success mb-2"></i>
+                                    <h6 class="card-title">تصدير البيانات</h6>
+                                    <p class="card-text">تصدير قائمة الموظفين إلى ملف</p>
+                                    <button type="button" class="btn btn-success">
+                                        <i class="ti ti-download"></i> تصدير
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <div class="card h-100">
+                                <div class="card-body text-center">
+                                    <i class="ti ti-printer fs-1 text-info mb-2"></i>
+                                    <h6 class="card-title">طباعة التقارير</h6>
+                                    <p class="card-text">طباعة تقارير الموظفين</p>
+                                    <button type="button" class="btn btn-info">
+                                        <i class="ti ti-printer"></i> طباعة
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <div class="card h-100">
+                                <div class="card-body text-center">
+                                    <i class="ti ti-search fs-1 text-warning mb-2"></i>
+                                    <h6 class="card-title">بحث متقدم</h6>
+                                    <p class="card-text">إجراء بحث متقدم في قائمة الموظفين</p>
+                                    <button type="button" class="btn btn-warning">
+                                        <i class="ti ti-filter"></i> بحث
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <div class="card h-100">
+                                <div class="card-body text-center">
+                                    <i class="ti ti-settings fs-1 text-secondary mb-2"></i>
+                                    <h6 class="card-title">إعدادات النظام</h6>
+                                    <p class="card-text">ضبط إعدادات إدارة الموظفين</p>
+                                    <button type="button" class="btn btn-secondary">
+                                        <i class="ti ti-settings"></i> إعدادات
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <div class="card h-100">
+                                <div class="card-body text-center">
+                                    <i class="ti ti-help fs-1 text-danger mb-2"></i>
+                                    <h6 class="card-title">المساعدة</h6>
+                                    <p class="card-text">عرض دليل المستخدم ومساعدة النظام</p>
+                                    <button type="button" class="btn btn-danger">
+                                        <i class="ti ti-help"></i> مساعدة
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for Editing Employee -->
+<div class="modal fade" id="editEmployeeModal" tabindex="-1" aria-labelledby="editEmployeeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 1200px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editEmployeeModalLabel">تعديل بيانات الموظف</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Form Fields -->
+                <form id="editEmployeeForm" method="post">
+                    <input type="hidden" id="editEmployeeId" name="employeeId">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="editEmployeeName" class="form-label">الاسم الثلاثي للموظف <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="editEmployeeName" name="employeeName" required>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="editPhoneNumber" class="form-label">رقم التلفون <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="editPhoneNumber" name="phoneNumber" required>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="editEmployeeAccount" class="form-label">حساب الموظف <span class="text-danger">*</span></label>
+                            <select class="form-select" id="editEmployeeAccount" name="employeeAccount" required>
+                                <option value="" selected disabled>اختر المصدر الحسابي</option>
+                                <option value="1">حساب 1</option>
+                                <option value="2">حساب 2</option>
+                                <option value="3"> الحساب 3</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <!-- Permissions section - Simplified loading -->
+                    <div class="permissions" dir="rtl">
+                        <div class="mb-3">
+                            <button type="button" class="btn btn-info" id="loadEditPermissionsBtn">
+                                <i class="ti ti-lock"></i> تحميل الصلاحيات
+                            </button>
+                            <div id="editPermissionsContainer" style="display: none;">
+                                <!-- Permissions will be loaded here via AJAX -->
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+                <button type="button" class="btn btn-primary" id="saveEditEmployeeBtn">حفظ التعديلات</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for Viewing Employee -->
+<div class="modal fade" id="viewEmployeeModal" tabindex="-1" aria-labelledby="viewEmployeeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 1200px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="viewEmployeeModalLabel">عرض بيانات الموظف</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Employee Information Display -->
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">الاسم الثلاثي للموظف</label>
+                            <div class="form-control-plaintext border rounded p-2 bg-light" id="viewEmployeeName">
+                                <!-- Employee name will be populated here -->
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">رقم التلفون</label>
+                            <div class="form-control-plaintext border rounded p-2 bg-light" id="viewPhoneNumber">
+                                <!-- Phone number will be populated here -->
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">حساب الموظف</label>
+                            <div class="form-control-plaintext border rounded p-2 bg-light" id="viewEmployeeAccount">
+                                <!-- Account will be populated here -->
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">رقم الموظف</label>
+                            <div class="form-control-plaintext border rounded p-2 bg-light" id="viewEmployeeId">
+                                <!-- Employee ID will be populated here -->
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Permissions Display section -->
+                    <div class="permissions-view" dir="rtl">
+                        <h6 class="text-primary mb-3">صلاحيات الموظف</h6>
+                        <div class="mb-3">
+                            <button type="button" class="btn btn-info" id="loadViewPermissionsBtn">
+                                <i class="ti ti-lock"></i> تحميل الصلاحيات
+                            </button>
+                            <div id="viewPermissionsContainer" style="display: none;">
+                                <!-- Permissions will be loaded here via AJAX -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
+                <button type="button" class="btn btn-primary" id="editFromViewBtn">
+                    <i class="ti ti-pencil me-1"></i> تعديل
+                </button>
+                <button type="button" class="btn btn-info" id="printEmployeeBtn">
+                    <i class="ti ti-printer me-1"></i> طباعة
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+<script>
+  $(function () {
+    // اختيار الكل العام داخل مودال الإضافة
+    $('#addEmployeeModal').on('change', '#addSelectAllPermissions', function () {
+      var isChecked = this.checked;
+
+      // فعّل/عطّل كل سويتشات المجموعات (عدا العام)
+      $('#addEmployeeModal [id^="addSelectAll"]')
+        .not('#addSelectAllPermissions')
+        .prop('checked', isChecked)
+        .trigger('change');
+      
+      // Select all individual permissions
+      $('#addEmployeeModal .form-check-input[data-permission="page"]').prop('checked', isChecked);
+    });
+
+    // اختيار الكل لكل قسم في مودال الإضافة
+    $('#addEmployeeModal').on('change', '[data-select-all="page"]', function () {
+      var isChecked = this.checked;
+      var pageKey = $(this).data('page');
+      
+      // تحديد جميع الخيارات في نفس القسم
+      $('[data-page="' + pageKey + '"] .form-check-input[data-permission="page"]').prop('checked', isChecked);
+    });
+    
+    // اختيار الكل العام داخل مودال التعديل
+    $('#editEmployeeModal').on('change', '#editSelectAllPermissions', function () {
+      var isChecked = this.checked;
+
+      // فعّل/عطّل كل سويتشات المجموعات (عدا العام)
+      $('#editEmployeeModal [id^="editSelectAll"]')
+        .not('#editSelectAllPermissions')
+        .prop('checked', isChecked)
+        .trigger('change');
+      
+      // Select all individual permissions
+      $('#editEmployeeModal .form-check-input[data-permission="page"]').prop('checked', isChecked);
+    });
+    
+    // اختيار الكل لكل قسم في مودال التعديل
+    $('#editEmployeeModal').on('change', '[data-select-all="page"]', function () {
+      var isChecked = this.checked;
+      var pageKey = $(this).data('page');
+      
+      // تحديد جميع الخيارات في نفس القسم
+      $('[data-page="' + pageKey + '"] .form-check-input[data-permission="page"]').prop('checked', isChecked);
+    });
+    
+    // Handle popup menu actions
+    $('#popupMenuModal').on('click', '.btn', function() {
+      var buttonText = $(this).text().trim();
+      
+      // Handle export action
+      if (buttonText.includes('تصدير')) {
+        alert('سيتم تصدير بيانات الموظفين إلى ملف');
+      }
+      // Handle print action
+      else if (buttonText.includes('طباعة')) {
+        alert('سيتم طباعة تقارير الموظفين');
+      }
+      // Handle search action
+      else if (buttonText.includes('بحث')) {
+        alert('سيتم فتح نافذة البحث المتقدم');
+      }
+      // Handle settings action
+      else if (buttonText.includes('إعدادات')) {
+        alert('سيتم فتح إعدادات إدارة الموظفين');
+      }
+      // Handle help action
+      else if (buttonText.includes('مساعدة')) {
+        alert('سيتم عرض دليل المستخدم ومساعدة النظام');
+      }
+    });
+    
+    // When opening the popup menu, close any other open modals
+    $('[data-bs-target="#popupMenuModal"]').on('click', function() {
+      $('.modal').modal('hide');
+    });
+    
+    // Load permissions for add employee modal
+    $('#loadAddPermissionsBtn').on('click', function() {
+      console.log("Load permissions button clicked");
+      var container = $('#addPermissionsContainer');
+      console.log("Container found:", container.length > 0);
+      console.log("Container ID:", container.attr('id'));
+      console.log("Container HTML before toggle:", container.html());
+      
+      // Always reload permissions when the button is clicked
+      var pages = window.permissionsData;
+      
+      if (pages && pages.length > 0) {
+        loadPermissions(container, false); // Always regenerate
+      } else {
+        container.html('<div class="alert alert-warning">لا توجد صلاحيات متاحة</div>');
+      }
+      
+      container.toggle();
+      console.log("Container visible after toggle:", container.is(':visible'));
+      console.log("Container HTML after toggle:", container.html());
+      
+      $(this).find('i').toggleClass('ti-lock ti-unlock');
+      console.log("Button icon classes:", $(this).find('i').attr('class'));
+    });
+    
+    // Load permissions for edit employee modal
+    $('#loadEditPermissionsBtn').on('click', function() {
+      var container = $('#editPermissionsContainer');
+      
+      // Always reload permissions when the button is clicked
+      var pages = window.permissionsData;
+      
+      if (pages && pages.length > 0) {
+        loadPermissions(container, false); // Always regenerate
+      } else {
+        container.html('<div class="alert alert-warning">لا توجد صلاحيات متاحة</div>');
+      }
+      
+      container.toggle();
+      $(this).find('i').toggleClass('ti-lock ti-unlock');
+    });
+    
+    // Load permissions for view employee modal
+    $('#loadViewPermissionsBtn').on('click', function() {
+      var container = $('#viewPermissionsContainer');
+      
+      // Always reload permissions when the button is clicked
+      var pages = window.permissionsData;
+      
+      if (pages && pages.length > 0) {
+        loadPermissions(container, true); // Always regenerate
+      } else {
+        container.html('<div class="alert alert-warning">لا توجد صلاحيات متاحة</div>');
+      }
+      
+      container.toggle();
+      $(this).find('i').toggleClass('ti-lock ti-unlock');
+    });
+    
+    // Function to load permissions dynamically
+    function loadPermissions(container, isViewMode) {
+      // Add debugging as suggested
+      console.log("Loading permissions into:", container.attr("id"));
+      console.log("PermissionsData:", window.permissionsData);
+      
+      // Show loading indicator
+      container.html('<div class="text-center"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div></div>');
+      
+      // Add debugging
+      console.log("loadPermissions called with container:", container.attr('id'));
+      console.log("window.permissionsData:", window.permissionsData);
+      console.log("window.permissionsData type:", typeof window.permissionsData);
+      console.log("window.permissionsData length:", window.permissionsData ? window.permissionsData.length : 'undefined');
+      
+      // Use the permissions data from the server-side model
+      setTimeout(function() {
+        try {
+          // Generate permissions HTML dynamically using actual data
+          var permissionsHtml = '';
+          
+          // Use actual permissions data from the global permissionsData variable
+          var pages = window.permissionsData;
+          
+          // Add console log to verify data loading
+          console.log("Pages loaded: ", pages);
+          console.log("Pages type:", typeof pages);
+          console.log("Pages length:", pages ? pages.length : 'undefined');
+          
+          // Check if we have pages data
+          if (pages && pages.length > 0) {
+            console.log("Using actual permissions data, count:", pages.length);
+            
+            // Log the first page to see its structure
+            console.log("First page:", pages[0]);
+            
+            // Add a "Select All" checkbox at the top
+            if (!isViewMode) {
+              permissionsHtml += '<div class="mb-3 border rounded p-2 bg-light">';
+              permissionsHtml += '<div class="form-check">';
+              // Use unique ID based on container
+              var selectAllId = 'selectAllPermissions';
+              if (container.attr('id') === 'addPermissionsContainer') {
+                selectAllId = 'addSelectAllPermissions';
+              } else if (container.attr('id') === 'editPermissionsContainer') {
+                selectAllId = 'editSelectAllPermissions';
+              }
+              console.log("Select all ID:", selectAllId);
+              permissionsHtml += '<input type="checkbox" id="' + selectAllId + '" class="form-check-input" />';
+              permissionsHtml += '<label class="form-check-label fw-bold" for="' + selectAllId + '">تحديد جميع الصلاحيات</label>';
+              permissionsHtml += '</div>';
+              permissionsHtml += '</div>';
+            }
+            
+            // Use actual permissions data from the model
+            for (var i = 0; i < pages.length; i++) {
+              var page = pages[i];
+              console.log("Processing page:", page);
+              permissionsHtml += '<div class="mb-3 border rounded p-2">';
+              permissionsHtml += '<div class="d-flex align-items-center mb-2">';
+              permissionsHtml += '<strong class="me-2">' + page.pageTitle + '</strong>';
+              
+              if (!isViewMode) {
+                permissionsHtml += '<div class="form-check ms-2">';
+                var selectAllPageId = 'selectAll_' + page.pageKey;
+                // Use unique ID based on container
+                if (container.attr('id') === 'addPermissionsContainer') {
+                  selectAllPageId = 'addSelectAll_' + page.pageKey;
+                } else if (container.attr('id') === 'editPermissionsContainer') {
+                  selectAllPageId = 'editSelectAll_' + page.pageKey;
+                }
+                console.log("Select all page ID:", selectAllPageId);
+                permissionsHtml += '<input type="checkbox" id="' + selectAllPageId + '" data-select-all="page" data-page="' + page.pageKey + '" class="form-check-input" />';
+                permissionsHtml += '<label class="form-check-label" for="' + selectAllPageId + '">تحديد الكل</label>';
+                permissionsHtml += '</div>';
+              }
+              
+              permissionsHtml += '</div>';
+              permissionsHtml += '<div class="d-flex flex-wrap gap-3" data-page="' + page.pageKey + '">';
+              
+              // Check if page.options exists
+              if (page.options && page.options.length > 0) {
+                console.log("Page options count:", page.options.length);
+                for (var j = 0; j < page.options.length; j++) {
+                  var option = page.options[j];
+                  console.log("Processing option:", option);
+                  permissionsHtml += '<div class="form-check form-check-inline">';
+                  
+                  if (isViewMode) {
+                    // For view mode, show badges for selected permissions only
+                    if (option.isSelected) {
+                      permissionsHtml += '<span class="badge bg-success text-white">' + option.displayName + '</span>';
+                    }
+                  } else {
+                    // For edit/add mode, show checkboxes
+                    permissionsHtml += '<input type="checkbox" class="form-check-input" data-permission="page" data-page-key="' + page.pageKey + '" id="perm_' + page.pageKey + '_' + j + '"' + (option.isSelected ? ' checked' : '') + ' />';
+                    permissionsHtml += '<label class="form-check-label" for="perm_' + page.pageKey + '_' + j + '">' + option.displayName + '</label>';
+                  }
+                  
+                  permissionsHtml += '</div>';
+                }
+              } else {
+                console.log("No options found for page:", page.pageKey);
+              }
+              
+              permissionsHtml += '</div>';
+              permissionsHtml += '</div>';
+            }
+          } else {
+            // Fallback to hardcoded data if permissionsData is not available
+            console.log("No permissions data found, using fallback");
+            var allPages = [
+              { key: 'customers', title: 'العملاء', permissions: ['عرض', 'إضافة', 'تحديث', 'حذف', 'تحديد الحقول للطباعه', 'ربط بالتأمين', 'الغاء الربط بالتأمين', 'اضافة قرض', 'حفظ رقم الجهاز', 'صلاحيات الخدمات', 'حفظ الايبي', 'منح صلاحية ميزة تطبيقي', 'الغاء صلاحية ميزة تطبيقي', 'منح صلاحية واتسابي', 'الغاء صلاحية واتسابي', 'طلب رمز سري واتسابي', 'حذف القرض الي', 'مشاهدة عملاء تطبيقي', 'ايقاف اشعار افضل عميل', 'شآت آب', 'منح صلاحية استعادة كلمة السر للوكيل', 'الغاء صلاحية استعادة كلمة السر للوكيل', 'منح صلاحية الموزع للعميل', 'حفظ نسبة الموزع', 'اضافة الى موزع', 'تصدير ارقام العملاء واسيرادها في الهاتف', 'ارسال رسائل واتس للعملاء', 'اضافة العملاء لمجموعات نسب العمولات', 'تعديل مجموعة التسعيرة'] },
+              { key: 'employees', title: 'الموظفين', permissions: ['عرض', 'إضافة', 'تحديث', 'حذف', 'تحديد الحقول للطباعه'] },
+              { key: 'services', title: 'الخدمات', permissions: ['عرض', 'اضافة', 'تحرير', 'تحديد الحقول للطباعه'] },
+              { key: 'data', title: 'البيانات', permissions: ['عرض', 'جاهز', 'حذف', 'اضافة', 'تحديد السعر', 'مراسلة', 'اضافة مبلغ', 'طباعة', 'تعديل اسم العميل'] },
+              { key: 'insuranceAmounts', title: 'مبالغ التأمين', permissions: ['عرض', 'اضافة', 'تحديث', 'عكس مبلغ التأمين', 'تحديد الحقول للطباعه'] },
+              { key: 'packages', title: 'باقات الشرايح', permissions: ['عرض', 'اضافة', 'حذف', 'تحديد الحقول للطباعه'] },
+              { key: 'numbers', title: 'ارقام الشرايح', permissions: ['عرض', 'حذف', 'تسليم العقود', 'تحديد الحقول للطباعه'] },
+              { key: 'invoices', title: 'الفواتير', permissions: ['عرض', 'مشاهدة البيانات', 'تحديد الحقول للطباعه'] },
+              { key: 'customerJournals', title: 'يوميات العملاء', permissions: ['عرض', 'اضافة', 'تحديث', 'حذف', 'تحديد الحقول للطباعه'] },
+              { key: 'employeeJournals', title: 'يوميات الموظفين', permissions: ['عرض', 'اضافة', 'تحديث', 'حذف', 'تحديد الحقول للطباعه'] },
+              { key: 'reports', title: 'التقارير', permissions: ['عرض', 'طباعة', 'تصدير', 'تقرير العملاء', 'تقرير الموظفين', 'تقرير العملاء اليومي', 'كشف حساب العملاء', 'تقرير الارصدة الحسابية', 'تقرير اجماليات', 'تقرير ميزان المراجعة', 'تقرير البوابات'] },
+              { key: 'settings', title: 'الإعدادات', permissions: ['عرض', 'تحديث'] }
+            ];
+            
+            // Add a "Select All" checkbox at the top
+            if (!isViewMode) {
+              permissionsHtml += '<div class="mb-3 border rounded p-2 bg-light">';
+              permissionsHtml += '<div class="form-check">';
+              // Use unique ID based on container
+              var selectAllId = 'selectAllPermissions';
+              if (container.attr('id') === 'addPermissionsContainer') {
+                selectAllId = 'addSelectAllPermissions';
+              } else if (container.attr('id') === 'editPermissionsContainer') {
+                selectAllId = 'editSelectAllPermissions';
+              }
+              permissionsHtml += '<input type="checkbox" id="' + selectAllId + '" class="form-check-input" />';
+              permissionsHtml += '<label class="form-check-label fw-bold" for="' + selectAllId + '">تحديد جميع الصلاحيات</label>';
+              permissionsHtml += '</div>';
+              permissionsHtml += '</div>';
+            }
+            
+            for (var i = 0; i < allPages.length; i++) {
+              var page = allPages[i];
+              permissionsHtml += '<div class="mb-3 border rounded p-2">';
+              permissionsHtml += '<div class="d-flex align-items-center mb-2">';
+              permissionsHtml += '<strong class="me-2">' + page.title + '</strong>';
+              
+              if (!isViewMode) {
+                permissionsHtml += '<div class="form-check ms-2">';
+                var selectAllPageId = 'selectAll_' + page.key;
+                // Use unique ID based on container
+                if (container.attr('id') === 'addPermissionsContainer') {
+                  selectAllPageId = 'addSelectAll_' + page.key;
+                } else if (container.attr('id') === 'editPermissionsContainer') {
+                  selectAllPageId = 'editSelectAll_' + page.key;
+                }
+                permissionsHtml += '<input type="checkbox" id="' + selectAllPageId + '" data-select-all="page" data-page="' + page.key + '" class="form-check-input" />';
+                permissionsHtml += '<label class="form-check-label" for="' + selectAllPageId + '">تحديد الكل</label>';
+                permissionsHtml += '</div>';
+              }
+              
+              permissionsHtml += '</div>';
+              permissionsHtml += '<div class="d-flex flex-wrap gap-3" data-page="' + page.key + '">';
+              
+              for (var j = 0; j < page.permissions.length; j++) {
+                var permission = page.permissions[j];
+                permissionsHtml += '<div class="form-check form-check-inline">';
+                
+                if (isViewMode) {
+                  permissionsHtml += '<span class="badge bg-success text-white">' + permission + '</span>';
+                } else {
+                  permissionsHtml += '<input type="checkbox" class="form-check-input" data-permission="page" data-page-key="' + page.key + '" id="perm_' + page.key + '_' + j + '" />';
+                  permissionsHtml += '<label class="form-check-label" for="perm_' + page.key + '_' + j + '">' + permission + '</label>';
+                }
+                
+                permissionsHtml += '</div>';
+              }
+              
+              permissionsHtml += '</div>';
+              permissionsHtml += '</div>';
+            }
+          }
+          
+          console.log("Generated permissions HTML:", permissionsHtml);
+          container.html(permissionsHtml);
+        } catch (error) {
+          console.error('Error loading permissions:', error);
+          container.html('<div class="alert alert-danger">حدث خطأ أثناء تحميل الصلاحيات</div>');
+        }
+      }, 300); // Simulate network delay
+    }
+    
+    // Handle view action from dropdown menu
+    $('tbody').on('click', '[data-action="view"]', function(e) {
+      e.preventDefault();
+      
+      // Get the employee data from the row
+      var row = $(this).closest('tr');
+      var employeeId = row.find('.employee-checkbox').val();
+      var employeeName = row.find('td:nth-child(3)').text();
+      var phoneNumber = row.find('td:nth-child(4)').text();
+      var accountId = row.find('td:nth-child(5)').text();
+      
+      // Populate the view modal with employee data
+      $('#viewEmployeeId').text(employeeId);
+      $('#viewEmployeeName').text(employeeName);
+      $('#viewPhoneNumber').text(phoneNumber);
+      $('#viewEmployeeAccount').text(getAccountName(accountId));
+      
+      // Reset permissions container
+      $('#viewPermissionsContainer').empty().hide();
+      $('#loadViewPermissionsBtn').find('i').removeClass('ti-unlock').addClass('ti-lock');
+      
+      // Show the view modal
+      $('#viewEmployeeModal').modal('show');
+    });
+    
+    // Handle the top view button click
+    $('#topViewButton').on('click', function(e) {
+      e.preventDefault();
+      
+      // Check if any employee is selected (checkbox is checked)
+      var selectedCheckbox = $('.employee-checkbox:checked');
+      
+      if (selectedCheckbox.length === 0) {
+        // No employee selected
+        alert('الرجاء تحديد موظف أولاً');
+        return;
+      }
+      
+      if (selectedCheckbox.length > 1) {
+        // Multiple employees selected
+        alert('الرجاء تحديد موظف واحد فقط للمشاهدة');
+        return;
+      }
+      
+      // Get the selected employee data
+      var row = selectedCheckbox.closest('tr');
+      var employeeId = selectedCheckbox.val();
+      var employeeName = row.find('td:nth-child(3)').text();
+      var phoneNumber = row.find('td:nth-child(4)').text();
+      var accountId = row.find('td:nth-child(5)').text();
+      
+      // Populate the view modal with employee data
+      $('#viewEmployeeId').text(employeeId);
+      $('#viewEmployeeName').text(employeeName);
+      $('#viewPhoneNumber').text(phoneNumber);
+      $('#viewEmployeeAccount').text(getAccountName(accountId));
+      
+      // Reset permissions container
+      $('#viewPermissionsContainer').empty().hide();
+      $('#loadViewPermissionsBtn').find('i').removeClass('ti-unlock').addClass('ti-lock');
+      
+      // Show the view modal
+      $('#viewEmployeeModal').modal('show');
+    });
+    
+    // Handle edit button in view modal
+    $('#editFromViewBtn').on('click', function() {
+      // Get data from view modal
+      var employeeId = $('#viewEmployeeId').text();
+      var employeeName = $('#viewEmployeeName').text();
+      var phoneNumber = $('#viewPhoneNumber').text();
+      var accountId = getAccountIdFromName($('#viewEmployeeAccount').text());
+      
+      // Populate the edit modal with employee data
+      $('#editEmployeeId').val(employeeId);
+      $('#editEmployeeName').val(employeeName);
+      $('#editPhoneNumber').val(phoneNumber);
+      $('#editEmployeeAccount').val(accountId);
+      
+      // Reset permissions container
+      $('#editPermissionsContainer').empty().hide();
+      $('#loadEditPermissionsBtn').find('i').removeClass('ti-unlock').addClass('ti-lock');
+      
+      // Hide view modal and show edit modal
+      $('#viewEmployeeModal').modal('hide');
+      $('#editEmployeeModal').modal('show');
+    });
+    
+    // Handle print button in view modal
+    $('#printEmployeeBtn').on('click', function() {
+      var employeeName = $('#viewEmployeeName').text();
+      alert('سيتم طباعة بيانات الموظف: ' + employeeName);
+    });
+    
+    // Helper function to get account name from ID
+    function getAccountName(accountId) {
+      switch(accountId) {
+        case '1': return 'حساب 1';
+        case '2': return 'حساب 2';
+        case '3': return ' الحساب 3';
+        default: return 'غير محدد';
+      }
+    }
+    
+    // Helper function to get account ID from name
+    function getAccountIdFromName(accountName) {
+      switch(accountName) {
+        case 'حساب 1': return '1';
+        case 'حساب 2': return '2';
+        case ' الحساب 3': return '3';
+        default: return '';
+      }
+    }
+    
+    // Handle edit action from dropdown menu
+    $('tbody').on('click', '[data-action="edit"]', function(e) {
+      e.preventDefault();
+      
+      // Get the employee data from the row
+      var row = $(this).closest('tr');
+      var employeeId = row.find('.employee-checkbox').val();
+      var employeeName = row.find('td:nth-child(3)').text();
+      var phoneNumber = row.find('td:nth-child(4)').text();
+      var accountId = row.find('td:nth-child(5)').text();
+      
+      // Populate the edit modal with employee data
+      $('#editEmployeeId').val(employeeId);
+      $('#editEmployeeName').val(employeeName);
+      $('#editPhoneNumber').val(phoneNumber);
+      $('#editEmployeeAccount').val(accountId);
+      
+      // Reset permissions container
+      $('#editPermissionsContainer').empty().hide();
+      $('#loadEditPermissionsBtn').find('i').removeClass('ti-unlock').addClass('ti-lock');
+      
+      // Show the edit modal
+      $('#editEmployeeModal').modal('show');
+    });
+    
+    // Handle the top edit button click
+    $('#topEditButton').on('click', function(e) {
+      e.preventDefault();
+      
+      // Check if any employee is selected (checkbox is checked)
+      var selectedCheckbox = $('.employee-checkbox:checked');
+      
+      if (selectedCheckbox.length === 0) {
+        // No employee selected
+        alert('الرجاء تحديد موظف أولاً');
+        return;
+      }
+      
+      if (selectedCheckbox.length > 1) {
+        // Multiple employees selected
+        alert('الرجاء تحديد موظف واحد فقط للتعديل');
+        return;
+      }
+      
+      // Get the selected employee data
+      var row = selectedCheckbox.closest('tr');
+      var employeeId = selectedCheckbox.val();
+      var employeeName = row.find('td:nth-child(3)').text();
+      var phoneNumber = row.find('td:nth-child(4)').text();
+      var accountId = row.find('td:nth-child(5)').text();
+      
+      // Populate the edit modal with employee data
+      $('#editEmployeeId').val(employeeId);
+      $('#editEmployeeName').val(employeeName);
+      $('#editPhoneNumber').val(phoneNumber);
+      $('#editEmployeeAccount').val(accountId);
+      
+      // Reset permissions container
+      $('#editPermissionsContainer').empty().hide();
+      $('#loadEditPermissionsBtn').find('i').removeClass('ti-unlock').addClass('ti-lock');
+      
+      // Show the edit modal
+      $('#editEmployeeModal').modal('show');
+    });
+    
+    // Handle save button in edit modal
+    $('#saveEditEmployeeBtn').on('click', function() {
+      // In a real application, you would send the data to the server here
+      alert('تم حفظ تعديلات الموظف بنجاح!');
+      $('#editEmployeeModal').modal('hide');
+    });
+    
+    // Handle save button in add employee modal
+    $('#saveEmployeeBtn').on('click', function() {
+      var selectedPermissions = [];
+      $('#addPermissionsContainer input[type="checkbox"][data-permission="page"]:checked').each(function() {
+        selectedPermissions.push($(this).attr('id'));
+      });
+
+      var employeeData = {
+        name: $('#employeeName').val(),
+        phone: $('#phoneNumber').val(),
+        account: $('#employeeAccount').val(),
+        permissions: selectedPermissions
+      };
+
+      console.log("Saving employee:", employeeData);
+
+      // Here you would send the data to the server via AJAX or form submit
+      // $.post('/Employees/Add', employeeData, function(resp){ ... });
+      
+      // For now, just show an alert
+      alert('تم حفظ الموظف بنجاح!');
+      $('#addEmployeeModal').modal('hide');
+    });
+    
+    // Handle filter toggle button
+    $('#toggleFilters').on('click', function() {
+      var filterSection = $('#filterSection');
+      var icon = $(this).find('i');
+      var textSpan = $('#toggleFiltersText');
+      
+      if (filterSection.is(':visible')) {
+        // Hide the filter section
+        filterSection.hide();
+        icon.removeClass('ti-filter-off').addClass('ti-filter');
+        textSpan.text('إظهار الفلترة');
+      } else {
+        // Show the filter section
+        filterSection.show();
+        icon.removeClass('ti-filter').addClass('ti-filter-off');
+        textSpan.text('إخفاء الفلترة');
+      }
+    });
+    
+    // Handle apply filters button
+    $('#applyFilters').on('click', function() {
+      // In a real application, you would apply the filters here
+      alert('سيتم تطبيق الفلاتر المحددة');
+    });
+    
+    // Handle reset filters button
+    $('#resetFilters').on('click', function() {
+      // Reset all filter input fields
+      $('#filter-name').val('');
+      $('#filter-phone').val('');
+      $('#filter-account').val('');
+      // In a real application, you would also reset the table data
+      alert('تم إعادة تعيين الفلاتر');
+    });
+  });
+</script>
+}
+
+@section Styles {
+<style>
+    /* Popup menu card styles */
+    #popupMenuModal .card {
+        transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        border: 1px solid rgba(0, 0, 0, 0.125);
+    }
+    
+    #popupMenuModal .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    }
+    
+    #popupMenuModal .card i {
+        font-size: 2rem;
+    }
+    
+    #popupMenuModal .card .btn {
+        transition: all 0.2s ease-in-out;
+    }
+    
+    #popupMenuModal .card .btn:hover {
+        transform: scale(1.05);
+    }
+    
+    /* Modal header styling - using project's primary color */
+    .modal-header {
+        background-color: #1ab394; /* Project's primary color */
+        color: white;
+        border-bottom: 1px solid #16987e;
+    }
+    
+    /* Modal title styling */
+    .modal-header .modal-title {
+        font-weight: 500;
+        color: white;
+    }
+    
+    /* Close button styling for modal headers */
+    .modal-header .btn-close {
+        filter: invert(1) grayscale(100%) brightness(200%);
+    }
+    
+    /* Modal footer styling - using a lighter shade */
+    .modal-footer {
+        background-color: #f0f8f8; /* Light teal background */
+        border-top: 1px solid #d1e8e8;
+    }
+    
+    /* Primary buttons in modals */
+    .modal-footer .btn-primary {
+        background-color: #1ab394;
+        border-color: #1ab394;
+    }
+    
+    .modal-footer .btn-primary:hover {
+        background-color: #16987e;
+        border-color: #16987e;
+    }
+    
+    /* Consistent styling for all permission sections across modals */
+    .permissions, .permissions-view {
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        padding: 15px;
+        margin-top: 20px;
+        border: 1px solid #e9ecef;
+    }
+    
+    /* Dark mode support for permissions container */
+    [data-bs-theme="dark"] .permissions, 
+    [data-bs-theme="dark"] .permissions-view {
+        background-color: #272832;
+        border-color: #293036;
+    }
+    
+    /* Permission page sections */
+    .permissions-page, .view-permissions-page {
+        background-color: white;
+        transition: box-shadow 0.2s ease;
+        border: 1px solid #e9ecef;
+        border-radius: 5px;
+        padding: 15px;
+        margin-bottom: 15px;
+    }
+    
+    /* Dark mode support for permission pages */
+    [data-bs-theme="dark"] .permissions-page, 
+    [data-bs-theme="dark"] .view-permissions-page {
+        background-color: #1e1f27;
+        border-color: #293036;
+    }
+    
+    .permissions-page:hover, .view-permissions-page:hover {
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    /* Dark mode hover effect */
+    [data-bs-theme="dark"] .permissions-page:hover, 
+    [data-bs-theme="dark"] .view-permissions-page:hover {
+        box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+    
+    /* Permission checkboxes */
+    .permissions .form-check-input:checked {
+        background-color: #1ab394;
+        border-color: #1ab394;
+    }
+    
+    /* View mode badges */
+    .view-permission-badge, .permission-badge {
+        font-size: 0.875rem;
+        padding: 5px 10px;
+        margin: 2px;
+        border-radius: 4px;
+    }
+    
+    /* Badge styling for better visibility in dark mode */
+    .badge.bg-success {
+        background-color: #0acf97 !important;
+    }
+    
+    .badge.bg-info {
+        background-color: #23c6c8 !important;
+    }
+    
+    /* Dark mode badge adjustments */
+    [data-bs-theme="dark"] .badge.bg-success {
+        background-color: #0acf97 !important;
+        color: #1e1f27;
+    }
+    
+    [data-bs-theme="dark"] .badge.bg-info {
+        background-color: #23c6c8 !important;
+        color: #1e1f27;
+    }
+    
+    /* Select all checkboxes styling */
+    .form-check-input:checked {
+        background-color: #1ab394;
+        border-color: #1ab394;
+    }
+    
+    /* View employee modal specific styles */
+    #viewEmployeeModal .form-control-plaintext {
+        background-color: #f8f9fa;
+        border: 1px solid #dee2e6;
+        min-height: 38px;
+        display: flex;
+        align-items: center;
+        font-weight: 500;
+    }
+    
+    /* Dark mode adjustments for view modal */
+    [data-bs-theme="dark"] #viewEmployeeModal .form-control-plaintext {
+        background-color: #272832;
+        border-color: #293036;
+        color: #aab8c5;
+    }
+    
+    /* Consistent button styling across all modals */
+    .btn-info {
+        background-color: #23c6c8;
+        border-color: #23c6c8;
+    }
+    
+    .btn-info:hover {
+        background-color: #1ea8aa;
+        border-color: #1ea8aa;
+    }
+    
+    /* Dark mode button adjustments */
+    [data-bs-theme="dark"] .btn-info {
+        background-color: #23c6c8;
+        border-color: #23c6c8;
+    }
+    
+    [data-bs-theme="dark"] .btn-info:hover {
+        background-color: #1ea8aa;
+        border-color: #1ea8aa;
+    }
+    
+    /* Loading spinner styling */
+    .spinner-border {
+        width: 2rem;
+        height: 2rem;
+    }
+    
+    /* Alert styling for better visibility */
+    .alert-warning {
+        background-color: #fff3cd;
+        border-color: #ffeaa7;
+        color: #856404;
+    }
+    
+    .alert-danger {
+        background-color: #f8d7da;
+        border-color: #f5c6cb;
+        color: #721c24;
+    }
+    
+    /* Dark mode alert adjustments */
+    [data-bs-theme="dark"] .alert-warning {
+        background-color: #664d03;
+        border-color: #7d5f04;
+        color: #ffecb5;
+    }
+    
+    [data-bs-theme="dark"] .alert-danger {
+        background-color: #721c24;
+        border-color: #842029;
+        color: #f8d7da;
+    }
+</style>
+}

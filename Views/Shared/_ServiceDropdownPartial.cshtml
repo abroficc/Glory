@@ -1,0 +1,36 @@
+@model Glory77.Models.ServiceDropdownModel
+
+<select class="selectpicker v-select" 
+        id="@Model.Id" 
+        name="@Model.Name" 
+        data-live-search="true" 
+        required="@(Model.IsRequired ? "required" : null)"
+        @(Model.IsDisabled ? "disabled" : "")>
+    @if (!string.IsNullOrEmpty(Model.Placeholder))
+    {
+        <option value="">@Model.Placeholder</option>
+    }
+    <option value="1">تسديد رصيد موبايل</option>
+    <option value="2">رصيد وباقة ( سعر الرصيد + نوع الباقة )</option>
+    <option value="3">تسديد الانترنت ADSL</option>
+    <option value="4">تسديد الهاتف الثابت</option>
+    <option value="5">بدل فاقد يمن موبايل</option>
+    <option value="6">شريحة جديد موبايل</option>
+    <option value="7">شحن فوري للجميع</option>
+    <option value="8">شريحة جديدة دفع مسبق / برمجة</option>
+    <option value="9">بدل فاقد (2)</option>
+    <option value="10">تفعيل You جديدة</option>
+    <option value="11">تفعيل سبأفون</option>
+    <option value="12">باقات MTN</option>
+    <option value="13">إرسال حوالة</option>
+    <option value="14">اضف شبكتك مجاناً</option>
+    <option value="15">استلام حوالة</option>
+    <option value="16">كروت شبكة SMS</option>
+    <option value="17">شحن فوري جملة</option>
+    <option value="18">إرسال إشعار التأمين</option>
+    <option value="19">تسديد النت يدوي</option>
+    <option value="20">الخط الثابت يدوي</option>
+    <option value="21">باقات سبأفون</option>
+    <option value="22">كروت وايرلس إشعارات فقط</option>
+    <option value="23">حول رصيد لتسديد فوري</option>
+</select>

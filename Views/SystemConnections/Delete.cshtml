@@ -1,0 +1,276 @@
+@model Glory77.Models.SystemConnection
+
+@{
+    Layout = "_VerticalLayout";
+    ViewData["Title"] = "حذف ربطية نظام";
+    ViewData["Direction"] = "rtl";
+}
+
+@section styles {
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600&display=swap" rel="stylesheet">
+    
+    <!-- UI Polish CSS -->
+    <link href="~/css/ui-polish.css" rel="stylesheet" type="text/css">
+    
+    <!-- Voucher Modal CSS -->
+    <link href="~/css/voucher-modal.css" rel="stylesheet" type="text/css">
+    
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        body[dir="rtl"] * {
+            font-family: "Cairo", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+        }
+        
+        /* Form styling */
+        .v-section {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid #e9ecef;
+        }
+        
+        [data-bs-theme="dark"] .v-section {
+            background: #1e1f27;
+            border-color: #293036;
+        }
+        
+        .v-cap {
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #495057;
+            font-size: 16px;
+            border-bottom: 1px solid #dee2e6;
+            padding-bottom: 8px;
+        }
+        
+        [data-bs-theme="dark"] .v-cap {
+            color: #aab8c5;
+            border-bottom: 1px solid #374151;
+        }
+        
+        .v-label {
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 5px;
+            display: block;
+        }
+        
+        [data-bs-theme="dark"] .v-label {
+            color: #e5e7eb;
+        }
+        
+        .view-field {
+            padding: 8px 12px;
+            background-color: #f8f9fa;
+            border-radius: 6px;
+            border: 1px solid #e9ecef;
+            min-height: 38px;
+            display: flex;
+            align-items: center;
+        }
+        
+        [data-bs-theme="dark"] .view-field {
+            background-color: #1f2937;
+            border-color: #374151;
+            color: #f3f4f6;
+        }
+        
+        /* Status indicator styling */
+        .status-connected {
+            background-color: #d4edda;
+            color: #155724;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+        
+        .status-disconnected {
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+        
+        [data-bs-theme="dark"] .status-connected {
+            background-color: #145214;
+            color: #d4edda;
+        }
+        
+        [data-bs-theme="dark"] .status-disconnected {
+            background-color: #721c24;
+            color: #f8d7da;
+        }
+        
+        /* Button styling */
+        .btn {
+            border-radius: 6px;
+            font-weight: 600;
+        }
+        
+        /* Alert styling */
+        .alert-danger {
+            border-radius: 8px;
+        }
+    </style>
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="d-flex align-items-center">
+                    <h5 class="card-title mb-0 fw-bold">@ViewData["Title"]</h5>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-danger" role="alert">
+                    <h4 class="alert-heading">
+                        <i class="fa fa-exclamation-triangle me-2"></i>تأكيد الحذف
+                    </h4>
+                    <p>هل أنت متأكد أنك تريد حذف ربطية النظام التالية؟</p>
+                    <hr>
+                    <p class="mb-0">لا يمكن التراجع عن هذا الإجراء.</p>
+                </div>
+                
+                <div class="v-section">
+                    <div class="v-cap">معلومات الربطية</div>
+                    
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="v-label">المزود</label>
+                            <div class="view-field">
+                                @(Model.Provider != null ? Model.Provider.ProviderName : "غير محدد")
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label class="v-label">اسم النظام</label>
+                            <div class="view-field">
+                                @Model.SystemName
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label class="v-label">نوع المزود</label>
+                            <div class="view-field">
+                                @Model.ProviderType
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label class="v-label">الجهة (شمال/جنوب)</label>
+                            <div class="view-field">
+                                @Model.Direction
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label class="v-label">الشبكات المدعومة</label>
+                            <div class="view-field">
+                                @Model.SupportedNetworks
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label class="v-label">الموظفين</label>
+                            <div class="view-field">
+                                @Model.Employees
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label class="v-label">المصادر الحسابية</label>
+                            <div class="view-field">
+                                @Model.AccountSources
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label class="v-label">الرصيد</label>
+                            <div class="view-field">
+                                @Model.Balance
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label class="v-label">وقت الربط</label>
+                            <div class="view-field">
+                                @(Model.ConnectionTime.HasValue ? Model.ConnectionTime.Value.ToString("yyyy-MM-dd HH:mm") : "")
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label class="v-label">حالة الربط</label>
+                            <div class="view-field">
+                                @if (!string.IsNullOrEmpty(Model.ConnectionStatus))
+                                {
+                                    @if (Model.ConnectionStatus == "متصل")
+                                    {
+                                        <span class="status-connected">@Model.ConnectionStatus</span>
+                                    }
+                                    else if (Model.ConnectionStatus == "غير متصل")
+                                    {
+                                        <span class="status-disconnected">@Model.ConnectionStatus</span>
+                                    }
+                                    else
+                                    {
+                                        @Model.ConnectionStatus
+                                    }
+                                }
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label class="v-label">آخر فحص</label>
+                            <div class="view-field">
+                                @(Model.LastCheck.HasValue ? Model.LastCheck.Value.ToString("yyyy-MM-dd HH:mm") : "")
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label class="v-label">زمن الاستجابة (ملي ثانية)</label>
+                            <div class="view-field">
+                                @Model.ResponseTime
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-12">
+                            <label class="v-label">إعدادات التنبيه</label>
+                            <div class="view-field">
+                                @Model.AlertSettings
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-12">
+                            <label class="v-label">إعدادات التوقيف</label>
+                            <div class="view-field">
+                                @Model.SuspensionSettings
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-12">
+                            <label class="v-label">رسالة الخطأ</label>
+                            <div class="view-field">
+                                @Model.ErrorMessage
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <form asp-action="Delete" class="mt-3">
+                    <input type="hidden" asp-for="Id" />
+                    <button type="submit" class="btn btn-danger">
+                        <i class="fa fa-trash me-1"></i> حذف
+                    </button>
+                    <a asp-action="Index" class="btn btn-secondary">
+                        <i class="fa fa-arrow-right me-1"></i> إلغاء
+                    </a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

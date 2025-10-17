@@ -1,0 +1,1188 @@
+﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿@{
+    ViewBag.Title = "لوحة تحكم سداد";
+}
+
+@section styles
+{
+
+}
+
+<div class="container-fluid">
+
+    @await Html.PartialAsync("~/Views/Shared/Partials/_PageTitle.cshtml")
+    
+    <!-- Metrics Page Content (Translated to Arabic) -->
+    <div class="row row-cols-xxl-4 row-cols-md-2 row-cols-1">
+        <!-- Total Yemen Mobile Recharge Widget -->
+        <div class="col">
+            <div class="card">
+                <div class="card-header d-flex border-dashed justify-content-between align-items-center">
+                    <h5 class="card-title">إجمالي شحن يمن موبايل</h5>
+                    <span class="badge badge-soft-success"> شهري</span>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="text-center">
+                            <img src="~/images/networks/Yemen Mobile.png" alt="Yemen Mobile" class="img-fluid rounded border border-3 border-success" style="max-height: 60px; max-width: 60px;">
+                        </div>
+                        <div class="text-end">
+                            <h3 class="mb-2 fw-normal"><span data-target="62500">0</span> ريال</h3>
+                            <p class="mb-0 text-muted"><span>إجمالي شحن يمن موبايل الشهري</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- end col -->
+        <!-- Total YOU Recharge Widget -->
+        <div class="col">
+            <div class="card">
+                <div class="card-header d-flex border-dashed justify-content-between align-items-center">
+                    <h5 class="card-title">إجمالي شحن YOU</h5>
+                    <span class="badge badge-soft-primary"> شهري</span>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="text-center">
+                            <img src="~/images/networks/YOU.png" alt="YOU" class="img-fluid rounded border border-3 border-primary" style="max-height: 60px; max-width: 60px;">
+                        </div>
+                        <div class="text-end">
+                            <h3 class="mb-2 fw-normal"><span data-target="45000">0</span> ريال</h3>
+                            <p class="mb-0 text-muted"><span>إجمالي شحن YOU الشهري</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- end col -->
+        <!-- Total Spafon Recharge Widget -->
+        <div class="col">
+            <div class="card">
+                <div class="card-header d-flex border-dashed justify-content-between align-items-center">
+                    <h5 class="card-title">إجمالي شحن سبافون</h5>
+                    <span class="badge badge-soft-info"> شهري</span>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="text-center">
+                            <img src="~/images/networks/Spafon.png" alt="Spafon" class="img-fluid rounded border border-3 border-info" style="max-height: 60px; max-width: 60px;">
+                        </div>
+                        <div class="text-end">
+                            <h3 class="mb-2 fw-normal"><span data-target="12723750">0</span> ريال</h3>
+                            <p class="mb-0 text-muted"><span>إجمالي شحن سبافون الشهري</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- end col -->
+        <!-- Total And Recharge Widget -->
+        <div class="col">
+            <div class="card">
+                <div class="card-header d-flex border-dashed justify-content-between align-items-center">
+                    <h5 class="card-title">إجمالي شحن واي</h5>
+                    <span class="badge badge-soft-warning"> شهري</span>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="text-center">
+                            <img src="~/images/networks/And.png" alt="And" class="img-fluid rounded border border-3 border-warning" style="max-height: 60px; max-width: 60px;">
+                        </div>
+                        <div class="text-end">
+                            <h3 class="mb-2 fw-normal"><span data-target="12582500">0</span> ريال</h3>
+                            <p class="mb-0 text-muted"><span>إجمالي شحن واي الشهري</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- end col -->
+    </div><!-- end row -->
+
+    <div class="row row-cols-xxl-4 row-cols-md-2 row-cols-1">
+        <!-- Widget: Number of Providers -->
+        <div class="col">
+            <div class="card">
+                <div class="card-header d-flex border-0 justify-content-between align-items-center">
+                    <h5 class="card-title">عدد المزودين</h5>
+                    <span class="badge badge-soft-success"> شهري</span>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h3 class="mb-1 fw-normal"><span data-target="24">0</span> مزود</h3>
+                            <p class="mb-0 text-muted"><span>إجمالي عدد المزودين</span></p>
+                        </div>
+                        <div class="bar-chart" style="min-height: 40px; width: 80px;"></div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- end col -->
+        <!-- Total Ready Operations Flow Rate Widget -->
+        <div class="col">
+            <div class="card">
+                <div class="card-header d-flex border-0 justify-content-between align-items-center">
+                    <h5 class="card-title">معدل تدفق العمليات الجاهزة (الإجمالي)</h5>
+                    <span class="badge badge-soft-success"> +8.7%</span>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="area-chart" style="min-height: 40px; width: 80px;"></div>
+                        <div class="text-end">
+                            <h3 class="mb-1 fw-normal"><span data-target="245">0</span> عملية/ساعة</h3>
+                            <p class="mb-0 text-muted"><span>في الأسبوع الماضي</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- end col -->
+        <!-- Widget: Project C Engagement -->
+        <div class="col">
+            <div class="card">
+                <div class="card-header d-flex border-0 justify-content-between align-items-center">
+                    <h5 class="card-title">مشروع ج - التفاعل</h5>
+                    <span class="badge badge-soft-warning"> شهري</span>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h3 class="mb-1 fw-normal"><span data-target="145000000">0</span> ريال</h3>
+                            <p class="mb-0 text-muted"><span>التفاعل الشهري لمشروع ج</span></p>
+                        </div>
+                        <div class="bar-chart" style="min-height: 40px; width: 80px;"></div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- end col -->
+        <!-- Widget: Ready Operations Flow Rate (Completed) -->
+        <div class="col">
+            <div class="card">
+                <div class="card-header d-flex border-0 justify-content-between align-items-center">
+                    <h5 class="card-title">معدل تدفق العمليات الجاهزة (المكتملة)</h5>
+                    <span class="badge badge-soft-success">+8.7%</span>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="area-chart" style="min-height: 40px; width: 80px;"></div>
+                        <div class="text-end">
+                            <h3 class="mb-1 fw-normal"><span data-target="245">0</span> عملية/ساعة</h3>
+                            <p class="mb-0 text-muted"><span>في الأسبوع الماضي</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- end col -->
+        <!-- Widget: Project D Expenses -->
+        <div class="col">
+            <div class="card">
+                <div class="card-header d-flex border-0 justify-content-between align-items-center">
+                    <h5 class="card-title">مشروع د - المصروفات</h5>
+                    <span class="badge badge-soft-danger"> شهري</span>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="bar-chart" style="min-height: 40px; width: 80px;"></div>
+                        <div class="text-end">
+                            <h3 class="mb-1 fw-normal"><span data-target="175000000">0</span> ريال</h3>
+                            <p class="mb-0 text-muted"><span>المصروفات الشهرية لمشروع د</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- end col -->
+        <!-- Widget: Registration Requests Flow Rate -->
+        <div class="col">
+            <div class="card">
+                <div class="card-header d-flex border-0 justify-content-between align-items-center">
+                    <h5 class="card-title">معدل تدفق طلبات التسجيل</h5>
+                    <span class="badge badge-soft-success">+5.2%</span>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="area-chart" style="min-height: 40px; width: 80px;"></div>
+                        <div class="text-end">
+                            <h3 class="mb-1 fw-normal"><span data-target="125">0</span> طلب</h3>
+                            <p class="mb-0 text-muted"><span>في الأسبوع الماضي</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- end col -->
+    </div><!-- end row -->
+
+    <div class="row row-cols-xxl-4 row-cols-md-2 row-cols-1">
+        <!-- Provider Performance Yesterday Widget -->
+        <div class="col">
+            <div class="card">
+                <div class="card-header d-flex border-0 justify-content-between align-items-center">
+                    <h5 class="card-title">أداء المزودين بالأمس</h5>
+                    <span class="badge badge-soft-success"> +12.5%</span>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="bar-chart" style="min-height: 60px; width: 140px;"></div>
+                        <div class="text-end">
+                            <h3 class="mb-1 fw-normal"><span data-target="85">0</span>%</h3>
+                            <p class="mb-0 text-muted"><span>متوسط الأداء</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- end col -->
+        <!-- Yemen Mobile Performance Widget -->
+        <div class="col">
+            <div class="card">
+                <div class="card-header d-flex border-0 justify-content-between align-items-center">
+                    <h5 class="card-title">معدل تدفق التأمينات</h5>
+                    <span class="badge badge-soft-success"> +5.4%</span>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h3 class="mb-1 fw-normal"><span data-target="155">0</span> تأمين/ساعة</h3>
+                            <p class="mb-0 text-muted"><span>في الأسبوع الماضي</span></p>
+                        </div>
+                        <div class="bar-chart" style="min-height: 60px; width: 140px;"></div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- end col -->
+        <!-- Widget 3: Ready Operations Flow Rate (Processing) -->
+        <div class="col">
+            <div class="card">
+                <div class="card-header d-flex border-0 justify-content-between align-items-center">
+                    <h5 class="card-title">معدل تدفق العمليات الجاهزة (قيد التنفيذ)</h5>
+                    <span class="badge badge-soft-success"> +8.7%</span>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="area-chart" style="min-height: 60px; width: 140px;"></div>
+                        <div class="text-end">
+                            <h3 class="mb-1 fw-normal"><span data-target="245">0</span> عملية/ساعة</h3>
+                            <p class="mb-0 text-muted"><span>في الأسبوع الماضي</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- end col -->
+        <!-- Widget 4 -->
+        <div class="col">
+            <div class="card">
+                <div class="card-header d-flex border-0 justify-content-between align-items-center">
+                    <h5 class="card-title">معدل تدفق العمليات الملغاة</h5>
+                    <span class="badge badge-soft-danger"> +2.3%</span>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="area-chart" style="min-height: 60px; width: 140px;"></div>
+                        <div class="text-end">
+                            <h3 class="mb-1 fw-normal"><span data-target="12">0</span> عملية/ساعة</h3>
+                            <p class="mb-0 text-muted"><span>في الأسبوع الماضي</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- end col -->
+    </div><!-- end row -->
+
+
+    <div class="row row-cols-xxl-4 row-cols-md-2 row-cols-1">
+        <!-- Revenue Widget -->
+        <div class="col">
+            <div class="card">
+                <div class="card-header d-flex border-0 justify-content-between align-items-center">
+                    <h5 class="card-title mb-0">إجمالي الإيرادات</h5>
+                    <span class="badge bg-success-subtle text-success">+8.2%</span>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h3 class="mb-1 fw-normal"><span data-target="310000000">0</span> ريال</h3>
+                            <p class="mb-0 text-muted">هذا الربع</p>
+                        </div>
+                        <div class="text-center">
+                            <img src="~/images/networks/Yemen Mobile.png" alt="Yemen Mobile" class="img-fluid rounded border border-3 border-success" style="max-height: 60px; max-width: 60px;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Expenses Widget -->
+        <div class="col">
+            <div class="card">
+                <div class="card-header d-flex border-0 justify-content-between align-items-center">
+                    <h5 class="card-title mb-0">إجمالي المصروفات</h5>
+                    <span class="badge bg-danger-subtle text-danger">-2.1%</span>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="text-center">
+                            <img src="~/images/networks/YOU.png" alt="YOU" class="img-fluid rounded border border-3 border-primary" style="max-height: 60px; max-width: 60px;">
+                        </div>
+                        <div class="text-end ms-3">
+                            <h3 class="mb-1 fw-normal"><span data-target="210000000">0</span> ريال</h3>
+                            <p class="mb-0 text-muted">هذا الربع</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Net Profit Widget -->
+        <div class="col">
+            <div class="card">
+                <div class="card-header d-flex border-0 justify-content-between align-items-center">
+                    <h5 class="card-title mb-0">صافي الربح</h5>
+                    <span class="badge bg-info-subtle text-info">مستقر</span>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h3 class="mb-1 fw-normal"><span data-target="100000000">0</span> ريال</h3>
+                            <p class="mb-0 text-muted">هذا الربع</p>
+                        </div>
+                        <div class="text-center">
+                            <img src="~/images/networks/Spafon.png" alt="Spafon" class="img-fluid rounded border border-3 border-info" style="max-height: 60px; max-width: 60px;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cash Flow Widget -->
+        <div class="col">
+            <div class="card">
+                <div class="card-header d-flex border-0 justify-content-between align-items-center">
+                    <h5 class="card-title mb-0">التدفق النقدي</h5>
+                    <span class="badge bg-warning-subtle text-warning">+5.6%</span>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="text-center">
+                            <img src="~/images/networks/And.png" alt="And" class="img-fluid rounded border border-3 border-warning" style="max-height: 60px; max-width: 60px;">
+                        </div>
+                        <div class="text-end ms-3">
+                            <h3 class="mb-1 fw-normal"><span data-target="180000000">0</span> ريال</h3>
+                            <p class="mb-0 text-muted">هذا الربع</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- end col-->
+    </div> <!-- end row-->
+
+    <div class="row">
+        <div class="col-xxl-4">
+            <div class="card">
+                <div class="card-header justify-content-between align-items-center">
+                    <h5 class="card-title">معدل تدفق طلبات التسجيل</h5>
+                    <div class="card-action">
+                        <a href="#!" class="card-action-item" data-action="card-toggle"><i class="ti ti-chevron-up"></i></a>
+                        <a href="#!" class="card-action-item" data-action="card-refresh"><i class="ti ti-refresh"></i></a>
+                        <a href="#!" class="card-action-item" data-action="card-close"><i class="ti ti-x"></i></a>
+                    </div>
+                </div>
+                <div class="card-body p-0">
+                    <div class="p-3">
+                        <h3 class="mb-3 fw-bold"><span data-target="125">0</span><span class="text-muted ms-1 fs-sm">طلب</span></h3>
+                        <p class="mb-3">
+                            تدفق طلبات التسجيل الجديدة هذا الأسبوع يشير إلى نمو مستمر في قاعدة المستخدمين.
+                        </p>
+                    </div>
+                    <div id="registration-flow-chart" style="min-height: 120px;" class="mb-3"></div>
+                </div>
+            </div>
+        </div> <!-- end col-->
+
+        <div class="col-xxl-8">
+            <div class="row">
+                <div class="col-xl-4">
+                    <div class="card">
+                        <div class="card-body p-0">
+                            <div class="p-3">
+                                <h3 class="mb-3 fw-bold"><span data-target="421">0</span><span class="text-muted ms-1 fs-sm">طلب</span></h3>
+                                <p class="mb-0">
+                                    لقد تلقيت 421 طلب جديد، مما يشير إلى اتجاه مبيعات صحيحة خلال الفترة الماضية.
+                                </p>
+                            </div>
+                            <div id="orders-chart" style="min-height: 120px;" class="mb-3"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-4">
+                    <div class="card text-bg-secondary border-0">
+                        <div class="card-body p-0">
+                            <div class="p-3 mb-3">
+                                <h3 class="mb-3 fw-bold"><span data-target="185">0</span><span class="text-white-50 ms-1 fs-sm">منتج</span></h3>
+                                <p class="mb-0 text-white-50">
+                                    لديك حالياً 185 منتجاً نشطاً متوفرة عبر مخزون متجرك.
+                                </p>
+                            </div>
+                            <div id="product-chart" style="min-height: 120px;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="mb-3 fw-bold"><span data-target="3125000">0</span> ريال<span class="text-muted ms-1 fs-sm">ربح</span></h3>
+                            <p class="mb-3">
+                                وصل ربحك الإجمالي إلى 3,125,000 ريال هذا الشهر، مما يُظهر نمواً تجارياً إيجابياً ومستقراً.
+                            </p>
+                            <div id="profit-chart" style="min-height: 120px;"></div>
+                        </div>
+                    </div>
+                </div> <!-- end col-->
+            </div> <!-- end row-->
+
+        </div> <!-- end col-->
+    </div> <!-- end row-->
+
+    <!-- World Transactions Section (Moved to Bottom) -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header justify-content-between align-items-center">
+                    <h5 class="card-title">المعاملات في الجمهورية اليمنيه</h5>
+                    <div class="card-action">
+                        <a href="#!" class="card-action-item" data-action="card-toggle"><i
+                                class="ti ti-chevron-up"></i></a>
+                        <a href="#!" class="card-action-item" data-action="card-refresh"><i
+                                class="ti ti-refresh"></i></a>
+                        <a href="#!" class="card-action-item" data-action="card-close"><i class="ti ti-x"></i></a>
+                    </div>
+                </div>
+                <div class="card-body pt-2">
+                    <div class="row align-items-center">
+                        <div class="col-xl-6">
+                            <div class="table-responsive">
+                                <table class="table table-custom table-nowrap table-hover table-centered mb-0">
+                                    <thead class="bg-light align-middle bg-opacity-25 thead-sm">
+                                        <tr class="text-uppercase fs-xxs">
+                                            <th class="text-muted">رقم المعاملة</th>
+                                            <th class="text-muted">الطلب</th>
+                                            <th class="text-muted">التاريخ</th>
+                                            <th class="text-muted">المبلغ</th>
+                                            <th class="text-muted">الحالة</th>
+                                            <th class="text-muted">طريقة الدفع</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><a href="#!" class="link-reset fw-semibold">#TR-4587</a></td>
+                                            <td>#ORD-2001 - رصيد يمن موبايل</td>
+                                            <td>27 أبريل 2025 <small class="text-muted">02:15 مساءً</small></td>
+                                            <td class="fw-semibold">15,000 ريال</td>
+                                            <td><span class="badge badge-soft-success fs-xxs"><i
+                                                        class="ti ti-point-filled"></i> مدفوع</span></td>
+                                            <td>
+                                                <img src="~/images/cards/mastercard.svg" alt="" class="me-2"
+                                                    height="28"> xxxx 1123
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><a href="#!" class="link-reset fw-semibold">#TR-4588</a></td>
+                                            <td>#ORD-2002 - رصيد YOU</td>
+                                            <td>26 أبريل 2025 <small class="text-muted">09:42 صباحاً</small></td>
+                                            <td class="fw-semibold">8,500 ريال</td>
+                                            <td><span class="badge badge-soft-success fs-xxs"><i
+                                                        class="ti ti-point-filled"></i> مدفوع</span></td>
+                                            <td>
+                                                <img src="~/images/cards/visa.svg" alt="" class="me-2" height="28"> xxxx
+                                                3490
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><a href="#!" class="link-reset fw-semibold">#TR-4589</a></td>
+                                            <td>#ORD-2003 - رصيد سبافون</td>
+                                            <td>25 أبريل 2025 <small class="text-muted">11:10 صباحاً</small></td>
+                                            <td class="fw-semibold">12,750 ريال</td>
+                                            <td><span class="badge badge-soft-success fs-xxs"><i
+                                                        class="ti ti-point-filled"></i> مدفوع</span></td>
+                                            <td>
+                                                <img src="~/images/cards/american-express.svg" alt="" class="me-2"
+                                                    height="28"> xxxx 8765
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><a href="#!" class="link-reset fw-semibold">#TR-4590</a></td>
+                                            <td>#ORD-2004 - رصيد And</td>
+                                            <td>24 أبريل 2025 <small class="text-muted">08:58 مساءً</small></td>
+                                            <td class="fw-semibold">22,000 ريال</td>
+                                            <td><span class="badge badge-soft-warning fs-xxs"><i
+                                                        class="ti ti-point-filled"></i> معلق</span></td>
+                                            <td>
+                                                <img src="~/images/cards/mastercard.svg" alt="" class="me-2"
+                                                    height="28"> xxxx 5566
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><a href="#!" class="link-reset fw-semibold">#TR-4591</a></td>
+                                            <td>#ORD-2005 - رصيد يمن موبايل</td>
+                                            <td>23 أبريل 2025 <small class="text-muted">05:37 مساءً</small></td>
+                                            <td class="fw-semibold">18,500 ريال</td>
+                                            <td><span class="badge badge-soft-success fs-xxs"><i
+                                                        class="ti ti-point-filled"></i> مدفوع</span></td>
+                                            <td>
+                                                <img src="~/images/cards/visa.svg" alt="" class="me-2" height="28"> xxxx
+                                                9012
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><a href="#!" class="link-reset fw-semibold">#TR-4592</a></td>
+                                            <td>#ORD-2006 - رصيد YOU</td>
+                                            <td>22 أبريل 2025 <small class="text-muted">03:25 مساءً</small></td>
+                                            <td class="fw-semibold">7,250 ريال</td>
+                                            <td><span class="badge badge-soft-danger fs-xxs"><i
+                                                        class="ti ti-point-filled"></i> فشل</span></td>
+                                            <td>
+                                                <img src="~/images/cards/mastercard.svg" alt="" class="me-2"
+                                                    height="28"> xxxx 4567
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div> <!-- end table-responsive-->
+
+                            <div class="text-center mt-3">
+                                <a href="#!" class="link-reset text-decoration-underline fw-semibold link-offset-3">
+                                    عرض جميع المعاملات <i class="ti ti-send-2"></i>
+                                </a>
+                            </div>
+                        </div> <!-- end col-->
+                        <div class="col-xl-6">
+                            <div id="map_1" class="w-100 mt-4 mt-xl-0" style="height: 297px"></div>
+                        </div> <!-- end col-->
+                    </div><!-- end row-->
+                </div> <!-- end card-body-->
+            </div> <!-- end card-->
+        </div> <!-- end col-->
+    </div> <!-- end row-->
+
+</div>
+
+@section scripts
+{
+    <!-- E Charts js -->
+    <script src="~/plugins/echarts/echarts.min.js"></script>
+
+    <!-- JVector Maps-->
+    <script src="~/plugins/jsvectormap/jsvectormap.min.js"></script>
+    <script src="~/js/maps/world.js"></script>
+
+    <!-- Custom table -->
+    <script src="~/js/pages/custom-table.js"></script>
+
+    <!-- Dashboard 2 Page js -->
+    <script src="~/js/pages/dashboard-2.js"></script>
+    
+    <!-- Metrics Page js -->
+    <script src="~/js/pages/metrics.js"></script>
+    
+    <!-- Balance Chart js -->
+    <script>
+        // Function to safely parse coordinate values
+        function safeParseCoord(value) {
+            const parsed = parseFloat(value);
+            return isNaN(parsed) ? 0 : parsed;
+        }
+        
+        // Function to validate marker data
+        function validateMarkers(markers) {
+            return markers.filter(marker => 
+                marker && 
+                marker.coords && 
+                Array.isArray(marker.coords) && 
+                marker.coords.length === 2 &&
+                !isNaN(marker.coords[0]) && 
+                !isNaN(marker.coords[1]) &&
+                isFinite(marker.coords[0]) && 
+                isFinite(marker.coords[1])
+            );
+        }
+        
+        // Improved map initialization function
+        function initializeMap() {
+            // Check if map element exists
+            const mapElement = document.getElementById('map_1');
+            if (!mapElement) {
+                console.warn('Map element not found');
+                return;
+            }
+            
+            // Ensure the map container has dimensions
+            if (mapElement.offsetWidth === 0 || mapElement.offsetHeight === 0) {
+                console.warn('Map container has no dimensions');
+                // Force dimensions if needed
+                mapElement.style.minHeight = '297px';
+                mapElement.style.height = '297px';
+            }
+            
+            // Check if map has already been initialized
+            if (mapElement.classList.contains('jsvmap-initialized')) {
+                console.log('Map already initialized');
+                return;
+            }
+            
+            // Mark as initialized to prevent duplicate initialization
+            mapElement.classList.add('jsvmap-initialized');
+            
+            // Define markers with safe parsing
+            const rawMarkers = [
+                {
+                    name: "صنعاء",
+                    coords: [safeParseCoord(15.3694), safeParseCoord(44.1910)]
+                },
+                {
+                    name: "عدن", 
+                    coords: [safeParseCoord(12.7794), safeParseCoord(45.0367)]
+                },
+                {
+                    name: "تعز", 
+                    coords: [safeParseCoord(13.5795), safeParseCoord(44.0209)]
+                },
+                {
+                    name: "الحديدة", 
+                    coords: [safeParseCoord(14.7910), safeParseCoord(42.9454)]
+                }
+            ];
+            
+            // Validate markers
+            const validMarkers = validateMarkers(rawMarkers);
+            
+            // Only initialize map if we have valid markers
+            if (validMarkers.length > 0) {
+                // Ensure the map container is visible
+                mapElement.style.display = 'block';
+                
+                try {
+                    const map = new jsVectorMap({
+                        map: "world",
+                        selector: "#map_1",
+                        zoomOnScroll: true,
+                        zoomButtons: false,
+                        selectedMarkers: [0, 1],
+                        markersSelectable: true,
+                        selectedRegions: ['YE'],
+                        regionStyle: {
+                            initial: {
+                                stroke: "#a2abbd",
+                                strokeWidth: 0.5,
+                                fillOpacity: 0.1
+                            },
+                            selected: {fill: ins('primary')},
+                        },
+                        markers: validMarkers,
+                        lines: [
+                            { from: [15.3694, 44.1910], to: [12.7794, 45.0367] },
+                            { from: [15.3694, 44.1910], to: [13.5795, 44.0209] },
+                            { from: [15.3694, 44.1910], to: [14.7910, 42.9454] }
+                        ],
+                        markerStyle: {
+                            initial: {
+                                fill: ins('primary'),
+                                stroke: ins('primary'),
+                                fillOpacity: 0.3,
+                                strokeWidth: 2,
+                                r: 2
+                            },
+                            selected: {
+                                fill: ins('primary'),
+                                stroke: ins('primary'),
+                                strokeWidth: 1
+                            },
+                        },
+                        labels: {
+                            markers: {
+                                render: (marker) => marker.name,
+                            },
+                        },
+                        lineStyle: {
+                            animation: true,
+                            strokeDasharray: "6 3 6",
+                        },
+                    });
+
+                    // Add resize handler
+                    window.addEventListener('resize', debounce(() => {
+                        if (map && typeof map.updateSize === 'function') {
+                            map.updateSize();
+                        }
+                    }, 200));
+                    
+                    console.log('Map initialized successfully with', validMarkers.length, 'markers');
+                } catch (error) {
+                    console.error('Error initializing map:', error);
+                    // If map fails, ensure the container is still visible
+                    mapElement.style.display = 'block';
+                }
+            } else {
+                console.warn('Map initialization skipped: no valid markers');
+                // If no markers, still show the container
+                mapElement.style.display = 'block';
+            }
+        }
+        
+        // Ensure all content is visible even if there are errors
+        function ensureContentVisibility() {
+            // Ensure the main content container is visible
+            const contentPage = document.querySelector('.content-page');
+            if (contentPage) {
+                contentPage.style.display = 'block';
+                contentPage.style.visibility = 'visible';
+            }
+            
+            // Ensure the main container is visible
+            const containerFluid = document.querySelector('.container-fluid');
+            if (containerFluid) {
+                containerFluid.style.display = 'block';
+                containerFluid.style.visibility = 'visible';
+            }
+            
+            // Ensure all cards are visible
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(card => {
+                card.style.display = 'block';
+                card.style.visibility = 'visible';
+            });
+            
+            // Ensure the map container is visible even if map fails
+            const mapElement = document.getElementById('map_1');
+            if (mapElement) {
+                mapElement.style.display = 'block';
+                mapElement.style.visibility = 'visible';
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            // Ensure content visibility first
+            ensureContentVisibility();
+            
+            // Initialize map after a small delay to ensure DOM is fully ready
+            setTimeout(initializeMap, 100);
+            
+            // Also try to initialize map when window is fully loaded
+            window.addEventListener('load', function() {
+                setTimeout(initializeMap, 200);
+            });
+
+            // Initialize donut charts for statistics section
+            function initDonutChart(element) {
+                const productData = [
+                    { name: 'A', value: Math.floor(Math.random() * 100) + 1 },
+                    { name: 'B', value: Math.floor(Math.random() * 100) + 1 },
+                    { name: 'C', value: Math.floor(Math.random() * 100) + 1 }
+                ];
+                const total = productData.reduce((sum, item) => sum + item.value, 0);
+                productData.forEach(item => {
+                    item.value = (item.value / total) * 100;
+                });
+
+                const chart = echarts.init(element);
+                const option = {
+                    tooltip: { show: false },
+                    series: [
+                        {
+                            type: 'pie',
+                            radius: ['65%', '100%'],
+                            hoverAnimation: false,
+                            label: { show: false },
+                            labelLine: { show: false },
+                            data: productData.map((item, index) => ({
+                                value: item.value,
+                                itemStyle: {
+                                    color: index === 0 ? '#3b76e1' : index === 1 ? '#637381' : "#bbcae14d"
+                                }
+                            }))
+                        }
+                    ]
+                };
+                chart.setOption(option);
+            }
+            
+            // Initialize pie charts for financial statistics section
+            function initPieChart(element) {
+                const productData = [
+                    { name: 'A', value: Math.floor(Math.random() * 100) + 1 },
+                    { name: 'B', value: Math.floor(Math.random() * 100) + 1 },
+                    { name: 'C', value: Math.floor(Math.random() * 100) + 1 },
+                    { name: 'D', value: Math.floor(Math.random() * 100) + 1 }
+                ];
+
+                const chart = echarts.init(element);
+                const option = {
+                    tooltip: { show: false },
+                    series: [
+                        {
+                            type: 'pie',
+                            radius: '90%',
+                            hoverAnimation: false,
+                            label: { show: false },
+                            labelLine: { show: false },
+                            data: productData.map((item, index) => ({
+                                value: item.value,
+                                name: item.name,
+                                itemStyle: {
+                                    color: index === 0 ? '#3b76e1' : index === 1 ? '#ff9f43' : index === 2 ? '#637381' : "#bbcae14d"
+                                }
+                            }))
+                        }
+                    ]
+                };
+                chart.setOption(option);
+            }
+
+            // Initialize bar charts
+            function initBarChart(element) {
+                // Check if this is the provider performance chart
+                const cardTitle = element.closest('.card').querySelector('.card-title').textContent;
+                
+                if (cardTitle.includes('أداء المزودين')) {
+                    // Provider performance data
+                    const providerData = [
+                        { name: 'يمن موبايل', value: 92 },
+                        { name: 'YOU', value: 88 },
+                        { name: 'سبافون', value: 78 },
+                        { name: 'MTN', value: 85 },
+                        { name: 'And', value: 75 }
+                    ];
+
+                    const chart = echarts.init(element);
+                    const option = {
+                        grid: { top: 5, bottom: 5, left: 0, right: 0 },
+                        xAxis: { 
+                            type: 'category', 
+                            data: providerData.map(d => d.name), 
+                            show: false 
+                        },
+                        yAxis: { type: 'value', show: false },
+                        tooltip: { 
+                            show: true,
+                            formatter: '{b}: {c}%'
+                        },
+                        series: [{
+                            type: 'bar',
+                            data: providerData.map(item => ({
+                                value: item.value,
+                                itemStyle: { 
+                                    color: item.value >= 90 ? '#28a745' : 
+                                           item.value >= 80 ? '#ffc107' : 
+                                           '#dc3545' 
+                                }
+                            })),
+                            barWidth: '60%',
+                            itemStyle: { borderRadius: 3 }
+                        }]
+                    };
+                    chart.setOption(option);
+                } else if (cardTitle.includes('معدل تدفق') && cardTitle.includes('التأمينات')) {
+                    // Insurance flow rate data for the last week
+                    const insuranceData = [
+                        { day: 'الاثنين', value: 140 },
+                        { day: 'الثلاثاء', value: 155 },
+                        { day: 'الأربعاء', value: 150 },
+                        { day: 'الخميس', value: 165 },
+                        { day: 'الجمعة', value: 170 },
+                        { day: 'السبت', value: 160 },
+                        { day: 'الأحد', value: 155 }
+                    ];
+
+                    const chart = echarts.init(element);
+                    const option = {
+                        grid: { top: 5, bottom: 5, left: 0, right: 0 },
+                        xAxis: { 
+                            type: 'category', 
+                            data: insuranceData.map(d => d.day), 
+                            show: false 
+                        },
+                        yAxis: { type: 'value', show: false },
+                        tooltip: { 
+                            show: true,
+                            formatter: '{b}: {c} تأمين/ساعة'
+                        },
+                        series: [{
+                            type: 'bar',
+                            data: insuranceData.map(item => ({
+                                value: item.value,
+                                itemStyle: { color: '#20c997' }
+                            })),
+                            barWidth: '60%',
+                            itemStyle: { borderRadius: 3 }
+                        }]
+                    };
+                    chart.setOption(option);
+                } else {
+                    // Default bar chart for other sections
+                    const productData = [
+                        { name: 'A', value: Math.floor(Math.random() * 100) + 1 },
+                        { name: 'B', value: Math.floor(Math.random() * 100) + 1 },
+                        { name: 'C', value: Math.floor(Math.random() * 100) + 1 },
+                        { name: 'D', value: Math.floor(Math.random() * 100) + + 1 },
+                        { name: 'E', value: Math.floor(Math.random() * 100) + 1 },
+                        { name: 'F', value: Math.floor(Math.random() * 100) + 1 },
+                        { name: 'G', value: Math.floor(Math.random() * 100) + 1 }
+                    ];
+
+                    const chart = echarts.init(element);
+                    const option = {
+                        grid: {top: 0, bottom: 0, left: 0, right: 0},
+                        xAxis: {type: 'category', data: productData.map(d => d.name), show: false},
+                        yAxis: {type: 'value', show: false},
+                        tooltip: {show: false},
+                        series: [{
+                            type: 'bar',
+                            data: productData.map(item => ({
+                                value: item.value,
+                                itemStyle: {color: ins('primary')}
+                            })),
+                            barWidth: '50%',
+                            itemStyle: {borderRadius: 3}
+                        }]
+                    };
+                    chart.setOption(option);
+                }
+            }
+
+            // Initialize area charts
+            function initAreaChart(element) {
+                // Check if this is the operations flow rate chart
+                const cardTitle = element.closest('.card').querySelector('.card-title').textContent;
+                
+                if (cardTitle.includes('معدل تدفق') && cardTitle.includes('العمليات الجاهزة')) {
+                    // Operations flow rate data for the last week (Ready Operations)
+                    const flowData = [
+                        { day: 'الاثنين', value: 220 },
+                        { day: 'الثلاثاء', value: 235 },
+                        { day: 'الأربعاء', value: 250 },
+                        { day: 'الخميس', value: 245 },
+                        { day: 'الجمعة', value: 260 },
+                        { day: 'السبت', value: 275 },
+                        { day: 'الأحد', value: 245 }
+                    ];
+
+                    const chart = echarts.init(element);
+                    const option = {
+                        grid: { top: 5, bottom: 5, left: 0, right: 0 },
+                        xAxis: {
+                            type: 'category',
+                            data: flowData.map(item => item.day),
+                            show: false
+                        },
+                        yAxis: {
+                            type: 'value',
+                            show: false
+                        },
+                        tooltip: { 
+                            show: true,
+                            formatter: '{b}: {c} عملية/ساعة'
+                        },
+                        series: [
+                            {
+                                type: 'line',
+                                data: flowData.map(item => item.value),
+                                areaStyle: {
+                                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                                        {offset: 0, color: '#28a745'},
+                                        {offset: 1, color: 'rgba(40, 167, 69, 0.1)'}
+                                    ])
+                                },
+                                lineStyle: {
+                                    color: '#28a745',
+                                    width: 2
+                                },
+                                symbol: 'circle',
+                                symbolSize: 4,
+                                smooth: true
+                            }
+                        ]
+                    };
+                    chart.setOption(option);
+                } else if (cardTitle.includes('معدل تدفق') && cardTitle.includes('العمليات الملغاة')) {
+                    // Operations flow rate data for the last week (Canceled Operations)
+                    const flowData = [
+                        { day: 'الاثنين', value: 8 },
+                        { day: 'الثلاثاء', value: 10 },
+                        { day: 'الأربعاء', value: 12 },
+                        { day: 'الخميس', value: 11 },
+                        { day: 'الجمعة', value: 14 },
+                        { day: 'السبت', value: 15 },
+                        { day: 'الأحد', value: 12 }
+                    ];
+
+                    const chart = echarts.init(element);
+                    const option = {
+                        grid: { top: 5, bottom: 5, left: 0, right: 0 },
+                        xAxis: {
+                            type: 'category',
+                            data: flowData.map(item => item.day),
+                            show: false
+                        },
+                        yAxis: {
+                            type: 'value',
+                            show: false
+                        },
+                        tooltip: { 
+                            show: true,
+                            formatter: '{b}: {c} عملية/ساعة'
+                        },
+                        series: [
+                            {
+                                type: 'line',
+                                data: flowData.map(item => item.value),
+                                areaStyle: {
+                                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                                        {offset: 0, color: '#dc3545'},
+                                        {offset: 1, color: 'rgba(220, 53, 69, 0.1)'}
+                                    ])
+                                },
+                                lineStyle: {
+                                    color: '#dc3545',
+                                    width: 2
+                                },
+                                symbol: 'circle',
+                                symbolSize: 4,
+                                smooth: true
+                            }
+                        ]
+                    };
+                    chart.setOption(option);
+                } else {
+                    // Default area chart for other sections
+                    const productData = [
+                        { name: 'A', value: Math.floor(Math.random() * 100) + 1 },
+                        { name: 'B', value: Math.floor(Math.random() * 100) + 1 },
+                        { name: 'C', value: Math.floor(Math.random() * 100) + 1 },
+                        { name: 'D', value: Math.floor(Math.random() * 100) + + 1 },
+                        { name: 'E', value: Math.floor(Math.random() * 100) + 1 },
+                        { name: 'F', value: Math.floor(Math.random() * 100) + 1 },
+                        { name: 'G', value: Math.floor(Math.random() * 100) + 1 }
+                    ];
+
+                    const chart = echarts.init(element);
+                    const option = {
+                        grid: {top: 0, bottom: 0, left: 0, right: 0},
+                        xAxis: {
+                            type: 'category',
+                            data: productData.map((_, index) => `التسمية ${index + 1}`),
+                            show: false
+                        },
+                        yAxis: {
+                            type: 'value',
+                            show: false
+                        },
+                        tooltip: {show: false},
+                        series: [
+                            {
+                                type: 'line',
+                                data: productData.map(item => item.value),
+                                areaStyle: {
+                                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                                        {offset: 0, color: ins('primary')},
+                                        {offset: 1, color: 'rgba(255, 255, 255, 0)'}
+                                    ])
+                                },
+                                lineStyle: {
+                                    color: ins('primary'),
+                                    width: 2
+                                },
+                                symbol: 'none',
+                                smooth: true
+                            }
+                        ]
+                    };
+                    chart.setOption(option);
+                }
+            }
+
+            // Initialize all donut charts
+            const donutCharts = document.querySelectorAll('.donut-chart');
+            if (donutCharts.length > 0) {
+                donutCharts.forEach(initDonutChart);
+            }
+            
+            // Initialize all pie charts
+            const pieCharts = document.querySelectorAll('.pie-chart');
+            if (pieCharts.length > 0) {
+                pieCharts.forEach(initPieChart);
+            }
+            
+            // Initialize all bar charts
+            const barCharts = document.querySelectorAll('.bar-chart');
+            if (barCharts.length > 0) {
+                barCharts.forEach(initBarChart);
+            }
+            
+            // Initialize all area charts
+            const areaCharts = document.querySelectorAll('.area-chart');
+            if (areaCharts.length > 0) {
+                areaCharts.forEach(initAreaChart);
+            }
+            
+            // Initialize registration flow chart
+            const registrationFlowChart = document.getElementById('registration-flow-chart');
+            if (registrationFlowChart) {
+                // Registration requests flow data for the last week
+                const registrationData = [
+                    { day: 'الاثنين', value: 18 },
+                    { day: 'الثلاثاء', value: 22 },
+                    { day: 'الأربعاء', value: 15 },
+                    { day: 'الخميس', value: 25 },
+                    { day: 'الجمعة', value: 30 },
+                    { day: 'السبت', value: 28 },
+                    { day: 'الأحد', value: 25 }
+                ];
+
+                const chart = echarts.init(registrationFlowChart);
+                const option = {
+                    grid: { top: 5, bottom: 5, left: 0, right: 0 },
+                    xAxis: {
+                        type: 'category',
+                        data: registrationData.map(item => item.day),
+                        show: false
+                    },
+                    yAxis: {
+                        type: 'value',
+                        show: false
+                    },
+                    tooltip: { 
+                        show: true,
+                        formatter: '{b}: {c} طلب'
+                    },
+                    series: [
+                        {
+                            type: 'line',
+                            data: registrationData.map(item => item.value),
+                            areaStyle: {
+                                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                                    {offset: 0, color: '#0d6efd'},
+                                    {offset: 1, color: 'rgba(13, 110, 253, 0.1)'}
+                                ])
+                            },
+                            lineStyle: {
+                                color: '#0d6efd',
+                                width: 2
+                            },
+                            symbol: 'circle',
+                            symbolSize: 4,
+                            smooth: true
+                        }
+                    ]
+                };
+                chart.setOption(option);
+            }
+        });
+        
+        // Additional error handling to ensure content visibility
+        window.addEventListener('error', function(e) {
+            console.error("Global JavaScript error caught:", e.error);
+            // Ensure content remains visible even if there are errors
+            ensureContentVisibility();
+        });
+        
+        // Handle unhandled promise rejections
+        window.addEventListener('unhandledrejection', function(e) {
+            console.error("Unhandled promise rejection:", e.reason);
+            // Ensure content remains visible even if there are errors
+            ensureContentVisibility();
+        });
+    </script>
+}

@@ -1,0 +1,39 @@
+@model dynamic
+
+<div class="card" dir="rtl">
+    <div class="card-header bg-light d-flex justify-content-between align-items-center">
+        <h6 class="mb-0">الشبكة، (يمن موبايل -77، يو 73، سبافون 71، واي 70, 101-الهاتف الثابت, 102-الانترنت الارضي)*</h6>
+    </div>
+
+    <div class="card-body">
+        <div class="row g-3 mb-3">
+            <!-- مثال:77 -->
+            <div class="col-md-6">
+                <label for="@(ViewData["Prefix"])-network-example" class="form-label fw-bold">
+                    مثال:77
+                </label>
+                <input type="text" class="form-control" id="@(ViewData["Prefix"])-network-example" placeholder="مثال:77">
+            </div>
+
+            <!-- رقم الكرت* -->
+            <div class="col-md-6">
+                <label for="@(ViewData["Prefix"])-card-number" class="form-label fw-bold">
+                    رقم الكرت<span class="text-danger">*</span>
+                </label>
+                <input type="text" class="form-control" id="@(ViewData["Prefix"])-card-number" placeholder="رقم الكرت">
+            </div>
+
+            <!-- اختر الفئة* -->
+            <div class="col-md-6">
+                <label for="@(ViewData["Prefix"])-category" class="form-label fw-bold">
+                    اختر الفئة<span class="text-danger">*</span>
+                </label>
+                <input type="text" class="form-control" id="@(ViewData["Prefix"])-category" placeholder="اختر الفئة">
+            </div>
+        </div>
+    </div>
+
+    <div class="card-footer text-start">
+        <!-- Footer content if needed -->
+    </div>
+</div>

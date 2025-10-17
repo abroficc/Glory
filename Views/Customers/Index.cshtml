@@ -1,0 +1,1120 @@
+@model List<ASP.Net_Core_MVC.Full.Models.CustomerAgentModel>
+
+@{
+    ViewData["Title"] = "العملاء والوكلاء";
+    ViewData["Direction"] = "rtl";
+}
+
+<!-- Filter toggle button -->
+<div class="mb-2">
+    <button id="toggleFilters" type="button" class="btn btn-primary">
+        <i class="ti ti-filter-off me-1"></i><span id="toggleFiltersText">إظهار الفلترة</span>
+    </button>
+</div>
+
+<!-- Filter section based on the image -->
+<div class="card mb-3" id="filterSection" style="display: none;">
+    <div class="card-body p-2">
+        <!-- First row of filters -->
+        <div class="row g-2 mb-2">
+            <div class="col">
+                <select class="form-select form-select-sm" id="filter-status">
+                    <option value="">الحالة</option>
+                    <option value="active">نشط</option>
+                    <option value="inactive">غير نشط</option>
+                </select>
+            </div>
+            <div class="col">
+                <select class="form-select form-select-sm" id="filter-payment">
+                    <option value="">التأمين</option>
+                    <option value="paid">مدفوع</option>
+                    <option value="unpaid">غير مدفوع</option>
+                </select>
+            </div>
+            <div class="col">
+                <select class="form-select form-select-sm" id="filter-agents">
+                    <option value="">الوكلاء</option>
+                    <option value="agent1">الوكيل 1</option>
+                    <option value="agent2">الوكيل 2</option>
+                </select>
+            </div>
+            <div class="col">
+                <select class="form-select form-select-sm" id="filter-type">
+                    <option value="">نوع المحل</option>
+                    <option value="retail">بيع بالتجزئة</option>
+                    <option value="wholesale">بيع بالجملة</option>
+                </select>
+            </div>
+            <div class="col">
+                <select class="form-select form-select-sm" id="filter-loan">
+                    <option value="">القرض</option>
+                    <option value="with-loan">مع قرض</option>
+                    <option value="no-loan">بدون قرض</option>
+                </select>
+            </div>
+            <div class="col">
+                <select class="form-select form-select-sm" id="filter-commission-group">
+                    <option value="">مجموعة العمولة</option>
+                    <option value="group1">مجموعة 1</option>
+                    <option value="group2">مجموعة 2</option>
+                </select>
+            </div>
+            <div class="col">
+                <select class="form-select form-select-sm" id="filter-validity">
+                    <option value="">صلاحية تاجر</option>
+                    <option value="valid">ساري</option>
+                    <option value="expired">منتهي</option>
+                </select>
+            </div>
+            <div class="col">
+                <select class="form-select form-select-sm" id="filter-api-type">
+                    <option value="">نوع Api</option>
+                    <option value="api1">API 1</option>
+                    <option value="api2">API 2</option>
+                </select>
+            </div>
+            <div class="col">
+                <input type="text" class="form-control form-control-sm" placeholder="الاسم/الرقم/الجوال/التلفون" id="filter-search">
+            </div>
+        </div>
+        <!-- Second row of filters -->
+        <div class="row g-2 mb-2">
+            <div class="col">
+                <input type="text" class="form-control form-control-sm" placeholder="العنوان" id="filter-address">
+            </div>
+            <div class="col">
+                <select class="form-select form-select-sm" id="filter-commission-value">
+                    <option value="">نسبة العمولات</option>
+                    <option value="1">1%</option>
+                    <option value="2">2%</option>
+                    <option value="3">3%</option>
+                </select>
+            </div>
+            <div class="col">
+                <select class="form-select form-select-sm" id="filter-connection">
+                    <option value="">حالة الاتصال</option>
+                    <option value="connected">متصل</option>
+                    <option value="disconnected">غير متصل</option>
+                </select>
+            </div>
+            <div class="col">
+                <select class="form-select form-select-sm" id="filter-account-currency">
+                    <option value="">عملة الحساب</option>
+                    <option value="sar">ريال سعودي</option>
+                    <option value="usd">دولار أمريكي</option>
+                </select>
+            </div>
+            <div class="col">
+                <select class="form-select form-select-sm" id="filter-main-account">
+                    <option value="">الحسابات الرئيسية</option>
+                    <option value="active">نشط</option>
+                    <option value="inactive">غير نشط</option>
+                </select>
+            </div>
+            <div class="col">
+                <select class="form-select form-select-sm" id="filter-app-version">
+                    <option value="">اصدار التطبيق</option>
+                    <option value="v1">الإصدار 1</option>
+                    <option value="v2">الإصدار 2</option>
+                </select>
+            </div>
+            <div class="col">
+                <select class="form-select form-select-sm" id="filter-distributors">
+                    <option value="">الموزعون</option>
+                    <option value="dist1">موزع 1</option>
+                    <option value="dist2">موزع 2</option>
+                </select>
+            </div>
+            <div class="col">
+                <select class="form-select form-select-sm" id="filter-distributor-validity">
+                    <option value="">صلاحية الموزع</option>
+                    <option value="valid">ساري</option>
+                    <option value="expired">منتهي</option>
+                </select>
+            </div>
+        </div>
+        <!-- Third row of filters -->
+        <div class="row g-2 mb-2">
+            <div class="col-2">
+                <input type="text" class="form-control form-control-sm" placeholder="اصدار التطبيق مثل: <100" id="filter-app-version-range">
+            </div>
+            <div class="col-2">
+                <select class="form-select form-select-sm" id="filter-commission-status">
+                    <option value="">نسبة العمولات</option>
+                    <option value="auto">تلقائي</option>
+                    <option value="manual">يدوي</option>
+                </select>
+            </div>
+            <div class="col-8 d-flex justify-content-between">
+                <div class="d-flex align-items-center">
+                    <div class="form-check me-3">
+                        <input type="checkbox" class="form-check-input" id="checkbox-send-sms">
+                        <label class="form-check-label" for="checkbox-send-sms">ارسال رسائل نصية</label>
+                    </div>
+                    <button type="button" class="btn btn-success btn-sm me-2" id="sendSmsBtn">ارسل</button>
+                    <button type="button" class="btn btn-info btn-sm" id="sendWhatsappBtn">ارسل عبر الواتس</button>
+                </div>
+                <div class="d-flex align-items-center">
+                    <button type="button" class="btn btn-info btn-sm me-2" id="exportWhatsappBtn">تصدير الارقام لاستيرادها في الواتس</button>
+                    <button type="button" class="btn btn-success btn-sm me-2" id="printBtn">طباعة</button>
+                    <button type="button" class="btn btn-info btn-sm" id="exportExcelBtn">تصدير اكسل</button>
+                </div>
+            </div>
+        </div>
+        <!-- Fourth row with date range and search button -->
+        <div class="row g-2">
+            <div class="col-3">
+                <div class="input-group input-group-sm">
+                    <span class="input-group-text">نص الانتشار</span>
+                    <input type="text" class="form-control form-control-sm" placeholder="ادخل نص الانتشار" id="filter-sms-text">
+                </div>
+            </div>
+            <div class="col-2">
+                <div class="input-group input-group-sm">
+                    <input type="number" class="form-control" value="30" min="1" max="100">
+                    <button class="btn btn-primary" type="button">بحث</button>
+                </div>
+            </div>
+            <div class="col-7 d-flex justify-content-between">
+                <div>الفترة الزمنية</div>
+                <div class="d-flex align-items-center">
+                    <span class="me-2">التاريخ الى</span>
+                    <input type="date" class="form-control form-control-sm me-3">
+                    <span class="me-2">التاريخ من</span>
+                    <input type="date" class="form-control form-control-sm">
+                </div>
+                <div>
+                    <button type="button" class="btn btn-secondary btn-sm" id="resetFilters">إعادة تعيين</button>
+                    <button type="button" class="btn btn-primary btn-sm" id="applyFilters">تطبيق</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Icons section positioned at the top left of the page -->
+<div class="mb-3">
+    <div class="d-flex gap-2 flex-wrap">
+        <a href="#" class="btn btn-sm btn-outline-danger" title="حذف">
+            <i class="ti ti-trash"></i>
+        </a>
+        <a href="#" class="btn btn-sm btn-outline-info" title="مشاهدة">
+            <i class="ti ti-eye"></i>
+        </a>
+        <a href="#" class="btn btn-sm btn-outline-primary" title="الطباعة">
+            <i class="ti ti-printer"></i>
+        </a>
+        <a href="#" class="btn btn-sm btn-outline-success" title="تفعيل">
+            <i class="ti ti-check"></i>
+        </a>
+        <a href="#" class="btn btn-sm btn-outline-danger" title="الغاء التفعيل">
+            <i class="ti ti-power"></i>
+        </a>
+        <a href="#" class="btn btn-sm btn-outline-success" title="إضافة" data-bs-toggle="modal" data-bs-target="#addCustomerModal">
+            <i class="ti ti-plus"></i>
+        </a>
+        <a href="#" class="btn btn-sm btn-outline-primary" title="اضافه قرض">
+            <i class="ti ti-cash"></i>
+        </a>
+        <a href="#" class="btn btn-sm btn-outline-info" title="اضافه /حذف مجموعه التسعيرة">
+            <i class="ti ti-users"></i>
+        </a>
+        <a href="#" class="btn btn-sm btn-outline-danger" title="اضافه /حذف وكيل">
+            <i class="ti ti-user"></i>
+        </a>
+        <a href="#" class="btn btn-sm btn-outline-success" title="البطاقات">
+            <i class="ti ti-credit-card"></i>
+        </a>
+        <a href="#" class="btn btn-sm btn-outline-primary" title="العملة">
+            <i class="ti ti-currency-dollar"></i>
+        </a>
+        <a href="#" class="btn btn-sm btn-outline-success" title="الواتساب">
+            <i class="ti ti-brand-whatsapp"></i>
+        </a>
+        <a href="#" class="btn btn-sm btn-outline-info" title="الرسائل">
+            <i class="ti ti-message"></i>
+        </a>
+        <a href="#" class="btn btn-sm btn-outline-primary" title="المربع">
+            <i class="ti ti-thumbtack"></i>
+        </a>
+        <a href="#" class="btn btn-sm btn-outline-danger" title="إلغاء صلاحية ميزة تطبيقي">
+            <i class="ti ti-circle-x"></i>
+        </a>
+        <a href="#" class="btn btn-sm btn-outline-success" title="تفعيل صلاحية ميزة تطبيقي">
+            <i class="ti ti-device-mobile"></i>
+        </a>
+        <a href="#" class="btn btn-sm btn-outline-danger" title="إلغاء صلاحيات واتساب">
+            <i class="ti ti-ban"></i>
+        </a>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <div class="d-flex align-items-center">
+            <h5 class="card-title mb-0 fw-bold">العملاء والوكلاء</h5>
+            <div class="me-auto">
+                <!-- Refresh button -->
+                <button type="button" class="btn btn-sm btn-outline-secondary ms-2" id="refreshBtn" title="تحديث">
+                    <i class="ti ti-refresh"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table id="customers-table" class="table table-striped table-bordered dt-responsive nowrap w-100">
+                <thead>
+                    <tr>
+                        <th class="text-center" width="40px">
+                            <div class="form-check"><input type="checkbox" class="form-check-input" id="selectAll"></div>
+                        </th>
+                        <th>الرقم</th>
+                        <th>الاسم</th>
+                        <th>اسم المحل</th>
+                        <th>رقم التلفون</th>
+                        <th>العنوان</th>
+                        <th>الحالة</th>
+                        <th>اسم المجموعة</th>
+                        <th>مجموعة العمولة</th>
+                        <th>الجهاز</th>
+                        <th>العمليات</th>
+                        <th>مبلغ التأمين</th>
+                        <th>مبلغ القرض</th>
+                        <th>الوكيل</th>
+                        <th>الرصيد</th>
+                        <th>متصل؟</th>
+                        <th>عملة الحساب</th>
+                        <th>اصدار التطبيق</th>
+                        <th>ترحيل</th>
+                        <th>المزيد</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="text-center">
+                                <div class="form-check"><input type="checkbox" class="form-check-input"></div>
+                            </td>
+                            <td>@item.Id</td>
+                            <td>@item.Name</td>
+                            <td>@item.StoreName</td>
+                            <td>@item.PhoneNumber
+                                <div class="mt-1">
+                                    <a href="#" class="text-info me-1" title="تلجرام"><i class="ti ti-brand-telegram"></i></a>
+                                    <a href="#" class="text-success" title="واتساب"><i class="ti ti-brand-whatsapp"></i></a>
+                                </div>
+                            </td>
+                            <td>@item.Address</td>
+                            <td>@(item.Status == "فعال" ? "<span class='badge bg-success'>فعال</span>" : "<span class='badge bg-danger'>غير فعال</span>")</td>
+                            <td>@item.GroupName</td>
+                            <td>@item.GroupType</td>
+                            <td>
+                                @if (item.Device == "desktop")
+                                {
+                                    <i class="ti ti-device-desktop text-primary"></i>
+                                }
+                                else if (item.Device == "mobile")
+                                {
+                                    <i class="ti ti-device-mobile text-info"></i>
+                                }
+                                else
+                                {
+                                    <i class="ti ti-question-mark text-muted"></i>
+                                }
+                            </td>
+                            <td>@item.Operations</td>
+                            <td>@item.SalesAmount</td>
+                            <td>@item.AmountToPay</td>
+                            <td>@item.Agent</td>
+                            <td>@item.Balance</td>
+                            <td>
+                                @if (item.Connected)
+                                {
+                                    <span class="badge bg-success rounded-circle p-1"><i class="ti ti-circle-check"></i></span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-secondary rounded-circle p-1"><i class="ti ti-circle-x"></i></span>
+                                }
+                            </td>
+                            <td>@item.AccountType</td>
+                            <td>@(item.Id % 1000)</td><!-- Using Id mod 1000 as a placeholder for AppVersion -->
+                            <td>
+                                <a href="#" class="btn btn-sm btn-outline-primary">
+                                    ترحيل
+                                </a>
+                            </td>
+                            <td>
+                                <div class="dropdown">
+                                    <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        للمزيد
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end">
+                                        <li><a class="dropdown-item" href="#">حذف</a></li>
+                                        <li><a class="dropdown-item" href="#">مشاهدة</a></li>
+                                        <li><a class="dropdown-item" href="#">طباعة</a></li>
+                                        <li><a class="dropdown-item" href="#">الغاء التفعيل</a></li>
+                                        <li><a class="dropdown-item" href="#">ربط بالتأمين</a></li>
+                                        <li><a class="dropdown-item" href="#" data-action="edit">تعديل</a></li>
+                                        <li><a class="dropdown-item" href="#">اضافة قرض</a></li>
+                                        <li><a class="dropdown-item" href="#">حفظ رقم الجهاز</a></li>
+                                        <li><a class="dropdown-item" href="#">صلاحيات الخدمات</a></li>
+                                        <li><a class="dropdown-item" href="#">حفظ الايبي</a></li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                    <tr>
+                        <td class="text-center"><div class="form-check"><input type="checkbox" class="form-check-input"></div></td>
+                        <td>110</td>
+                        <td>م</td>
+                        <td>شخصي</td>
+                        <td>05307857188
+                            <div class="mt-1">
+                                <a href="#" class="text-info me-1" title="تلجرام"><i class="ti ti-brand-telegram"></i></a>
+                                <a href="#" class="text-success" title="واتساب"><i class="ti ti-brand-whatsapp"></i></a>
+                            </div>
+                        </td>
+                        <td>الرياض</td>
+                        <td><span class="badge bg-success">فعال</span></td>
+                        <td>اضافة النت الثابت وفور جي</td>
+                        <td></td>
+                        <td><i class="ti ti-device-desktop text-primary"></i></td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>علي عبده مهدي الشويل</td>
+                        <td>0</td>
+                        <td><span class="badge bg-secondary rounded-circle p-1"><i class="ti ti-circle-x"></i></span></td>
+                        <td>ريال يمني</td>
+                        <td>0</td>
+                        <td>
+                            <a href="#" class="btn btn-sm btn-outline-primary">
+                                ترحيل
+                            </a>
+                        </td>
+                        <td>
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    للمزيد
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="#">حذف</a></li>
+                                    <li><a class="dropdown-item" href="#">مشاهدة</a></li>
+                                    <li><a class="dropdown-item" href="#">طباعة</a></li>
+                                    <li><a class="dropdown-item" href="#">الغاء التفعيل</a></li>
+                                    <li><a class="dropdown-item" href="#">ربط بالتأمين</a></li>
+                                    <li><a class="dropdown-item" href="#" data-action="edit">تعديل</a></li>
+                                    <li><a class="dropdown-item" href="#">اضافة قرض</a></li>
+                                    <li><a class="dropdown-item" href="#">حفظ رقم الجهاز</a></li>
+                                    <li><a class="dropdown-item" href="#">صلاحيات الخدمات</a></li>
+                                    <li><a class="dropdown-item" href="#">حفظ الايبي</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-center"><div class="form-check"><input type="checkbox" class="form-check-input"></div></td>
+                        <td>109</td>
+                        <td>مروان محمد احمد العلفي</td>
+                        <td>شخصي</td>
+                        <td>0530785718
+                            <div class="mt-1">
+                                <a href="#" class="text-info me-1" title="تلجرام"><i class="ti ti-brand-telegram"></i></a>
+                                <a href="#" class="text-success" title="واتساب"><i class="ti ti-brand-whatsapp"></i></a>
+                            </div>
+                        </td>
+                        <td>الرياض</td>
+                        <td><span class="badge bg-success">فعال</span></td>
+                        <td>اضافه 1</td>
+                        <td></td>
+                        <td><i class="ti ti-device-mobile text-info"></i></td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>علي رضوان احمد جحاف</td>
+                        <td>0</td>
+                        <td><span class="badge bg-secondary rounded-circle p-1"><i class="ti ti-circle-x"></i></span></td>
+                        <td>ريال يمني</td>
+                        <td>756</td>
+                        <td>
+                            <a href="#" class="btn btn-sm btn-outline-primary">
+                                ترحيل
+                            </a>
+                        </td>
+                        <td>
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    للمزيد
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="#">حذف</a></li>
+                                    <li><a class="dropdown-item" href="#">مشاهدة</a></li>
+                                    <li><a class="dropdown-item" href="#">طباعة</a></li>
+                                    <li><a class="dropdown-item" href="#">الغاء التفعيل</a></li>
+                                    <li><a class="dropdown-item" href="#">ربط بالتأمين</a></li>
+                                    <li><a class="dropdown-item" href="#" data-action="edit">تعديل</a></li>
+                                    <li><a class="dropdown-item" href="#">اضافة قرض</a></li>
+                                    <li><a class="dropdown-item" href="#">حفظ رقم الجهاز</a></li>
+                                    <li><a class="dropdown-item" href="#">صلاحيات الخدمات</a></li>
+                                    <li><a class="dropdown-item" href="#">حفظ الايبي</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-center"><div class="form-check"><input type="checkbox" class="form-check-input"></div></td>
+                        <td>108</td>
+                        <td>محمد مهيوب احمد علي</td>
+                        <td>وكيل تعبئة البرامج والالعاب</td>
+                        <td>00966557471016
+                            <div class="mt-1">
+                                <a href="#" class="text-info me-1" title="تلجرام"><i class="ti ti-brand-telegram"></i></a>
+                                <a href="#" class="text-success" title="واتساب"><i class="ti ti-brand-whatsapp"></i></a>
+                            </div>
+                        </td>
+                        <td>KSA-Riyadh</td>
+                        <td><span class="badge bg-success">فعال</span></td>
+                        <td></td>
+                        <td></td>
+                        <td><i class="ti ti-device-mobile text-info"></i></td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td></td>
+                        <td>0</td>
+                        <td><span class="badge bg-secondary rounded-circle p-1"><i class="ti ti-circle-x"></i></span></td>
+                        <td>ريال يمني</td>
+                        <td>756</td>
+                        <td>
+                            <a href="#" class="btn btn-sm btn-outline-primary">
+                                ترحيل
+                            </a>
+                        </td>
+                        <td>
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    للمزيد
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="#">حذف</a></li>
+                                    <li><a class="dropdown-item" href="#">مشاهدة</a></li>
+                                    <li><a class="dropdown-item" href="#">طباعة</a></li>
+                                    <li><a class="dropdown-item" href="#">الغاء التفعيل</a></li>
+                                    <li><a class="dropdown-item" href="#">ربط بالتأمين</a></li>
+                                    <li><a class="dropdown-item" href="#" data-action="edit">تعديل</a></li>
+                                    <li><a class="dropdown-item" href="#">اضافة قرض</a></li>
+                                    <li><a class="dropdown-item" href="#">حفظ رقم الجهاز</a></li>
+                                    <li><a class="dropdown-item" href="#">صلاحيات الخدمات</a></li>
+                                    <li><a class="dropdown-item" href="#">حفظ الايبي</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-center"><div class="form-check"><input type="checkbox" class="form-check-input"></div></td>
+                        <td>107</td>
+                        <td>محمد عبدالله صالح العلواني</td>
+                        <td>العلواني</td>
+                        <td>776275006
+                            <div class="mt-1">
+                                <a href="#" class="text-info me-1" title="تلجرام"><i class="ti ti-brand-telegram"></i></a>
+                                <a href="#" class="text-success" title="واتساب"><i class="ti ti-brand-whatsapp"></i></a>
+                            </div>
+                        </td>
+                        <td>صنعاء جولة عمران</td>
+                        <td><span class="badge bg-success">فعال</span></td>
+                        <td></td>
+                        <td></td>
+                        <td><i class="ti ti-device-mobile text-info"></i></td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td></td>
+                        <td>0</td>
+                        <td><span class="badge bg-secondary rounded-circle p-1"><i class="ti ti-circle-x"></i></span></td>
+                        <td>ريال يمني</td>
+                        <td>756</td>
+                        <td>
+                            <a href="#" class="btn btn-sm btn-outline-primary">
+                                ترحيل
+                            </a>
+                        </td>
+                        <td>
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    للمزيد
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="#">حذف</a></li>
+                                    <li><a class="dropdown-item" href="#">مشاهدة</a></li>
+                                    <li><a class="dropdown-item" href="#">طباعة</a></li>
+                                    <li><a class="dropdown-item" href="#">الغاء التفعيل</a></li>
+                                    <li><a class="dropdown-item" href="#">ربط بالتأمين</a></li>
+                                    <li><a class="dropdown-item" href="#" data-action="edit">تعديل</a></li>
+                                    <li><a class="dropdown-item" href="#">اضافة قرض</a></li>
+                                    <li><a class="dropdown-item" href="#">حفظ رقم الجهاز</a></li>
+                                    <li><a class="dropdown-item" href="#">صلاحيات الخدمات</a></li>
+                                    <li><a class="dropdown-item" href="#">حفظ الايبي</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-center"><div class="form-check"><input type="checkbox" class="form-check-input"></div></td>
+                        <td>106</td>
+                        <td>اسامه علي عبدالله داود شاجره</td>
+                        <td>بقاله</td>
+                        <td>774307072
+                            <div class="mt-1">
+                                <a href="#" class="text-info me-1" title="تلجرام"><i class="ti ti-brand-telegram"></i></a>
+                                <a href="#" class="text-success" title="واتساب"><i class="ti ti-brand-whatsapp"></i></a>
+                            </div>
+                        </td>
+                        <td>الزريقي</td>
+                        <td><span class="badge bg-success">فعال</span></td>
+                        <td>اضافة النت الثابت وفور جي</td>
+                        <td></td>
+                        <td><i class="ti ti-device-mobile text-info"></i></td>
+                        <td>10370</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td></td>
+                        <td>10370</td>
+                        <td><span class="badge bg-secondary rounded-circle p-1"><i class="ti ti-circle-x"></i></span></td>
+                        <td>ريال يمني</td>
+                        <td>730</td>
+                        <td>
+                            <a href="#" class="btn btn-sm btn-outline-primary">
+                                ترحيل
+                            </a>
+                        </td>
+                        <td>
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    للمزيد
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="#">حذف</a></li>
+                                    <li><a class="dropdown-item" href="#">مشاهدة</a></li>
+                                    <li><a class="dropdown-item" href="#">طباعة</a></li>
+                                    <li><a class="dropdown-item" href="#">الغاء التفعيل</a></li>
+                                    <li><a class="dropdown-item" href="#">ربط بالتأمين</a></li>
+                                    <li><a class="dropdown-item" href="#" data-action="edit">تعديل</a></li>
+                                    <li><a class="dropdown-item" href="#">اضافة قرض</a></li>
+                                    <li><a class="dropdown-item" href="#">حفظ رقم الجهاز</a></li>
+                                    <li><a class="dropdown-item" href="#">صلاحيات الخدمات</a></li>
+                                    <li><a class="dropdown-item" href="#">حفظ الايبي</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Add Customer Modal -->
+<div class="modal fade" id="addCustomerModal" tabindex="-1" aria-labelledby="addCustomerModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-light">
+                <button type="button" class="btn btn-sm btn-light" data-bs-dismiss="modal" aria-label="Close">اغلاق</button>
+                <h5 class="modal-title" id="addCustomerModalLabel">الحسابات <عملاء والوكلاء 2</h5>
+            </div>
+            <div class="modal-body">
+                <!-- Information Alert -->
+                <div class="alert alert-info py-2 mb-3">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <strong>ملاحظة: بإمكان الآن تحديد عملة الحساب</strong>
+                            <ul class="mb-0 mt-1 ps-3">
+                                <li>الحسابات الرئيسية يجب ان تكون عملتها الريال اليمني</li>
+                                <li>الحسابات الفرعية يجب ان تكون بالعملات الاجنبية</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-4">
+                            <ul class="mb-0 ps-3">
+                                <li>يمكن اضافة حسابات فرعية بالعملات الاجنبية لحساب العميل</li>
+                                <li>لانشاء حساب فرعي يجب اختيار الحساب الرئيسي</li>
+                                <li>لا يمكن اضافة اكثر من حساب فرعي لنفس العملة</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-4">
+                            <ul class="mb-0 ps-3">
+                                <li>لا يمكن تغيير عملة الحساب بعد الاضافة</li>
+                                <li>سيكون بمقدور الحساب الرئيسي اختيار الحسابات الفرعية</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Form Fields -->
+                <form id="addCustomerForm">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="accountCurrency" class="form-label">عملة الحساب <span class="text-danger">*</span></label>
+                            <select class="form-select" id="accountCurrency" required>
+                                <option value="ريال يمني" selected>ريال يمني</option>
+                                <option value="دولار أمريكي">دولار أمريكي</option>
+                                <option value="ريال سعودي">ريال سعودي</option>
+                            </select>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="customerName" class="form-label">اسم العميل <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="customerName" required>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="storeName" class="form-label">اسم المحل <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="storeName" required>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="phoneNumber" class="form-label">رقم التلفون <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="phoneNumber" required>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="address" class="form-label">العنوان <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="address" required>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="username" class="form-label">اسم الدخول <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="username" required>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="password" class="form-label">كلمة السر <span class="text-danger">*</span></label>
+                            <input type="password" class="form-control" id="password" value="vdrsen" required>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <!-- Additional field could be added here in the future -->
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="saveCustomerBtn">حفظ</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Customer Modal -->
+<div class="modal fade" id="editCustomerModal" tabindex="-1" aria-labelledby="editCustomerModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-light">
+                <button type="button" class="btn btn-sm btn-light" data-bs-dismiss="modal" aria-label="Close">اغلاق</button>
+                <h5 class="modal-title" id="editCustomerModalLabel">الحسابات 2 > العملاء والوكلاء 2</h5>
+            </div>
+            <div class="modal-body">
+                <!-- Information Alert -->
+                <div class="alert alert-info py-2 mb-3">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <strong>ملاحظة: بإمكان الآن تحديد عملة الحساب</strong>
+                            <ul class="mb-0 mt-1 ps-3">
+                                <li>الحسابات الرئيسية يجب ان تكون عملتها الريال اليمني</li>
+                                <li>الحسابات الفرعية يجب ان تكون بالعملات الاجنبية</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-4">
+                            <ul class="mb-0 ps-3">
+                                <li>يمكن اضافة حسابات فرعية بالعملات الاجنبية لحساب العميل</li>
+                                <li>لانشاء حساب فرعي يجب اختيار الحساب الرئيسي</li>
+                                <li>لا يمكن اضافة اكثر من حساب فرعي لنفس العملة</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-4">
+                            <ul class="mb-0 ps-3">
+                                <li>لا يمكن تغيير عملة الحساب بعد الاضافة</li>
+                                <li>سيكون بمقدور الحساب الرئيسي اختيار الحسابات الفرعية</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Form Fields -->
+                <form id="editCustomerForm">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="editAccountCurrency" class="form-label">عملة الحساب <span class="text-danger">*</span></label>
+                            <select class="form-select" id="editAccountCurrency" required disabled>
+                                <option value="ريال يمني" selected>ريال يمني</option>
+                                <option value="دولار أمريكي">دولار أمريكي</option>
+                                <option value="ريال سعودي">ريال سعودي</option>
+                            </select>
+                            <small class="text-muted">لا يمكن تغيير عملة الحساب بعد الاضافة</small>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="editCustomerName" class="form-label">اسم العميل <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="editCustomerName" value="محمد عبد المنعم عبيد" required>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="editStoreName" class="form-label">اسم المحل <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="editStoreName" value="ميتاء تك للبرمجة" required>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="editPhoneNumber" class="form-label">رقم التلفون <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="editPhoneNumber" value="782871439" required>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="editAddress" class="form-label">العنوان <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="editAddress" value="حضرموت المكلا" required>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="editUsername" class="form-label">اسم الدخول <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="editUsername" value="mohammed" required>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="updateCustomerBtn">حفظ التعديلات</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Toggle filter section visibility
+            $('#toggleFilters').on('click', function() {
+                $('#filterSection').slideToggle(300);
+                
+                // Update button text based on current state
+                if ($('#filterSection').is(':visible')) {
+                    $('#toggleFiltersText').text('إخفاء الفلترة');
+                    $(this).find('i').removeClass('ti-filter-off').addClass('ti-filter');
+                } else {
+                    $('#toggleFiltersText').text('إظهار الفلترة');
+                    $(this).find('i').removeClass('ti-filter').addClass('ti-filter-off');
+                }
+            });
+        
+            // Initialize Select2 for all dropdowns in filter section
+            $('.form-select').select2({
+                minimumResultsForSearch: 10,
+                dropdownAutoWidth: true,
+                width: '100%'
+            });
+            
+            // Configure error handling for DataTables
+            $.fn.dataTable.ext.errMode = 'throw';
+            
+            // Initialize DataTable
+            var table = $('#customers-table').DataTable({
+                language: {
+                    url: '/data/translations/ar.json'
+                },
+                responsive: true,
+                ordering: true,
+                paging: true,
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ],
+                // RTL support
+                direction: 'rtl',
+                autoWidth: false,
+                scrollX: true,
+                fixedHeader: true
+            });
+
+            // Handle select all checkbox
+            $('#selectAll').on('click', function() {
+                $('.form-check-input').prop('checked', $(this).prop('checked'));
+            });
+            
+            // Initialize date pickers
+            $('input[type="date"]').flatpickr({
+                dateFormat: "Y-m-d",
+                locale: "ar"
+            });
+            
+            // Function to apply all filters
+            function applyFilters() {
+                // Get values from all filter inputs
+                var searchText = $('#filter-search').val().toLowerCase();
+                var addressText = $('#filter-address').val().toLowerCase();
+                var appVersionRange = $('#filter-app-version-range').val();
+                var status = $('#filter-status').val();
+                var payment = $('#filter-payment').val();
+                var agent = $('#filter-agents').val();
+                var storeType = $('#filter-type').val();
+                var loan = $('#filter-loan').val();
+                var commissionGroup = $('#filter-commission-group').val();
+                var validity = $('#filter-validity').val();
+                var apiType = $('#filter-api-type').val();
+                var commissionValue = $('#filter-commission-value').val();
+                var connection = $('#filter-connection').val();
+                var accountCurrency = $('#filter-account-currency').val();
+                var mainAccount = $('#filter-main-account').val();
+                var appVersion = $('#filter-app-version').val();
+                var distributors = $('#filter-distributors').val();
+                var distributorValidity = $('#filter-distributor-validity').val();
+                var commissionStatus = $('#filter-commission-status').val();
+                
+                // Apply filters to DataTable
+                table.search(searchText).draw();
+                
+                // For more complex filtering, we would need to use DataTables' column filtering
+                // This is a simplified version that only uses the global search
+                console.log('Filters applied:', {
+                    searchText: searchText,
+                    addressText: addressText,
+                    status: status,
+                    payment: payment,
+                    agent: agent,
+                    storeType: storeType,
+                    loan: loan,
+                    commissionGroup: commissionGroup,
+                    validity: validity,
+                    apiType: apiType,
+                    commissionValue: commissionValue,
+                    connection: connection,
+                    accountCurrency: accountCurrency,
+                    mainAccount: mainAccount,
+                    appVersion: appVersion,
+                    distributors: distributors,
+                    distributorValidity: distributorValidity,
+                    commissionStatus: commissionStatus
+                });
+            }
+            
+            // Attach event handlers to all filter elements
+            $('#filter-search, #filter-address, #filter-app-version-range').on('keyup', applyFilters);
+            
+            $('.form-select').on('change', applyFilters);
+            
+            // Reset filters button
+            $('#resetFilters').on('click', function() {
+                // Reset all filter inputs
+                $('.form-select').val('').trigger('change');
+                $('.form-control').val('');
+                applyFilters();
+            });
+            
+            // Apply filters button
+            $('#applyFilters').on('click', applyFilters);
+            
+            // Send SMS button
+            $('#sendSmsBtn').on('click', function() {
+                var message = $('#filter-sms-text').val();
+                console.log('Sending SMS with message:', message);
+                // Implement SMS sending functionality
+                alert('تم إرسال الرسائل النصية');
+            });
+            
+            // Send WhatsApp button
+            $('#sendWhatsappBtn').on('click', function() {
+                console.log('Sending WhatsApp messages');
+                // Implement WhatsApp sending functionality
+                alert('تم إرسال رسائل الواتساب');
+            });
+            
+            // Export WhatsApp button
+            $('#exportWhatsappBtn').on('click', function() {
+                console.log('Exporting numbers for WhatsApp import');
+                // Implement export functionality
+                alert('تم تصدير الأرقام للاستخدام في الواتساب');
+            });
+            
+            // Print button
+            $('#printBtn').on('click', function() {
+                console.log('Printing selected records');
+                // Implement print functionality
+                window.print();
+            });
+            
+            // Export Excel button
+            $('#exportExcelBtn').on('click', function() {
+                console.log('Exporting to Excel');
+                // Implement Excel export functionality
+                alert('تم تصدير البيانات إلى ملف Excel');
+            });
+            
+            // Refresh button
+            $('#refreshBtn').on('click', function() {
+                console.log('Refreshing data');
+                // Show loading indicator
+                $(this).find('i').addClass('fa-spin');
+                
+                // Simulate refresh delay
+                setTimeout(() => {
+                    // Reload the page to refresh data
+                    location.reload();
+                }, 500);
+            });
+            
+            // Handle Add Customer Form Submission
+            $('#saveCustomerBtn').on('click', function() {
+                // Validate form
+                var form = document.getElementById('addCustomerForm');
+                if (!form.checkValidity()) {
+                    form.reportValidity();
+                    return;
+                }
+                
+                // Collect form data
+                var accountCurrency = $('#accountCurrency').val();
+                var customerName = $('#customerName').val();
+                var storeName = $('#storeName').val();
+                var phoneNumber = $('#phoneNumber').val();
+                var address = $('#address').val();
+                var username = $('#username').val();
+                var password = $('#password').val();
+                
+                // In a real application, you would send this data to the server
+                // For demo purposes, we'll just show a success message and refresh the page
+                console.log('Adding new customer:', {
+                    accountCurrency: accountCurrency,
+                    customerName: customerName,
+                    storeName: storeName,
+                    phoneNumber: phoneNumber,
+                    address: address,
+                    username: username,
+                    password: password
+                });
+                
+                // Show success message
+                alert('تم إضافة العميل بنجاح');
+                
+                // Close modal
+                $('#addCustomerModal').modal('hide');
+                
+                // In a real application, you would refresh the table with the new data
+                // For demo purposes, we'll just reload the page after a short delay
+                setTimeout(function() {
+                    location.reload();
+                }, 1000);
+            });
+            
+            // Initialize Select2 for dropdown in modal
+            $('#accountCurrency').select2({
+                dropdownParent: $('#addCustomerModal'),
+                minimumResultsForSearch: 10,
+                width: '100%'
+            });
+            
+            // Initialize Select2 for dropdown in edit modal
+            $('#editAccountCurrency').select2({
+                dropdownParent: $('#editCustomerModal'),
+                minimumResultsForSearch: 10,
+                width: '100%'
+            });
+            
+            // Add direct event handler for edit link
+            $(document).on('click', '[data-action="edit"]', function(e) {
+                e.preventDefault();
+                console.log('Edit link clicked directly');
+                $('#editCustomerModal').modal('show');
+            });
+            
+            // Handle Edit Customer Form Submission
+            $('#updateCustomerBtn').on('click', function() {
+                // Validate form
+                var form = document.getElementById('editCustomerForm');
+                if (!form.checkValidity()) {
+                    form.reportValidity();
+                    return;
+                }
+                
+                // Collect form data
+                var customerName = $('#editCustomerName').val();
+                var storeName = $('#editStoreName').val();
+                var phoneNumber = $('#editPhoneNumber').val();
+                var address = $('#editAddress').val();
+                var username = $('#editUsername').val();
+                
+                // In a real application, you would send this data to the server
+                // For demo purposes, we'll just show a success message and refresh the page
+                console.log('Updating customer:', {
+                    customerName: customerName,
+                    storeName: storeName,
+                    phoneNumber: phoneNumber,
+                    address: address,
+                    username: username
+                });
+                
+                // Show success message
+                alert('تم تعديل بيانات العميل بنجاح');
+                
+                // Close modal
+                $('#editCustomerModal').modal('hide');
+                
+                // In a real application, you would refresh the table with the new data
+                // For demo purposes, we'll just reload the page after a short delay
+                setTimeout(function() {
+                    location.reload();
+                }, 1000);
+            });
+            
+            // Handle dropdown menu actions
+            $(document).on('click', '.dropdown-item', function(e) {
+                var action = $(this).text().trim();
+                var dataAction = $(this).data('action');
+                console.log('Action selected:', action, 'Data action:', dataAction);
+                
+                // If data-action attribute is set and it's 'edit', let the direct handler take care of it
+                if (dataAction === 'edit') {
+                    // Don't prevent default or stop propagation for edit action
+                    // The direct event handler will handle showing the modal
+                    console.log('Edit action detected, letting direct handler manage it');
+                    return;
+                }
+                
+                // For all other actions, prevent default behavior
+                e.preventDefault();
+                
+                // Show appropriate message based on action text
+                if (action.includes('حذف')) {
+                    if (confirm('هل أنت متأكد من حذف هذا العميل؟')) {
+                        alert('تم حذف العميل');
+                    }
+                } else if (action.includes('مشاهدة')) {
+                    alert('عرض تفاصيل العميل');
+                } else if (action.includes('طباعة')) {
+                    window.print();
+                } else if (action.includes('إلغاء التفعيل')) {
+                    alert('تم إلغاء تفعيل العميل');
+                } else if (action.includes('ربط بالتأمين')) {
+                    alert('تم ربط العميل بالتأمين');
+                } else if (action.includes('اضافة قرض')) {
+                    alert('فتح نموذج إضافة قرض');
+                } else if (action.includes('حفظ رقم الجهاز')) {
+                    alert('تم حفظ رقم الجهاز');
+                } else if (action.includes('صلاحيات الخدمات')) {
+                    alert('فتح نموذج صلاحيات الخدمات');
+                } else if (action.includes('حفظ الايبي')) {
+                    alert('تم حفظ الايبي');
+                }
+            });
+        });
+    </script>
+}

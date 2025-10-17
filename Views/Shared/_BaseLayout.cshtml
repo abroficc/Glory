@@ -1,0 +1,99 @@
+﻿﻿﻿﻿<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark">
+
+    @await Html.PartialAsync("~/Views/Shared/Partials/_TitleMeta.cshtml")
+    @RenderSection("styles", required: false)
+    @await Html.PartialAsync("~/Views/Shared/Partials/_HeadCSS.cshtml")
+
+    <style>
+        /* إعداد المتغيرات */
+        :root {
+            --logo-url: url('/images/logo.png');
+            --logo-sm-url: url('/images/logo-sm.png');
+        }
+
+        /* تبديل الشعار في الوضع الليلي */
+        :root[data-theme='dark'] {
+            --logo-url: url('/images/logo-black.png');
+            --logo-sm-url: url('/images/logo-sm.png');
+        }
+
+        /* الاتجاه العام */
+        body {
+            direction: rtl;
+            text-align: right;
+            background-color: #f8f9fa;
+            color: #212529;
+        }
+
+        /* تطبيق الشعار من المتغيرات */
+        .logo-topbar .logo-lg img,
+        .logo-topbar .logo-sm img {
+            display: none;
+        }
+
+        .logo-topbar .logo-lg::before {
+            content: '';
+            display: block;
+            width: 100%;
+            height: 32px;
+            background-image: var(--logo-url);
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        .logo-topbar .logo-sm::before {
+            content: '';
+            display: block;
+            width: 100%;
+            height: 24px;
+            background-image: var(--logo-sm-url);
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+    </style>
+    
+    <style media="screen">
+        /* الوضع الليلي حسب النظام */
+        @("@media (prefers-color-scheme: dark) {")
+            body {
+                background-color: #212529;
+                color: #fff;
+            }
+
+            .card {
+                background-color: #343a40;
+                color: #fff;
+            }
+
+            .form-control {
+                background-color: #343a40;
+                color: #fff;
+                border-color: #495057;
+            }
+
+            .form-control:focus {
+                background-color: #343a40;
+                color: #fff;
+                border-color: #86b7fe;
+            }
+
+            .form-control::placeholder {
+                color: #6c757d;
+            }
+        @("}")
+    </style>
+</head>
+
+<body class="text-end">
+    @RenderBody()
+    @await Html.PartialAsync("~/Views/Shared/Partials/_FooterScripts.cshtml")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

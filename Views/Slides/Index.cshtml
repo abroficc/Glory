@@ -1,0 +1,2211 @@
+@model Inspinia.Models.SlidesIndexVm
+@{
+    Layout = "_VerticalLayout";
+    ViewData["Title"] = "الشرائح";
+    ViewData["Direction"] = "rtl";
+}
+
+@section styles {
+    <!-- jstree css -->
+    <link href="~/plugins/jstree/style.min.css" rel="stylesheet" type="text/css">
+    <!-- date range picker css -->
+    <link href="~/plugins/daterangepicker/daterangepicker.css" rel="stylesheet" type="text/css">
+    <!-- datatables css -->
+    <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.bootstrap5.min.css" rel="stylesheet">
+    <!-- datatables buttons css -->
+    <link href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.bootstrap5.min.css" rel="stylesheet">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600&display=swap" rel="stylesheet">
+    
+    <!-- bootstrap-select CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/css/bootstrap-select.min.css" />
+
+    <!-- UI Polish CSS -->
+    <link href="~/css/ui-polish.css" rel="stylesheet" type="text/css">
+    
+    <!-- Voucher Modal CSS -->
+    <link href="~/css/voucher-modal.css" rel="stylesheet" type="text/css">
+    
+    <!-- Payment Distribution Principle CSS -->
+    <link href="~/css/payment-distribution-principle.css" rel="stylesheet" type="text/css">
+    
+    <!-- Tabler Icons CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@@tabler/icons-webfont@2.47.0/tabler-icons.min.css">
+    
+    <!-- Font Awesome CSS - removed due to simplified dropdown structure
+    
+    <style>
+        body[dir="rtl"] * {
+            font-family: "Cairo", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+        }
+        
+        /* تعديل الجدول لإزالة المسافة بين الرأس والمحتوى */
+        .table-bordered thead th {
+            border-bottom-width: 1px;
+        }
+        
+        .table-bordered tbody tr:first-child td {
+            border-top: none;
+        }
+        
+        .table {
+            margin-bottom: 0;
+        }
+        
+        /* Select all checkboxes styling */
+        .form-check-input:checked {
+            background-color: #1ab394;
+            border-color: #1ab394;
+        }
+        
+        /* Alert styling for better visibility */
+        .alert-warning {
+            background-color: #fff3cd;
+            border-color: #ffeaa7;
+            color: #856404;
+        }
+        
+        .alert-danger {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+        
+        /* Dark mode alert adjustments */
+        [data-bs-theme="dark"] .alert-warning {
+            background-color: #664d03;
+            border-color: #7d5f04;
+            color: #ffecb5;
+        }
+        
+        [data-bs-theme="dark"] .alert-danger {
+            background-color: #721c24;
+            border-color: #842029;
+            color: #f8d7da;
+        }
+        
+        /* Tree view container */
+        #categories-tree {
+            min-height: 400px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 10px;
+        }
+        
+        /* Table card styling */
+        .table-dark-card {
+            background: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 4px 20px rgba(0,0,0,.05);
+        }
+
+        .table-dark-card table {
+            width: 100%;
+            border-collapse: collapse;
+            color: #374151;
+            font-size: 14px;
+        }
+
+        .table-dark-card thead {
+            background: linear-gradient(180deg, #f3f4f6, #e5e7eb);
+        }
+        
+        .table-dark-card thead th {
+            padding: 12px 14px;
+            text-align: center;
+            font-weight: 600;
+            color: #111827;
+            border-bottom: 1px solid #d1d5db;
+            white-space: nowrap;
+        }
+
+        .table-dark-card tbody tr {
+            background: #fff;
+            transition: background 0.2s;
+        }
+        
+        .table-dark-card tbody tr:nth-child(even) {
+            background: #f9fafb;
+        }
+        
+        .table-dark-card tbody tr:hover {
+            background: #f3f4f6;
+        }
+        
+        .table-dark-card td {
+            padding: 12px 14px;
+            text-align: center;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .btn-more {
+            border: 1px solid #d1d5db;
+            background: transparent;
+            color: #3b82f6;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 13px;
+            cursor: pointer;
+        }
+        
+        .btn-more:hover {
+            background: #2563eb;
+            color: #fff;
+            border-color: #2563eb;
+        }
+
+        /* Dark mode table styles */
+        [data-bs-theme="dark"] .table-dark-card {
+            background: #111827;
+            border: 1px solid #1f2937;
+            box-shadow: 0 4px 20px rgba(0,0,0,.4);
+        }
+
+        [data-bs-theme="dark"] .table-dark-card table {
+            color: #e5e7eb;
+        }
+
+        [data-bs-theme="dark"] .table-dark-card thead {
+            background: linear-gradient(180deg, #1e293b, #111827);
+        }
+        
+        [data-bs-theme="dark"] .table-dark-card thead th {
+            color: #f9fafb;
+            border-bottom: 1px solid #374151;
+        }
+
+        [data-bs-theme="dark"] .table-dark-card tbody tr {
+            background: #111827;
+        }
+        
+        [data-bs-theme="dark"] .table-dark-card tbody tr:nth-child(even) {
+            background: #1a2234;
+        }
+        
+        [data-bs-theme="dark"] .table-dark-card tbody tr:hover {
+            background: #1f2937;
+        }
+        
+        [data-bs-theme="dark"] .table-dark-card td {
+            border-bottom: 1px solid #1f2937;
+        }
+
+        [data-bs-theme="dark"] .btn-more {
+            border: 1px solid #374151;
+            color: #93c5fd;
+        }
+        
+        [data-bs-theme="dark"] .btn-more:hover {
+            background: #2563eb;
+            color: #fff;
+            border-color: #2563eb;
+        }
+
+        /* Light mode pagination */
+        .pagination-dark {
+            display: flex;
+            justify-content: center;
+            margin-top: 12px;
+            gap: 4px;
+        }
+        
+        .pagination-dark button {
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            color: #111827;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        
+        .pagination-dark button.active {
+            background: #10b981;
+            border-color: #10b981;
+            color: #fff;
+        }
+        
+        .pagination-dark button:hover:not(.active) {
+            background: #2563eb;
+            border-color: #2563eb;
+            color: #fff;
+        }
+
+        /* Dark mode pagination */
+        [data-bs-theme="dark"] .pagination-dark button {
+            background: #1e293b;
+            border: 1px solid #374151;
+            color: #f9fafb;
+        }
+        
+        [data-bs-theme="dark"] .pagination-dark button.active {
+            background: #10b981;
+            border-color: #10b981;
+        }
+        
+        [data-bs-theme="dark"] .pagination-dark button:hover:not(.active) {
+            background: #2563eb;
+            border-color: #2563eb;
+        }
+        
+        /* Modal header styling - using project's primary color */
+        .modal-header {
+            background-color: #1ab394; /* Project's primary color */
+            color: white;
+            border-bottom: 1px solid #16987e;
+        }
+        
+        /* Modal title styling */
+        .modal-header .modal-title {
+            font-weight: 500;
+            color: white;
+        }
+        
+        /* Close button styling for modal headers */
+        .modal-header .btn-close {
+            filter: invert(1) grayscale(100%) brightness(200%);
+        }
+        
+        /* Modal footer styling - using a lighter shade */
+        .modal-footer {
+            background-color: #f0f8f8; /* Light teal background */
+            border-top: 1px solid #d1e8e8;
+        }
+        
+        /* Primary buttons in modals */
+        .modal-footer .btn-primary {
+            background-color: #1ab394;
+            border-color: #1ab394;
+        }
+        
+        .modal-footer .btn-primary:hover {
+            background-color: #16987e;
+            border-color: #16987e;
+        }
+        
+        /* Form styling */
+        .v-section {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid #e9ecef;
+        }
+        
+        [data-bs-theme="dark"] .v-section {
+            background: #1e1f27;
+            border-color: #293036;
+        }
+        
+        .v-cap {
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #495057;
+            font-size: 16px;
+        }
+        
+        [data-bs-theme="dark"] .v-cap {
+            color: #aab8c5;
+        }
+        
+        .v-label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #495057;
+        }
+        
+        [data-bs-theme="dark"] .v-label {
+            color: #aab8c5;
+        }
+        
+        .v-req {
+            color: #e02d2d;
+        }
+        
+        .v-input, .v-select {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            background-color: #fff;
+            color: #495057;
+        }
+        
+        [data-bs-theme="dark"] .v-input, 
+        [data-bs-theme="dark"] .v-select {
+            background-color: #272832;
+            border-color: #293036;
+            color: #aab8c5;
+        }
+        
+        .v-input:focus, .v-select:focus {
+            border-color: #1ab394;
+            outline: 0;
+            box-shadow: 0 0 0 0.2rem rgba(26, 179, 148, 0.25);
+        }
+        
+        .note-highlight {
+            background-color: #e7f4f0;
+            border-left: 3px solid #1ab394;
+            padding: 8px 12px;
+            margin-top: 5px;
+            font-size: 13px;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        [data-bs-theme="dark"] .note-highlight {
+            background-color: #1e3a35;
+            border-left-color: #1ab394;
+            color: #aab8c5;
+        }
+        
+        /* Fix for bootstrap-select dropdown shaking issue */
+        .bootstrap-select .dropdown-menu {
+            transform: translate3d(0, 0, 0) !important;
+            -webkit-transform: translate3d(0, 0, 0) !important;
+            -moz-transform: translate3d(0, 0, 0) !important;
+            -ms-transform: translate3d(0, 0, 0) !important;
+            -o-transform: translate3d(0, 0, 0) !important;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+        
+        /* Bootstrap Select Dropdown z-index fix */
+        .bootstrap-select .dropdown-menu {
+            z-index: 20000;
+        }
+        
+        /* Fix for dropdown menus inside modals */
+        .modal .bootstrap-select .dropdown-menu {
+            z-index: 99999 !important;
+        }
+        
+        /* Flatpickr calendar z-index fix */
+        .flatpickr-calendar {
+            z-index: 200000 !important;
+        }
+        
+        /* Allow text wrapping in table cells to prevent horizontal scrolling */
+        #categoriesTable td {
+            white-space: normal !important;
+            word-wrap: break-word;
+        }
+        
+        #categoriesTable th {
+            white-space: normal !important;
+            word-wrap: break-word;
+        }
+        
+        /* Remove table responsive wrapper horizontal scrolling */
+        .table-responsive {
+            overflow-x: hidden;
+        }
+        
+        /* LTR input fields for code entries */
+        .ltr-input {
+            direction: ltr !important;
+            text-align: left;
+        }
+        
+        /* Fix for dropdown positioning - remove overflow constraints */
+        #filterSection, .card, .table-responsive {
+            overflow: visible !important;
+        }
+        
+        /* Style for readonly input fields in view modal */
+        #viewCategoryModal .form-control[readonly] {
+            background-color: #f8f9fa;
+            border-color: #e9ecef;
+            color: #495057;
+            opacity: 1;
+        }
+        
+        [data-bs-theme="dark"] #viewCategoryModal .form-control[readonly] {
+            background-color: #272832;
+            border-color: #293036;
+            color: #aab8c5;
+        }
+        
+        /* Style for checkboxes in table */
+        .table th input[type="checkbox"],
+        .table td input[type="checkbox"] {
+            margin: 0;
+            vertical-align: middle;
+        }
+        
+        /* Style for select all checkbox in header */
+        #selectAll {
+            transform: scale(1.2);
+        }
+        
+        /* Bootstrap Select RTL Support */
+        .bootstrap-select .dropdown-menu {
+            text-align: right;
+        }
+        
+        /* Additional enhancements for better visibility in both modes */
+        .bootstrap-select.btn-group .dropdown-toggle .filter-option {
+            color: inherit;
+        }
+        
+        .bootstrap-select .dropdown-menu li a span.text {
+            display: block;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        [data-bs-theme="dark"] .bootstrap-select .dropdown-header {
+            color: #aab8c5;
+            background-color: #1e1f27;
+        }
+        
+        .bootstrap-select .dropdown-header {
+            background-color: #f8f9fa;
+            color: #495057;
+        }
+        
+        /* Fix for select arrow in dark mode */
+        [data-bs-theme="dark"] .bootstrap-select .dropdown-toggle::after {
+            border-top-color: #aab8c5;
+        }
+        
+        /* Ensure proper contrast for disabled options */
+        .bootstrap-select .dropdown-menu > .disabled > a {
+            color: #6c757d;
+            background-color: transparent;
+        }
+        
+        [data-bs-theme="dark"] .bootstrap-select .dropdown-menu > .disabled > a {
+            color: #6c757d;
+        }
+        
+        /* Fix for select text visibility in dark mode modals */
+        [data-bs-theme="dark"] .modal-content .bootstrap-select .filter-option {
+            color: #aab8c5;
+        }
+        
+        .modal-content .bootstrap-select .filter-option {
+            color: #495057;
+        }
+        
+        /* Additional fixes for select box visibility */
+        .modal-content .selectpicker {
+            width: 100%;
+        }
+        
+        [data-bs-theme="dark"] .modal-content .selectpicker {
+            background-color: #272832;
+            border-color: #293036;
+            color: #aab8c5;
+        }
+        
+        /* View Category Modal specific styling */
+        .form-control-plaintext {
+            color: #495057;
+            border: none;
+            background-color: transparent;
+            padding: 8px 12px;
+        }
+        
+        [data-bs-theme="dark"] .form-control-plaintext {
+            color: #aab8c5;
+        }
+        
+        /* Card styling in View Category Modal */
+        .card {
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .card-header {
+            font-weight: 600;
+        }
+        
+        [data-bs-theme="dark"] .card {
+            background-color: #1e1f27;
+            border-color: #293036;
+        }
+        
+        [data-bs-theme="dark"] .card-header {
+            background-color: #1e1f27;
+            border-color: #293036;
+        }
+        
+        /* DataTables Buttons Styling */
+        .dt-buttons .btn {
+            margin-right: 5px;
+            margin-bottom: 5px;
+        }
+        
+        .dt-button-collection {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-shadow: 0 6px 12px rgba(0,0,0,.175);
+        }
+        
+        [data-bs-theme="dark"] .dt-button-collection {
+            background-color: #1e1f27;
+            border: 1px solid #293036;
+            box-shadow: 0 6px 12px rgba(0,0,0,.4);
+        }
+        
+        .dt-button-collection .dropdown-item {
+            padding: 8px 15px;
+        }
+        
+        [data-bs-theme="dark"] .dt-button-collection .dropdown-item {
+            color: #aab8c5;
+        }
+        
+        [data-bs-theme="dark"] .dt-button-collection .dropdown-item:hover {
+            background-color: #16987e;
+            color: #fff;
+        }
+        
+        /* Ensure buttons are visible in both modes */
+        .dt-buttons .btn-outline-secondary {
+            color: #6c757d;
+            border-color: #6c757d;
+        }
+        
+        .dt-buttons .btn-outline-secondary:hover {
+            background-color: #6c757d;
+            color: #fff;
+        }
+        
+        [data-bs-theme="dark"] .dt-buttons .btn-outline-secondary {
+            color: #aab8c5;
+            border-color: #aab8c5;
+        }
+        
+        [data-bs-theme="dark"] .dt-buttons .btn-outline-secondary:hover {
+            background-color: #16987e;
+            color: #fff;
+            border-color: #16987e;
+        }
+        
+        /* DataTables buttons container styling */
+        #datatables-buttons-container .dt-buttons {
+            display: inline-block;
+            margin-right: 5px;
+        }
+        
+        #datatables-buttons-container .btn {
+            margin-right: 5px;
+            margin-bottom: 0;
+        }
+        
+        /* Bootstrap Select Styling for Filter Section */
+        .bootstrap-select .dropdown-menu {
+            max-height: 200px;
+        }
+        
+        .bootstrap-select .dropdown-toggle {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.875rem;
+        }
+        
+        [data-bs-theme="dark"] .bootstrap-select .dropdown-toggle {
+            background-color: #272832;
+            border-color: #293036;
+            color: #aab8c5;
+        }
+        
+        [data-bs-theme="dark"] .bootstrap-select .dropdown-toggle:focus {
+            border-color: #16987e;
+            box-shadow: 0 0 0 0.2rem rgba(22, 152, 126, 0.25);
+        }
+        
+        /* خلفية قسم الفلترة - الوضع النهاري */
+        #filterSection {
+            background-color: #ffffff;   /* أبيض نقاء */
+            border-radius: 10px;
+            padding: 16px;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        /* حقول الإدخال - الوضع النهاري */
+        #filterSection .form-control {
+            background-color: #ffffff;   /* أبيض */
+            border: 1px solid #d1d5db;   /* حدود رمادية فاتحة */
+            color: #111827;              /* خط داكن */
+            border-radius: 6px;
+            padding: 8px 10px;
+            transition: all 0.2s ease-in-out;
+            font-weight: 500;
+        }
+        
+        /* عند التركيز - الوضع النهاري */
+        #filterSection .form-control:focus {
+            background-color: #ffffff;
+            border-color: #1ab394;       /* أخضر سماوي */
+            box-shadow: 0 0 0 0.25rem rgba(26, 179, 148, 0.2);
+            color: #111827;
+        }
+        
+        /* Placeholder - الوضع النهاري */
+        #filterSection .form-control::placeholder {
+            color: #9ca3af; /* رمادي فاتح */
+            opacity: 1;
+        }
+        
+        /* الأزرار - الوضع النهاري */
+        #filterSection .btn {
+            border-radius: 6px;
+            font-weight: 600;
+            transition: all 0.2s ease-in-out;
+            padding: 6px 12px;
+        }
+        
+        /* زر أساسي (بحث مثلاً) - الوضع النهاري */
+        #filterSection .btn-primary {
+            background-color: #1ab394; /* أخضر سماوي */
+            border: none;
+            color: #fff;
+        }
+        #filterSection .btn-primary:hover {
+            background-color: #16987e;
+        }
+        
+        /* زر ثانوي - الوضع النهاري */
+        #filterSection .btn-secondary {
+            background-color: #6b7280; /* رمادي متوسط */
+            border: none;
+            color: #fff;
+        }
+        #filterSection .btn-secondary:hover {
+            background-color: #4b5563;
+        }
+        
+        /* زر معلومات - الوضع النهاري */
+        #filterSection .btn-info {
+            background-color: #3b82f6; /* أزرق سماوي */
+            border: none;
+            color: #fff;
+        }
+        #filterSection .btn-info:hover {
+            background-color: #2563eb;
+        }
+        
+        /* زر نجاح - الوضع النهاري */
+        #filterSection .btn-success {
+            background-color: #10b981; /* أخضر سعادة */
+            border: none;
+            color: #fff;
+        }
+        #filterSection .btn-success:hover {
+            background-color: #059669;
+        }
+        
+        /* خلفية قسم الفلترة - الوضع المظلم */
+        [data-bs-theme="dark"] #filterSection {
+            background-color: #111827;   /* غامق أنعم */
+            border-radius: 10px;
+            padding: 16px;
+        }
+        
+        /* حقول الإدخال - الوضع المظلم */
+        [data-bs-theme="dark"] #filterSection .form-control {
+            background-color: #1f2937;   /* رمادي داكن ناعم */
+            border: 1px solid #374151;   /* حدود أنعم */
+            color: #f3f4f6;              /* خط فاتح */
+            border-radius: 6px;
+            padding: 8px 10px;
+            transition: all 0.2s ease-in-out;
+        }
+        
+        /* عند التركيز - الوضع المظلم */
+        [data-bs-theme="dark"] #filterSection .form-control:focus {
+            background-color: #111827;   /* يغمق قليلاً */
+            border-color: #06b6d4;       /* أزرق سماوي */
+            box-shadow: 0 0 6px rgba(6, 182, 212, 0.4);
+            color: #fff;
+        }
+        
+        /* Placeholder - الوضع المظلم */
+        [data-bs-theme="dark"] #filterSection .form-control::placeholder {
+            color: #9ca3af; /* رمادي فاتح */
+            opacity: 0.85;
+        }
+        
+        /* الأزرار - الوضع المظلم */
+        [data-bs-theme="dark"] #filterSection .btn {
+            border-radius: 6px;
+            font-weight: 500;
+            transition: all 0.2s ease-in-out;
+        }
+        
+        /* زر أساسي (بحث مثلاً) - الوضع المظلم */
+        [data-bs-theme="dark"] #filterSection .btn-primary {
+            background-color: #06b6d4; /* أزرق سماوي */
+            border: none;
+            color: #fff;
+        }
+        [data-bs-theme="dark"] #filterSection .btn-primary:hover {
+            background-color: #0891b2;
+        }
+        
+        /* زر ثانوي - الوضع المظلم */
+        [data-bs-theme="dark"] #filterSection .btn-secondary {
+            background-color: #374151; /* رمادي متوسط */
+            border: none;
+            color: #e5e7eb;
+        }
+        [data-bs-theme="dark"] #filterSection .btn-secondary:hover {
+            background-color: #4b5563;
+        }
+        
+        /* Fix for DataTables column selection - remove ALL selection effects */
+        table.dataTable tbody > tr.selected,
+        table.dataTable tbody > tr > .selected,
+        table.dataTable tbody > tr.selected > td,
+        table.dataTable tbody > tr > .selected > td {
+            background-color: transparent !important;
+            outline: none !important;
+            box-shadow: none !important;
+        }
+        
+        table.dataTable.stripe tbody > tr.odd.selected,
+        table.dataTable.stripe tbody > tr.odd > .selected,
+        table.dataTable.display tbody > tr.odd.selected,
+        table.dataTable.display tbody > tr.odd > .selected,
+        table.dataTable.stripe tbody > tr.odd.selected > td,
+        table.dataTable.stripe tbody > tr.odd > .selected > td,
+        table.dataTable.display tbody > tr.odd.selected > td,
+        table.dataTable.display tbody > tr.odd > .selected > td {
+            background-color: #f9fafb !important;
+        }
+        
+        [data-bs-theme="dark"] table.dataTable.stripe tbody > tr.odd.selected,
+        [data-bs-theme="dark"] table.dataTable.stripe tbody > tr.odd > .selected,
+        [data-bs-theme="dark"] table.dataTable.display tbody > tr.odd.selected,
+        [data-bs-theme="dark"] table.dataTable.display tbody > tr.odd > .selected,
+        [data-bs-theme="dark"] table.dataTable.stripe tbody > tr.odd.selected > td,
+        [data-bs-theme="dark"] table.dataTable.stripe tbody > tr.odd > .selected > td,
+        [data-bs-theme="dark"] table.dataTable.display tbody > tr.odd.selected > td,
+        [data-bs-theme="dark"] table.dataTable.display tbody > tr.odd > .selected > td {
+            background-color: #1a2234 !important;
+        }
+        
+        table.dataTable tbody > tr.even.selected,
+        table.dataTable tbody > tr.even > .selected,
+        table.dataTable.display tbody > tr.even.selected,
+        table.dataTable.display tbody > tr.even > .selected,
+        table.dataTable tbody > tr.even.selected > td,
+        table.dataTable tbody > tr.even > .selected > td,
+        table.dataTable.display tbody > tr.even.selected > td,
+        table.dataTable.display tbody > tr.even > .selected > td {
+            background-color: #ffffff !important;
+        }
+        
+        [data-bs-theme="dark"] table.dataTable tbody > tr.even.selected,
+        [data-bs-theme="dark"] table.dataTable tbody > tr.even > .selected,
+        [data-bs-theme="dark"] table.dataTable.display tbody > tr.even.selected,
+        [data-bs-theme="dark"] table.dataTable.display tbody > tr.even > .selected,
+        [data-bs-theme="dark"] table.dataTable tbody > tr.even.selected > td,
+        [data-bs-theme="dark"] table.dataTable tbody > tr.even > .selected > td,
+        [data-bs-theme="dark"] table.dataTable.display tbody > tr.even.selected > td,
+        [data-bs-theme="dark"] table.dataTable.display tbody > tr.even > .selected > td {
+            background-color: #111827 !important;
+        }
+        
+        /* Remove ALL focus and hover effects on table headers */
+        table.dataTable thead th,
+        table.dataTable thead td {
+            outline: none !important;
+            box-shadow: none !important;
+        }
+        
+        table.dataTable thead th:focus,
+        table.dataTable thead td:focus,
+        table.dataTable thead th:active,
+        table.dataTable thead td:active {
+            outline: none !important;
+            box-shadow: none !important;
+            background-color: inherit !important;
+        }
+        
+        /* Remove ALL focus and hover effects on table cells */
+        table.dataTable tbody td,
+        table.dataTable tbody th {
+            outline: none !important;
+            box-shadow: none !important;
+        }
+        
+        table.dataTable tbody td:focus,
+        table.dataTable tbody th:focus,
+        table.dataTable tbody td:active,
+        table.dataTable tbody th:active {
+            outline: none !important;
+            box-shadow: none !important;
+            background-color: inherit !important;
+        }
+        
+        /* Remove column sorting arrows highlight */
+        table.dataTable thead .sorting,
+        table.dataTable thead .sorting_asc,
+        table.dataTable thead .sorting_desc,
+        table.dataTable thead .sorting_asc_disabled,
+        table.dataTable thead .sorting_desc_disabled {
+            outline: none !important;
+            box-shadow: none !important;
+        }
+        
+        /* Remove any selection background */
+        table.dataTable tbody tr:hover,
+        table.dataTable tbody tr:hover td {
+            background-color: inherit !important;
+        }
+        
+        /* Ensure our custom hover still works */
+        .table-dark-card tbody tr:hover {
+            background: #f3f4f6 !important;
+        }
+        
+        [data-bs-theme="dark"] .table-dark-card tbody tr:hover {
+            background: #1f2937 !important;
+        }
+        
+        /* Bootstrap Select Dropdown z-index fix */
+        .bootstrap-select .dropdown-menu {
+            z-index: 20000;
+        }
+        
+        /* تنسيق عناوين المجموعات في القوائم المنسدلة */
+        .bootstrap-select .dropdown-header {
+            background-color: #f0f9f8;
+            color: #16987e;
+            border-bottom: 1px solid #d1e8e8;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        [data-bs-theme="dark"] .bootstrap-select .dropdown-header {
+            background-color: #1e1f27;
+            color: #10b981;
+        }
+        
+        /* Make the custom account source dropdown larger */
+        .cmbxfrst_sid1 .btn-default {
+            width: 100%;
+            height: 38px;
+            padding: 6px 12px;
+            font-size: 14px;
+            line-height: 1.42857143;
+            color: #555;
+            background-color: #fff;
+            background-image: none;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+        }
+        
+        .cmbxfrst_sid1 .btn-default:hover {
+            background-color: #e6e6e6;
+            border-color: #adadad;
+        }
+        
+        .cmbxfrst_sid1 .btn-default:focus {
+            border-color: #1ab394;
+            outline: 0;
+            box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(26, 179, 148, .6);
+        }
+        
+        /* Dropdown menu sizing */
+        .cmbxfrst_sid1 .dropdown-menu {
+            width: 100%;
+            min-width: 200px;
+        }
+        
+        /* Search box in dropdown */
+        .cmbxfrst_sid1 .bs-searchbox input {
+            height: 34px;
+            padding: 6px 12px;
+            font-size: 14px;
+            line-height: 1.42857143;
+            color: #555;
+            background-color: #fff;
+            background-image: none;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+        }
+        
+        /* Flatpickr calendar z-index fix */
+        .flatpickr-calendar {
+            z-index: 200000 !important;
+        }
+        
+        /* Allow text wrapping in table cells to prevent horizontal scrolling */
+        #categoriesTable td {
+            white-space: normal !important;
+            word-wrap: break-word;
+        }
+        
+        #categoriesTable th {
+            white-space: normal !important;
+            word-wrap: break-word;
+        }
+        
+        /* Remove table responsive wrapper horizontal scrolling */
+        .table-responsive {
+            overflow-x: hidden;
+        }
+        
+        /* Fix for dropdown positioning - remove overflow constraints */
+        #filterSection, .card, .table-responsive {
+            overflow: visible !important;
+        }
+        
+        /* Style for disabled top action buttons */
+        .btn-outline-primary.disabled,
+        .btn-outline-info.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        /* CKEditor validation styles */
+        .ck-editor.is-invalid .ck-editor__editable {
+            border-color: #e02d2d !important;
+            box-shadow: 0 0 0 0.2rem rgba(224, 45, 45, 0.25) !important;
+        }
+        
+
+    </style>
+}
+
+<!-- Filter toggle button -->
+<div class="mb-2">
+    <button id="toggleFilters" type="button" class="btn btn-primary">
+        <i class="ti ti-filter-off me-1"></i><span id="toggleFiltersText">إظهار الفلترة</span>
+    </button>
+</div>
+
+<!-- Filter section -->
+<div class="card mb-3" id="filterSection" style="display: none;">
+    <div class="card-body p-2">
+        <!-- Filter fields in grid layout (side by side) -->
+        <div class="row g-2 mb-2">
+            <div class="col-md">
+                <input type="text" class="form-control form-control-sm" placeholder="الرقم" id="filter-id">
+            </div>
+            <div class="col-md">
+                <input type="text" class="form-control form-control-sm" placeholder="رقم الشريحة" id="filter-sim-number">
+            </div>
+            <div class="col-md">
+                <input type="text" class="form-control form-control-sm" placeholder="الجهاز" id="filter-device">
+            </div>
+            <div class="col-md">
+                <input type="text" class="form-control form-control-sm" placeholder="الرصيد" id="filter-balance">
+            </div>
+            <div class="col-md">
+                <select class="selectpicker form-control form-control-sm" id="filter-records" data-live-search="true" title="اختر السجلات">
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                </select>
+            </div>
+        </div>
+        
+        <!-- Unified action buttons -->
+        <div class="row g-2">
+            <div class="col">
+                <button type="button" class="btn btn-secondary btn-sm" id="resetFilters">إعادة تعيين</button>
+                <button type="button" class="btn btn-primary btn-sm" id="applyFilters">بحث</button>
+                <!-- DataTables buttons will be inserted here by JavaScript -->
+                <div class="d-inline-block" id="datatables-buttons-container"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Action buttons -->
+<div class="mb-3">
+    <div class="d-flex gap-2 flex-wrap">
+        <a href="#" class="btn btn-sm btn-outline-danger" title="حذف">
+            <i class="ti ti-trash"></i>
+        </a>
+        <a href="#" class="btn btn-sm btn-outline-success" title="إضافة" data-bs-toggle="modal" data-bs-target="#modal-sim">
+            <i class="ti ti-plus"></i>
+        </a>
+        <a href="#" class="btn btn-sm btn-outline-primary" title="تعديل" id="topEditButton">
+            <i class="ti ti-pencil"></i>
+        </a>
+        <a href="#" class="btn btn-sm btn-outline-info" title="مشاهدة" id="topViewButton">
+            <i class="ti ti-eye"></i>
+        </a>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <div class="d-flex align-items-center">
+            <h5 class="card-title mb-0 fw-bold">@ViewData["Title"]</h5>
+            <div class="me-auto">
+                <!-- Refresh button -->
+                <button type="button" class="btn btn-sm btn-outline-secondary ms-2" id="refreshBtn" title="تحديث">
+                    <i class="ti ti-refresh"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table id="categoriesTable" class="table table-striped table-bordered dt-responsive nowrap w-100">
+                <thead>
+                    <tr>
+                        <th class="text-center" width="40px">
+                            <div class="form-check"><input type="checkbox" class="form-check-input" id="selectAll"></div>
+                        </th>
+                        <th>الرقم</th>
+                        <th>رقم الشريحة</th>
+                        <th>الجهاز</th>
+                        <th>الرصيد</th>
+                        <th>مكان الشريحة</th>
+                        <th>شغال؟</th>
+                        <th>رقم الموظف</th>
+                        <th>رقم الحساب</th>
+                        <th>اقل مبلغ تسديد</th>
+                        <th>رمز الشريحة</th>
+                        <th>التحقق الثنائي</th>
+                        <th>كود استعلام الرصيد</th>
+                        <th style="width: 100px; text-align: center;">المزيد</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var slide in Model.Slides)
+                    {
+                    <tr>
+                        <td class="text-center">
+                            <div class="form-check"><input type="checkbox" class="form-check-input category-checkbox" value="@slide.Id"></div>
+                        </td>
+                        <td>@slide.Id</td>
+                        <td>@slide.Id</td>
+                        <td>@slide.Title</td>
+                        <td>@slide.Description</td>
+                        <td>@slide.LinkUrl</td>
+                        <td>@(slide.IsActive ? "نعم" : "لا")</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td style="text-align: center;">
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    للمزيد
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="#" data-action="edit"><i class="ti ti-pencil me-1"></i> تعديل</a></li>
+                                    <li><a class="dropdown-item" href="#" data-action="view"><i class="ti ti-eye me-1"></i> مشاهدة</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="ti ti-trash me-1"></i> حذف</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- نافذة منبثقة: روبوتاتي > الشرائح -->
+<div class="modal fade" id="modal-sim" tabindex="-1" aria-labelledby="modalSimLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+  <div class="modal-dialog modal-xl modal-dialog-centered">
+    <div class="modal-content border-0">
+
+      <!-- رأس النافذة -->
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalSimLabel">روبوتاتي &lt; الشرائح</h5>
+        <button type="button" class="btn-close ms-auto" data-bs-dismiss="modal" aria-label="إغلاق"></button>
+      </div>
+
+      <!-- محتوى النموذج -->
+      <div class="modal-body" dir="rtl">
+        <form id="formSim" name="formSim">
+          <div class="row g-3">
+
+            <!-- رقم الشريحة -->
+            <div class="col-md-6">
+              <label class="form-label text-primary fw-bold">رقم الشريحة (رقم الموبايل) *</label>
+              <input type="text" name="SimNumber" class="form-control" placeholder="أدخل رقم الشريحة">
+            </div>
+
+            <!-- رصيد الشريحة -->
+            <div class="col-md-6">
+              <label class="form-label text-primary fw-bold">رصيد الشريحة *</label>
+              <input type="text" name="Balance" class="form-control" placeholder="أدخل الرصيد">
+            </div>
+
+            <!-- مكان الشريحة -->
+            <div class="col-md-6">
+              <label class="form-label text-primary fw-bold">مكان الشريحة (0 او 1 او 2) *</label>
+              <input type="text" name="SimLocation" class="form-control" placeholder="0">
+            </div>
+
+            <!-- رقم السر -->
+            <div class="col-md-6">
+              <label class="form-label text-primary fw-bold">رقم السر للشريحة *</label>
+              <input type="text" name="Password" class="form-control" placeholder="أدخل الرقم السري">
+            </div>
+
+            <!-- الشبكة -->
+            <div class="col-md-6">
+              <label class="form-label text-primary fw-bold">اختر الشبكة *</label>
+              <div class="alert alert-info p-2">يمكنك إضافة نفس الشريحة لشبكة أخرى وذلك بإضافة بند جديد!</div>
+              <select class="selectpicker form-control" name="Network" data-live-search="true" title="اختر الشبكة">
+                <option value="">اختر الشبكة</option>
+                <option value="yemenmobile">يمن موبايل عبر الريال</option>
+                <option value="adslwline">الثابت والنت عبر الريال</option>
+                <option value="gomlamtn">جملة يو</option>
+                <option value="mtn">شحن فوري يو</option>
+                <option value="saba">شحن فوري سبافون</option>
+                <option value="sabaoffer">باقات سبافون</option>
+                <option value="gomlasaba">جملة سبافون</option>
+                <option value="gomlamobile">جملة موبايل</option>
+                <option value="why">واي</option>
+              </select>
+            </div>
+
+            <!-- الجهاز -->
+            <div class="col-md-6">
+              <label class="form-label text-primary fw-bold">اختر الجهاز *</label>
+              <select class="selectpicker form-control" name="Device" data-live-search="true" title="اختر الجهاز">
+                <option value="">اختر الجهاز</option>
+              </select>
+            </div>
+
+            <!-- الموظف -->
+            <div class="col-md-6">
+              <label class="form-label text-primary fw-bold">الموظف *</label>
+              <select class="selectpicker form-control" name="Employee" data-live-search="true" title="اختر الموظف">
+                <option value="">اختر الموظف</option>
+                <option value="0">بدون موظف</option>
+                <option value="123">المدير</option>
+                <option value="124">محمد عبدالرحمن يحيى الوشلي</option>
+                <option value="125">جراندكول</option>
+                <option value="126">صنعاء كاش</option>
+              </select>
+            </div>
+
+            <!-- المصدر الحسابي -->
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="mlabel lfrm">المصدر الحسابي <span class="msr">*</span></label>
+                <div class="alert alert-warning p-2">
+                  ملاحظة: تخصيص حساب لكل شريحة يمكنك من معرفة الأرباح والخسائر بالدقة من قسم التقرير الإداري.
+                  إذا لا يوجد حساب بعد للمزود قم بإنشاء حساب خاص بالمزود من قسم الحسابات → شجرة الحسابات.
+                </div>
+
+                <div class="col-m-12">
+                  <div class="dropdown bts_dropdown btn-group bootstrap-select txtinputfixed gensid cmbxfrst_sid1">
+                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+                      <span>اختر المصدر الحسابي</span>
+                      <i class="caret"></i>
+                    </button>
+
+                    <div class="dropdown-menu open" role="combobox" style="max-height: 400px; overflow: hidden;">
+                      <div class="bs-searchbox">
+                        <input type="text" class="form-control" autocomplete="off" placeholder="بحث..." aria-label="Search">
+                      </div>
+
+                      <div class="inner open" role="listbox" aria-expanded="true" tabindex="-1" style="max-height: 350px; overflow-y: auto;">
+                        <ul class="dropdown-menu inner">
+                          <li class="disabled"><span class="dropdown-header">318/المزودين</span></li>
+                          <li><a role="option"><span class="text">319/جراند كول</span></a></li>
+                          <li><a role="option"><span class="text">329/صنعاء كاش</span></a></li>
+                          <li><a role="option"><span class="text">330/اتصالاتي</span></a></li>
+                          <li><a role="option"><span class="text">331/المياس للاتصالات</span></a></li>
+                          <li><a role="option"><span class="text">332/المجد كاش</span></a></li>
+                          <li><a role="option"><span class="text">333/توايس تيليكوم</span></a></li>
+                          <li><a role="option"><span class="text">334/ركن الأمين تيليكوم</span></a></li>
+
+                          <li class="disabled"><span class="dropdown-header">320/الصناديق</span></li>
+                          <li><a role="option"><span class="text">321/الكريمي</span></a></li>
+                          <li><a role="option"><span class="text">322/الصارم للصرافة</span></a></li>
+                          <li><a role="option"><span class="text">323/نقد</span></a></li>
+                          <li><a role="option"><span class="text">324/آجل</span></a></li>
+
+                          <li class="disabled"><span class="dropdown-header">325/الإيرادات</span></li>
+                          <li><a role="option"><span class="text">327/فوارق السداد</span></a></li>
+
+                          <li class="disabled"><span class="dropdown-header">326/المصروفات</span></li>
+                          <li><a role="option"><span class="text">328/شخصية</span></a></li>
+                        </ul>
+                      </div>
+                    </div>
+
+                    <select data-live-search="true" class="selectpicker" data-title="بحث في الحسابات">
+                      <option value="">بحث في الحسابات</option>
+                      <optgroup label="318/المزودين">
+                        <option value="319">319/جراند كول</option>
+                        <option value="329">329/صنعاء كاش</option>
+                        <option value="330">330/اتصالاتي</option>
+                        <option value="331">331/المياس للاتصالات</option>
+                        <option value="332">332/المجد كاش</option>
+                        <option value="333">333/توايس تيليكوم</option>
+                        <option value="334">334/ركن الأمين تيليكوم</option>
+                      </optgroup>
+                      <optgroup label="320/الصناديق">
+                        <option value="321">321/الكريمي</option>
+                        <option value="322">322/الصارم للصرافة</option>
+                        <option value="323">323/نقد</option>
+                        <option value="324">324/آجل</option>
+                      </optgroup>
+                      <optgroup label="325/الإيرادات">
+                        <option value="327">327/فوارق السداد</option>
+                      </optgroup>
+                      <optgroup label="326/المصروفات">
+                        <option value="328">328/شخصية</option>
+                      </optgroup>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- أقل مبلغ تسديد -->
+            <div class="col-md-6">
+              <label class="form-label text-primary fw-bold">اقل مبلغ تسديد *</label>
+              <input type="text" name="MinPaymentAmount" class="form-control" placeholder="أدخل المبلغ">
+            </div>
+
+            <!-- عدد الثواني للتحقق الثنائي -->
+            <div class="col-md-6">
+              <label class="form-label text-primary fw-bold">عدد الثواني للتحقق الثنائي (الافتراضي 120 ثانية) *</label>
+              <input type="number" name="VerificationSeconds" class="form-control" placeholder="120">
+            </div>
+
+            <!-- كود الاستعلام عن الرصيد -->
+            <div class="col-md-6">
+              <label class="form-label text-primary fw-bold">كود الاستعلام عن الرصيد *</label>
+              <div class="alert alert-info p-2">
+                ملاحظة: استخدم كلمة <b>pass</b> مكان الرمز السري.
+              </div>
+              <input type="text" name="BalanceInquiryCode" class="form-control ltr-input" placeholder="*120# أو ر=4001">
+            </div>
+
+            <!-- أقل رصيد متبقي -->
+            <div class="col-md-6">
+              <label class="form-label text-primary fw-bold">اقل رصيد متبقي لتغذية الشريحة بشكل آلي *</label>
+              <div class="alert alert-info p-2">التحكم في التغذية من قسم روبوتاتي → إعدادات التغذية</div>
+              <input type="text" name="MinRemainingBalance" class="form-control" placeholder="مثلاً: 500">
+            </div>
+
+            <!-- شغال -->
+            <div class="col-md-6">
+              <label class="form-label text-primary fw-bold">شغال؟ (1- شغال، 0- متوقف) *</label>
+              <input type="text" name="IsWorking" class="form-control" placeholder="1">
+            </div>
+
+            <!-- كود الاتصال أو التسديد -->
+            <div class="col-md-6">
+              <label class="form-label text-primary fw-bold">كود الاتصال أو الارسال للتسديد *</label>
+              <div class="alert alert-info p-2">
+                استخدم الكلمات: <b>pass</b>، <b>unit</b>، <b>mobile</b>، <b>sim</b> داخل الكود.
+              </div>
+              <input type="text" name="ConnectionOrPaymentCode" class="form-control ltr-input" placeholder="مثلاً: *123*unit#">
+            </div>
+
+            <!-- نوع الاتصال -->
+            <div class="col-md-6">
+              <label class="form-label text-primary fw-bold">نوع الاتصال *</label>
+              <select class="selectpicker form-control" name="ConnectionType" data-live-search="true" title="اختر نوع الاتصال">
+                <option value="">اختر نوع الاتصال</option>
+                <option value="ussd">اتصال USSD</option>
+                <option value="sms">رسائل نصية</option>
+                <option value="call">اتصال مكالمة</option>
+              </select>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <!-- تذييل النافذة -->
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary" form="formSim">حفظ</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- تفعيل البحث داخل القوائم -->
+<script>
+$(document).ready(function() {
+  // عند تحميل القائمة المنسدلة
+  $('.selectpicker').on('loaded.bs.select', function () {
+    const dropdownMenu = $(this).parent().find('.dropdown-menu .inner');
+
+    // مرّ على كل optgroup
+    $(this).find('optgroup').each(function(index, group) {
+      const $header = dropdownMenu.find('.dropdown-header').eq(index);
+      const $options = $header.nextUntil('.dropdown-header');
+
+      // إخفاء الخيارات افتراضيًا
+      $options.hide();
+
+      // أضف سهم وإجعل العنوان قابل للنقر
+      $header
+        .css({
+          cursor: 'pointer',
+          'font-weight': 'bold',
+          'background-color': '#f8fafc',
+          'color': '#16987e',
+          'padding': '6px 10px'
+        })
+        .prepend('<i class="fa fa-angle-down me-1 text-primary"></i>')
+        .on('click', function() {
+          const $icon = $(this).find('i');
+          const $nextOptions = $(this).nextUntil('.dropdown-header');
+
+          if ($nextOptions.is(':visible')) {
+            $nextOptions.slideUp(150);
+            $icon.removeClass('fa-angle-up').addClass('fa-angle-down');
+          } else {
+            $nextOptions.slideDown(150);
+            $icon.removeClass('fa-angle-down').addClass('fa-angle-up');
+          }
+        });
+    });
+  });
+
+  // تفعيل البحث
+  $(document).on('input', '.bs-searchbox input', function () {
+    const val = $(this).val().toLowerCase();
+    const $menu = $(this).closest('.dropdown-menu');
+    const $headers = $menu.find('.dropdown-header');
+
+    if (val.length > 0) {
+      $headers.nextUntil('.dropdown-header').show();
+    } else {
+      $headers.each(function () {
+        const $next = $(this).nextUntil('.dropdown-header');
+        $next.hide();
+        $(this).find('i').removeClass('fa-angle-up').addClass('fa-angle-down');
+      });
+    }
+  });
+});
+</script>
+
+<!-- Edit Slide Modal -->
+<div class="modal fade" id="editSlideModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-scrollable">
+    <div class="modal-content" dir="rtl">
+
+      <!-- الهيدر -->
+      <div class="modal-header">
+        <h5 class="modal-title">الشرائح</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="اغلاق"></button>
+      </div>
+
+      <!-- النموذج -->
+      <form id="editSlideForm">
+        <div class="modal-body">
+          <div class="container-fluid">
+            <div class="row">
+              <!-- Left Column -->
+              <div class="col-md-6">
+                <!-- العنوان* -->
+                <div class="mb-3">
+                  <label for="editTitle" class="form-label fw-bold">العنوان <span class="text-danger">*</span></label>
+                  <input type="text" id="editTitle" name="title" class="form-control" placeholder="العنوان" required>
+                </div>
+
+                <!-- الوصف* -->
+                <div class="mb-3">
+                  <label for="editDescription" class="form-label fw-bold">الوصف <span class="text-danger">*</span></label>
+                  <textarea id="editDescription" name="description" class="form-control" rows="3" placeholder="الوصف" required></textarea>
+                </div>
+
+                <!-- رابط الصورة* -->
+                <div class="mb-3">
+                  <label for="editImageUrl" class="form-label fw-bold">رابط الصورة <span class="text-danger">*</span></label>
+                  <input type="text" id="editImageUrl" name="imageUrl" class="form-control" placeholder="رابط الصورة" required>
+                </div>
+
+                <!-- رابط الانتقال* -->
+                <div class="mb-3">
+                  <label for="editLinkUrl" class="form-label fw-bold">رابط الانتقال <span class="text-danger">*</span></label>
+                  <input type="text" id="editLinkUrl" name="linkUrl" class="form-control" placeholder="رابط الانتقال" required>
+                </div>
+              </div>
+
+              <!-- Right Column -->
+              <div class="col-md-6">
+                <!-- الترتيب -->
+                <div class="mb-3">
+                  <label for="editOrder" class="form-label fw-bold">الترتيب</label>
+                  <input type="number" id="editOrder" name="order" class="form-control" placeholder="الترتيب">
+                </div>
+
+                <!-- نشط -->
+                <div class="mb-3">
+                  <label class="form-label fw-bold">نشط</label>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="editIsActive" id="editIsActiveYes" value="1" checked>
+                    <label class="form-check-label" for="editIsActiveYes">نعم</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="editIsActive" id="editIsActiveNo" value="0">
+                    <label class="form-check-label" for="editIsActiveNo">لا</label>
+                  </div>
+                </div>
+
+                <!-- ملاحظات -->
+                <div class="mb-3">
+                  <label for="editNotes" class="form-label fw-bold">ملاحظات</label>
+                  <textarea id="editNotes" name="notes" class="form-control" rows="3" placeholder="ملاحظات"></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- الفوتر -->
+        <div class="modal-footer">
+          <small class="text-muted me-auto">الحقول بعلامة <span class="v-req">*</span> مطلوبة</small>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+          <button type="submit" class="btn btn-primary">
+            <i class="ti ti-check me-1"></i>حفظ
+          </button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>
+
+<!-- View Slide Modal -->
+<div class="modal fade" id="viewSlideModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-scrollable">
+    <div class="modal-content" dir="rtl">
+
+      <!-- الهيدر -->
+      <div class="modal-header">
+        <h5 class="modal-title">الشرائح</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="اغلاق"></button>
+      </div>
+
+      <!-- النموذج -->
+      <div class="modal-body">
+        <div class="container-fluid">
+          <div class="row">
+            <!-- Left Column -->
+            <div class="col-md-6">
+              <div class="v-section">
+                <div class="v-cap">معلومات الشريحة</div>
+                <div class="row g-3">
+                  <div class="col-md-12">
+                    <label class="v-label">الرقم</label>
+                    <div class="form-control-plaintext" id="viewId"></div>
+                  </div>
+                  
+                  <div class="col-md-12">
+                    <label class="v-label">العنوان</label>
+                    <div class="form-control-plaintext" id="viewTitle"></div>
+                  </div>
+                  
+                  <div class="col-md-12">
+                    <label class="v-label">الوصف</label>
+                    <div class="form-control-plaintext" id="viewDescription"></div>
+                  </div>
+                  
+                  <div class="col-md-12">
+                    <label class="v-label">رابط الصورة</label>
+                    <div class="form-control-plaintext" id="viewImageUrl"></div>
+                  </div>
+                  
+                  <div class="col-md-12">
+                    <label class="v-label">رابط الانتقال</label>
+                    <div class="form-control-plaintext" id="viewLinkUrl"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right Column -->
+            <div class="col-md-6">
+              <div class="v-section">
+                <div class="v-cap">تفاصيل إضافية</div>
+                <div class="row g-3">
+                  <div class="col-md-12">
+                    <label class="v-label">الترتيب</label>
+                    <div class="form-control-plaintext" id="viewOrder"></div>
+                  </div>
+                  
+                  <div class="col-md-12">
+                    <label class="v-label">نشط</label>
+                    <div class="form-control-plaintext" id="viewIsActive"></div>
+                  </div>
+                  
+                  <div class="col-md-12">
+                    <label class="v-label">تاريخ الإنشاء</label>
+                    <div class="form-control-plaintext" id="viewCreatedDate"></div>
+                  </div>
+                  
+                  <div class="col-md-12">
+                    <label class="v-label">تاريخ التحديث</label>
+                    <div class="form-control-plaintext" id="viewUpdatedDate"></div>
+                  </div>
+                  
+                  <div class="col-md-12">
+                    <label class="v-label">ملاحظات</label>
+                    <div class="form-control-plaintext" id="viewNotes"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- الفوتر -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
+        <button type="button" class="btn btn-primary" id="editFromViewBtn">
+          <i class="ti ti-pencil me-1"></i>تعديل
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+@section Scripts {
+    <!-- jstree js -->
+    <script src="~/plugins/jstree/jstree.min.js"></script>
+    <!-- date range picker js -->
+    <script src="~/plugins/daterangepicker/moment.min.js"></script>
+    <script src="~/plugins/daterangepicker/daterangepicker.js"></script>
+    <!-- DataTables Js -->
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.5.0/js/responsive.bootstrap5.min.js"></script>
+    <!-- DataTables Buttons Extension -->
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.bootstrap5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.colVis.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
+    
+    <!-- bootstrap-select js -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/js/bootstrap-select.min.js"></script>
+
+    <script>
+        $(function () {
+            console.log('Document ready function executed');
+            // Variable to track the currently selected row
+            let selectedRow = null;
+            
+            // Initialize DataTable
+            const dt = $("#categoriesTable").DataTable({
+                paging: true,
+                lengthChange: false,
+                searching: false,
+                ordering: true,
+                info: true,
+                autoWidth: false,
+                responsive: true,
+                // Define columns to match the new table structure
+                columnDefs: [
+                    { targets: 0, width: "40px", className: "text-center" }, // Checkbox column
+                    { targets: 1, width: "auto" }, // ID column
+                    { targets: 2, width: "auto" }, // رقم الشريحة column
+                    { targets: 3, width: "auto" }, // الجهاز column
+                    { targets: 4, width: "auto" }, // الرصيد column
+                    { targets: 5, width: "auto" }, // مكان الشريحة column
+                    { targets: 6, width: "auto" }, // شغال؟ column
+                    { targets: 7, width: "auto" }, // رقم الموظف column
+                    { targets: 8, width: "auto" }, // رقم الحساب column
+                    { targets: 9, width: "auto" }, // اقل مبلغ تسديد column
+                    { targets: 10, width: "auto" }, // رمز الشريحة column
+                    { targets: 11, width: "auto" }, // التحقق الثنائي column
+                    { targets: 12, width: "auto" }, // كود استعلام الرصيد column
+                    { targets: 13, width: "100px", className: "text-center" } // Actions column
+                ],
+                // Add buttons extension
+                dom: 'Bfrtip',
+                buttons: [
+                    {
+                        extend: 'print',
+                        text: 'طباعه',
+                        className: 'btn btn-outline-secondary btn-sm',
+                        exportOptions: {
+                            columns: ':visible'
+                        }
+                    },
+                    {
+                        extend: 'colvis',
+                        text: 'تحديد الحقول',
+                        className: 'btn btn-outline-secondary btn-sm',
+                        collectionLayout: 'fixed two-column',
+                        postfixButtons: ['colvisRestore']
+                    },
+                    {
+                        extend: 'excelHtml5',
+                        text: 'تصدير اكسل',
+                        className: 'btn btn-outline-secondary btn-sm',
+                        exportOptions: {
+                            columns: ':visible'
+                        }
+                    }
+                ],
+                language: {
+                    "sEmptyTable":     "لا توجد بيانات",
+                    "sInfo":           "إظهار _START_ إلى _END_ من _TOTAL_ سجل",
+                    "sInfoEmpty":      "إظهار 0 إلى 0 من 0 سجل",
+                    "sInfoFiltered":   "(مفلتر من _MAX_ سجل)",
+                    "sInfoPostFix":    "",
+                    "sInfoThousands":  ",",
+                    "sLengthMenu":     "أظهر _MENU_ سجل",
+                    "sLoadingRecords": "جارٍ التحميل...",
+                    "sProcessing":     "جارٍ التحميل...",
+                    "sSearch":         "ابحث:",
+                    "sZeroRecords":    "لم يعثر على أية سجلات",
+                    "oPaginate": {
+                        "sFirst":    "الأولى",
+                        "sLast":     "الأخيرة",
+                        "sNext":     "التالي",
+                        "sPrevious": "السابق"
+                    },
+                    "oAria": {
+                        "sSortAscending":  ": تفعيل لترتيب العمود تصاعدياً",
+                        "sSortDescending": ": تفعيل لترتيب العمود تنازلياً"
+                    },
+                    "buttons": {
+                        "colvis": 'تحديد الحقول',
+                        "print": 'طباعه',
+                        "excel": 'تصدير اكسل'
+                    }
+                }
+            });
+            
+            // Move buttons to filter section
+            dt.buttons().container().appendTo('#datatables-buttons-container');
+            
+            // Show the filter section buttons container
+            $('#datatables-buttons-container').show();
+            
+            // Toggle filter section
+            $('#toggleFilters').click(function() {
+                console.log('Toggle filter button clicked');
+                $('#filterSection').slideToggle();
+                var icon = $(this).find('i');
+                var text = $('#toggleFiltersText');
+                if (icon.hasClass('ti-filter-off')) {
+                    icon.removeClass('ti-filter-off').addClass('ti-filter');
+                    text.text('إخفاء الفلترة');
+                } else {
+                    icon.removeClass('ti-filter').addClass('ti-filter-off');
+                    text.text('إظهار الفلترة');
+                }
+            });
+            
+            // Refresh button
+            $('#refreshBtn').click(function() {
+                location.reload();
+            });
+            
+            // Initialize bootstrap select - removed to prevent redundant initialization
+            // Initialize selectpickers in modals when they are shown - using global modal handler instead
+            $('#addSlideModal, #editSlideModal, #modal-sim').on('shown.bs.modal', function () {
+                $('.selectpicker', this).selectpicker('render');
+            });
+            
+            // Select all functionality
+            $('#selectAll').on('change', function() {
+                $('.category-checkbox').prop('checked', $(this).prop('checked'));
+            });
+            
+            // Individual checkbox functionality
+            $('.category-checkbox').on('change', function() {
+                if (!$(this).prop('checked')) {
+                    $('#selectAll').prop('checked', false);
+                } else {
+                    if ($('.category-checkbox:checked').length === $('.category-checkbox').length) {
+                        $('#selectAll').prop('checked', true);
+                    }
+                }
+            });
+            
+            // Handle action buttons
+            $('#topEditButton').click(function(e) {
+                e.preventDefault();
+                var checkedBoxes = $('.category-checkbox:checked');
+                if (checkedBoxes.length === 0) {
+                    alert('الرجاء تحديد شريحة واحدة على الأقل للتعديل');
+                    return;
+                }
+                
+                if (checkedBoxes.length > 1) {
+                    alert('الرجاء تحديد شريحة واحدة فقط للتعديل');
+                    return;
+                }
+                
+                // For now, we'll just edit the first selected item
+                var firstChecked = checkedBoxes.first();
+                var row = firstChecked.closest('tr');
+                if (row.hasClass('child')) {
+                    row = row.prev();
+                }
+                
+                // Get row data
+                var slideId = firstChecked.val();
+                var id = row.find('td:eq(1)').text();
+                var simNumber = row.find('td:eq(2)').text();
+                var device = row.find('td:eq(3)').text();
+                var balance = row.find('td:eq(4)').text();
+                var simLocation = row.find('td:eq(5)').text();
+                var isWorking = row.find('td:eq(6)').text() === 'نعم';
+                var employeeId = row.find('td:eq(7)').text();
+                
+                // Populate edit modal
+                $('#editTitle').val(device);
+                $('#editDescription').val(balance);
+                $('#editImageUrl').val(''); // Not in table, would come from data
+                $('#editLinkUrl').val(employeeId);
+                $('#editOrder').val('');
+                $('#editIsActiveYes').prop('checked', isWorking);
+                $('#editIsActiveNo').prop('checked', !isWorking);
+                $('#editNotes').val(''); // Not in table, would come from data
+                
+                // Show edit modal using Bootstrap 5 method
+                var editModalElement = document.getElementById('editSlideModal');
+                if (editModalElement) {
+                    try {
+                        const editModal = new bootstrap.Modal(editModalElement);
+                        editModal.show();
+                    } catch (error) {
+                        console.error('Error showing edit modal:', error);
+                        // Fallback to jQuery method
+                        $('#editSlideModal').modal('show');
+                    }
+                }
+            });
+            
+            $('#topViewButton').click(function(e) {
+                e.preventDefault();
+                var checkedBoxes = $('.category-checkbox:checked');
+                if (checkedBoxes.length === 0) {
+                    alert('الرجاء تحديد شريحة واحدة على الأقل للمشاهدة');
+                    return;
+                }
+                
+                if (checkedBoxes.length > 1) {
+                    alert('الرجاء تحديد شريحة واحدة فقط للمشاهدة');
+                    return;
+                }
+                
+                // For now, we'll just view the first selected item
+                var firstChecked = checkedBoxes.first();
+                var row = firstChecked.closest('tr');
+                if (row.hasClass('child')) {
+                    row = row.prev();
+                }
+                
+                // Get row data
+                var slideId = firstChecked.val();
+                var id = row.find('td:eq(1)').text();
+                var simNumber = row.find('td:eq(2)').text();
+                var device = row.find('td:eq(3)').text();
+                var balance = row.find('td:eq(4)').text();
+                var simLocation = row.find('td:eq(5)').text();
+                var isWorking = row.find('td:eq(6)').text();
+                var employeeId = row.find('td:eq(7)').text();
+                var accountId = row.find('td:eq(8)').text();
+                
+                // Populate view modal
+                $('#viewId').text(id);
+                $('#viewTitle').text(device);
+                $('#viewDescription').text(balance);
+                $('#viewImageUrl').text(simLocation);
+                $('#viewLinkUrl').text(employeeId);
+                $('#viewOrder').text(accountId);
+                $('#viewIsActive').text(isWorking);
+                $('#viewCreatedDate').text('');
+                $('#viewUpdatedDate').text('');
+                $('#viewNotes').text('');
+                
+                // Show view modal using Bootstrap 5 method
+                var viewModalElement = document.getElementById('viewSlideModal');
+                if (viewModalElement) {
+                    try {
+                        const viewModal = new bootstrap.Modal(viewModalElement);
+                        viewModal.show();
+                    } catch (error) {
+                        console.error('Error showing view modal:', error);
+                        // Fallback to jQuery method
+                        $('#viewSlideModal').modal('show');
+                    }
+                }
+            });
+            
+            // Handle dropdown actions
+            $('#categoriesTable').on('click', '[data-action]', function(e) {
+                e.preventDefault();
+                e.stopPropagation(); // Prevent event bubbling
+                
+                var action = $(this).data('action');
+                var row = $(this).closest('tr');
+                if (row.hasClass('child')) {
+                    row = row.prev();
+                }
+                
+                // Get row data
+                var slideId = row.find('.category-checkbox').val();
+                var id = row.find('td:eq(1)').text();
+                var simNumber = row.find('td:eq(2)').text();
+                var device = row.find('td:eq(3)').text();
+                var balance = row.find('td:eq(4)').text();
+                var simLocation = row.find('td:eq(5)').text();
+                var isWorking = row.find('td:eq(6)').text() === 'نعم';
+                var employeeId = row.find('td:eq(7)').text();
+                var accountId = row.find('td:eq(8)').text();
+                
+                console.log('Action triggered:', action);
+                console.log('Slide ID:', id);
+                console.log('Slide Title:', title);
+                
+                if (action === 'view') {
+                    // Check if modal exists
+                    var viewModalElement = document.getElementById('viewSlideModal');
+                    if (!viewModalElement) {
+                        console.error('View modal not found!');
+                        alert('خطأ: نافذة العرض غير موجودة');
+                        return;
+                    }
+                    
+                    // Populate view modal
+                    $('#viewId').text(id);
+                    $('#viewTitle').text(device);
+                    $('#viewDescription').text(balance);
+                    $('#viewImageUrl').text(simLocation);
+                    $('#viewLinkUrl').text(employeeId);
+                    $('#viewOrder').text(accountId);
+                    $('#viewIsActive').text(isWorking);
+                    $('#viewCreatedDate').text('');
+                    $('#viewUpdatedDate').text('');
+                    $('#viewNotes').text('');
+                    
+                    // Debug: Check if elements exist
+                    console.log('View slide ID element exists:', $('#viewId').length > 0);
+                    console.log('View slide title element exists:', $('#viewTitle').length > 0);
+                    
+                    // Show view modal using Bootstrap 5 method
+                    console.log('Showing view modal');
+                    try {
+                        const viewModal = new bootstrap.Modal(viewModalElement);
+                        viewModal.show();
+                    } catch (error) {
+                        console.error('Error showing view modal:', error);
+                        // Fallback to jQuery method
+                        $('#viewSlideModal').modal('show');
+                    }
+                } else if (action === 'edit') {
+                    // Check if modal exists
+                    var editModalElement = document.getElementById('editSlideModal');
+                    if (!editModalElement) {
+                        console.error('Edit modal not found!');
+                        alert('خطأ: نافذة التعديل غير موجودة');
+                        return;
+                    }
+                    
+                    console.log('Edit modal element found:', editModalElement);
+                    
+                    // Populate edit modal
+                    $('#editTitle').val(device);
+                    $('#editDescription').val(balance);
+                    $('#editImageUrl').val(''); // Not in table, would come from data
+                    $('#editLinkUrl').val(employeeId);
+                    $('#editOrder').val('');
+                    $('#editIsActiveYes').prop('checked', isWorking);
+                    $('#editIsActiveNo').prop('checked', !isWorking);
+                    $('#editNotes').val(''); // Not in table, would come from data
+                    
+                    // Debug: Check if elements exist
+                    console.log('Edit slide title element exists:', $('#editTitle').length > 0);
+                    console.log('Edit slide description element exists:', $('#editDescription').length > 0);
+                    console.log('Edit slide link URL element exists:', $('#editLinkUrl').length > 0);
+                    
+                    // Show edit modal using Bootstrap 5 method
+                    console.log('Showing edit modal');
+                    try {
+                        const editModal = new bootstrap.Modal(editModalElement);
+                        editModal.show();
+                        console.log('Edit modal shown successfully');
+                    } catch (error) {
+                        console.error('Error showing edit modal:', error);
+                        // Fallback to jQuery method
+                        console.log('Trying jQuery method to show edit modal');
+                        $('#editSlideModal').modal('show');
+                    }
+                } else if (action === 'delete') {
+                    // Handle delete action
+                    if (confirm('هل أنت متأكد من رغبتك في حذف الشريحة "' + device + '"؟')) {
+                        console.log('Deleting slide:', device);
+                        alert('تم حذف الشريحة "' + device + '" بنجاح!');
+                        
+                        // Remove the row from the table
+                        row.fadeOut(300, function() {
+                            $(this).remove();
+                        });
+                    }
+                }
+            });
+            
+            // Handle top action buttons
+            $('.btn-outline-danger').click(function(e) {
+                e.preventDefault();
+                var checkedBoxes = $('.category-checkbox:checked');
+                if (checkedBoxes.length === 0) {
+                    alert('الرجاء تحديد شريحة واحدة على الأقل للحذف');
+                    return;
+                }
+                
+                // Get slide titles for confirmation message
+                var slideTitles = [];
+                checkedBoxes.each(function() {
+                    var row = $(this).closest('tr');
+                    if (row.hasClass('child')) {
+                        row = row.prev();
+                    }
+                    var title = row.find('td:eq(3)').text();
+                    slideTitles.push(title);
+                });
+                
+                var message = 'هل أنت متأكد من رغبتك في حذف ' + slideTitles.length + ' شريحة(شرائح)؟\n';
+                message += slideTitles.join('\n');
+                
+                if (confirm(message)) {
+                    // In a real application, you would send an AJAX request to delete the slides
+                    console.log('Deleting slides:', slideTitles);
+                    alert('تم حذف ' + slideTitles.length + ' شريحة(شرائح) بنجاح!');
+                    
+                    // Remove the rows from the table
+                    checkedBoxes.each(function() {
+                        var row = $(this).closest('tr');
+                        if (row.hasClass('child')) {
+                            row = row.prev();
+                        }
+                        row.fadeOut(300, function() {
+                            $(this).remove();
+                        });
+                    });
+                    
+                    // Uncheck select all checkbox
+                    $('#selectAll').prop('checked', false);
+                }
+            });
+            
+            // Handle form submissions
+            $('#addSlideForm').on('submit', function(e) {
+                e.preventDefault();
+                
+                // Get form element
+                var form = this;
+                
+                // Check if form is valid using Bootstrap validation
+                if (!form.checkValidity()) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+                
+                // Add validation classes
+                form.classList.add('was-validated');
+                
+                // If form is valid, proceed with submission
+                if (form.checkValidity()) {
+                    // In a real application, you would submit the form data via AJAX
+                    alert('تم إضافة الشريحة بنجاح!');
+                    // Hide modal using Bootstrap 5 method
+                    var addModalElement = document.getElementById('addSlideModal');
+                    if (addModalElement) {
+                        try {
+                            const addModal = bootstrap.Modal.getInstance(addModalElement);
+                            if (addModal) {
+                                addModal.hide();
+                            } else {
+                                // Fallback to jQuery method
+                                $('#addSlideModal').modal('hide');
+                            }
+                        } catch (error) {
+                            console.error('Error hiding add modal:', error);
+                            // Fallback to jQuery method
+                            $('#addSlideModal').modal('hide');
+                        }
+                    }
+                    form.reset();
+                    // Remove validation classes after reset
+                    form.classList.remove('was-validated');
+                    // Refresh the selectpickers - removed to prevent redundant refresh calls
+                }
+            });
+            
+            // Handle the new form submission
+            $('#formadd').on('submit', function(e) {
+                e.preventDefault();
+                saveSimData();
+            });
+            
+            // Handle the new modal form submission
+            $('#formSim').on('submit', function(e) {
+                e.preventDefault();
+                
+                // Get form data
+                var formData = $(this).serialize();
+                
+                // In a real application, you would submit the form data via AJAX
+                alert('تم حفظ بيانات الشريحة بنجاح ✅');
+                
+                // Hide the modal
+                $('#modal-sim').modal('hide');
+                
+                return false;
+            });
+            
+            $('#editSlideForm').on('submit', function(e) {
+                e.preventDefault();
+                
+                // Get form element
+                var form = this;
+                
+                // Check if form is valid using Bootstrap validation
+                if (!form.checkValidity()) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+                
+                // Add validation classes
+                form.classList.add('was-validated');
+                
+                // If form is valid, proceed with submission
+                if (form.checkValidity()) {
+                    // In a real application, you would submit the form data via AJAX
+                    alert('تم تحديث الشريحة بنجاح!');
+                    // Hide modal using Bootstrap 5 method
+                    var editModalElement = document.getElementById('editSlideModal');
+                    if (editModalElement) {
+                        try {
+                            const editModal = bootstrap.Modal.getInstance(editModalElement);
+                            if (editModal) {
+                                editModal.hide();
+                            } else {
+                                // Fallback to jQuery method
+                                $('#editSlideModal').modal('hide');
+                            }
+                        } catch (error) {
+                            console.error('Error hiding edit modal:', error);
+                            // Fallback to jQuery method
+                            $('#editSlideModal').modal('hide');
+                        }
+                    }
+                    // Remove validation classes after submission
+                    form.classList.remove('was-validated');
+                    // Refresh the selectpickers - removed to prevent redundant refresh calls
+                }
+            });
+            
+            // Handle reset filters button
+            $('#resetFilters').on('click', function() {
+                // Reset all filter input fields
+                $('#filter-id').val('');
+                $('#filter-sim-number').val('');
+                $('#filter-device').val('');
+                $('#filter-balance').val('');
+                $('#filter-records').selectpicker('val', '');
+                // Refresh the selectpickers - removed to prevent redundant refresh calls
+                alert('تم إعادة تعيين الفلاتر');
+            });
+            
+            // Handle apply filters button
+            $('#applyFilters').on('click', function() {
+                alert('تم تطبيق الفلاتر');
+                // In a real application, you would filter the DataTable here
+            });
+            
+            // Handle edit from view button
+            $('#editFromViewBtn').on('click', function() {
+                // Hide the view modal
+                var viewModalElement = document.getElementById('viewSlideModal');
+                if (viewModalElement) {
+                    try {
+                        const viewModal = bootstrap.Modal.getInstance(viewModalElement);
+                        if (viewModal) {
+                            viewModal.hide();
+                        } else {
+                            // Fallback to jQuery method
+                            $('#viewSlideModal').modal('hide');
+                        }
+                    } catch (error) {
+                        console.error('Error hiding view modal:', error);
+                        // Fallback to jQuery method
+                        $('#viewSlideModal').modal('hide');
+                    }
+                }
+                
+                // Show the edit modal
+                setTimeout(function() {
+                    var editModalElement = document.getElementById('editSlideModal');
+                    if (editModalElement) {
+                        try {
+                            const editModal = new bootstrap.Modal(editModalElement);
+                            editModal.show();
+                        } catch (error) {
+                            console.error('Error showing edit modal:', error);
+                            // Fallback to jQuery method
+                            $('#editSlideModal').modal('show');
+                        }
+                    }
+                }, 300);
+            });
+            
+            // Handle select all checkbox
+            $('#selectAll').on('change', function () {
+                const isChecked = $(this).prop('checked');
+                $('.category-checkbox').prop('checked', isChecked);
+            });
+            
+            // Handle individual row checkbox changes
+            $('#categoriesTable tbody').on('change', '.category-checkbox', function () {
+                // Update the main selectAll checkbox state
+                if ($('.category-checkbox:checked').length === $('.category-checkbox').length) {
+                    $('#selectAll').prop('checked', true);
+                } else {
+                    $('#selectAll').prop('checked', false);
+                }
+            });
+            
+            // Initialize bootstrap-select for category selection with enhanced options
+            // Initialize selectpickers only once when document is ready
+            $('.selectpicker').selectpicker({
+                style: 'btn-light',
+                liveSearch: true,
+                liveSearchPlaceholder: 'ابحث...',
+                noneSelectedText: 'لم يتم تحديد أي شيء',
+                noneResultsText: 'لا توجد نتائج لـ {0}',
+                selectAllText: 'تحديد الكل',
+                deselectAllText: 'إلغاء تحديد الكل',
+                dropupAuto: false,   // منع السلوك التلقائي
+                width: '100%',
+                container: 'body'    // إخراج القائمة خارج أي كارد/مودال
+            });
+            
+            // Refresh bootstrap-select when modals are shown (not hidden)
+            $('.modal').on('shown.bs.modal', function () {
+                $('.selectpicker', this).selectpicker('refresh');
+            });
+            
+            // Function to toggle dropdown expansion - removed due to simplified dropdown structure
+        });
+    </script>
+}

@@ -1,0 +1,71 @@
+@{
+    ViewBag.Title = "DeleteAccount";
+    Layout = "~/Views/Shared/_BaseLayout.cshtml";
+    // Set direction to RTL for Arabic
+    ViewData["Direction"] = "rtl";
+}
+
+
+@section styles
+{
+}
+
+
+    <div class="auth-box p-0 w-100">
+        <div class="row w-100 g-0">
+            <!-- Move the form column to the right for RTL -->
+            <div class="col-xl-auto order-xl-last">
+                <!--Auth Box content -->
+                <div class="card auth-box-form border-0 mb-0">
+                    <div class="card-body min-vh-100 d-flex flex-column justify-content-center">
+                        <div class="auth-brand text-center">
+                            <a href="/" class="logo-dark">
+                                <img src="~/images/logo-black.png" alt="dark logo" height="32">
+                            </a>
+                            <a href="/" class="logo-light">
+                                <img src="~/images/logo.png" alt="logo" height="32">
+                            </a>
+                        </div>
+
+                        <div class="mt-auto text-center">
+                            <div class="mb-4">
+                                <div class="avatar-xxl mx-auto mt-2">
+                                    <div class="avatar-title bg-light-subtle border border-light border-dashed rounded-circle">
+                                        <img src="~/images/delete.png" alt="dark logo" height="64">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <h4 class="fw-bold text-center mb-3">تم حذف الحساب | منصة المجد للخدمات الالكترونية</h4>
+                            <p class="text-muted text-center mb-4">حسابك غير نشط حالياً. أعد تنشيطه الآن لاستعادة الوصول إلى جميع الميزات والفرص.</p>
+
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary fw-semibold py-2">إعادة التنشيط الآن</button>
+                            </div>
+                        </div>
+
+                        <p class="text-center text-muted mt-auto mb-0">
+                            إعداد وتطوير <span class="fw-semibold">ميتا تك للحلول البرمجية</span>
+                        </p>
+                    </div>
+                </div>
+                <!-- End Auth Box Content -->
+            </div>
+            <!-- Move the image column to the left for RTL -->
+            <div class="col order-xl-first">
+                <div class="h-100 position-relative card-side-img rounded-0 overflow-hidden" style="min-height: 100vh;">
+                    <div class="p-4 card-img-overlay auth-overlay d-flex align-items-end justify-content-center">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+@section scripts
+{
+}

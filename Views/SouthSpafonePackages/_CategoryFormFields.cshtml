@@ -1,0 +1,88 @@
+@model dynamic
+
+<div class="card" dir="rtl">
+    <div class="card-header bg-light d-flex justify-content-between align-items-center">
+        <h6 class="mb-0">التسديدات > باقات سبأفون جنوب</h6>
+    </div>
+
+    <div class="card-body">
+        <div class="row g-3 mb-3">
+            <!-- اسم الباقة* -->
+            <div class="col-md-6">
+                <label for="@(ViewData["Prefix"])-package-name" class="form-label fw-bold">
+                    اسم الباقة<span class="text-danger">*</span>
+                </label>
+                <input type="text" class="form-control" id="@(ViewData["Prefix"])-package-name" placeholder="اسم الباقة">
+            </div>
+
+            <!-- السعر* -->
+            <div class="col-md-6">
+                <label for="@(ViewData["Prefix"])-price" class="form-label fw-bold">
+                    السعر<span class="text-danger">*</span>
+                </label>
+                <input type="text" class="form-control" id="@(ViewData["Prefix"])-price" placeholder="السعر">
+            </div>
+
+            <!-- الكود الموحد* -->
+            <div class="col-md-6">
+                <label for="@(ViewData["Prefix"])-unique-code" class="form-label fw-bold">
+                    الكود الموحد<span class="text-danger">*</span>
+                </label>
+                <input type="text" class="form-control" id="@(ViewData["Prefix"])-unique-code" placeholder="الكود الموحد">
+                <div class="form-text">ملاحظة: يجب ان يكون مطابق للكود الموحد عند الوكيل</div>
+            </div>
+
+            <!-- كود الاتصال* -->
+            <div class="col-md-6">
+                <label for="@(ViewData["Prefix"])-connection-code" class="form-label fw-bold">
+                    كود الاتصال<span class="text-danger">*</span>
+                </label>
+                <input type="text" class="form-control" id="@(ViewData["Prefix"])-connection-code" placeholder="كود الاتصال (يستخدم فقط للتسديد عبر الشرائح. مكان رقم التلفون حط الرمز @@ مكان كلمة السر للشريحة حط pass)">
+            </div>
+
+            <!-- مبلغ الربط6* -->
+            <div class="col-md-6">
+                <label for="@(ViewData["Prefix"])-binding-amount6" class="form-label fw-bold">
+                    مبلغ الربط6<span class="text-danger">*</span>
+                </label>
+                <input type="text" class="form-control" id="@(ViewData["Prefix"])-binding-amount6" placeholder="مبلغ الربط6 (يجب اخذ مبلغ الربط من المزود)">
+            </div>
+
+            <!-- رقم الربط6* -->
+            <div class="col-md-6">
+                <label for="@(ViewData["Prefix"])-binding-number6" class="form-label fw-bold">
+                    رقم الربط6<span class="text-danger">*</span>
+                </label>
+                <input type="text" class="form-control" id="@(ViewData["Prefix"])-binding-number6" placeholder="رقم الربط6 (يجب اخذ رقم الربط من المزود)">
+            </div>
+
+            <!-- تحويل الباقة الى روبوت؟* -->
+            <div class="col-md-6">
+                <label for="@(ViewData["Prefix"])-convert-to-robot" class="form-label fw-bold">
+                    تحويل الباقة الى روبوت؟
+                </label>
+                <input type="text" class="form-control" id="@(ViewData["Prefix"])-convert-to-robot" placeholder="اكتب 1 إذا نعم. اترك الحقل فارغاً إذا لا.">
+            </div>
+
+            <!-- الكمية* -->
+            <div class="col-md-6">
+                <label for="@(ViewData["Prefix"])-quantity" class="form-label fw-bold">
+                    الكمية<span class="text-danger">*</span>
+                </label>
+                <input type="text" class="form-control" id="@(ViewData["Prefix"])-quantity" placeholder="الكمية">
+            </div>
+
+            <!-- سعر الوحدة* -->
+            <div class="col-md-6">
+                <label for="@(ViewData["Prefix"])-unit-price" class="form-label fw-bold">
+                    سعر الوحدة<span class="text-danger">*</span>
+                </label>
+                <input type="text" class="form-control" id="@(ViewData["Prefix"])-unit-price" placeholder="سعر الوحدة">
+            </div>
+        </div>
+    </div>
+
+    <div class="card-footer text-start">
+        <!-- Footer content if needed -->
+    </div>
+</div>

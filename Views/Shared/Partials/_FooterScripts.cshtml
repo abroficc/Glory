@@ -1,0 +1,148 @@
+﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Bootstrap Select -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/js/bootstrap-select.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/js/i18n/defaults-ar_AR.min.js"></script>
+
+<!-- jQuery CDN with local fallback -->
+<script>window.jQuery || document.write('<script src="/js/vendors.min.js"><\/script>')</script>
+
+<!-- Bootstrap Bundle JS (includes Popper) CDN with local fallback -->
+<script>
+  if (typeof bootstrap === 'undefined') {
+    // Create script element and append to head instead of using document.write
+    var script = document.createElement('script');
+    script.src = '/js/vendors.min.js';
+    document.head.appendChild(script);
+  }
+</script>
+
+<!-- Lucide Icons with local fallback -->
+<script>
+  // Check if lucide is already available (it should be in vendors.min.js)
+  if (typeof lucide === 'undefined') {
+    // If not available, try to load it
+    var script = document.createElement('script');
+    script.src = '/plugins/lucide/lucide.min.js';
+    document.head.appendChild(script);
+  }
+</script>
+
+<!-- SimpleBar CDN with local fallback -->
+<script src="https://cdn.jsdelivr.net/npm/simplebar@5.3.9/dist/simplebar.min.js"></script>
+<script>
+  if (typeof SimpleBar === 'undefined') {
+    // Create script element and append to head instead of using document.write
+    var script = document.createElement('script');
+    script.src = '/plugins/simplebar/simplebar.min.js';
+    document.head.appendChild(script);
+  }
+</script>
+
+<!-- flatpickr CDN with local fallback -->
+<script src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/flatpickr.min.js"></script>
+<script>
+  if (typeof flatpickr === 'undefined') {
+    // Create script element and append to head instead of using document.write
+    var script = document.createElement('script');
+    script.src = '/plugins/flatpickr/flatpickr.min.js';
+    document.head.appendChild(script);
+  }
+</script>
+
+<script src="~/js/app.js"></script>
+<script src="~/js/header-dropdowns.js"></script>
+
+<!-- Select2 CDN with local fallback -->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script>
+  if (typeof $.fn.select2 === 'undefined') {
+    // Create script element and append to head instead of using document.write
+    var script = document.createElement('script');
+    script.src = '/plugins/select2/select2.min.js';
+    document.head.appendChild(script);
+  }
+</script>
+
+<!-- jsTree CDN with local fallback -->
+<script src="https://cdn.jsdelivr.net/npm/jstree@3.3.12/dist/jstree.min.js"></script>
+<script>
+  if (typeof $.fn.jstree === 'undefined') {
+    // Create script element and append to head instead of using document.write
+    var script = document.createElement('script');
+    script.src = '/plugins/jstree/jstree.min.js';
+    document.head.appendChild(script);
+  }
+</script>
+
+<!-- DataTables + Bootstrap 5 (JS) -->
+<script src="~/plugins/datatables/dataTables.min.js"></script>
+<script src="~/plugins/datatables/dataTables.bootstrap5.min.js"></script>
+
+<!-- DataTables Buttons Extension (required for colvis button) -->
+<script src="~/plugins/datatables/dataTables.buttons.min.js"></script>
+<script src="~/plugins/datatables/buttons.bootstrap5.min.js"></script>
+
+<!-- Responsive plugin (JS) -->
+<script src="~/plugins/datatables/dataTables.responsive.min.js"></script>
+<script src="~/plugins/datatables/responsive.bootstrap5.min.js"></script>
+
+<!-- SimpleBar initialization with improved timing -->
+<script>
+// Enhanced SimpleBar initialization with better error handling and timing
+document.addEventListener('DOMContentLoaded', function() {
+    // Add a small delay to ensure DOM is fully ready
+    setTimeout(function() {
+        initializeSimpleBar();
+    }, 200);
+});
+
+// Also initialize on window load for better reliability
+window.addEventListener('load', function() {
+    setTimeout(function() {
+        initializeSimpleBar();
+    }, 100);
+});
+
+function initializeSimpleBar() {
+    try {
+        // Initialize SimpleBar for the sidebar
+        const scrollbarElement = document.querySelector('.scrollbar[data-simplebar]');
+        if (scrollbarElement) {
+            // Make sure SimpleBar is available
+            if (typeof SimpleBar !== 'undefined') {
+                // Check if already initialized
+                if (!scrollbarElement.SimpleBar) {
+                    new SimpleBar(scrollbarElement, {
+                        autoHide: false,
+                        clickOnTrack: true,
+                        scrollbarMinSize: 20
+                    });
+                }
+            } else {
+                // Fallback: Add native scrollbar if SimpleBar is not available
+                scrollbarElement.style.overflowY = 'auto';
+                console.warn('SimpleBar is not available, using native scrollbar as fallback');
+            }
+        }
+    } catch (error) {
+        console.error('Error initializing SimpleBar:', error);
+        // Fallback: Add native scrollbar if SimpleBar initialization fails
+        const scrollbarElement = document.querySelector('.scrollbar[data-simplebar]');
+        if (scrollbarElement) {
+            scrollbarElement.style.overflowY = 'auto';
+        }
+    }
+}
+
+// Additional safety initialization
+setTimeout(function() {
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+        initializeSimpleBar();
+    }
+}, 500);
+</script>

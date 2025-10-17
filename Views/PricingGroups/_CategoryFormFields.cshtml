@@ -1,0 +1,618 @@
+@model dynamic
+
+<!-- Info Note -->
+<div class="alert alert-info">
+  <strong>ملاحظة مهمة:</strong> كتابة النسب يجب ان تكون بهذا الشكل: في حال تريد فرض نسبة زيادة يجب ان تكون النسبة بعد رقم واحد مثل (1.02) في هذي الحالة انت اضفت اثنين في المية زيادة في التسعيرة.<br>
+  في حال تريد نقص في التسعيرة يجب ان تكون النسبة منقوص منها الواحد مثل (0.98) في هذه الحالة انت نقصت اثنين في المية من التسعيرة الرسمية.<br>
+  التسعيرة التي يعتمدها النظام هي= السعر الرسمي x النسبة التي تكتبها.<br>
+  مثال اذا كان السعر الرسمي لباقة مزاياً 1185 ونسبة التسعيرة التي فرضتها هي 1.02 فان المبلغ المخصوم على العميل هو كالتالي:<br>
+  السعر المخصوم = 1185 * 1.02 = 1208
+</div>
+
+<div class="row g-3">
+  <!-- Group Name -->
+  <div class="col-md-6">
+    <label class="v-label">اسم المجموعة <span class="v-req">*</span></label>
+    <input class="v-input form-control" id="@(ViewData["Prefix"])-group-name" placeholder="ادخل اسم المجموعة" type="text" required>
+    <div class="invalid-feedback">الرجاء إدخال اسم المجموعة</div>
+  </div>
+  
+  <!-- Group Type -->
+  <div class="col-md-6">
+    <label class="v-label">نوع المجموعة <span class="v-req">*</span></label>
+    <select class="v-select form-control selectpicker" id="@(ViewData["Prefix"])-group-type" required>
+      <option value="">اختر نوع المجموعة</option>
+      <option value="شمال">شمال</option>
+      <option value="جنوب">جنوب</option>
+    </select>
+    <div class="invalid-feedback">الرجاء اختيار نوع المجموعة</div>
+  </div>
+  
+  <!-- تحديد نسبة لكل الخدمات -->
+  <div class="col-md-12">
+    <label class="v-label">تحديد نسبة لكل الخدمات <span class="v-req">*</span></label>
+    <div class="alert alert-warning mt-1 mb-2 p-2" style="font-size: 13px;">
+      ملاحظة: يتم استبدال جميع الحقول في النموذج بالنسبة التي تضعها هنا
+    </div>
+    <input class="v-input form-control" id="all-services-rate" type="number" step="0.01" placeholder="0">
+    <div class="form-check mt-2">
+      <input class="form-check-input" type="checkbox" id="exclude-empty-fields" checked>
+      <label class="form-check-label" for="exclude-empty-fields" style="font-size: 14px;">
+        عدم استبدال الحقول الفارغة او التي محددة 0
+      </label>
+    </div>
+  </div>
+  
+  <!-- Send Notification -->
+  <div class="col-md-12">
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" id="@(ViewData["Prefix"])-send-notification">
+      <label class="form-check-label" for="@(ViewData["Prefix"])-send-notification">
+        ارسال اشعار للعملاء داخل المجموعه هذه بالتسعيره الجديده
+      </label>
+    </div>
+  </div>
+  
+  <!-- Tab Navigation -->
+  <ul class="nav nav-tabs" id="@(ViewData["Prefix"])CategoryTabs" role="tablist">
+    <li class="nav-item" role="presentation">
+      <button class="nav-link active" id="@(ViewData["Prefix"])-telecom-tab" data-bs-toggle="tab" data-bs-target="#@(ViewData["Prefix"])-telecom" type="button" role="tab">خدمات الاتصالات</button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="@(ViewData["Prefix"])-financial-tab" data-bs-toggle="tab" data-bs-target="#@(ViewData["Prefix"])-financial" type="button" role="tab">الحوالات والمالية</button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="@(ViewData["Prefix"])-games-tab" data-bs-toggle="tab" data-bs-target="#@(ViewData["Prefix"])-games" type="button" role="tab">الألعاب</button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="@(ViewData["Prefix"])-cards-tab" data-bs-toggle="tab" data-bs-target="#@(ViewData["Prefix"])-cards" type="button" role="tab">البطاقات الدولية</button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="@(ViewData["Prefix"])-chat-tab" data-bs-toggle="tab" data-bs-target="#@(ViewData["Prefix"])-chat" type="button" role="tab">تطبيقات التواصل والشات</button>
+    </li>
+  </ul>
+  
+  <!-- Tab Content -->
+  <div class="tab-content" id="@(ViewData["Prefix"])CategoryTabContent">
+    <!-- Telecommunications Tab -->
+    <div class="tab-pane fade show active" id="@(ViewData["Prefix"])-telecom" role="tabpanel">
+      <div class="row g-3 mt-2">
+        <!-- Mobile -->
+        <div class="col-md-4">
+          <label class="v-label" title="نسبة التسعير لخدمة موبايل">موبايل</label>
+          <input class="v-input form-control" id="@(ViewData["Prefix"])-mobile" placeholder="مثال: 1.02" type="number" step="0.01" min="0" max="2">
+        </div>
+
+        <!-- YOU -->
+        <div class="col-md-4">
+          <label class="v-label" title="نسبة التسعير لخدمة يو">يو-YOU</label>
+          <input class="v-input form-control" id="@(ViewData["Prefix"])-you" placeholder="مثال: 1.02" type="number" step="0.01" min="0" max="2">
+        </div>
+
+        <!-- YOU Recharge via Robots -->
+        <div class="col-md-4">
+          <label class="v-label" title="نسبة التسعير لخدمة شحن فوري يو عبر روبوتات الشرائح">شحن فوري يو عبر روبوتات الشرائح (يمن روبوت)</label>
+          <input class="v-input form-control" id="@(ViewData["Prefix"])-you-recharge" placeholder="مثال: 1.02" type="number" step="0.01" min="0" max="2">
+        </div>
+
+        <!-- YOU Packages -->
+        <div class="col-md-4">
+          <label class="v-label" title="نسبة التسعير لباقات يو">باقات يو</label>
+          <input class="v-input form-control" id="@(ViewData["Prefix"])-you-packages" placeholder="مثال: 1.02" type="number" step="0.01" min="0" max="2">
+        </div>
+
+        <!-- Safafon -->
+        <div class="col-md-4">
+          <label class="v-label" title="نسبة التسعير لخدمة سبافون">سبافون</label>
+          <input class="v-input form-control" id="@(ViewData["Prefix"])-safafon" placeholder="مثال: 1.02" type="number" step="0.01" min="0" max="2">
+        </div>
+
+        <!-- Safafon South -->
+        <div class="col-md-4">
+          <label class="v-label" title="نسبة التسعير لخدمة سبافون الجنوب">سبافون الجنوب</label>
+          <input class="v-input form-control" id="@(ViewData["Prefix"])-safafon-south" placeholder="مثال: 1.02" type="number" step="0.01" min="0" max="2">
+        </div>
+
+        <!-- WiFi -->
+        <div class="col-md-4">
+          <label class="v-label" title="نسبة التسعير لخدمة الواي فاي">واي</label>
+          <input class="v-input form-control" id="@(ViewData["Prefix"])-wifi" placeholder="مثال: 1.02" type="number" step="0.01" min="0" max="2">
+        </div>
+
+        <!-- Mobile Wholesale -->
+        <div class="col-md-4">
+          <label class="v-label" title="نسبة التسعير لخدمة موبايل جملة">موبايل جملة</label>
+          <input class="v-input form-control" id="@(ViewData["Prefix"])-mobile-wholesale" placeholder="مثال: 1.02" type="number" step="0.01" min="0" max="2">
+        </div>
+
+        <!-- YOU Wholesale -->
+        <div class="col-md-4">
+          <label class="v-label" title="نسبة التسعير لخدمة يو جملة">يو جملة</label>
+          <input class="v-input form-control" id="@(ViewData["Prefix"])-you-wholesale" placeholder="مثال: 1.02" type="number" step="0.01" min="0" max="2">
+        </div>
+
+        <!-- Safafon Wholesale -->
+        <div class="col-md-4">
+          <label class="v-label" title="نسبة التسعير لخدمة سبافون جملة">سبافون جملة</label>
+          <input class="v-input form-control" id="@(ViewData["Prefix"])-safafon-wholesale" placeholder="مثال: 1.02" type="number" step="0.01" min="0" max="2">
+        </div>
+
+        <!-- Landline -->
+        <div class="col-md-4">
+          <label class="v-label" title="نسبة التسعير لخدمة الهاتف الثابت">الهاتف الثابت</label>
+          <input class="v-input form-control" id="@(ViewData["Prefix"])-landline" placeholder="مثال: 1.02" type="number" step="0.01" min="0" max="2">
+        </div>
+
+        <!-- Internet -->
+        <div class="col-md-4">
+          <label class="v-label" title="نسبة التسعير لخدمة النت الارضي">النت الارضي</label>
+          <input class="v-input form-control" id="@(ViewData["Prefix"])-internet" placeholder="مثال: 1.02" type="number" step="0.01" min="0" max="2">
+        </div>
+
+        <!-- Mobile Recharge -->
+        <div class="col-md-4">
+          <label class="v-label" title="نسبة التسعير لخدمة شحن فوري موبايل شرائح">شحن فوري موبايل شرائح</label>
+          <input class="v-input form-control" id="@(ViewData["Prefix"])-mobile-recharge-service" placeholder="مثال: 1.02" type="number" step="0.01" min="0" max="2">
+        </div>
+
+        <!-- New SIM Cards -->
+        <div class="col-md-4">
+          <label class="v-label" title="نسبة التسعير لخدمة شرائح جديد">شرائح جديد</label>
+          <input class="v-input form-control" id="@(ViewData["Prefix"])-new-sim" placeholder="مثال: 1.02" type="number" step="0.01" min="0" max="2">
+        </div>
+
+        <!-- Aden Net -->
+        <div class="col-md-4">
+          <label class="v-label" title="نسبة التسعير لخدمة عدن نت">عدن نت</label>
+          <input class="v-input form-control" id="@(ViewData["Prefix"])-aden-net" placeholder="مثال: 1.02" type="number" step="0.01" min="0" max="2">
+        </div>
+
+        <!-- Yemen Mobile Balance -->
+        <div class="col-md-4">
+          <label class="v-label" title="نسبة التسعير لخدمة رصيد ريال موبايل">رصيد ريال موبايل</label>
+          <input class="v-input form-control" id="@(ViewData["Prefix"])-yemen-mobile-balance" placeholder="مثال: 1.02" type="number" step="0.01" min="0" max="2">
+        </div>
+      </div>
+    </div>
+    
+    <!-- Financial Tab -->
+    <div class="tab-pane fade" id="@(ViewData["Prefix"])-financial" role="tabpanel">
+      <div class="row g-3 mt-2">
+        <!-- Money Transfer -->
+        <div class="col-md-4">
+          <label class="v-label" title="نسبة التسعير لخدمة ارسال حوالة">ارسال حوالة</label>
+          <input class="v-input form-control" id="@(ViewData["Prefix"])-money-transfer" placeholder="مثال: 1.02" type="number" step="0.01" min="0" max="2">
+        </div>
+        
+        <!-- Bein Sport -->
+        <div class="col-md-4">
+          <label class="v-label" title="نسبة التسعير لخدمة بي ان سبورت">بي ان سبورت</label>
+          <input class="v-input form-control" id="@(ViewData["Prefix"])-bein-sport" placeholder="مثال: 1.02" type="number" step="0.01" min="0" max="2">
+        </div>
+
+        <!-- Net Flex -->
+        <div class="col-md-4">
+          <label class="v-label" title="نسبة التسعير لخدمة نت فلكس">نت فلكس</label>
+          <input class="v-input form-control" id="@(ViewData["Prefix"])-net-flex" placeholder="مثال: 1.02" type="number" step="0.01" min="0" max="2">
+        </div>
+
+        <!-- WiFi Cards -->
+        <div class="col-md-4">
+          <label class="v-label" title="نسبة التسعير لخدمة كروت الواي فاي">كروت الواي فاي</label>
+          <input class="v-input form-control" id="@(ViewData["Prefix"])-wifi-cards" placeholder="مثال: 1.02" type="number" step="0.01" min="0" max="2">
+        </div>
+      </div>
+    </div>
+    
+    <!-- Games Tab -->
+    <div class="tab-pane fade" id="@(ViewData["Prefix"])-games" role="tabpanel">
+      <div class="row g-3 mt-2">
+        <!-- PUBG Shards -->
+        <div class="col-md-4">
+          <label class="v-label" title="نسبة التسعير لخدمة شحات ببجي">شحات ببجي</label>
+          <input class="v-input form-control" id="@(ViewData["Prefix"])-pubg-shards" placeholder="مثال: 1.02" type="number" step="0.01" min="0" max="2">
+        </div>
+
+        <!-- Free Fire -->
+        <div class="col-md-4">
+          <label class="v-label" title="نسبة التسعير لخدمة فري فاير">فري فاير</label>
+          <input class="v-input form-control" id="@(ViewData["Prefix"])-free-fire" placeholder="مثال: 1.02" type="number" step="0.01" min="0" max="2">
+        </div>
+
+        <!-- Mobile Legends -->
+        <div class="col-md-4">
+          <label class="v-label" title="نسبة التسعير لخدمة موبايل لجيندز">موبايل لجيندز</label>
+          <input class="v-input form-control" id="@(ViewData["Prefix"])-mobile-legends" placeholder="مثال: 1.02" type="number" step="0.01" min="0" max="2">
+        </div>
+
+        <!-- Lords Mobile -->
+        <div class="col-md-4">
+          <label class="v-label" title="نسبة التسعير لخدمة لورد موبايل">لورد موبايل</label>
+          <input class="v-input form-control" id="@(ViewData["Prefix"])-lords-mobile" placeholder="مثال: 1.02" type="number" step="0.01" min="0" max="2">
+        </div>
+
+        <!-- Clash of Clans -->
+        <div class="col-md-4">
+          <label class="v-label" title="نسبة التسعير لخدمة كلاش اوف كلانز">كلاش اوف كلانز</label>
+          <input class="v-input form-control" id="@(ViewData["Prefix"])-clash-of-clans" placeholder="مثال: 1.02" type="number" step="0.01" min="0" max="2">
+        </div>
+
+        <!-- Clash Royale -->
+        <div class="col-md-4">
+          <label class="v-label" title="نسبة التسعير لخدمة كلاش رويال">كلاش رويال</label>
+          <input class="v-input form-control" id="@(ViewData["Prefix"])-clash-royale" placeholder="مثال: 1.02" type="number" step="0.01" min="0" max="2">
+        </div>
+
+        <!-- Hay Day -->
+        <div class="col-md-4">
+          <label class="v-label" title="نسبة التسعير لخدمة هاي داي">هاي داي</label>
+          <input class="v-input form-control" id="@(ViewData["Prefix"])-hay-day" placeholder="مثال: 1.02" type="number" step="0.01" min="0" max="2">
+        </div>
+
+        <!-- Brawl Stars -->
+        <div class="col-md-4">
+          <label class="v-label" title="نسبة التسعير لخدمة براول استارز">براول استارز</label>
+          <input class="v-input form-control" id="@(ViewData["Prefix"])-brawl-stars" placeholder="مثال: 1.02" type="number" step="0.01" min="0" max="2">
+        </div>
+
+        <!-- Boom Beach -->
+        <div class="col-md-4">
+          <label class="v-label" title="نسبة التسعير لخدمة بوم بيش">بوم بيش</label>
+          <input class="v-input form-control" id="@(ViewData["Prefix"])-boom-beach" placeholder="مثال: 1.02" type="number" step="0.01" min="0" max="2">
+        </div>
+
+        <!-- FIFA Mobile -->
+        <div class="col-md-4">
+          <label class="v-label" title="نسبة التسعير لخدمة فيفا موبايل">فيفا موبايل</label>
+          <input class="v-input form-control" id="@(ViewData["Prefix"])-fifa-mobile" placeholder="مثال: 1.02" type="number" step="0.01" min="0" max="2">
+        </div>
+
+        <!-- Call of Duty -->
+        <div class="col-md-4">
+          <label class="v-label" title="نسبة التسعير لخدمة كول اوف ديوتي">كول اوف ديوتي</label>
+          <input class="v-input form-control" id="@(ViewData["Prefix"])-call-of-duty" placeholder="مثال: 1.02" type="number" step="0.01" min="0" max="2">
+        </div>
+
+        <!-- Asphalt -->
+        <div class="col-md-4">
+          <label class="v-label" title="نسبة التسعير لخدمة اسفلت">اسفلت</label>
+          <input class="v-input form-control" id="@(ViewData["Prefix"])-asphalt" placeholder="مثال: 1.02" type="number" step="0.01" min="0" max="2">
+        </div>
+
+        <!-- Modern Combat -->
+        <div class="col-md-4">
+          <label class="v-label" title="نسبة التسعير لخدمة مودرن كومبات">مودرن كومبات</label>
+          <input class="v-input form-control" id="@(ViewData["Prefix"])-modern-combat" placeholder="مثال: 1.02" type="number" step="0.01" min="0" max="2">
+        </div>
+
+        <!-- Gangstar -->
+        <div class="col-md-4">
+          <label class="v-label" title="نسبة التسعير لخدمة جانغستار">جانغستار</label>
+          <input class="v-input form-control" id="@(ViewData["Prefix"])-gangstar" placeholder="مثال: 1.02" type="number" step="0.01" min="0" max="2">
+        </div>
+
+        <!-- Rummy -->
+        <div class="col-md-4">
+          <label class="v-label" title="نسبة التسعير لخدمة رامي">رامي</label>
+          <input class="v-input form-control" id="@(ViewData["Prefix"])-rummy" placeholder="مثال: 1.02" type="number" step="0.01" min="0" max="2">
+        </div>
+
+        <!-- Teen Patti -->
+        <div class="col-md-4">
+          <label class="v-label" title="نسبة التسعير لخدمة تين باتي">تين باتي</label>
+          <input class="v-input form-control" id="@(ViewData["Prefix"])-teen-patti" placeholder="مثال: 1.02" type="number" step="0.01" min="0" max="2">
+        </div>
+
+        <!-- Solitaire -->
+        <div class="col-md-4">
+          <label class="v-label" title="نسبة التسعير لخدمة سوليتيير">سوليتيير</label>
+          <input class="v-input form-control" id="@(ViewData["Prefix"])-solitaire" placeholder="مثال: 1.02" type="number" step="0.01" min="0" max="2">
+        </div>
+
+        <!-- Spider Solitaire -->
+        <div class="col-md-4">
+          <label class="v-label" title="نسبة التسعير لخدمة سبايدر سوليتيير">سبايدر سوليتيير</label>
+          <input class="v-input form-control" id="@(ViewData["Prefix"])-spider-solitaire" placeholder="مثال: 1.02" type="number" step="0.01" min="0" max="2">
+        </div>
+
+        <!-- Candy Crush -->
+        <div class="col-md-4">
+          <label class="v-label" title="نسبة التسعير لخدمة كاندي كراش">كاندي كراش</label>
+          <input class="v-input form-control" id="@(ViewData["Prefix"])-candy-crush" placeholder="مثال: 1.02" type="number" step="0.01" min="0" max="2">
+        </div>
+
+        <!-- Farm Heroes -->
+        <div class="col-md-4">
+          <label class="v-label" title="نسبة التسعير لخدمة فارم هيروز">فارم هيروز</label>
+          <input class="v-input form-control" id="@(ViewData["Prefix"])-farm-heroes" placeholder="مثال: 1.02" type="number" step="0.01" min="0" max="2">
+        </div>
+
+        <!-- Bubble Witch -->
+        <div class="col-md-4">
+          <label class="v-label" title="نسبة التسعير لخدمة بابل ويتتش">بابل ويتتش</label>
+          <input class="v-input form-control" id="@(ViewData["Prefix"])-bubble-witch" placeholder="مثال: 1.02" type="number" step="0.01" min="0" max="2">
+        </div>
+
+        <!-- Pet Rescue -->
+        <div class="col-md-4">
+          <label class="v-label" title="نسبة التسعير لخدمة بيت ريسكيو">بيت ريسكيو</label>
+          <input class="v-input form-control" id="@(ViewData["Prefix"])-pet-rescue" placeholder="مثال: 1.02" type="number" step="0.01" min="0" max="2">
+        </div>
+
+        <!-- Cooking Fever -->
+        <div class="col-md-4">
+          <label class="v-label" title="نسبة التسعير لخدمة كوكتينق فيفر">كوكتينق فيفر</label>
+          <input class="v-input form-control" id="@(ViewData["Prefix"])-cooking-fever" placeholder="مثال: 1.02" type="number" step="0.01" min="0" max="2">
+        </div>
+
+        <!-- Gardenscapes -->
+        <div class="col-md-4">
+          <label class="v-label" title="نسبة التسعير لخدمة قاردن سكيبس">قاردن سكيبس</label>
+          <input class="v-input form-control" id="@(ViewData["Prefix"])-gardenscapes" placeholder="مثال: 1.02" type="number" step="0.01" min="0" max="2">
+        </div>
+
+        <!-- Homescapes -->
+        <div class="col-md-4">
+          <label class="v-label" title="نسبة التسعير لخدمة هوم سكيبس">هوم سكيبس</label>
+          <input class="v-input form-control" id="@(ViewData["Prefix"])-homescapes" placeholder="مثال: 1.02" type="number" step="0.01" min="0" max="2">
+        </div>
+      </div>
+    </div>
+    
+    <!-- Cards Tab -->
+    <div class="tab-pane fade" id="@(ViewData["Prefix"])-cards" role="tabpanel">
+      <div class="row g-3 mt-2">
+        <!-- Google Play -->
+        <div class="col-md-4">
+          <label class="v-label" title="نسبة التسعير لخدمة قوقل بلاي">قوقل بلاي</label>
+          <input class="v-input form-control" id="@(ViewData["Prefix"])-google-play" placeholder="مثال: 1.02" type="number" step="0.01" min="0" max="2">
+        </div>
+
+        <!-- iTunes -->
+        <div class="col-md-4">
+          <label class="v-label" title="نسبة التسعير لخدمة ايتيونز">ايتيونز</label>
+          <input class="v-input form-control" id="@(ViewData["Prefix"])-itunes" placeholder="مثال: 1.02" type="number" step="0.01" min="0" max="2">
+        </div>
+
+        <!-- PlayStation Network -->
+        <div class="col-md-4">
+          <label class="v-label" title="نسبة التسعير لخدمة بلاي ستيشن نتورك">بلاي ستيشن نتورك</label>
+          <input class="v-input form-control" id="@(ViewData["Prefix"])-playstation-network" placeholder="مثال: 1.02" type="number" step="0.01" min="0" max="2">
+        </div>
+
+        <!-- Xbox Live -->
+        <div class="col-md-4">
+          <label class="v-label" title="نسبة التسعير لخدمة اكس بوكس لايف">اكس بوكس لايف</label>
+          <input class="v-input form-control" id="@(ViewData["Prefix"])-xbox-live" placeholder="مثال: 1.02" type="number" step="0.01" min="0" max="2">
+        </div>
+
+        <!-- Steam -->
+        <div class="col-md-4">
+          <label class="v-label" title="نسبة التسعير لخدمة ستيم">ستيم</label>
+          <input class="v-input form-control" id="@(ViewData["Prefix"])-steam" placeholder="مثال: 1.02" type="number" step="0.01" min="0" max="2">
+        </div>
+
+        <!-- Amazon -->
+        <div class="col-md-4">
+          <label class="v-label" title="نسبة التسعير لخدمة امازون">امازون</label>
+          <input class="v-input form-control" id="@(ViewData["Prefix"])-amazon" placeholder="مثال: 1.02" type="number" step="0.01" min="0" max="2">
+        </div>
+
+        <!-- Netflix -->
+        <div class="col-md-4">
+          <label class="v-label" title="نسبة التسعير لخدمة نتفليكس">نتفليكس</label>
+          <input class="v-input form-control" id="@(ViewData["Prefix"])-netflix" placeholder="مثال: 1.02" type="number" step="0.01" min="0" max="2">
+        </div>
+
+        <!-- Spotify -->
+        <div class="col-md-4">
+          <label class="v-label" title="نسبة التسعير لخدمة سبوتيفاي">سبوتيفاي</label>
+          <input class="v-input form-control" id="@(ViewData["Prefix"])-spotify" placeholder="مثال: 1.02" type="number" step="0.01" min="0" max="2">
+        </div>
+
+        <!-- Microsoft -->
+        <div class="col-md-4">
+          <label class="v-label" title="نسبة التسعير لخدمة مايكروسوفت">مايكروسوفت</label>
+          <input class="v-input form-control" id="@(ViewData["Prefix"])-microsoft" placeholder="مثال: 1.02" type="number" step="0.01" min="0" max="2">
+        </div>
+
+        <!-- Apple -->
+        <div class="col-md-4">
+          <label class="v-label" title="نسبة التسعير لخدمة ابل">ابل</label>
+          <input class="v-input form-control" id="@(ViewData["Prefix"])-apple" placeholder="مثال: 1.02" type="number" step="0.01" min="0" max="2">
+        </div>
+
+        <!-- Nintendo -->
+        <div class="col-md-4">
+          <label class="v-label" title="نسبة التسعير لخدمة نينتندو">نينتندو</label>
+          <input class="v-input form-control" id="@(ViewData["Prefix"])-nintendo" placeholder="مثال: 1.02" type="number" step="0.01" min="0" max="2">
+        </div>
+
+        <!-- Discord Nitro -->
+        <div class="col-md-4">
+          <label class="v-label" title="نسبة التسعير لخدمة ديسكورد نايترو">ديسكورد نايترو</label>
+          <input class="v-input form-control" id="@(ViewData["Prefix"])-discord-nitro" placeholder="مثال: 1.02" type="number" step="0.01" min="0" max="2">
+        </div>
+
+        <!-- Roblox -->
+        <div class="col-md-4">
+          <label class="v-label" title="نسبة التسعير لخدمة روبلوكس">روبلوكس</label>
+          <input class="v-input form-control" id="@(ViewData["Prefix"])-roblox" placeholder="مثال: 1.02" type="number" step="0.01" min="0" max="2">
+        </div>
+
+        <!-- Minecraft -->
+        <div class="col-md-4">
+          <label class="v-label" title="نسبة التسعير لخدمة ماين كرافت">ماين كرافت</label>
+          <input class="v-input form-control" id="@(ViewData["Prefix"])-minecraft" placeholder="مثال: 1.02" type="number" step="0.01" min="0" max="2">
+        </div>
+
+        <!-- Fortnite -->
+        <div class="col-md-4">
+          <label class="v-label" title="نسبة التسعير لخدمة فورت نايت">فورت نايت</label>
+          <input class="v-input form-control" id="@(ViewData["Prefix"])-fortnite" placeholder="مثال: 1.02" type="number" step="0.01" min="0" max="2">
+        </div>
+
+        <!-- Apex Legends -->
+        <div class="col-md-4">
+          <label class="v-label" title="نسبة التسعير لخدمة ابكس لجيندز">ابكس لجيندز</label>
+          <input class="v-input form-control" id="@(ViewData["Prefix"])-apex-legends" placeholder="مثال: 1.02" type="number" step="0.01" min="0" max="2">
+        </div>
+
+        <!-- Valorant -->
+        <div class="col-md-4">
+          <label class="v-label" title="نسبة التسعير لخدمة فالورانت">فالورانت</label>
+          <input class="v-input form-control" id="@(ViewData["Prefix"])-valorant" placeholder="مثال: 1.02" type="number" step="0.01" min="0" max="2">
+        </div>
+
+        <!-- Riot Points -->
+        <div class="col-md-4">
+          <label class="v-label" title="نسبة التسعير لخدمة رايوت بوينتس">رايوت بوينتس</label>
+          <input class="v-input form-control" id="@(ViewData["Prefix"])-riot-points" placeholder="مثال: 1.02" type="number" step="0.01" min="0" max="2">
+        </div>
+
+        <!-- World of Warcraft -->
+        <div class="col-md-4">
+          <label class="v-label" title="نسبة التسعير لخدمة ورلد اوف وار كرافت">ورلد اوف وار كرافت</label>
+          <input class="v-input form-control" id="@(ViewData["Prefix"])-world-of-warcraft" placeholder="مثال: 1.02" type="number" step="0.01" min="0" max="2">
+        </div>
+
+        <!-- Final Fantasy -->
+        <div class="col-md-4">
+          <label class="v-label" title="نسبة التسعير لخدمة فاينل فانتسي">فاينل فانتسي</label>
+          <input class="v-input form-control" id="@(ViewData["Prefix"])-final-fantasy" placeholder="مثال: 1.02" type="number" step="0.01" min="0" max="2">
+        </div>
+
+        <!-- Genshin Impact -->
+        <div class="col-md-4">
+          <label class="v-label" title="نسبة التسعير لخدمة جينشين امباكت">جينشين امباكت</label>
+          <input class="v-input form-control" id="@(ViewData["Prefix"])-genshin-impact" placeholder="مثال: 1.02" type="number" step="0.01" min="0" max="2">
+        </div>
+      </div>
+    </div>
+    
+    <!-- Chat Tab -->
+    <div class="tab-pane fade" id="@(ViewData["Prefix"])-chat" role="tabpanel">
+      <div class="row g-3 mt-2">
+        <!-- Wego Chat -->
+        <div class="col-md-4">
+          <label class="v-label" title="نسبة التسعير لخدمة ويجو شات">ويجو شات WEGO</label>
+          <input class="v-input form-control" id="@(ViewData["Prefix"])-wego-chat" placeholder="مثال: 1.02" type="number" step="0.01" min="0" max="2">
+        </div>
+
+        <!-- Maan -->
+        <div class="col-md-4">
+          <label class="v-label" title="نسبة التسعير لخدمة مان">Maan- مان</label>
+          <input class="v-input form-control" id="@(ViewData["Prefix"])-maan" placeholder="مثال: 1.02" type="number" step="0.01" min="0" max="2">
+        </div>
+
+        <!-- Kamelna -->
+        <div class="col-md-4">
+          <label class="v-label" title="نسبة التسعير لخدمة كملنا">كملنا</label>
+          <input class="v-input form-control" id="@(ViewData["Prefix"])-kamelna" placeholder="مثال: 1.02" type="number" step="0.01" min="0" max="2">
+        </div>
+
+        <!-- Pika -->
+        <div class="col-md-4">
+          <label class="v-label" title="نسبة التسعير لخدمة بيكا">بيكا Pika</label>
+          <input class="v-input form-control" id="@(ViewData["Prefix"])-pika" placeholder="مثال: 1.02" type="number" step="0.01" min="0" max="2">
+        </div>
+
+        <!-- Salam Chat -->
+        <div class="col-md-4">
+          <label class="v-label" title="نسبة التسعير لخدمة سلام شات">سلام شات</label>
+          <input class="v-input form-control" id="@(ViewData["Prefix"])-salam-chat" placeholder="مثال: 1.02" type="number" step="0.01" min="0" max="2">
+        </div>
+
+        <!-- ALULU -->
+        <div class="col-md-4">
+          <label class="v-label" title="نسبة التسعير لخدمة الولو">الولو ALULU</label>
+          <input class="v-input form-control" id="@(ViewData["Prefix"])-alulu" placeholder="مثال: 1.02" type="number" step="0.01" min="0" max="2">
+        </div>
+
+        <!-- Veco -->
+        <div class="col-md-4">
+          <label class="v-label" title="نسبة التسعير لخدمة فيكو">فيكو Veco</label>
+          <input class="v-input form-control" id="@(ViewData["Prefix"])-veco" placeholder="مثال: 1.02" type="number" step="0.01" min="0" max="2">
+        </div>
+
+        <!-- YAHLAN -->
+        <div class="col-md-4">
+          <label class="v-label" title="نسبة التسعير لخدمة ياهلن">ياهلن YAAHLAN</label>
+          <input class="v-input form-control" id="@(ViewData["Prefix"])-yahlan" placeholder="مثال: 1.02" type="number" step="0.01" min="0" max="2">
+        </div>
+
+        <!-- Star Maker -->
+        <div class="col-md-4">
+          <label class="v-label" title="نسبة التسعير لخدمة ستار ميكر">ستار ميكر</label>
+          <input class="v-input form-control" id="@(ViewData["Prefix"])-star-maker" placeholder="مثال: 1.02" type="number" step="0.01" min="0" max="2">
+        </div>
+
+        <!-- Sugo -->
+        <div class="col-md-4">
+          <label class="v-label" title="نسبة التسعير لخدمة سوجو">سوجو SUGO</label>
+          <input class="v-input form-control" id="@(ViewData["Prefix"])-sugo" placeholder="مثال: 1.02" type="number" step="0.01" min="0" max="2">
+        </div>
+
+        <!-- Honey Jar -->
+        <div class="col-md-4">
+          <label class="v-label" title="نسبة التسعير لخدمة هوني جار">هوني جار Honey jar</label>
+          <input class="v-input form-control" id="@(ViewData["Prefix"])-honey-jar" placeholder="مثال: 1.02" type="number" step="0.01" min="0" max="2">
+        </div>
+
+        <!-- Sparti -->
+        <div class="col-md-4">
+          <label class="v-label" title="نسبة التسعير لخدمة سبارتي">سبارتي</label>
+          <input class="v-input form-control" id="@(ViewData["Prefix"])-sparti" placeholder="مثال: 1.02" type="number" step="0.01" min="0" max="2">
+        </div>
+
+        <!-- Wanasah Chat -->
+        <div class="col-md-4">
+          <label class="v-label" title="نسبة التسعير لخدمة وناسة شات">وناسة شات</label>
+          <input class="v-input form-control" id="@(ViewData["Prefix"])-wanasah-chat" placeholder="مثال: 1.02" type="number" step="0.01" min="0" max="2">
+        </div>
+
+        <!-- Hoby -->
+        <div class="col-md-4">
+          <label class="v-label" title="نسبة التسعير لخدمة هوبي">هوبي HOBY</label>
+          <input class="v-input form-control" id="@(ViewData["Prefix"])-hoby" placeholder="مثال: 1.02" type="number" step="0.01" min="0" max="2">
+        </div>
+
+        <!-- Tami -->
+        <div class="col-md-4">
+          <label class="v-label" title="نسبة التسعير لخدمة تامي">تامي Tami</label>
+          <input class="v-input form-control" id="@(ViewData["Prefix"])-tami" placeholder="مثال: 1.02" type="number" step="0.01" min="0" max="2">
+        </div>
+
+        <!-- Habi -->
+        <div class="col-md-4">
+          <label class="v-label" title="نسبة التسعير لخدمة هبي">هبي habi</label>
+          <input class="v-input form-control" id="@(ViewData["Prefix"])-habi" placeholder="مثال: 1.02" type="number" step="0.01" min="0" max="2">
+        </div>
+
+        <!-- Jokers -->
+        <div class="col-md-4">
+          <label class="v-label" title="نسبة التسعير لخدمة جواكر">جواكر</label>
+          <input class="v-input form-control" id="@(ViewData["Prefix"])-jokers" placeholder="مثال: 1.02" type="number" step="0.01" min="0" max="2">
+        </div>
+
+        <!-- War Robots -->
+        <div class="col-md-4">
+          <label class="v-label" title="نسبة التسعير لخدمة روبوتات الحرب">روبوتات الحرب</label>
+          <input class="v-input form-control" id="@(ViewData["Prefix"])-war-robots" placeholder="مثال: 1.02" type="number" step="0.01" min="0" max="2">
+        </div>
+
+        <!-- Farlight 84 -->
+        <div class="col-md-4">
+          <label class="v-label" title="نسبة التسعير لخدمة فارلايت 84">فارلايت 84</label>
+          <input class="v-input form-control" id="@(ViewData["Prefix"])-farlight-84" placeholder="مثال: 1.02" type="number" step="0.01" min="0" max="2">
+        </div>
+
+        <!-- Ditto -->
+        <div class="col-md-4">
+          <label class="v-label" title="نسبة التسعير لخدمة ديتو">ديتو Ditto</label>
+          <input class="v-input form-control" id="@(ViewData["Prefix"])-ditto" placeholder="مثال: 1.02" type="number" step="0.01" min="0" max="2">
+        </div>
+
+        <!-- Nabd -->
+        <div class="col-md-4">
+          <label class="v-label" title="نسبة التسعير لخدمة نبض">نبض Nabd</label>

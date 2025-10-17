@@ -1,0 +1,553 @@
+@{
+    ViewBag.Title = "الأدوار";
+    ViewBag.SubTitle = "المستخدمون";
+}
+
+@section styles
+{
+}
+
+<div class="container-fluid">
+
+    @await Html.PartialAsync("~/Views/Shared/Partials/_PageTitle.cshtml")
+
+
+    <div class="row justify-content-center">
+        <div class="col-xxl-10">
+
+            <div class="d-flex align-items-sm-center flex-sm-row flex-column mb-3">
+                <div class="flex-grow-1">
+                    <h4 class="fs-xl mb-1">إدارة الأدوار</h4>
+                    <p class="text-muted mb-0">إدارة الأدوار لعمليات أكثر سلاسة ووصول آمن.</p>
+                </div>
+
+                <div class="text-end">
+                    <a href="javascript: void(0);" class="btn btn-success">
+                        <i class="ti ti-plus me-1"></i> إضافة دور جديد
+                    </a>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 col-lg-3">
+                    <div class="card">
+                        <div class="card-body d-flex flex-column justify-content-between">
+                            <div class="d-flex align-items-center mb-4">
+                                <div class="flex-shrink-0">
+                                    <div class="avatar-xl rounded-circle bg-primary-subtle d-flex align-items-center justify-content-center">
+                                        <i class="ti ti-shield-lock fs-24 text-primary"></i>
+                                    </div>
+                                </div>
+                                <div class="ms-3">
+                                    <h5 class="mb-2">مسؤول الأمان</h5>
+                                    <p class="text-muted mb-0 fs-base">
+                                        يتعامل مع سلامة المنصة ومراجعات البروتوكول.
+                                    </p>
+                                </div>
+                                <div class="ms-auto">
+                                    <div class="dropdown">
+                                        <a href="#" class="text-muted fs-xl" data-bs-toggle="dropdown">
+                                            <i class="ti ti-dots-vertical"></i>
+                                        </a>
+                                        <ul class="dropdown-menu dropdown-menu-end">
+                                            <li>
+                                                <a class="dropdown-item" href="#"><i class="ti ti-eye me-2"></i>عرض</a>
+                                            </li>
+                                            <li><a class="dropdown-item" href="#"><i class="ti ti-edit me-2"></i>تعديل</a></li>
+                                            <li><a class="dropdown-item text-danger" href="#"><i class="ti ti-trash me-2"></i>إزالة</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <ul class="list-unstyled mb-3">
+                                <li class="d-flex align-items-center mb-2">
+                                    <span class="ti ti-check fs-lg text-success me-2"></span> تقييم المخاطر اليومي
+                                </li>
+                                <li class="d-flex align-items-center mb-2">
+                                    <span class="ti ti-check fs-lg text-success me-2"></span> إدارة سجلات الأمان
+                                </li>
+                                <li class="d-flex align-items-center mb-2">
+                                    <span class="ti ti-check fs-lg text-success me-2"></span> التحكم في حقوق الوصول
+                                </li>
+                                <li class="d-flex align-items-center">
+                                    <span class="ti ti-check fs-lg text-success me-2"></span> بروتوكولات الطوارئ
+                                </li>
+                            </ul>
+
+                            <p class="mb-2 text-muted">إجمالي 4 مستخدمين</p>
+                            <div class="avatar-group avatar-group-sm mb-3">
+                                <div class="avatar">
+                                    <img src="~/images/users/user-7.jpg" alt="" class="rounded-circle avatar-sm">
+                                </div>
+                                <div class="avatar">
+                                    <img src="~/images/users/user-8.jpg" alt="" class="rounded-circle avatar-sm">
+                                </div>
+                                <div class="avatar">
+                                    <img src="~/images/users/user-9.jpg" alt="" class="rounded-circle avatar-sm">
+                                </div>
+                                <div class="avatar">
+                                    <img src="~/images/users/user-10.jpg" alt="" class="rounded-circle avatar-sm">
+                                </div>
+                            </div>
+
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="text-muted fs-xs"><i class="ti ti-clock me-1"></i>تم التحديث قبل ساعة</span>
+                                <a href="#" class="btn btn-sm btn-outline-primary rounded-pill">التفاصيل</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-3">
+                    <div class="card">
+                        <div class="card-body d-flex flex-column justify-content-between">
+                            <div class="d-flex align-items-center mb-4">
+                                <div class="flex-shrink-0">
+                                    <div class="avatar-xl rounded-circle bg-success-subtle d-flex align-items-center justify-content-center">
+                                        <i class="ti ti-briefcase fs-24 text-success"></i>
+                                    </div>
+                                </div>
+                                <div class="ms-3">
+                                    <h5 class="mb-2">مدير المشروع</h5>
+                                    <p class="text-muted mb-0 fs-base">
+                                        ينسق التخطيط ومواعيد تسليم الفريق.
+                                    </p>
+                                </div>
+                                <div class="ms-auto">
+                                    <div class="dropdown">
+                                        <a href="#" class="text-muted fs-xl" data-bs-toggle="dropdown">
+                                            <i class="ti ti-dots-vertical"></i>
+                                        </a>
+                                        <ul class="dropdown-menu dropdown-menu-end">
+                                            <li>
+                                                <a class="dropdown-item" href="#"><i class="ti ti-eye me-2"></i>عرض</a>
+                                            </li>
+                                            <li><a class="dropdown-item" href="#"><i class="ti ti-edit me-2"></i>تعديل</a></li>
+                                            <li><a class="dropdown-item text-danger" href="#"><i class="ti ti-trash me-2"></i>إزالة</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <ul class="list-unstyled mb-3">
+                                <li class="d-flex align-items-center mb-2">
+                                    <span class="ti ti-check fs-lg text-success me-2"></span> تتبع الجدول الزمني
+                                </li>
+                                <li class="d-flex align-items-center mb-2">
+                                    <span class="ti ti-check fs-lg text-success me-2"></span> تعيين المهام
+                                </li>
+                                <li class="d-flex align-items-center mb-2">
+                                    <span class="ti ti-check fs-lg text-success me-2"></span> التحكم في الميزانية
+                                </li>
+                                <li class="d-flex align-items-center">
+                                    <span class="ti ti-check fs-lg text-success me-2"></span> إعداد التقارير للجهات المعنية
+                                </li>
+                            </ul>
+
+                            <p class="mb-2 text-muted">إجمالي 5 مستخدمين</p>
+                            <div class="avatar-group avatar-group-sm mb-3">
+                                <div class="avatar"><img src="~/images/users/user-2.jpg" class="rounded-circle avatar-sm" alt=""></div>
+                                <div class="avatar"><img src="~/images/users/user-5.jpg" class="rounded-circle avatar-sm" alt=""></div>
+                                <div class="avatar"><img src="~/images/users/user-6.jpg" class="rounded-circle avatar-sm" alt=""></div>
+                                <div class="avatar"><img src="~/images/users/user-1.jpg" class="rounded-circle avatar-sm" alt=""></div>
+                                <div class="avatar"><img src="~/images/users/user-8.jpg" class="rounded-circle avatar-sm" alt=""></div>
+                            </div>
+
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="text-muted fs-xs"><i class="ti ti-clock me-1"></i>تم التحديث قبل ساعتين</span>
+                                <a href="#" class="btn btn-sm btn-outline-success rounded-pill">التفاصيل</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-3">
+                    <div class="card">
+                        <div class="card-body d-flex flex-column justify-content-between">
+                            <div class="d-flex align-items-center mb-4">
+                                <div class="flex-shrink-0">
+                                    <div class="avatar-xl rounded-circle bg-primary-subtle d-flex align-items-center justify-content-center">
+                                        <i class="ti ti-code fs-24 text-primary"></i>
+                                    </div>
+                                </div>
+                                <div class="ms-3">
+                                    <h5 class="mb-2">مطور</h5>
+                                    <p class="text-muted mb-0 fs-base">
+                                        يبني ويحافظ على الميزات الأساسية للمنصة.
+                                    </p>
+                                </div>
+                                <div class="ms-auto">
+                                    <div class="dropdown">
+                                        <a href="#" class="text-muted fs-xl" data-bs-toggle="dropdown">
+                                            <i class="ti ti-dots-vertical"></i>
+                                        </a>
+                                        <ul class="dropdown-menu dropdown-menu-end">
+                                            <li>
+                                                <a class="dropdown-item" href="#"><i class="ti ti-eye me-2"></i>عرض</a>
+                                            </li>
+                                            <li><a class="dropdown-item" href="#"><i class="ti ti-edit me-2"></i>تعديل</a></li>
+                                            <li><a class="dropdown-item text-danger" href="#"><i class="ti ti-trash me-2"></i>إزالة</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <ul class="list-unstyled mb-3">
+                                <li class="d-flex align-items-center mb-2">
+                                    <span class="ti ti-check fs-lg text-success me-2"></span> تطوير البرمجيات
+                                </li>
+                                <li class="d-flex align-items-center mb-2">
+                                    <span class="ti ti-check fs-lg text-success me-2"></span> اختبار الأداء
+                                </li>
+                                <li class="d-flex align-items-center mb-2">
+                                    <span class="ti ti-check fs-lg text-success me-2"></span> تصحيح الأخطاء
+                                </li>
+                                <li class="d-flex align-items-center">
+                                    <span class="ti ti-check fs-lg text-success me-2"></span> تحسين الكود
+                                </li>
+                            </ul>
+
+                            <p class="mb-2 text-muted">إجمالي 6 مستخدمين</p>
+                            <div class="avatar-group avatar-group-sm mb-3">
+                                <div class="avatar"><img src="~/images/users/user-3.jpg" class="rounded-circle avatar-sm" alt=""></div>
+                                <div class="avatar"><img src="~/images/users/user-4.jpg" class="rounded-circle avatar-sm" alt=""></div>
+                                <div class="avatar"><img src="~/images/users/user-5.jpg" class="rounded-circle avatar-sm" alt=""></div>
+                                <div class="avatar"><img src="~/images/users/user-6.jpg" class="rounded-circle avatar-sm" alt=""></div>
+                                <div class="avatar"><img src="~/images/users/user-7.jpg" class="rounded-circle avatar-sm" alt=""></div>
+                                <div class="avatar"><img src="~/images/users/user-9.jpg" class="rounded-circle avatar-sm" alt=""></div>
+                            </div>
+
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="text-muted fs-xs"><i class="ti ti-clock me-1"></i>تم التحديث قبل 3 ساعات</span>
+                                <a href="#" class="btn btn-sm btn-outline-primary rounded-pill">التفاصيل</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-3">
+                    <div class="card">
+                        <div class="card-body d-flex flex-column justify-content-between">
+                            <div class="d-flex align-items-center mb-4">
+                                <div class="flex-shrink-0">
+                                    <div class="avatar-xl rounded-circle bg-info-subtle d-flex align-items-center justify-content-center">
+                                        <i class="ti ti-chart-bar fs-24 text-info"></i>
+                                    </div>
+                                </div>
+                                <div class="ms-3">
+                                    <h5 class="mb-2">محلل البيانات</h5>
+                                    <p class="text-muted mb-0 fs-base">
+                                        يحلل البيانات ويوفر رؤى الأعمال.
+                                    </p>
+                                </div>
+                                <div class="ms-auto">
+                                    <div class="dropdown">
+                                        <a href="#" class="text-muted fs-xl" data-bs-toggle="dropdown">
+                                            <i class="ti ti-dots-vertical"></i>
+                                        </a>
+                                        <ul class="dropdown-menu dropdown-menu-end">
+                                            <li>
+                                                <a class="dropdown-item" href="#"><i class="ti ti-eye me-2"></i>عرض</a>
+                                            </li>
+                                            <li><a class="dropdown-item" href="#"><i class="ti ti-edit me-2"></i>تعديل</a></li>
+                                            <li><a class="dropdown-item text-danger" href="#"><i class="ti ti-trash me-2"></i>إزالة</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <ul class="list-unstyled mb-3">
+                                <li class="d-flex align-items-center mb-2">
+                                    <span class="ti ti-check fs-lg text-success me-2"></span> تحليل البيانات
+                                </li>
+                                <li class="d-flex align-items-center mb-2">
+                                    <span class="ti ti-check fs-lg text-success me-2"></span> إنشاء التقارير
+                                </li>
+                                <li class="d-flex align-items-center mb-2">
+                                    <span class="ti ti-check fs-lg text-success me-2"></span> نمذجة التنبؤ
+                                </li>
+                                <li class="d-flex align-items-center">
+                                    <span class="ti ti-check fs-lg text-success me-2"></span> تصور البيانات
+                                </li>
+                            </ul>
+
+                            <p class="mb-2 text-muted">إجمالي 4 مستخدمين</p>
+                            <div class="avatar-group avatar-group-sm mb-3">
+                                <div class="avatar"><img src="~/images/users/user-1.jpg" class="rounded-circle avatar-sm" alt=""></div>
+                                <div class="avatar"><img src="~/images/users/user-2.jpg" class="rounded-circle avatar-sm" alt=""></div>
+                                <div class="avatar"><img src="~/images/users/user-8.jpg" class="rounded-circle avatar-sm" alt=""></div>
+                                <div class="avatar"><img src="~/images/users/user-10.jpg" class="rounded-circle avatar-sm" alt=""></div>
+                            </div>
+
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="text-muted fs-xs"><i class="ti ti-clock me-1"></i>تم التحديث قبل 4 ساعات</span>
+                                <a href="#" class="btn btn-sm btn-outline-info rounded-pill">التفاصيل</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 col-lg-3">
+                    <div class="card">
+                        <div class="card-body d-flex flex-column justify-content-between">
+                            <div class="d-flex align-items-center mb-4">
+                                <div class="flex-shrink-0">
+                                    <div class="avatar-xl rounded-circle bg-warning-subtle d-flex align-items-center justify-content-center">
+                                        <i class="ti ti-headset fs-24 text-warning"></i>
+                                    </div>
+                                </div>
+                                <div class="ms-3">
+                                    <h5 class="mb-2">فريق الدعم</h5>
+                                    <p class="text-muted mb-0 fs-base">
+                                        يقدم المساعدة والدعم للعملاء.
+                                    </p>
+                                </div>
+                                <div class="ms-auto">
+                                    <div class="dropdown">
+                                        <a href="#" class="text-muted fs-xl" data-bs-toggle="dropdown">
+                                            <i class="ti ti-dots-vertical"></i>
+                                        </a>
+                                        <ul class="dropdown-menu dropdown-menu-end">
+                                            <li>
+                                                <a class="dropdown-item" href="#"><i class="ti ti-eye me-2"></i>عرض</a>
+                                            </li>
+                                            <li><a class="dropdown-item" href="#"><i class="ti ti-edit me-2"></i>تعديل</a></li>
+                                            <li><a class="dropdown-item text-danger" href="#"><i class="ti ti-trash me-2"></i>إزالة</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <ul class="list-unstyled mb-3">
+                                <li class="d-flex align-items-center mb-2">
+                                    <span class="ti ti-check fs-lg text-success me-2"></span> الدعم الفني
+                                </li>
+                                <li class="d-flex align-items-center mb-2">
+                                    <span class="ti ti-check fs-lg text-success me-2"></span> حل المشكلات
+                                </li>
+                                <li class="d-flex align-items-center mb-2">
+                                    <span class="ti ti-check fs-lg text-success me-2"></span> إدارة التذاكر
+                                </li>
+                                <li class="d-flex align-items-center">
+                                    <span class="ti ti-check fs-lg text-success me-2"></span> تحسين تجربة العملاء
+                                </li>
+                            </ul>
+
+                            <p class="mb-2 text-muted">إجمالي 7 مستخدمين</p>
+                            <div class="avatar-group avatar-group-sm mb-3">
+                                <div class="avatar"><img src="~/images/users/user-4.jpg" class="rounded-circle avatar-sm" alt=""></div>
+                                <div class="avatar"><img src="~/images/users/user-5.jpg" class="rounded-circle avatar-sm" alt=""></div>
+                                <div class="avatar"><img src="~/images/users/user-6.jpg" class="rounded-circle avatar-sm" alt=""></div>
+                                <div class="avatar"><img src="~/images/users/user-7.jpg" class="rounded-circle avatar-sm" alt=""></div>
+                                <div class="avatar"><img src="~/images/users/user-8.jpg" class="rounded-circle avatar-sm" alt=""></div>
+                                <div class="avatar"><img src="~/images/users/user-9.jpg" class="rounded-circle avatar-sm" alt=""></div>
+                                <div class="avatar"><img src="~/images/users/user-10.jpg" class="rounded-circle avatar-sm" alt=""></div>
+                            </div>
+
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="text-muted fs-xs"><i class="ti ti-clock me-1"></i>تم التحديث قبل 5 ساعات</span>
+                                <a href="#" class="btn btn-sm btn-outline-warning rounded-pill">التفاصيل</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-3">
+                    <div class="card">
+                        <div class="card-body d-flex flex-column justify-content-between">
+                            <div class="d-flex align-items-center mb-4">
+                                <div class="flex-shrink-0">
+                                    <div class="avatar-xl rounded-circle bg-danger-subtle d-flex align-items-center justify-content-center">
+                                        <i class="ti ti-presentation fs-24 text-danger"></i>
+                                    </div>
+                                </div>
+                                <div class="ms-3">
+                                    <h5 class="mb-2">مدير المبيعات</h5>
+                                    <p class="text-muted mb-0 fs-base">
+                                        يقود فريق المبيعات ويحقق الأهداف.
+                                    </p>
+                                </div>
+                                <div class="ms-auto">
+                                    <div class="dropdown">
+                                        <a href="#" class="text-muted fs-xl" data-bs-toggle="dropdown">
+                                            <i class="ti ti-dots-vertical"></i>
+                                        </a>
+                                        <ul class="dropdown-menu dropdown-menu-end">
+                                            <li>
+                                                <a class="dropdown-item" href="#"><i class="ti ti-eye me-2"></i>عرض</a>
+                                            </li>
+                                            <li><a class="dropdown-item" href="#"><i class="ti ti-edit me-2"></i>تعديل</a></li>
+                                            <li><a class="dropdown-item text-danger" href="#"><i class="ti ti-trash me-2"></i>إزالة</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <ul class="list-unstyled mb-3">
+                                <li class="d-flex align-items-center mb-2">
+                                    <span class="ti ti-check fs-lg text-success me-2"></span> إدارة فريق المبيعات
+                                </li>
+                                <li class="d-flex align-items-center mb-2">
+                                    <span class="ti ti-check fs-lg text-success me-2"></span> تطوير الاستراتيجيات
+                                </li>
+                                <li class="d-flex align-items-center mb-2">
+                                    <span class="ti ti-check fs-lg text-success me-2"></span> تتبع الأداء
+                                </li>
+                                <li class="d-flex align-items-center">
+                                    <span class="ti ti-check fs-lg text-success me-2"></span> إدارة العلاقات مع العملاء
+                                </li>
+                            </ul>
+
+                            <p class="mb-2 text-muted">إجمالي 5 مستخدمين</p>
+                            <div class="avatar-group avatar-group-sm mb-3">
+                                <div class="avatar"><img src="~/images/users/user-1.jpg" class="rounded-circle avatar-sm" alt=""></div>
+                                <div class="avatar"><img src="~/images/users/user-3.jpg" class="rounded-circle avatar-sm" alt=""></div>
+                                <div class="avatar"><img src="~/images/users/user-5.jpg" class="rounded-circle avatar-sm" alt=""></div>
+                                <div class="avatar"><img src="~/images/users/user-7.jpg" class="rounded-circle avatar-sm" alt=""></div>
+                                <div class="avatar"><img src="~/images/users/user-9.jpg" class="rounded-circle avatar-sm" alt=""></div>
+                            </div>
+
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="text-muted fs-xs"><i class="ti ti-clock me-1"></i>تم التحديث قبل 6 ساعات</span>
+                                <a href="#" class="btn btn-sm btn-outline-danger rounded-pill">التفاصيل</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-3">
+                    <div class="card">
+                        <div class="card-body d-flex flex-column justify-content-between">
+                            <div class="d-flex align-items-center mb-4">
+                                <div class="flex-shrink-0">
+                                    <div class="avatar-xl rounded-circle bg-success-subtle d-flex align-items-center justify-content-center">
+                                        <i class="ti ti-users fs-24 text-success"></i>
+                                    </div>
+                                </div>
+                                <div class="ms-3">
+                                    <h5 class="mb-2">مدير الموارد البشرية</h5>
+                                    <p class="text-muted mb-0 fs-base">
+                                        يدير موارد الموظفين وتطويرهم.
+                                    </p>
+                                </div>
+                                <div class="ms-auto">
+                                    <div class="dropdown">
+                                        <a href="#" class="text-muted fs-xl" data-bs-toggle="dropdown">
+                                            <i class="ti ti-dots-vertical"></i>
+                                        </a>
+                                        <ul class="dropdown-menu dropdown-menu-end">
+                                            <li>
+                                                <a class="dropdown-item" href="#"><i class="ti ti-eye me-2"></i>عرض</a>
+                                            </li>
+                                            <li><a class="dropdown-item" href="#"><i class="ti ti-edit me-2"></i>تعديل</a></li>
+                                            <li><a class="dropdown-item text-danger" href="#"><i class="ti ti-trash me-2"></i>إزالة</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <ul class="list-unstyled mb-3">
+                                <li class="d-flex align-items-center mb-2">
+                                    <span class="ti ti-check fs-lg text-success me-2"></span> توظيف المواهب
+                                </li>
+                                <li class="d-flex align-items-center mb-2">
+                                    <span class="ti ti-check fs-lg text-success me-2"></span> برامج التدريب
+                                </li>
+                                <li class="d-flex align-items-center mb-2">
+                                    <span class="ti ti-check fs-lg text-success me-2"></span> تقييم الأداء
+                                </li>
+                                <li class="d-flex align-items-center">
+                                    <span class="ti ti-check fs-lg text-success me-2"></span> إدارة الرواتب
+                                </li>
+                            </ul>
+
+                            <p class="mb-2 text-muted">إجمالي 3 مستخدمين</p>
+                            <div class="avatar-group avatar-group-sm mb-3">
+                                <div class="avatar"><img src="~/images/users/user-2.jpg" class="rounded-circle avatar-sm" alt=""></div>
+                                <div class="avatar"><img src="~/images/users/user-4.jpg" class="rounded-circle avatar-sm" alt=""></div>
+                                <div class="avatar"><img src="~/images/users/user-6.jpg" class="rounded-circle avatar-sm" alt=""></div>
+                            </div>
+
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="text-muted fs-xs"><i class="ti ti-clock me-1"></i>تم التحديث قبل 7 ساعات</span>
+                                <a href="#" class="btn btn-sm btn-outline-success rounded-pill">التفاصيل</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-3">
+                    <div class="card">
+                        <div class="card-body d-flex flex-column justify-content-between">
+                            <div class="d-flex align-items-center mb-4">
+                                <div class="flex-shrink-0">
+                                    <div class="avatar-xl rounded-circle bg-info-subtle d-flex align-items-center justify-content-center">
+                                        <i class="ti ti-settings fs-24 text-info"></i>
+                                    </div>
+                                </div>
+                                <div class="ms-3">
+                                    <h5 class="mb-2">مدير النظام</h5>
+                                    <p class="text-muted mb-0 fs-base">
+                                        يشرف على البنية التحتية والصيانة.
+                                    </p>
+                                </div>
+                                <div class="ms-auto">
+                                    <div class="dropdown">
+                                        <a href="#" class="text-muted fs-xl" data-bs-toggle="dropdown">
+                                            <i class="ti ti-dots-vertical"></i>
+                                        </a>
+                                        <ul class="dropdown-menu dropdown-menu-end">
+                                            <li>
+                                                <a class="dropdown-item" href="#"><i class="ti ti-eye me-2"></i>عرض</a>
+                                            </li>
+                                            <li><a class="dropdown-item" href="#"><i class="ti ti-edit me-2"></i>تعديل</a></li>
+                                            <li><a class="dropdown-item text-danger" href="#"><i class="ti ti-trash me-2"></i>إزالة</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <ul class="list-unstyled mb-3">
+                                <li class="d-flex align-items-center mb-2">
+                                    <span class="ti ti-check fs-lg text-success me-2"></span> صيانة الخوادم
+                                </li>
+                                <li class="d-flex align-items-center mb-2">
+                                    <span class="ti ti-check fs-lg text-success me-2"></span> تحديث الأنظمة
+                                </li>
+                                <li class="d-flex align-items-center mb-2">
+                                    <span class="ti ti-check fs-lg text-success me-2"></span> إدارة النسخ الاحتياطية
+                                </li>
+                                <li class="d-flex align-items-center">
+                                    <span class="ti ti-check fs-lg text-success me-2"></span> مراقبة الأداء
+                                </li>
+                            </ul>
+
+                            <p class="mb-2 text-muted">إجمالي 4 مستخدمين</p>
+                            <div class="avatar-group avatar-group-sm mb-3">
+                                <div class="avatar"><img src="~/images/users/user-1.jpg" class="rounded-circle avatar-sm" alt=""></div>
+                                <div class="avatar"><img src="~/images/users/user-3.jpg" class="rounded-circle avatar-sm" alt=""></div>
+                                <div class="avatar"><img src="~/images/users/user-5.jpg" class="rounded-circle avatar-sm" alt=""></div>
+                                <div class="avatar"><img src="~/images/users/user-8.jpg" class="rounded-circle avatar-sm" alt=""></div>
+                            </div>
+
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="text-muted fs-xs"><i class="ti ti-clock me-1"></i>تم التحديث قبل 8 ساعات</span>
+                                <a href="#" class="btn btn-sm btn-outline-info rounded-pill">التفاصيل</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+@section scripts
+{
+    <script src="~/js/pages/roles.js"></script>
+}

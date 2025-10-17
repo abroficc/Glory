@@ -1,0 +1,1549 @@
+@{
+    Layout = "_VerticalLayout";
+    ViewData["Title"] = "كروت WIFI";
+    ViewData["Direction"] = "rtl";
+}
+
+@section styles {
+    <!-- date range picker css -->
+    <link href="~/plugins/daterangepicker/daterangepicker.css" rel="stylesheet" type="text/css">
+    <!-- datatables css -->
+    <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.bootstrap5.min.css" rel="stylesheet">
+    <!-- datatables buttons css -->
+    <link href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.bootstrap5.min.css" rel="stylesheet">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600&display=swap" rel="stylesheet">
+    
+    <!-- bootstrap-select CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/css/bootstrap-select.min.css" />
+
+    <!-- UI Polish CSS -->
+    <link href="~/css/ui-polish.css" rel="stylesheet" type="text/css">
+    
+    <!-- Voucher Modal CSS -->
+    <link href="~/css/voucher-modal.css" rel="stylesheet" type="text/css">
+    
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        body[dir="rtl"] * {
+            font-family: "Cairo", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+        }
+        
+        /* تعديل الجدول لإزالة المسافة بين الرأس والمحتوى */
+        .table-bordered thead th {
+            border-bottom-width: 1px;
+        }
+        
+        .table-bordered tbody tr:first-child td {
+            border-top: none;
+        }
+        
+        .table {
+            margin-bottom: 0;
+        }
+        
+        /* Select all checkboxes styling */
+        .form-check-input:checked {
+            background-color: #1ab394;
+            border-color: #1ab394;
+        }
+        
+        /* Alert styling for better visibility */
+        .alert-warning {
+            background-color: #fff3cd;
+            border-color: #ffeaa7;
+            color: #856404;
+        }
+        
+        .alert-danger {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+        
+        /* Dark mode alert adjustments */
+        [data-bs-theme="dark"] .alert-warning {
+            background-color: #664d03;
+            border-color: #7d5f04;
+            color: #ffecb5;
+        }
+        
+        [data-bs-theme="dark"] .alert-danger {
+            background-color: #721c24;
+            border-color: #842029;
+            color: #f8d7da;
+        }
+        
+        /* Tree view container */
+        #cards-tree {
+            min-height: 400px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 10px;
+        }
+        
+        /* Table card styling */
+        .table-dark-card {
+            background: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 4px 20px rgba(0,0,0,.05);
+        }
+
+        .table-dark-card table {
+            width: 100%;
+            border-collapse: collapse;
+            color: #374151;
+            font-size: 14px;
+        }
+
+        .table-dark-card thead {
+            background: linear-gradient(180deg, #f3f4f6, #e5e7eb);
+        }
+        
+        .table-dark-card thead th {
+            padding: 12px 14px;
+            text-align: center;
+            font-weight: 600;
+            color: #111827;
+            border-bottom: 1px solid #d1d5db;
+            white-space: nowrap;
+        }
+
+        .table-dark-card tbody tr {
+            background: #fff;
+            transition: background 0.2s;
+        }
+        
+        .table-dark-card tbody tr:nth-child(even) {
+            background: #f9fafb;
+        }
+        
+        .table-dark-card tbody tr:hover {
+            background: #f3f4f6;
+        }
+        
+        .table-dark-card td {
+            padding: 12px 14px;
+            text-align: center;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .btn-more {
+            border: 1px solid #d1d5db;
+            background: transparent;
+            color: #3b82f6;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 13px;
+            cursor: pointer;
+        }
+        
+        .btn-more:hover {
+            background: #2563eb;
+            color: #fff;
+            border-color: #2563eb;
+        }
+
+        /* Dark mode table styles */
+        [data-bs-theme="dark"] .table-dark-card {
+            background: #111827;
+            border: 1px solid #1f2937;
+            box-shadow: 0 4px 20px rgba(0,0,0,.4);
+        }
+
+        [data-bs-theme="dark"] .table-dark-card table {
+            color: #e5e7eb;
+        }
+
+        [data-bs-theme="dark"] .table-dark-card thead {
+            background: linear-gradient(180deg, #1e293b, #111827);
+        }
+        
+        [data-bs-theme="dark"] .table-dark-card thead th {
+            color: #f9fafb;
+            border-bottom: 1px solid #374151;
+        }
+
+        [data-bs-theme="dark"] .table-dark-card tbody tr {
+            background: #111827;
+        }
+        
+        [data-bs-theme="dark"] .table-dark-card tbody tr:nth-child(even) {
+            background: #1a2234;
+        }
+        
+        [data-bs-theme="dark"] .table-dark-card tbody tr:hover {
+            background: #1f2937;
+        }
+        
+        [data-bs-theme="dark"] .table-dark-card td {
+            border-bottom: 1px solid #1f2937;
+        }
+
+        [data-bs-theme="dark"] .btn-more {
+            border: 1px solid #374151;
+            color: #93c5fd;
+        }
+        
+        [data-bs-theme="dark"] .btn-more:hover {
+            background: #2563eb;
+            color: #fff;
+            border-color: #2563eb;
+        }
+        
+        /* Light mode pagination */
+        .pagination-dark {
+            display: flex;
+            justify-content: center;
+            margin-top: 12px;
+            gap: 4px;
+        }
+        
+        .pagination-dark button {
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            color: #111827;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        
+        .pagination-dark button.active {
+            background: #10b981;
+            border-color: #10b981;
+            color: #fff;
+        }
+        
+        .pagination-dark button:hover:not(.active) {
+            background: #2563eb;
+            border-color: #2563eb;
+            color: #fff;
+        }
+
+        /* Dark mode pagination */
+        [data-bs-theme="dark"] .pagination-dark button {
+            background: #1e293b;
+            border: 1px solid #374151;
+            color: #f9fafb;
+        }
+        [data-bs-theme="dark"] .pagination-dark button.active {
+            background: #10b981;
+            border-color: #10b981;
+        }
+        
+        [data-bs-theme="dark"] .pagination-dark button:hover:not(.active) {
+            background: #2563eb;
+            border-color: #2563eb;
+        }
+        
+        /* Modal header styling - using project's primary color */
+        .modal-header {
+            background-color: #1ab394; /* Project's primary color */
+            color: white;
+            border-bottom: 1px solid #16987e;
+        }
+        
+        /* Modal title styling */
+        .modal-header .modal-title {
+            font-weight: 500;
+            color: white;
+        }
+        
+        /* Close button styling for modal headers */
+        .modal-header .btn-close {
+            filter: invert(1) grayscale(100%) brightness(200%);
+        }
+        
+        /* Modal footer styling - using a lighter shade */
+        .modal-footer {
+            background-color: #f0f8f8; /* Light teal background */
+            border-top: 1px solid #d1e8e8;
+        }
+        
+        /* Primary buttons in modals */
+        .modal-footer .btn-primary {
+            background-color: #1ab394;
+            border-color: #1ab394;
+        }
+        
+        .modal-footer .btn-primary:hover {
+            background-color: #16987e;
+            border-color: #16987e;
+        }
+        
+        /* Form styling */
+        .v-section {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid #e9ecef;
+        }
+        
+        [data-bs-theme="dark"] .v-section {
+            background: #1e1f27;
+            border-color: #293036;
+        }
+        
+        .v-cap {
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #495057;
+            font-size: 16px;
+        }
+        
+        [data-bs-theme="dark"] .v-cap {
+            color: #aab8c5;
+        }
+        
+        .v-label {
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 5px;
+            display: block;
+        }
+        
+        [data-bs-theme="dark"] .v-label {
+            color: #e5e7eb;
+        }
+        
+        /* Note highlight */
+        .note-highlight {
+            background-color: #fff9db;
+            border-left: 4px solid #ffd43b;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 0 4px 4px 0;
+            font-size: 13px;
+        }
+        
+        [data-bs-theme="dark"] .note-highlight {
+            background-color: #373016;
+            border-left: 4px solid #facc15;
+            color: #fef3c7;
+        }
+        
+        /* DataTables styling */
+        table.dataTable thead th {
+            border-bottom: 2px solid #dee2e6;
+        }
+        
+        table.dataTable tfoot th {
+            border-top: 2px solid #dee2e6;
+        }
+        
+        table.dataTable.no-footer {
+            border-bottom: 1px solid #dee2e6;
+        }
+        
+        [data-bs-theme="dark"] table.dataTable thead th {
+            border-bottom: 2px solid #374151;
+        }
+        
+        [data-bs-theme="dark"] table.dataTable tfoot th {
+            border-top: 2px solid #374151;
+        }
+        
+        [data-bs-theme="dark"] table.dataTable.no-footer {
+            border-bottom: 1px solid #374151;
+        }
+        
+        /* DataTables info and pagination */
+        .dataTables_info,
+        .dataTables_paginate {
+            margin-top: 15px !important;
+            padding-top: 0 !important;
+            display: block !important;
+        }
+        
+        /* Ensure DataTables info is visible and positioned correctly */
+        .dataTables_info {
+            clear: both;
+            float: right; /* Changed from left to right */
+            padding-top: 0.755em;
+            padding-bottom: 0.755em;
+            text-align: right; /* Added for proper text alignment */
+        }
+        
+        /* Ensure DataTables pagination is visible and positioned correctly */
+        .dataTables_paginate {
+            float: left; /* Changed from right to left */
+            text-align: left; /* Changed from right to left */
+            padding-top: 0.755em;
+            padding-bottom: 0.755em;
+        }
+        
+        /* Pagination buttons styling */
+        .paginate_button {
+            display: inline-block;
+            padding: 0.5rem 0.75rem;
+            margin-left: -1px;
+            line-height: 1.25;
+            color: #007bff;
+            background-color: #fff;
+            border: 1px solid #dee2e6;
+            cursor: pointer;
+        }
+        
+        .paginate_button.current {
+            z-index: 3;
+            color: #fff;
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+        
+        .paginate_button.disabled {
+            color: #6c757d;
+            pointer-events: none;
+            cursor: auto;
+            background-color: #fff;
+            border-color: #dee2e6;
+        }
+        
+        .paginate_button:hover:not(.disabled):not(.current) {
+            color: #0056b3;
+            background-color: #e9ecef;
+            border-color: #a7a7a7;
+        }
+        
+        /* Dark mode pagination */
+        [data-bs-theme="dark"] .paginate_button {
+            color: #93c5fd;
+            background-color: #1e293b;
+            border: 1px solid #374151;
+        }
+        
+        [data-bs-theme="dark"] .paginate_button.current {
+            background-color: #10b981;
+            border-color: #10b981;
+        }
+        
+        [data-bs-theme="dark"] .paginate_button.disabled {
+            color: #6b7280;
+            background-color: #1e293b;
+            border-color: #374151;
+        }
+        
+        [data-bs-theme="dark"] .paginate_button:hover:not(.disabled):not(.current) {
+            color: #ffffff;
+            background-color: #2563eb;
+            border-color: #2563eb;
+        }
+        
+        /* DataTables buttons container */
+        #datatables-buttons-container {
+            margin-bottom: 15px;
+            padding: 10px 0;
+        }
+        
+        #datatables-buttons-container .btn {
+            margin-right: 5px;
+            margin-bottom: 5px;
+        }
+        
+        /* Column visibility dropdown */
+        .dt-button-collection {
+            z-index: 9999 !important;
+        }
+        
+        .dt-button-collection .dropdown-item {
+            padding: 8px 15px;
+        }
+        
+        /* DataTables odd and even row styling */
+        table.dataTable tbody tr.odd,
+        table.dataTable.stripe tbody tr.odd {
+            background-color: #f8f9fa;
+        }
+        
+        [data-bs-theme="dark"] table.dataTable tbody tr.odd,
+        [data-bs-theme="dark"] table.dataTable.stripe tbody tr.odd {
+            background-color: #1a2234;
+        }
+        
+        table.dataTable tbody tr.even,
+        table.dataTable.stripe tbody tr.even {
+            background-color: #ffffff;
+        }
+        
+        [data-bs-theme="dark"] table.dataTable tbody tr.even,
+        [data-bs-theme="dark"] table.dataTable.stripe tbody tr.even {
+            background-color: #111827;
+        }
+        
+        table.dataTable tbody tr.odd:hover,
+        table.dataTable.stripe tbody tr.odd:hover,
+        table.dataTable tbody tr.even:hover,
+        table.dataTable.stripe tbody tr.even:hover {
+            background-color: #e9ecef !important;
+        }
+        
+        [data-bs-theme="dark"] table.dataTable tbody tr.odd:hover,
+        [data-bs-theme="dark"] table.dataTable.stripe tbody tr.odd:hover,
+        [data-bs-theme="dark"] table.dataTable tbody tr.even:hover,
+        [data-bs-theme="dark"] table.dataTable.stripe tbody tr.even:hover {
+            background-color: #1f2937 !important;
+        }
+        
+        table.dataTable.display tbody tr.odd > .sorting_1,
+        table.dataTable.order-column.stripe tbody tr.odd > .sorting_1 {
+            background-color: #f1f3f4;
+        }
+        
+        [data-bs-theme="dark"] table.dataTable.display tbody tr.odd > .sorting_1,
+        [data-bs-theme="dark"] table.dataTable.order-column.stripe tbody tr.odd > .sorting_1 {
+            background-color: #1a2234;
+        }
+        
+        table.dataTable.display tbody tr.even > .sorting_1,
+        table.dataTable.order-column.stripe tbody tr.even > .sorting_1 {
+            background-color: #f8f9fa;
+        }
+        
+        [data-bs-theme="dark"] table.dataTable.display tbody tr.even > .sorting_1,
+        [data-bs-theme="dark"] table.dataTable.order-column.stripe tbody tr.even > .sorting_1 {
+            background-color: #111827;
+        }
+        
+        /* DataTables selected row styling */
+        table.dataTable tbody tr.selected,
+        table.dataTable.display tbody tr.selected {
+            background-color: #e6f7ff !important;
+        }
+        
+        [data-bs-theme="dark"] table.dataTable tbody tr.selected,
+        [data-bs-theme="dark"] table.dataTable.display tbody tr.selected {
+            background-color: #1a2234 !important;
+        }
+        
+        table.dataTable tbody tr.selected > td,
+        table.dataTable.display tbody tr.selected > td {
+            background-color: inherit !important;
+        }
+        
+        table.dataTable.stripe tbody > tr.odd.selected,
+        table.dataTable.stripe tbody > tr.odd > .selected,
+        table.dataTable.display tbody > tr.odd.selected,
+        table.dataTable.display tbody > tr.odd > .selected,
+        table.dataTable.stripe tbody > tr.odd.selected > td,
+        table.dataTable.stripe tbody > tr.odd > .selected > td,
+        table.dataTable.display tbody > tr.odd.selected > td,
+        table.dataTable.display tbody > tr.odd > .selected > td {
+            background-color: #e6f7ff !important;
+        }
+        
+        [data-bs-theme="dark"] table.dataTable.stripe tbody > tr.odd.selected,
+        [data-bs-theme="dark"] table.dataTable.stripe tbody > tr.odd > .selected,
+        [data-bs-theme="dark"] table.dataTable.display tbody > tr.odd.selected,
+        [data-bs-theme="dark"] table.dataTable.display tbody > tr.odd > .selected,
+        [data-bs-theme="dark"] table.dataTable.stripe tbody > tr.odd.selected > td,
+        [data-bs-theme="dark"] table.dataTable.stripe tbody > tr.odd > .selected > td,
+        [data-bs-theme="dark"] table.dataTable.display tbody > tr.odd.selected > td,
+        [data-bs-theme="dark"] table.dataTable.display tbody > tr.odd > .selected > td {
+            background-color: #1a2234 !important;
+        }
+        
+        table.dataTable tbody > tr.even.selected,
+        table.dataTable tbody > tr.even > .selected,
+        table.dataTable.display tbody > tr.even.selected,
+        table.dataTable.display tbody > tr.even > .selected,
+        table.dataTable tbody > tr.even.selected > td,
+        table.dataTable tbody > tr.even > .selected > td,
+        table.dataTable.display tbody > tr.even.selected > td,
+        table.dataTable.display tbody > tr.even > .selected > td {
+            background-color: #ffffff !important;
+        }
+        
+        [data-bs-theme="dark"] table.dataTable tbody > tr.even.selected,
+        [data-bs-theme="dark"] table.dataTable tbody > tr.even > .selected,
+        [data-bs-theme="dark"] table.dataTable.display tbody > tr.even.selected,
+        [data-bs-theme="dark"] table.dataTable.display tbody > tr.even > .selected,
+        [data-bs-theme="dark"] table.dataTable tbody > tr.even.selected > td,
+        [data-bs-theme="dark"] table.dataTable tbody > tr.even > .selected > td,
+        [data-bs-theme="dark"] table.dataTable.display tbody > tr.even.selected > td,
+        [data-bs-theme="dark"] table.dataTable.display tbody > tr.even > .selected > td {
+            background-color: #111827 !important;
+        }
+        
+        /* DataTables focus and hover effects */
+        table.dataTable thead th,
+        table.dataTable thead td,
+        table.dataTable tbody td,
+        table.dataTable tbody th {
+            outline: none !important;
+            box-shadow: none !important;
+        }
+        
+        table.dataTable thead th:focus,
+        table.dataTable thead td:focus,
+        table.dataTable thead th:active,
+        table.dataTable thead td:active,
+        table.dataTable tbody td:focus,
+        table.dataTable tbody th:focus,
+        table.dataTable tbody td:active,
+        table.dataTable tbody th:active {
+            outline: none !important;
+            box-shadow: none !important;
+            background-color: inherit !important;
+        }
+        
+        /* DataTables sorting arrows */
+        table.dataTable thead .sorting,
+        table.dataTable thead .sorting_asc,
+        table.dataTable thead .sorting_desc,
+        table.dataTable thead .sorting_asc_disabled,
+        table.dataTable thead .sorting_desc_disabled {
+            outline: none !important;
+            box-shadow: none !important;
+        }
+        
+        /* DataTables selection background */
+        table.dataTable tbody tr:hover,
+        table.dataTable tbody tr:hover td {
+            background-color: inherit !important;
+        }
+        
+        /* Custom hover */
+        .table-dark-card tbody tr:hover {
+            background: #f3f4f6 !important;
+        }
+        
+        [data-bs-theme="dark"] .table-dark-card tbody tr:hover {
+            background: #1f2937 !important;
+        }
+        
+        /* Calendar z-index fix */
+        .flatpickr-calendar {
+            z-index: 200000 !important;
+        }
+        
+        /* Disabled top action buttons */
+        .btn-outline-primary.disabled,
+        .btn-outline-info.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        /* CKEditor validation */
+        .ck-editor.is-invalid .ck-editor__editable {
+            border-color: #e02d2d !important;
+            box-shadow: 0 0 0 0.2rem rgba(224, 45, 45, 0.25) !important;
+        }
+        
+        /* Fix modal scrolling */
+        .modal-dialog-scrollable .modal-content {
+            max-height: calc(100vh - 2rem);
+        }
+        
+        .modal-dialog-scrollable .modal-body,
+        .modal-body {
+            max-height: 75vh;
+            overflow-y: auto;
+        }
+        
+        /* Ensure all form elements are visible within modal */
+        .modal-body .mb-3 {
+            margin-bottom: 1.5rem;
+        }
+        
+        /* Fix for icon picker overflow */
+        .icon-picker {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        /* Ensure color pickers are visible */
+        .form-control-color {
+            height: 40px;
+            padding: 5px;
+        }
+        
+        /* Ensure the file input section is visible */
+        .mb-3.mt-3 {
+            margin-bottom: 1rem !important;
+            margin-top: 1rem !important;
+        }
+        
+        /* تكبير النصوص داخل النافذة المنبثقة */
+        .modal-content {
+            font-size: 16px; /* حجم الخط الأساسي */
+            line-height: 1.8; /* تباعد الأسطر لسهولة القراءة */
+        }
+
+        /* العناوين */
+        .modal-header .modal-title {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        /* النصوص المساعدة الصغيرة */
+        .modal-body small,
+        .modal-body .form-text {
+            font-size: 14px;
+            color: #555; /* لون أقوى */
+        }
+
+        /* الحقول */
+        .modal-body .form-control,
+        .modal-body .form-select {
+            font-size: 16px;
+            padding: 10px 12px;
+        }
+
+        /* التكبير داخل Textarea */
+        .modal-body textarea {
+            font-size: 16px;
+            padding: 12px;
+        }
+
+        /* زر الحفظ والإغلاق */
+        .modal-footer .btn {
+            font-size: 15px;
+            padding: 8px 20px;
+        }
+        
+        /* Image preview enhancement */
+        #cardsTable td img:hover {
+            transform: scale(2);
+            transition: transform 0.2s;
+            z-index: 1000;
+            position: relative;
+        }
+        
+        /* Modal section styling */
+        .modal-section {
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+        }
+        
+        [data-bs-theme="dark"] .modal-section {
+            background-color: #1e1f27;
+            border: 1px solid #293036;
+        }
+        
+        .modal-section-title {
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #495057;
+            font-size: 16px;
+            border-bottom: 1px solid #dee2e6;
+            padding-bottom: 8px;
+        }
+        
+        [data-bs-theme="dark"] .modal-section-title {
+            color: #aab8c5;
+            border-bottom: 1px solid #374151;
+        }
+        
+        .modal-section-title {
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #495057;
+            font-size: 18px;
+            border-bottom: 1px solid #dee2e6;
+            padding-bottom: 8px;
+        }
+        
+        [data-bs-theme="dark"] .modal-section-title {
+            color: #aab8c5;
+            border-bottom: 1px solid #374151;
+        }
+        
+        .v-label {
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 5px;
+            display: block;
+        }
+        
+        [data-bs-theme="dark"] .v-label {
+            color: #e5e7eb;
+        }
+        
+        /* Checkbox column styling */
+        .form-check {
+            display: inline-block;
+            margin-bottom: 0;
+        }
+        
+        .form-check-input {
+            margin-top: 0.3rem;
+        }
+        
+        /* Larger modal for better viewing */
+        .modal-xl {
+            max-width: 80%;
+        }
+    </style>
+}
+
+<!-- Filter toggle button -->
+<div class="mb-2">
+    <button id="toggleFilters" type="button" class="btn btn-primary">
+        <i class="ti ti-filter-off me-1"></i><span id="toggleFiltersText">إظهار الفلترة</span>
+    </button>
+</div>
+
+<!-- Filter section -->
+<div class="card mb-3" id="filterSection" style="display: none;">
+    <div class="card-body p-2">
+        <!-- DataTables Buttons Container -->
+        <div class="row g-2 mb-2">
+            <div class="col-12" id="datatables-buttons-container">
+                <!-- DataTables buttons will be inserted here by JavaScript -->
+            </div>
+        </div>
+        
+        <!-- Filter fields in grid layout (side by side) -->
+        <div class="row g-2 mb-2">
+            <div class="col-md">
+                <input type="text" class="form-control form-control-sm" placeholder="الرقم" id="filter-number">
+            </div>
+            <div class="col-md">
+                <input type="text" class="form-control form-control-sm" placeholder="اسم الدخول" id="filter-login-name">
+            </div>
+            <div class="col-md">
+                <input type="text" class="form-control form-control-sm" placeholder="كلمة المرور" id="filter-password">
+            </div>
+            <div class="col-md">
+                <input type="text" class="form-control form-control-sm" placeholder="رقم السيريال" id="filter-serial">
+            </div>
+        </div>
+        <div class="row g-2 mb-2">
+            <div class="col-md">
+                <select class="selectpicker form-control form-control-sm" id="filter-in-card" data-live-search="true" title="فية الكرت">
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                </select>
+            </div>
+            <div class="col-md">
+                <input type="text" class="form-control form-control-sm" placeholder="سعر الكرت" id="filter-card-price">
+            </div>
+            <div class="col-md">
+                <select class="selectpicker form-control form-control-sm" id="filter-wifi-network" data-live-search="true" title="شبكة الواي فاي">
+                    <option value="Network A">Network A</option>
+                    <option value="Network B">Network B</option>
+                    <option value="Network C">Network C</option>
+                </select>
+            </div>
+            <div class="col-md">
+                <select class="selectpicker form-control form-control-sm" id="filter-status" data-live-search="true" title="الحالة">
+                    <option value="Active">Active</option>
+                    <option value="Inactive">Inactive</option>
+                </select>
+            </div>
+        </div>
+        
+        <!-- Unified action buttons -->
+        <div class="row g-2">
+            <div class="col">
+                <button type="button" class="btn btn-secondary btn-sm" id="resetFilters">إعادة تعيين</button>
+                <button type="button" class="btn btn-primary btn-sm" id="applyFilters">بحث</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Action buttons -->
+<div class="mb-3">
+    <div class="d-flex gap-2 flex-wrap">
+        <a href="#" class="btn btn-sm btn-outline-danger" title="حذف">
+            <i class="fa fa-trash"></i>
+        </a>
+        <!-- زر لفتح النافذة -->
+        <button type="button" class="btn btn-sm btn-outline-success" title="إضافة" data-bs-toggle="modal" data-bs-target="#addCardModal">
+            <i class="fa fa-plus"></i>
+        </button>
+        <a href="#" class="btn btn-sm btn-outline-primary" title="تعديل" id="topEditButton">
+            <i class="fa fa-pencil"></i>
+        </a>
+        <a href="#" class="btn btn-sm btn-outline-info" title="مشاهدة" id="topViewButton">
+            <i class="fa fa-eye"></i>
+        </a>
+        <button id="refreshBtn" class="btn btn-sm btn-outline-secondary">
+            <i class="fa fa-refresh"></i>
+        </button>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <div class="d-flex align-items-center">
+            <h5 class="card-title mb-0 fw-bold">@ViewData["Title"]</h5>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table id="cardsTable" class="table table-striped table-bordered dt-responsive nowrap w-100">
+                <thead>
+                    <tr>
+                        <th class="text-center" width="40px">
+                            <div class="form-check"><input type="checkbox" class="form-check-input" id="selectAll"></div>
+                        </th>
+                        <th>الرقم</th>
+                        <th>اسم الدخول</th>
+                        <th>كلمة المرور</th>
+                        <th>رقم السيريال</th>
+                        <th>فية الكرت</th>
+                        <th>سعر الكرت</th>
+                        <th>شبكة الواي فاي</th>
+                        <th>الحالة</th>
+                        <th style="width: 100px; text-align: center;">المزيد</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="text-center">
+                            <div class="form-check"><input type="checkbox" class="form-check-input card-checkbox" value="1"></div>
+                        </td>
+                        <td>1</td>
+                        <td>user1</td>
+                        <td>pass123</td>
+                        <td>SN001</td>
+                        <td>Yes</td>
+                        <td>5000</td>
+                        <td>Network A</td>
+                        <td>Active</td>
+                        <td style="text-align: center;">
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    للمزيد
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="#" data-action="view"><i class="fa fa-eye me-1"></i> مشاهدة</a></li>
+                                    <li><a class="dropdown-item" href="#" data-action="edit"><i class="fa fa-pencil me-1"></i> تعديل</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">
+                            <div class="form-check"><input type="checkbox" class="form-check-input card-checkbox" value="2"></div>
+                        </td>
+                        <td>2</td>
+                        <td>user2</td>
+                        <td>pass456</td>
+                        <td>SN002</td>
+                        <td>No</td>
+                        <td>7500</td>
+                        <td>Network B</td>
+                        <td>Inactive</td>
+                        <td style="text-align: center;">
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    للمزيد
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="#" data-action="view"><i class="fa fa-eye me-1"></i> مشاهدة</a></li>
+                                    <li><a class="dropdown-item" href="#" data-action="edit"><i class="fa fa-pencil me-1"></i> تعديل</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">
+                            <div class="form-check"><input type="checkbox" class="form-check-input card-checkbox" value="3"></div>
+                        </td>
+                        <td>3</td>
+                        <td>user3</td>
+                        <td>pass789</td>
+                        <td>SN003</td>
+                        <td>Yes</td>
+                        <td>10000</td>
+                        <td>Network C</td>
+                        <td>Active</td>
+                        <td style="text-align: center;">
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    للمزيد
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="#" data-action="view"><i class="fa fa-eye me-1"></i> مشاهدة</a></li>
+                                    <li><a class="dropdown-item" href="#" data-action="edit"><i class="fa fa-pencil me-1"></i> تعديل</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Add Card Modal -->
+<div class="modal fade" id="addCardModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-scrollable">
+    <div class="modal-content" dir="rtl">
+
+      <!-- الهيدر -->
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title">قسم الوايرلس &gt; كروت Wifi</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="إغلاق"></button>
+      </div>
+
+      <!-- النموذج -->
+      <div class="modal-body">
+        <div class="wrapper-layout">
+          <div class="shapka-layout">
+            <span id="spantitshapka" style="float:right; font-weight: bold;">
+              قسم الوايرلس > كروت Wifi
+            </span>
+            <span class="closelayout" onclick="table.closelayout()"> اغلاق </span>
+          </div>
+          <div class="form">
+            <iframe name="upload_iframe" id="upload_iframe" style="display:none;"></iframe>
+            <form action="" method="post" id="formadd" name="formadd" enctype="multipart/form-data">
+              <div class="v-section">
+                <div class="v-cap">معلومات الدخول</div>
+                <label class="v-label"> اسم الدخول<span class="msr">*</span></label>
+                <div class="form-group mb-3">
+                  <div class="col-m-12">
+                    <input type="text" value="" name="username" class="form-control txtinput txt-r tmw">
+                  </div>
+                </div>
+                <label class="v-label">كلمة المرور<span class="msr">*</span></label>
+                <div class="form-group mb-3">
+                  <div class="col-m-12">
+                    <input type="text" value="" name="pass" class="form-control txtinput txt-r tmw">
+                  </div>
+                </div>
+              </div>
+              
+              <div class="v-section">
+                <div class="v-cap">معلومات الشبكة</div>
+                <label class="v-label">اختر شبكة الواي فاي <span class="msr">*</span></label>
+                <div class="form-group mb-3">
+                  <div class="col-m-12">
+                    <select name="network" id="unit" onchange="showWifiUnits(this.value)" class="selectpicker form-control" data-live-search="true">
+                      <option value=""> شبكات الواي فاي</option>
+                      <option value="94">الاميز تيليكوم</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group mb-3">
+                  <div class="col-m-12" id="divunits">
+                  </div>
+                </div>
+                <label class="v-label">رقم السيريال<span class="msr">*</span></label>
+                <div class="form-group mb-3">
+                  <div class="col-m-12">
+                    <input type="text" value="" name="serialno" class="form-control txtinput txt-r tmw">
+                  </div>
+                </div>
+              </div>
+              
+              <div class="v-section">
+                <div class="v-cap">تحميل الكروت</div>
+                <label class="v-label">اختر ملف csv فقط!<span class="msr">*</span></label>
+                <div class="form-group mb-3">
+                  <div class="col-m-12">
+                    <input type="file" id="filecsv" name="filecsv" class="form-control">
+                  </div>
+                </div>
+                <label class="v-label">او الصق ارقام الكروت هنا. يجب ان يكون كل رقم كرت في سطر<span class="msr">*</span></label>
+                <div id="numcw" style="font-weight: bold; color: red; margin-bottom: 10px;"></div>
+                <div class="form-group mb-3">
+                  <div class="col-m-12">
+                    <textarea id="textcards" onkeyup="colnumwc(this.value)" onchange="colnumwc(this.value)" name="textcards" class="form-control" style="height:150px;"></textarea>
+                  </div>
+                </div>
+              </div>
+              
+              <input type="hidden" name="idget" value="">
+              <div class="col-m-12">
+                <input type="submit" value="حفظ" id="btnadd" name="btnadd" class="btn btn-primary" onclick="return table.add_form('addwificard');">
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Card Modal -->
+<div class="modal fade" id="editCardModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-scrollable">
+    <div class="modal-content" dir="rtl">
+
+      <!-- الهيدر -->
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title">قسم الوايرلس &gt; كروت Wifi</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="إغلاق"></button>
+      </div>
+
+      <!-- النموذج -->
+      <div class="modal-body">
+        <div class="wrapper-layout">
+          <div class="shapka-layout">
+            <span id="spantitshapka" style="float:right; font-weight: bold;">
+              قسم الوايرلس > كروت Wifi
+            </span>
+            <span class="closelayout" onclick="table.closelayout()"> اغلاق </span>
+          </div>
+          <div class="form">
+            <iframe name="upload_iframe" id="upload_iframe" style="display:none;"></iframe>
+            <form action="" method="post" id="formadd" name="formadd" enctype="multipart/form-data">
+              <div class="v-section">
+                <div class="v-cap">معلومات الدخول</div>
+                <label class="v-label"> اسم الدخول<span class="msr">*</span></label>
+                <div class="form-group mb-3">
+                  <div class="col-m-12">
+                    <input type="text" value="" name="username" class="form-control txtinput txt-r tmw">
+                  </div>
+                </div>
+                <label class="v-label">كلمة المرور<span class="msr">*</span></label>
+                <div class="form-group mb-3">
+                  <div class="col-m-12">
+                    <input type="text" value="" name="pass" class="form-control txtinput txt-r tmw">
+                  </div>
+                </div>
+              </div>
+              
+              <div class="v-section">
+                <div class="v-cap">معلومات الشبكة</div>
+                <label class="v-label">اختر شبكة الواي فاي <span class="msr">*</span></label>
+                <div class="form-group mb-3">
+                  <div class="col-m-12">
+                    <select name="network" id="unit" onchange="showWifiUnits(this.value)" class="selectpicker form-control" data-live-search="true">
+                      <option value=""> شبكات الواي فاي</option>
+                      <option value="94">الاميز تيليكوم</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group mb-3">
+                  <div class="col-m-12" id="divunits">
+                  </div>
+                </div>
+                <label class="v-label">رقم السيريال<span class="msr">*</span></label>
+                <div class="form-group mb-3">
+                  <div class="col-m-12">
+                    <input type="text" value="" name="serialno" class="form-control txtinput txt-r tmw">
+                  </div>
+                </div>
+              </div>
+              
+              <div class="v-section">
+                <div class="v-cap">تحميل الكروت</div>
+                <label class="v-label">اختر ملف csv فقط!<span class="msr">*</span></label>
+                <div class="form-group mb-3">
+                  <div class="col-m-12">
+                    <input type="file" id="filecsv" name="filecsv" class="form-control">
+                  </div>
+                </div>
+                <label class="v-label">او الصق ارقام الكروت هنا. يجب ان يكون كل رقم كرت في سطر<span class="msr">*</span></label>
+                <div id="numcw" style="font-weight: bold; color: red; margin-bottom: 10px;"></div>
+                <div class="form-group mb-3">
+                  <div class="col-m-12">
+                    <textarea id="textcards" onkeyup="colnumwc(this.value)" onchange="colnumwc(this.value)" name="textcards" class="form-control" style="height:150px;"></textarea>
+                  </div>
+                </div>
+              </div>
+              
+              <input type="hidden" name="idget" value="">
+              <div class="col-m-12">
+                <input type="submit" value="حفظ" id="btnadd" name="btnadd" class="btn btn-primary" onclick="return table.add_form('addwificard');">
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- View Card Modal -->
+<div class="modal fade" id="viewCardModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-scrollable">
+    <div class="modal-content" dir="rtl">
+
+      <!-- الهيدر -->
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title">قسم الوايرلس &gt; كروت Wifi</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="إغلاق"></button>
+      </div>
+
+      <!-- النموذج -->
+      <div class="modal-body">
+        <div class="wrapper-layout">
+          <div class="shapka-layout">
+            <span id="spantitshapka" style="float:right; font-weight: bold;">
+              قسم الوايرلس > كروت Wifi
+            </span>
+            <span class="closelayout" onclick="table.closelayout()"> اغلاق </span>
+          </div>
+          <div class="form">
+            <div class="v-section">
+              <div class="v-cap">معلومات الدخول</div>
+              <label class="v-label"> اسم الدخول<span class="msr">*</span></label>
+              <div class="form-group mb-3">
+                <div class="col-m-12">
+                  <input type="text" value="" name="username" class="form-control txtinput txt-r tmw" readonly>
+                </div>
+              </div>
+              <label class="v-label">كلمة المرور<span class="msr">*</span></label>
+              <div class="form-group mb-3">
+                <div class="col-m-12">
+                  <input type="text" value="" name="pass" class="form-control txtinput txt-r tmw" readonly>
+                </div>
+              </div>
+            </div>
+            
+            <div class="v-section">
+              <div class="v-cap">معلومات الشبكة</div>
+              <label class="v-label">اختر شبكة الواي فاي <span class="msr">*</span></label>
+              <div class="form-group mb-3">
+                <div class="col-m-12">
+                  <select name="network" id="unit" class="selectpicker form-control" data-live-search="true" disabled>
+                    <option value=""> شبكات الواي فاي</option>
+                    <option value="94">الاميز تيليكوم</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group mb-3">
+                <div class="col-m-12" id="divunits">
+                </div>
+              </div>
+              <label class="v-label">رقم السيريال<span class="msr">*</span></label>
+              <div class="form-group mb-3">
+                <div class="col-m-12">
+                  <input type="text" value="" name="serialno" class="form-control txtinput txt-r tmw" readonly>
+                </div>
+              </div>
+            </div>
+            
+            <div class="col-m-12">
+              <input type="button" value="اغلاق" class="btn btn-secondary" data-bs-dismiss="modal">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+@section scripts {
+    <!-- jstree js -->
+    <!-- date range picker js -->
+    <script src="~/plugins/daterangepicker/moment.min.js"></script>
+    <script src="~/plugins/daterangepicker/daterangepicker.js"></script>
+    <!-- datatables js -->
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.5.0/js/responsive.bootstrap5.min.js"></script>
+    <!-- datatables buttons js -->
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.bootstrap5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.colVis.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
+    <!-- bootstrap-select js -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/js/bootstrap-select.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/js/i18n/defaults-ar_AR.min.js"></script>
+    
+    <script>
+        $(document).ready(function() {
+            // Set Bootstrap version for selectpicker
+            $.fn.selectpicker.Constructor.BootstrapVersion = '5';
+            
+            // Initialize DataTable with local Arabic translations instead of external file
+            var table = $('#cardsTable').DataTable({
+                responsive: true,
+                pageLength: 10,
+                dom: 'Bfrtpi', // Changed from 'Bfrtip' to move info (i) after pagination (p)
+                language: {
+                    "sEmptyTable":     "لا توجد بيانات",
+                    "sInfo":           "إظهار _START_ إلى _END_ من _TOTAL_ سجل",
+                    "sInfoEmpty":      "إظهار 0 إلى 0 من 0 سجل",
+                    "sInfoFiltered":   "(مفلتر من _MAX_ سجل)",
+                    "sInfoPostFix":    "",
+                    "sInfoThousands":  ",",
+                    "sLengthMenu":     "أظهر _MENU_ سجل",
+                    "sLoadingRecords": "جارٍ التحميل...",
+                    "sProcessing":     "جارٍ التحميل...",
+                    "sSearch":         "ابحث:",
+                    "sZeroRecords":    "لم يعثر على أية سجلات",
+                    "oPaginate": {
+                        "sFirst":    "الأولى",
+                        "sLast":     "الأخيرة",
+                        "sNext":     "التالي",
+                        "sPrevious": "السابق"
+                    },
+                    "oAria": {
+                        "sSortAscending":  ": تفعيل لترتيب العمود تصاعدياً",
+                        "sSortDescending": ": تفعيل لترتيب العمود تنازلياً"
+                    },
+                    "buttons": {
+                        "colvis": 'تحديد الحقول',
+                        "print": 'طباعه',
+                        "excel": 'تصدير اكسل'
+                    }
+                },
+                buttons: [
+                    {
+                        extend: 'print',
+                        text: 'طباعه',
+                        className: 'btn btn-outline-secondary btn-sm',
+                        exportOptions: {
+                            columns: ':visible'
+                        }
+                    },
+                    {
+                        extend: 'colvis',
+                        text: 'تحديد الحقول',
+                        className: 'btn btn-outline-secondary btn-sm',
+                        collectionLayout: 'fixed two-column',
+                        postfixButtons: ['colvisRestore']
+                    },
+                    {
+                        extend: 'excelHtml5',
+                        text: 'تصدير اكسل',
+                        className: 'btn btn-outline-secondary btn-sm',
+                        exportOptions: {
+                            columns: ':visible'
+                        }
+                    }
+                ]
+            });
+            
+            // Move buttons to filter section
+            table.buttons().container().appendTo('#datatables-buttons-container');
+            
+            // Show the filter section buttons container
+            $('#datatables-buttons-container').show();
+            
+            // Toggle filter section
+            $('#toggleFilters').click(function() {
+                $('#filterSection').slideToggle();
+                var icon = $(this).find('i');
+                var text = $('#toggleFiltersText');
+                if (icon.hasClass('ti-filter-off')) {
+                    icon.removeClass('ti-filter-off').addClass('ti-filter');
+                    text.text('إخفاء الفلترة');
+                } else {
+                    icon.removeClass('ti-filter').addClass('ti-filter-off');
+                    text.text('إظهار الفلترة');
+                }
+            });
+            
+            // Refresh button
+            $('#refreshBtn').click(function() {
+                location.reload();
+            });
+            
+            // Initialize bootstrap select
+            $('.selectpicker').selectpicker();
+            
+            // Initialize selectpickers in modals when they are shown
+            $('#addCardModal, #editCardModal').on('shown.bs.modal', function () {
+                $('.selectpicker', this).selectpicker('render');
+            });
+            
+            // Select all functionality
+            $('#selectAll').on('change', function() {
+                $('.card-checkbox').prop('checked', $(this).prop('checked'));
+            });
+            
+            // Individual checkbox functionality
+            $('.card-checkbox').on('change', function() {
+                if (!$(this).prop('checked')) {
+                    $('#selectAll').prop('checked', false);
+                } else {
+                    if ($('.card-checkbox:checked').length === $('.card-checkbox').length) {
+                        $('#selectAll').prop('checked', true);
+                    }
+                }
+            });
+            
+            // Handle action buttons
+            $('#topEditButton').click(function(e) {
+                e.preventDefault();
+                var checkedBoxes = $('.card-checkbox:checked');
+                if (checkedBoxes.length === 0) {
+                    alert('الرجاء تحديد كارت واحد على الأقل للتعديل');
+                    return;
+                }
+                
+                // For now, we'll just edit the first selected item
+                var firstChecked = checkedBoxes.first();
+                var row = firstChecked.closest('tr');
+                if (row.hasClass('child')) {
+                    row = row.prev();
+                }
+                
+                // Get row data
+                var cardId = firstChecked.val();
+                var loginName = row.find('td:eq(1)').text();
+                var password = row.find('td:eq(2)').text();
+                var serialNumber = row.find('td:eq(3)').text();
+                var inCard = row.find('td:eq(4)').text();
+                var cardPrice = row.find('td:eq(5)').text();
+                var wifiNetwork = row.find('td:eq(6)').text();
+                var status = row.find('td:eq(7)').text();
+                
+                // Populate edit modal
+                $('#editCardModal input[name="loginName"]').val(loginName);
+                $('#editCardModal input[name="password"]').val(password);
+                $('#editCardModal input[name="serialNumber"]').val(serialNumber);
+                $('#editCardModal select[name="inCard"]').selectpicker('val', inCard);
+                $('#editCardModal input[name="cardPrice"]').val(cardPrice);
+                $('#editCardModal select[name="wifiNetwork"]').selectpicker('val', wifiNetwork);
+                $('#editCardModal select[name="status"]').selectpicker('val', status);
+                $('#editCardModal input[name="idget"]').val(cardId);
+                
+                // Show edit modal
+                $('#editCardModal').modal('show');
+            });
+            
+            $('#topViewButton').click(function(e) {
+                e.preventDefault();
+                var checkedBoxes = $('.card-checkbox:checked');
+                if (checkedBoxes.length === 0) {
+                    alert('الرجاء تحديد كارت واحد على الأقل للمشاهدة');
+                    return;
+                }
+                
+                // For now, we'll just view the first selected item
+                var firstChecked = checkedBoxes.first();
+                var row = firstChecked.closest('tr');
+                if (row.hasClass('child')) {
+                    row = row.prev();
+                }
+                
+                // Get row data
+                var cardId = row.find('td:eq(0)').text();
+                var loginName = row.find('td:eq(1)').text();
+                var password = row.find('td:eq(2)').text();
+                var serialNumber = row.find('td:eq(3)').text();
+                var inCard = row.find('td:eq(4)').text();
+                var cardPrice = row.find('td:eq(5)').text();
+                var wifiNetwork = row.find('td:eq(6)').text();
+                var status = row.find('td:eq(7)').text();
+                
+                // Populate view modal
+                $('#viewCardModal input[name="loginName"]').val(loginName);
+                $('#viewCardModal input[name="password"]').val(password);
+                $('#viewCardModal input[name="serialNumber"]').val(serialNumber);
+                $('#viewCardModal select[name="inCard"]').selectpicker('val', inCard);
+                $('#viewCardModal input[name="cardPrice"]').val(cardPrice);
+                $('#viewCardModal select[name="wifiNetwork"]').selectpicker('val', wifiNetwork);
+                $('#viewCardModal select[name="status"]').selectpicker('val', status);
+                
+                // Show view modal
+                $('#viewCardModal').modal('show');
+            });
+            
+            // Handle dropdown actions
+            $('#cardsTable').on('click', '[data-action="edit"]', function(e) {
+                e.preventDefault();
+                var row = $(this).closest('tr');
+                if (row.hasClass('child')) {
+                    row = row.prev();
+                }
+                
+                // Get row data
+                var cardId = row.find('.card-checkbox').val();
+                var loginName = row.find('td:eq(1)').text();
+                var password = row.find('td:eq(2)').text();
+                var serialNumber = row.find('td:eq(3)').text();
+                var inCard = row.find('td:eq(4)').text();
+                var cardPrice = row.find('td:eq(5)').text();
+                var wifiNetwork = row.find('td:eq(6)').text();
+                var status = row.find('td:eq(7)').text();
+                
+                // Populate edit modal
+                $('#editCardModal input[name="loginName"]').val(loginName);
+                $('#editCardModal input[name="password"]').val(password);
+                $('#editCardModal input[name="serialNumber"]').val(serialNumber);
+                $('#editCardModal select[name="inCard"]').selectpicker('val', inCard);
+                $('#editCardModal input[name="cardPrice"]').val(cardPrice);
+                $('#editCardModal select[name="wifiNetwork"]').selectpicker('val', wifiNetwork);
+                $('#editCardModal select[name="status"]').selectpicker('val', status);
+                $('#editCardModal input[name="idget"]').val(cardId);
+                
+                // Show edit modal
+                $('#editCardModal').modal('show');
+            });
+            
+            $('#cardsTable').on('click', '[data-action="view"]', function(e) {
+                e.preventDefault();
+                var row = $(this).closest('tr');
+                if (row.hasClass('child')) {
+                    row = row.prev();
+                }
+                
+                // Get row data
+                var cardId = row.find('td:eq(0)').text();
+                var loginName = row.find('td:eq(1)').text();
+                var password = row.find('td:eq(2)').text();
+                var serialNumber = row.find('td:eq(3)').text();
+                var inCard = row.find('td:eq(4)').text();
+                var cardPrice = row.find('td:eq(5)').text();
+                var wifiNetwork = row.find('td:eq(6)').text();
+                var status = row.find('td:eq(7)').text();
+                
+                // Populate view modal
+                $('#viewCardModal input[name="loginName"]').val(loginName);
+                $('#viewCardModal input[name="password"]').val(password);
+                $('#viewCardModal input[name="serialNumber"]').val(serialNumber);
+                $('#viewCardModal select[name="inCard"]').selectpicker('val', inCard);
+                $('#viewCardModal input[name="cardPrice"]').val(cardPrice);
+                $('#viewCardModal select[name="wifiNetwork"]').selectpicker('val', wifiNetwork);
+                $('#viewCardModal select[name="status"]').selectpicker('val', status);
+                
+                // Show view modal
+                $('#viewCardModal').modal('show');
+            });
+            
+            // Handle form submissions
+            $('#formadd').on('submit', function(e) {
+                e.preventDefault();
+                
+                // Get form data
+                var username = $('#addCardModal input[name="username"]').val();
+                var pass = $('#addCardModal input[name="pass"]').val();
+                var network = $('#addCardModal select[name="network"]').val();
+                var serialno = $('#addCardModal input[name="serialno"]').val();
+                
+                // In a real application, you would submit the form data via AJAX
+                alert('تم إضافة الكارت بنجاح!');
+                $('#addCardModal').modal('hide');
+                this.reset();
+                $('#addCardModal select[name="network"]').selectpicker('val', '');
+            });
+            
+            // Handle reset filters button
+            $('#resetFilters').on('click', function() {
+                // Reset all filter input fields
+                $('#filter-number').val('');
+                $('#filter-login-name').val('');
+                $('#filter-password').val('');
+                $('#filter-serial').val('');
+                $('#filter-in-card').selectpicker('val', '');
+                $('#filter-card-price').val('');
+                $('#filter-wifi-network').selectpicker('val', '');
+                $('#filter-status').selectpicker('val', '');
+                $('.selectpicker').selectpicker('refresh');
+                alert('تم إعادة تعيين الفلاتر');
+            });
+            
+            // Handle apply filters button (you can implement actual filtering logic here)
+            $('#applyFilters').on('click', function() {
+                alert('تم تطبيق الفلاتر');
+                // In a real application, you would filter the DataTable here
+            });
+        });
+    </script>
+}

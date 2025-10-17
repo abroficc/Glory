@@ -1,0 +1,1729 @@
+@{
+    ViewData["Title"] = "التغذية عبر الشبكات";
+    ViewData["Direction"] = "rtl";
+    Layout = "_VerticalLayout";
+}
+
+@section styles
+{
+    <!-- date range picker css -->
+    <link href="~/plugins/daterangepicker/daterangepicker.css" rel="stylesheet" type="text/css">
+    <!-- flatpickr css -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/material_blue.css">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600&display=swap" rel="stylesheet">
+
+    <!-- UI Polish CSS -->
+    <link href="~/css/ui-polish.css" rel="stylesheet" type="text/css">
+    
+    <!-- Voucher Modal CSS -->
+    <link href="~/css/voucher-modal.css" rel="stylesheet" type="text/css">
+
+    <style>
+        body[dir="rtl"] * {
+            font-family: "Cairo", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+        }
+        
+        /* Increase modal size */
+        .modal-dialog.modal-xl {
+            max-width: 1400px !important;
+        }
+        
+        /* For even larger modals on bigger screens */
+        @@media (min-width: 1400px) {
+            .modal-dialog.modal-xl {
+                max-width: 1600px !important;
+            }
+        }
+        
+        /* تعديل الجدول لإزالة المسافة بين الرأس والمحتوى */
+        .table-bordered thead th {
+            border-bottom-width: 1px;
+        }
+        
+        .table-bordered tbody tr:first-child td {
+            border-top: none;
+        }
+        
+        .table {
+            margin-bottom: 0;
+        }
+        
+        /* Select all checkboxes styling */
+        .form-check-input:checked {
+            background-color: #1ab394;
+            border-color: #1ab394;
+        }
+        
+        /* Alert styling for better visibility */
+        .alert-warning {
+            background-color: #fff3cd;
+            border-color: #ffeaa7;
+            color: #856404;
+        }
+        
+        .alert-danger {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+        
+        /* Dark mode alert adjustments */
+        [data-bs-theme="dark"] .alert-warning {
+            background-color: #664d03;
+            border-color: #7d5f04;
+            color: #ffecb5;
+        }
+        
+        [data-bs-theme="dark"] .alert-danger {
+            background-color: #721c24;
+            border-color: #842029;
+            color: #f8d7da;
+        }
+        
+        /* Calendar icon positioning */
+        .date-input-wrapper {
+            position: relative;
+            width: 100%;
+        }
+        
+        .calendar-icon {
+            position: absolute;
+            left: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+            z-index: 2;
+            color: #6b7280;
+        }
+        
+        [data-bs-theme="dark"] .calendar-icon {
+            color: #9ca3af;
+        }
+        
+        /* اجعل التقويم فوق المودال */
+        .flatpickr-calendar { z-index: 200000 !important; }
+        
+        /* Popup menu card styles */
+        #popupMenuModal .card {
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            border: 1px solid rgba(0, 0, 0, 0.125);
+        }
+        
+        #popupMenuModal .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+        }
+        
+        #popupMenuModal .card i {
+            font-size: 2rem;
+        }
+        
+        #popupMenuModal .card .btn {
+            transition: all 0.2s ease-in-out;
+        }
+        
+        #popupMenuModal .card .btn:hover {
+            transform: scale(1.05);
+        }
+        
+        /* Modal header styling - using project's primary color */
+        .modal-header {
+            background-color: #1ab394; /* Project's primary color */
+            color: white;
+            border-bottom: 1px solid #16987e;
+        }
+        
+        /* Modal title styling */
+        .modal-header .modal-title {
+            font-weight: 500;
+            color: white;
+        }
+        
+        /* Close button styling for modal headers */
+        .modal-header .btn-close {
+            filter: invert(1) grayscale(100%) brightness(200%);
+        }
+        
+        /* Modal footer styling - using a lighter shade */
+        .modal-footer {
+            background-color: #f0f8f8; /* Light teal background */
+            border-top: 1px solid #d1e8e8;
+        }
+        
+        /* Primary buttons in modals */
+        .modal-footer .btn-primary {
+            background-color: #1ab394;
+            border-color: #1ab394;
+        }
+        
+        .modal-footer .btn-primary:hover {
+            background-color: #16987e;
+            border-color: #16987e;
+        }
+        
+        /* View account modal specific styles */
+        #viewCustomerModal .form-control-plaintext {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            min-height: 38px;
+            display: flex;
+            align-items: center;
+            font-weight: 500;
+        }
+        
+        /* Dark mode adjustments for view modal */
+        [data-bs-theme="dark"] #viewCustomerModal .form-control-plaintext {
+            background-color: #272832;
+            border-color: #293036;
+            color: #aab8c5;
+        }
+        
+        /* Consistent button styling across all modals */
+        .btn-info {
+            background-color: #23c6c8;
+            border-color: #23c6c8;
+        }
+        
+        .btn-info:hover {
+            background-color: #1ea8aa;
+            border-color: #1ea8aa;
+        }
+        
+        /* Dark mode button adjustments */
+        [data-bs-theme="dark"] .btn-info {
+            background-color: #23c6c8;
+            border-color: #23c6c8;
+        }
+        
+        [data-bs-theme="dark"] .btn-info:hover {
+            background-color: #1ea8aa;
+            border-color: #1ea8aa;
+        }
+        
+        /* RTL adjustments for input group */
+        [dir="rtl"] .input-group > :not(:first-child):not(.dropdown-menu):not(.valid-tooltip):not(.valid-feedback):not(.invalid-tooltip):not(.invalid-feedback) {
+            margin-left: -1px;
+            border-top-left-radius: 0.375rem;
+            border-bottom-left-radius: 0.375rem;
+        }
+        
+        [dir="rtl"] .input-group > :not(:last-child):not(.dropdown-menu):not(.valid-tooltip):not(.valid-feedback):not(.invalid-tooltip):not(.invalid-feedback) {
+            border-top-right-radius: 0.375rem;
+            border-bottom-right-radius: 0.375rem;
+        }
+        
+        /* RTL adjustments for date picker */
+        [dir="rtl"] .daterangepicker {
+            direction: rtl;
+            text-align: right;
+        }
+        
+        [dir="rtl"] .daterangepicker .calendar-table {
+            direction: rtl;
+        }
+        
+        [dir="rtl"] .daterangepicker .drp-calendar.left {
+            float: right;
+        }
+        
+        [dir="rtl"] .daterangepicker .drp-calendar.right {
+            float: left;
+        }
+        
+        [dir="rtl"] .daterangepicker .ranges ul {
+            direction: rtl;
+            text-align: right;
+        }
+        
+        [dir="rtl"] .daterangepicker .ranges li {
+            text-align: right;
+        }
+        
+        [dir="rtl"] .daterangepicker .drp-buttons {
+            direction: rtl;
+            text-align: left;
+        }
+        
+        /* Custom flatpickr calendar styling to match React component */
+        .flatpickr-calendar {
+            direction: rtl;
+            display: block !important; /* Ensure calendar is always displayed */
+        }
+        
+        .flatpickr-calendar .flatpickr-months {
+            background: #111827;
+            border-bottom: 1px solid #374151;
+        }
+        
+        .flatpickr-calendar .flatpickr-weekdays {
+            background: #111827;
+            border-bottom: 1px solid #374151;
+        }
+        
+        .flatpickr-calendar .flatpickr-weekday {
+            color: #e5e7eb;
+        }
+        
+        .flatpickr-calendar .flatpickr-day {
+            color: #e5e7eb;
+            border-radius: 8px;
+        }
+        
+        .flatpickr-calendar .flatpickr-day.today {
+            border-color: #60a5fa;
+        }
+        
+        .flatpickr-calendar .flatpickr-day.selected {
+            background: #2563eb;
+            border-color: #2563eb;
+            color: #fff;
+        }
+        
+        .flatpickr-calendar .flatpickr-day:hover {
+            background: #3b82f6;
+            border-color: #3b82f6;
+            color: #fff;
+        }
+        
+        /* Light mode flatpickr styling */
+        .flatpickr-calendar:not(.dark) {
+            background: #ffffff;
+            border: 1px solid #d1d5db;
+        }
+        
+        .flatpickr-calendar:not(.dark) .flatpickr-months {
+            background: #f3f4f6;
+            border-bottom: 1px solid #d1d5db;
+        }
+        
+        .flatpickr-calendar:not(.dark) .flatpickr-weekdays {
+            background: #f3f4f6;
+            border-bottom: 1px solid #d1d5db;
+        }
+        
+        .flatpickr-calendar:not(.dark) .flatpickr-weekday {
+            color: #4b5563;
+        }
+        
+        .flatpickr-calendar:not(.dark) .flatpickr-day {
+            color: #374151;
+        }
+        
+        .flatpickr-calendar:not(.dark) .flatpickr-day.today {
+            border-color: #60a5fa;
+        }
+        
+        .flatpickr-calendar:not(.dark) .flatpickr-day.selected {
+            background: #2563eb;
+            border-color: #2563eb;
+            color: #fff;
+        }
+        
+        .flatpickr-calendar:not(.dark) .flatpickr-day:hover {
+            background: #3b82f6;
+            border-color: #3b82f6;
+            color: #fff;
+        }
+        
+        /* Dark mode flatpickr styling */
+        .dark .flatpickr-calendar {
+            background: #0a0a0a;
+            border-color: #3f3f46;
+            color: #e5e7eb;
+        }
+        
+        .dark .flatpickr-calendar .flatpickr-months {
+            background: #111827;
+            border-bottom: 1px solid #374151;
+        }
+        
+        .dark .flatpickr-calendar .flatpickr-weekdays {
+            background: #111827;
+            border-bottom: 1px solid #374151;
+        }
+        
+        .dark .flatpickr-calendar .flatpickr-weekday {
+            color: #e5e7eb;
+        }
+        
+        .dark .flatpickr-calendar .flatpickr-day {
+            color: #e5e7eb;
+            border-radius: 8px;
+        }
+        
+        .dark .flatpickr-calendar .flatpickr-day.today {
+            border-color: #60a5fa;
+        }
+        
+        .dark .flatpickr-calendar .flatpickr-day.selected,
+        .dark .flatpickr-calendar .flatpickr-day:hover {
+            background: #2563eb;
+            border-color: #2563eb;
+            color: #fff;
+        }
+        
+        /* Enhanced dark mode styling for accounting vouchers modal */
+        [data-bs-theme="dark"] #accountingVouchersModal .card {
+            background-color: #1e1f27;
+            border-color: #293036;
+        }
+        
+        [data-bs-theme="dark"] #accountingVouchersModal .card-header {
+            background-color: #272832;
+            border-color: #293036;
+        }
+        
+        [data-bs-theme="dark"] #accountingVouchersModal .card-body {
+            background-color: #1e1f27;
+        }
+        
+        [data-bs-theme="dark"] #accountingVouchersModal .form-label {
+            color: #aab8c5;
+        }
+        
+        [data-bs-theme="dark"] #accountingVouchersModal .form-control,
+        [data-bs-theme="dark"] #accountingVouchersModal .form-select {
+            background-color: #272832;
+            border-color: #293036;
+            color: #aab8c5;
+        }
+        
+        [data-bs-theme="dark"] #accountingVouchersModal .form-control:focus,
+        [data-bs-theme="dark"] #accountingVouchersModal .form-select:focus {
+            background-color: #272832;
+            border-color: #1ab394;
+            color: #aab8c5;
+            box-shadow: 0 0 0 0.25rem rgba(26, 179, 148, 0.25);
+        }
+        
+        [data-bs-theme="dark"] #accountingVouchersModal .form-control::placeholder {
+            color: #8391a2;
+        }
+        
+        [data-bs-theme="dark"] #accountingVouchersModal .input-group-text {
+            background-color: #272832;
+            border-color: #293036;
+            color: #aab8c5;
+        }
+        
+        [data-bs-theme="dark"] #accountingVouchersModal .date-picker-input {
+            background-color: #272832;
+            border-color: #293036;
+            color: #aab8c5;
+        }
+        
+        [data-bs-theme="dark"] #accountingVouchersModal .date-picker-input:focus {
+            background-color: #272832;
+            border-color: #1ab394;
+            color: #aab8c5;
+            box-shadow: 0 0 0 0.25rem rgba(26, 179, 148, 0.25);
+        }
+        
+        [data-bs-theme="dark"] #accountingVouchersModal .is-invalid {
+            border-color: #f499a3 !important;
+        }
+        
+        [data-bs-theme="dark"] #accountingVouchersModal .is-invalid:focus {
+            box-shadow: 0 0 0 0.25rem rgba(244, 153, 163, 0.25) !important;
+        }
+        
+        [data-bs-theme="dark"] #accountingVouchersModal .modal-header {
+            background-color: #1ab394;
+            border-color: #16987e;
+        }
+        
+        [data-bs-theme="dark"] #accountingVouchersModal .modal-footer {
+            background-color: #272832;
+            border-color: #293036;
+        }
+        
+        [data-bs-theme="dark"] .text-muted {
+            color: #8391a2 !important;
+        }
+        
+        [data-bs-theme="dark"] .text-danger {
+            color: #f499a3 !important;
+        }
+        
+        /* Additional dark mode styling for form elements in accounting vouchers modal */
+        [data-bs-theme="dark"] #accountingVouchersModal .border {
+            border-color: #293036 !important;
+        }
+        
+        [data-bs-theme="dark"] #accountingVouchersModal .bg-white\/70 {
+            background-color: rgba(39, 40, 50, 0.7) !important;
+        }
+        
+        [data-bs-theme="dark"] #accountingVouchersModal .border-slate-300 {
+            border-color: #293036 !important;
+        }
+        
+        [data-bs-theme="dark"] #accountingVouchersModal .text-gray-500 {
+            color: #8391a2 !important;
+        }
+        
+        [data-bs-theme="dark"] #accountingVouchersModal .text-gray-900 {
+            color: #aab8c5 !important;
+        }
+        
+        [data-bs-theme="dark"] #accountingVouchersModal .border-gray-300 {
+            border-color: #293036 !important;
+        }
+        
+        [data-bs-theme="dark"] #accountingVouchersModal .bg-white {
+            background-color: #272832 !important;
+        }
+        
+        [data-bs-theme="dark"] #accountingVouchersModal .placeholder-gray-400::-webkit-input-placeholder {
+            color: #8391a2 !important;
+        }
+        
+        [data-bs-theme="dark"] #accountingVouchersModal .placeholder-gray-400::-moz-placeholder {
+            color: #8391a2 !important;
+        }
+        
+        [data-bs-theme="dark"] #accountingVouchersModal .placeholder-gray-400:-ms-input-placeholder {
+            color: #8391a2 !important;
+        }
+        
+        [data-bs-theme="dark"] #accountingVouchersModal .placeholder-gray-400::-ms-input-placeholder {
+            color: #8391a2 !important;
+        }
+        
+        [data-bs-theme="dark"] #accountingVouchersModal .placeholder-gray-400::placeholder {
+            color: #8391a2 !important;
+        }
+        
+        /* Light mode styling for edit modal form controls */
+        #editCustomerModal .form-control,
+        #editCustomerModal .form-select {
+            background-color: #ffffff;
+            border-color: #d1d5db;
+            color: #374151;
+        }
+        
+        #editCustomerModal .form-control:focus,
+        #editCustomerModal .form-select:focus {
+            background-color: #ffffff;
+            border-color: #1ab394;
+            color: #374151;
+            box-shadow: 0 0 0 0.25rem rgba(26, 179, 148, 0.25);
+        }
+        
+        #editCustomerModal .form-control::placeholder {
+            color: #9ca3af;
+        }
+        
+        #editCustomerModal .form-label {
+            color: #4b5563;
+        }
+        
+        /* Dark mode styling for edit modal form controls */
+        [data-bs-theme="dark"] #editCustomerModal .form-control,
+        [data-bs-theme="dark"] #editCustomerModal .form-select {
+            background-color: #272832;
+            border-color: #293036;
+            color: #aab8c5;
+        }
+        
+        [data-bs-theme="dark"] #editCustomerModal .form-control:focus,
+        [data-bs-theme="dark"] #editCustomerModal .form-select:focus {
+            background-color: #272832;
+            border-color: #1ab394;
+            color: #aab8c5;
+            box-shadow: 0 0 0 0.25rem rgba(26, 179, 148, 0.25);
+        }
+        
+        [data-bs-theme="dark"] #editCustomerModal .form-control::placeholder {
+            color: #8391a2;
+        }
+        
+        [data-bs-theme="dark"] #editCustomerModal .form-label {
+            color: #aab8c5;
+        }
+        
+        [data-bs-theme="dark"] #editCustomerModal .text-muted {
+            color: #8391a2 !important;
+        }
+        
+        [data-bs-theme="dark"] #editCustomerModal .text-danger {
+            color: #f499a3 !important;
+        }
+        
+        /* Light mode table styles */
+        .table-dark-card {
+            background: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 4px 20px rgba(0,0,0,.05);
+        }
+
+        .table-dark-card table {
+            width: 100%;
+            border-collapse: collapse;
+            color: #374151;
+            font-size: 14px;
+        }
+
+        .table-dark-card thead {
+            background: linear-gradient(180deg, #f3f4f6, #e5e7eb);
+        }
+        
+        .table-dark-card thead th {
+            padding: 12px 14px;
+            text-align: center;
+            font-weight: 600;
+            color: #111827;
+            border-bottom: 1px solid #d1d5db;
+            white-space: nowrap;
+        }
+
+        .table-dark-card tbody tr {
+            background: #fff;
+            transition: background 0.2s;
+        }
+        
+        .table-dark-card tbody tr:nth-child(even) {
+            background: #f9fafb;
+        }
+        
+        .table-dark-card tbody tr:hover {
+            background: #f3f4f6;
+        }
+        
+        .table-dark-card td {
+            padding: 12px 14px;
+            text-align: center;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .btn-more {
+            border: 1px solid #d1d5db;
+            background: transparent;
+            color: #3b82f6;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 13px;
+            cursor: pointer;
+        }
+        
+        .btn-more:hover {
+            background: #2563eb;
+            color: #fff;
+            border-color: #2563eb;
+        }
+
+        /* Dark mode table styles */
+        [data-bs-theme="dark"] .table-dark-card {
+            background: #111827;
+            border: 1px solid #1f2937;
+            box-shadow: 0 4px 20px rgba(0,0,0,.4);
+        }
+
+        [data-bs-theme="dark"] .table-dark-card table {
+            color: #e5e7eb;
+        }
+
+        [data-bs-theme="dark"] .table-dark-card thead {
+            background: linear-gradient(180deg, #1e293b, #111827);
+        }
+        
+        [data-bs-theme="dark"] .table-dark-card thead th {
+            color: #f9fafb;
+            border-bottom: 1px solid #374151;
+        }
+
+        [data-bs-theme="dark"] .table-dark-card tbody tr {
+            background: #111827;
+        }
+        
+        [data-bs-theme="dark"] .table-dark-card tbody tr:nth-child(even) {
+            background: #1a2234;
+        }
+        
+        [data-bs-theme="dark"] .table-dark-card tbody tr:hover {
+            background: #1f2937;
+        }
+        
+        [data-bs-theme="dark"] .table-dark-card td {
+            border-bottom: 1px solid #1f2937;
+        }
+
+        [data-bs-theme="dark"] .btn-more {
+            border: 1px solid #374151;
+            color: #93c5fd;
+        }
+        
+        [data-bs-theme="dark"] .btn-more:hover {
+            background: #2563eb;
+            color: #fff;
+            border-color: #2563eb;
+        }
+
+        /* Light mode pagination */
+        .pagination-dark {
+            display: flex;
+            justify-content: center;
+            margin-top: 12px;
+            gap: 4px;
+        }
+        
+        .pagination-dark button {
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            color: #111827;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        
+        .pagination-dark button.active {
+            background: #10b981;
+            border-color: #10b981;
+            color: #fff;
+        }
+        
+        .pagination-dark button:hover:not(.active) {
+            background: #2563eb;
+            border-color: #2563eb;
+            color: #fff;
+        }
+
+        /* Dark mode pagination */
+        [data-bs-theme="dark"] .pagination-dark button {
+            background: #1e293b;
+            border: 1px solid #374151;
+            color: #f9fafb;
+        }
+        
+        [data-bs-theme="dark"] .pagination-dark button.active {
+            background: #10b981;
+            border-color: #10b981;
+        }
+        
+        [data-bs-theme="dark"] .pagination-dark button:hover:not(.active) {
+            background: #2563eb;
+            border-color: #2563eb;
+        }
+
+        /* اجعل التقويم فوق أي عناصر أخرى */
+        .flatpickr-calendar{z-index:200000 !important;direction:ltr}
+        /* لو واجهت الصفحة RTL وأردت تقويم RTL فعّل التالي: */
+        [dir="rtl"] .flatpickr-calendar{direction:rtl}
+
+        [dir="rtl"] .flatpickr-calendar{direction:rtl}
+        
+        /* Ensure Flatpickr calendar is visible and properly positioned */
+        .flatpickr-calendar.open {
+            display: block !important;
+            visibility: visible !important;
+        }
+        
+        /* Additional positioning for modal calendars */
+        .modal .flatpickr-calendar {
+            position: absolute !important;
+        }
+        
+        /* Searchable dropdown styles */
+        /* الحاوية */
+        .search-picker-panel {
+          position: absolute;
+          background: #fff;
+          border: 1px solid #ddd;
+          border-radius: 6px;
+          box-shadow: 0 4px 12px rgba(0,0,0,.15);
+          width: 100%;
+          max-height: 250px;
+          overflow: auto;
+          z-index: 20000;
+        }
+
+        /* حقل البحث داخل البانل */
+        .search-picker-panel .search-picker-search {
+          width: 100%;
+          border: none;
+          border-bottom: 1px solid #ddd;
+          padding: 8px 10px;
+          outline: none;
+        }
+
+        /* قائمة العناصر */
+        .search-picker-panel .search-picker-list {
+          list-style: none;
+          margin: 0;
+          padding: 0;
+        }
+
+        .search-picker-panel .search-picker-item {
+          padding: 8px 10px;
+          cursor: pointer;
+        }
+
+        .search-picker-panel .search-picker-item:hover,
+        .search-picker-panel .search-picker-item.active {
+          background: #2563eb;
+          color: #fff;
+        }
+
+        /* Dark mode styles for searchable dropdown */
+        [data-bs-theme="dark"] .search-picker-panel {
+          background: #1e1f27;
+          border: 1px solid #293036;
+        }
+
+        [data-bs-theme="dark"] .search-picker-panel .search-picker-search {
+          background: #272832;
+          border-bottom: 1px solid #293036;
+          color: #aab8c5;
+        }
+
+        [data-bs-theme="dark"] .search-picker-panel .search-picker-item {
+          color: #aab8c5;
+        }
+
+        [data-bs-theme="dark"] .search-picker-panel .search-picker-item:hover,
+        [data-bs-theme="dark"] .search-picker-panel .search-picker-item.active {
+          background: #2563eb;
+          color: #fff;
+        }
+        
+        /* Ensure table takes full width */
+        .table-responsive {
+            overflow-x: visible;
+        }
+    </style>
+}
+
+<!-- Filter toggle button -->
+<div class="mb-2">
+    <button id="toggleFilters" type="button" class="btn btn-primary">
+        <i class="ti ti-filter-off me-1"></i><span id="toggleFiltersText">إظهار الفلترة</span>
+    </button>
+</div>
+
+<!-- Filter section -->
+<div class="card mb-3" id="filterSection" style="display: none;">
+    <div class="card-body p-2">
+        
+        <!-- الصف الأول -->
+        <div class="row g-2 mb-2">
+            <!-- فلتر كل العملاء -->
+            <div class="col-md-3">
+                <div class="searchable-field">
+                    <input type="text" class="form-control form-control-sm" placeholder="كل العملاء" id="filter-all-clients" readonly>
+                </div>
+            </div>
+
+            <!-- فلتر الحالة -->
+            <div class="col-md-3">
+                <div class="searchable-field">
+                    <input type="text" class="form-control form-control-sm" placeholder="الحالة" id="filter-status" readonly>
+                </div>
+            </div>
+
+            <!-- فلتر كل الموظفين -->
+            <div class="col-md-3">
+                <div class="searchable-field">
+                    <input type="text" class="form-control form-control-sm" placeholder="كل الموظفين" id="filter-all-employees" readonly>
+                </div>
+            </div>
+
+            <!-- فلتر الصراف -->
+            <div class="col-md-3">
+                <input type="text" class="form-control form-control-sm" placeholder="الصراف" id="filter-cashier">
+            </div>
+        </div>
+        
+        <!-- الصف الثاني -->
+        <div class="row g-2 mb-2">
+            <!-- فلتر رقم الحوالة -->
+            <div class="col-md-3">
+                <input type="text" class="form-control form-control-sm" placeholder="رقم الحوالة" id="filter-transfer-number">
+            </div>
+
+            <!-- فلتر عدد السجلات -->
+            <div class="col-md-3">
+                <div class="searchable-field">
+                    <input type="text" class="form-control form-control-sm" placeholder="عدد السجلات" id="filter-records" readonly>
+                </div>
+            </div>
+        </div>
+        
+        <!-- الصف الثالث (الأزرار) -->
+        <div class="row g-2">
+            <div class="col">
+                <button type="button" class="btn btn-primary btn-sm" id="searchButton">بحث</button>
+                <button type="button" class="btn btn-primary btn-sm" id="btn-select-all-columns" title="تحديد الحقول للطباعة">
+                    تحديد الحقول للطباعة
+                </button>
+                <button type="button" class="btn btn-info btn-sm" id="printButton">طباعة</button>
+                <button type="button" class="btn btn-success btn-sm" id="exportExcelButton">تصدير اكسل</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Action buttons -->
+<div class="mb-3">
+    <div class="d-flex gap-2 flex-wrap">
+        <a href="#" class="btn btn-sm btn-outline-danger" title="حذف">
+            <i class="ti ti-trash"></i>
+        </a>
+        <a href="#" class="btn btn-sm btn-outline-success" title="إضافة" data-bs-toggle="modal" data-bs-target="#addVoucherModal">
+            <i class="ti ti-plus"></i>
+        </a>
+        <a href="#" class="btn btn-sm btn-outline-primary" title="تعديل" id="topEditButton">
+            <i class="ti ti-pencil"></i>
+        </a>
+        <a href="#" class="btn btn-sm btn-outline-info" title="مشاهدة" id="topViewButton">
+            <i class="ti ti-eye"></i>
+        </a>
+        <!-- New Popup Menu Button -->
+        <a href="#" class="btn btn-sm btn-outline-dark" title="قائمة الإجراءات" data-bs-toggle="modal" data-bs-target="#popupMenuModal">
+            <i class="ti ti-menu-2"></i>
+        </a>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <div class="d-flex align-items-center">
+            <h5 class="card-title mb-0 fw-bold">@ViewData["Title"]</h5>
+            <div class="me-auto">
+                <!-- Refresh button -->
+                <button type="button" class="btn btn-sm btn-outline-secondary ms-2" id="refreshBtn" title="تحديث">
+                    <i class="ti ti-refresh"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table id="myTable" class="table table-striped table-bordered dt-responsive nowrap w-100">
+                <thead>
+                    <tr>
+                        <th class="text-center" width="40px">
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="selectAll">
+                            </div>
+                        </th>
+                        <th>الرقم</th>
+                        <th>العميل</th>
+                        <th>الشبكة او البنك</th>
+                        <th>المبلغ</th>
+                        <th>رقم الحوالة</th>
+                        <th>الحالة</th>
+                        <th>الوقت</th>
+                        <th style="width: 100px; text-align: center;">المزيد</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="text-center">
+                            <div class="form-check"><input type="checkbox" class="form-check-input employee-checkbox" value="1"></div>
+                        </td>
+                        <td>1</td>
+                        <td>العميل الأول</td>
+                        <td>الشبكة الأولى</td>
+                        <td>1200.00</td>
+                        <td>123456</td>
+                        <td>مكتمل</td>
+                        <td>10:30 AM</td>
+                        <td style="text-align: center;">
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    للمزيد
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="#" data-action="edit"><i class="ti ti-pencil me-1"></i> تعديل</a></li>
+                                    <li><a class="dropdown-item" href="#" data-action="view"><i class="ti ti-eye me-1"></i> مشاهدة</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="ti ti-trash me-1"></i> حذف</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">
+                            <div class="form-check"><input type="checkbox" class="form-check-input employee-checkbox" value="2"></div>
+                        </td>
+                        <td>2</td>
+                        <td>العميل الثاني</td>
+                        <td>الشبكة الثانية</td>
+                        <td>850.00</td>
+                        <td>789012</td>
+                        <td>معلق</td>
+                        <td>2:15 PM</td>
+                        <td style="text-align: center;">
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    للمزيد
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="#" data-action="edit"><i class="ti ti-pencil me-1"></i> تعديل</a></li>
+                                    <li><a class="dropdown-item" href="#" data-action="view"><i class="ti ti-eye me-1"></i> مشاهدة</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="ti ti-trash me-1"></i> حذف</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- New Popup Menu Modal -->
+<div class="modal fade" id="popupMenuModal" tabindex="-1" aria-labelledby="popupMenuModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 1200px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="popupMenuModalLabel">قائمة الإجراءات</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Popup Menu Content -->
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12 mb-3">
+                            <h6 class="text-primary">الإجراءات المتاحة</h6>
+                            <p>اختر الإجراء الذي ترغب في تنفيذه من القائمة التالية:</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Action Buttons Grid -->
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <div class="card h-100">
+                                <div class="card-body text-center">
+                                    <i class="ti ti-file-plus fs-1 text-primary mb-2"></i>
+                                    <h6 class="card-title">إضافة سند</h6>
+                                    <p class="card-text">إضافة قيد محاسبي جديد</p>
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addVoucherModal">
+                                        <i class="ti ti-plus"></i> إضافة
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <div class="card h-100">
+                                <div class="card-body text-center">
+                                    <i class="ti ti-file-export fs-1 text-success mb-2"></i>
+                                    <h6 class="card-title">تصدير البيانات</h6>
+                                    <p class="card-text">تصدير بيانات السندات إلى ملف</p>
+                                    <button type="button" class="btn btn-success">
+                                        <i class="ti ti-download"></i> تصدير
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <div class="card h-100">
+                                <div class="card-body text-center">
+                                    <i class="ti ti-printer fs-1 text-info mb-2"></i>
+                                    <h6 class="card-title">طباعة التقارير</h6>
+                                    <p class="card-text">طباعة تقارير السندات</p>
+                                    <button type="button" class="btn btn-info">
+                                        <i class="ti ti-printer"></i> طباعة
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <div class="card h-100">
+                                <div class="card-body text-center">
+                                    <i class="ti ti-search fs-1 text-warning mb-2"></i>
+                                    <h6 class="card-title">بحث متقدم</h6>
+                                    <p class="card-text">إجراء بحث متقدم في بيانات السندات</p>
+                                    <button type="button" class="btn btn-warning">
+                                        <i class="ti ti-filter"></i> بحث
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <div class="card h-100">
+                                <div class="card-body text-center">
+                                    <i class="ti ti-settings fs-1 text-secondary mb-2"></i>
+                                    <h6 class="card-title">إعدادات النظام</h6>
+                                    <p class="card-text">ضبط إعدادات السندات</p>
+                                    <button type="button" class="btn btn-secondary">
+                                        <i class="ti ti-settings"></i> إعدادات
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <div class="card h-100">
+                                <div class="card-body text-center">
+                                    <i class="ti ti-help fs-1 text-danger mb-2"></i>
+                                    <h6 class="card-title">المساعدة</h6>
+                                    <p class="card-text">عرض دليل المستخدم ومساعدة النظام</p>
+                                    <button type="button" class="btn btn-danger">
+                                        <i class="ti ti-help"></i> مساعدة
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ===== نافذة مشاهدة السند ===== -->
+<div class="modal fade voucher-modal" id="viewVoucherModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content" dir="rtl">
+      <div class="modal-header">
+        <h5 class="modal-title">السندات المالية > التغذية عبر الشبكات</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="إغلاق"></button>
+      </div>
+
+      <div class="modal-body">
+
+        <!-- (التغذية) -->
+        <div class="v-section">
+          <div class="v-cap">(التغذية)</div>
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="v-label">العميل</label>
+              <div class="view-field" id="view-client"></div>
+            </div>
+            <div class="col-md-6">
+              <label class="v-label">الشبكة او البنك</label>
+              <div class="view-field" id="view-network"></div>
+            </div>
+            <div class="col-md-6">
+              <label class="v-label">رقم الحوالة</label>
+              <div class="view-field" id="view-transfer-number"></div>
+            </div>
+            <div class="col-md-6">
+              <label class="v-label">المبلغ</label>
+              <div class="view-field" id="view-amount"></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
+        <button type="button" class="btn btn-primary" id="editFromViewBtn">تعديل</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== نافذة إضافة سند جديد ===== -->
+<div class="modal fade voucher-modal" id="addVoucherModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content" dir="rtl">
+      <div class="modal-header">
+        <h5 class="modal-title">السندات المالية > التغذية عبر الشبكات</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="إغلاق"></button>
+      </div>
+
+      <form id="voucherForm">
+        <div class="modal-body">
+
+          <!-- (التغذية) -->
+          <div class="v-section">
+            <div class="v-cap">(التغذية)</div>
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="v-label">اختر العميل <span class="v-req">*</span></label>
+                <div class="searchable-field">
+                  <input type="text" class="form-control form-control-sm v-select" placeholder="اختر العميل" id="client" readonly required>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <label class="v-label">الشبكة او البنك <span class="v-req">*</span></label>
+                <div class="searchable-field">
+                  <input type="text" class="form-control form-control-sm v-select" placeholder="اختر الشبكة او البنك" id="network" readonly required>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <label class="v-label">رقم الحوالة <span class="v-req">*</span></label>
+                <input class="v-input" id="transfer-number" placeholder="رقم الحوالة" type="text" required>
+              </div>
+              <div class="col-md-6">
+                <label class="v-label">المبلغ <span class="v-req">*</span></label>
+                <input class="v-input" id="amount" placeholder="المبلغ" type="number" step="0.01" required>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="modal-footer">
+          <small class="text-muted me-auto">الحقول بعلامة <span class="v-req">*</span> مطلوبة</small>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+          <button type="submit" class="btn btn-primary">إرسال</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- ===== نافذة تعديل سند التغذية ===== -->
+<div class="modal fade voucher-modal" id="editVoucherModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content" dir="rtl">
+      <div class="modal-header">
+        <h5 class="modal-title">السندات المالية > التغذية عبر الشبكات</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="إغلاق"></button>
+      </div>
+
+      <form id="editVoucherForm">
+        <div class="modal-body">
+
+          <!-- (التغذية) -->
+          <div class="v-section">
+            <div class="v-cap">(التغذية)</div>
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="v-label">اختر العميل <span class="v-req">*</span></label>
+                <div class="searchable-field">
+                  <input type="text" class="form-control form-control-sm v-select" placeholder="اختر العميل" id="edit-client" readonly required>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <label class="v-label">الشبكة او البنك <span class="v-req">*</span></label>
+                <div class="searchable-field">
+                  <input type="text" class="form-control form-control-sm v-select" placeholder="اختر الشبكة او البنك" id="edit-network" readonly required>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <label class="v-label">رقم الحوالة <span class="v-req">*</span></label>
+                <input class="v-input" id="edit-transfer-number" placeholder="رقم الحوالة" type="text" required>
+              </div>
+              <div class="col-md-6">
+                <label class="v-label">المبلغ <span class="v-req">*</span></label>
+                <input class="v-input" id="edit-amount" placeholder="المبلغ" type="number" step="0.01" required>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="modal-footer">
+          <small class="text-muted me-auto">الحقول بعلامة <span class="v-req">*</span> مطلوبة</small>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+          <button type="submit" class="btn btn-primary">إرسال</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+@section scripts {
+    <!-- flatpickr Js -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ar.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            // Initialize DataTable
+            const dt = $("#myTable").DataTable({
+                paging: true, lengthChange: false, searching: false, ordering: true, info: true, autoWidth: false, responsive: true,
+                language: {
+                    emptyTable: "لا توجد بيانات",
+                    info: "إظهار _START_ إلى _END_ من _TOTAL_ سجل",
+                    infoEmpty: "إظهار 0 إلى 0 من 0",
+                    paginate: { first:"الأولى", last:"الأخيرة", next:"التالي", previous:"السابق" }
+                }
+            });
+            
+            // Initialize Flatpickr for date filter fields
+            flatpickr(".date-filter", {
+                dateFormat: "Y-m-d",     // الشكل: 2025-09-19
+                allowInput: true,        // يسمح بكتابة التاريخ يدوي
+                locale: "ar",            // لغة عربية
+                position: "auto right",  // يفتح على اليمين في RTL
+                disableMobile: true      // يخلي Flatpickr يشتغل حتى بالجوال
+            });
+            
+            // Initialize Flatpickr for the new voucher modal date field
+            flatpickr("#v-date", {
+                dateFormat: "m/d/Y",     // الشكل: 09/20/2025
+                allowInput: true,        // يسمح بكتابة التاريخ يدوي
+                locale: "ar",            // لغة عربية
+                position: "auto right",  // يفتح على اليمين في RTL
+                disableMobile: true      // يخلي Flatpickr يشتغل حتى بالجوال
+            });
+            
+            // Initialize Flatpickr for the edit voucher modal date field
+            flatpickr("#edit-v-date", {
+                dateFormat: "m/d/Y",     // الشكل: 09/20/2025
+                allowInput: true,        // يسمح بكتابة التاريخ يدوي
+                locale: "ar",            // لغة عربية
+                position: "auto right",  // يفتح على اليمين في RTL
+                disableMobile: true      // يخلي Flatpickr يشتغل حتى بالجوال
+            });
+            
+            // Handle form submission for the new voucher modal
+            $('#voucherForm').on('submit', function(e) {
+                e.preventDefault();
+                
+                // Get form values
+                const client = $('#client').val();
+                const network = $('#network').val();
+                const transferNumber = $('#transfer-number').val();
+                const amount = $('#amount').val();
+                
+                // Validate required fields
+                if (!client || !network || !transferNumber || !amount) {
+                    alert('الرجاء ملء جميع الحقول المطلوبة');
+                    return;
+                }
+                
+                // In a real application, you would submit the data to the server here
+                console.log('New voucher data:', { client, network, transferNumber, amount });
+                
+                // Close the modal
+                $('#addVoucherModal').modal('hide');
+                
+                // Show success message
+                alert('تم إرسال السند بنجاح');
+                
+                // Reset form
+                $('#voucherForm')[0].reset();
+            });
+            
+            // Handle form submission for the edit voucher modal
+            $('#editVoucherForm').on('submit', function(e) {
+                e.preventDefault();
+                
+                // Get form values
+                const client = $('#edit-client').val();
+                const network = $('#edit-network').val();
+                const transferNumber = $('#edit-transfer-number').val();
+                const amount = $('#edit-amount').val();
+                
+                // Validate required fields
+                if (!client || !network || !transferNumber || !amount) {
+                    alert('الرجاء ملء جميع الحقول المطلوبة');
+                    return;
+                }
+                
+                // In a real application, you would submit the data to the server here
+                console.log('Edit voucher data:', { client, network, transferNumber, amount });
+                
+                // Close the modal
+                $('#editVoucherModal').modal('hide');
+                
+                // Show success message
+                alert('تم إرسال التعديلات بنجاح');
+            });
+            
+            // Toggle filter section
+            $('#toggleFilters').click(function() {
+                $('#filterSection').toggle();
+                var isVisible = $('#filterSection').is(':visible');
+                $('#toggleFiltersText').text(isVisible ? 'إخفاء الفلترة' : 'إظهار الفلترة');
+                $(this).find('i').toggleClass('ti-filter-off ti-filter');
+            });
+            
+            // Make sure filter section is initially hidden
+            $('#filterSection').hide();
+            
+            // Reset filters
+            $('#resetFilters').click(function() {
+                $('#filterSection input').val('');
+                // In a real application, you would also reset the table data
+                alert('تم إعادة تعيين الفلاتر');
+            });
+            
+            // Search button click handler
+            $('#searchButton').click(function() {
+                // Get filter values
+                var filterAllClients = $('#filter-all-clients').val();
+                var filterStatus = $('#filter-status').val();
+                var filterAllEmployees = $('#filter-all-employees').val();
+                var filterCashier = $('#filter-cashier').val();
+                var filterTransferNumber = $('#filter-transfer-number').val();
+                var filterRecords = $('#filter-records').val();
+                
+                // In a real application, you would apply the filters here
+                alert('سيتم تطبيق الفلاتر المحددة:\n' +
+                      'كل العملاء: ' + filterAllClients + '\n' +
+                      'الحالة: ' + filterStatus + '\n' +
+                      'كل الموظفين: ' + filterAllEmployees + '\n' +
+                      'الصارف: ' + filterCashier + '\n' +
+                      'رقم الحوالة: ' + filterTransferNumber + '\n' +
+                      'عدد السجلات: ' + filterRecords);
+            });
+            
+            // Refresh table
+            $('#refreshBtn').click(function() {
+                // In a real application, you would refresh the table data
+                alert('سيتم تحديث بيانات الجدول');
+            });
+            
+            // Add hidden input to store selected columns
+            if ($('#filter-print-columns').length === 0) {
+                $('<input type="hidden" id="filter-print-columns" />').appendTo('body');
+            }
+            
+            // Function to update the hidden input with selected columns
+            function updateHiddenSelectedColumns() {
+                if (window.getSelectedPrintColumns) {
+                    const selectedColumns = window.getSelectedPrintColumns();
+                    $('#filter-print-columns').val(selectedColumns.join(', '));
+                }
+            }
+            
+            // Print button click handler
+            $('#printButton').click(function() {
+                updateHiddenSelectedColumns();
+                var printColumns = $('#filter-print-columns').val();
+                alert('سيتم طباعة الجدول\n' +
+                      (printColumns ? 'باستخدام الحقول: ' + printColumns : 'باستخدام جميع الحقول'));
+                // In a real application, you would implement the print functionality
+            });
+            
+            // Export Excel button click handler
+            $('#exportExcelButton').click(function() {
+                updateHiddenSelectedColumns();
+                var exportColumns = $('#filter-print-columns').val();
+                alert('سيتم تصدير البيانات إلى ملف اكسل\n' +
+                      (exportColumns ? 'باستخدام الحقول: ' + exportColumns : 'باستخدام جميع الحقول'));
+                // In a real application, you would implement the export to Excel functionality
+            });
+            
+            // Handle select all columns button click if it exists
+            if ($('#selectAllColumnsButton').length) {
+                $('#selectAllColumnsButton').click(function() {
+                    // This button might be redundant with our new implementation
+                    // but we'll keep it working for backwards compatibility
+                    if (window.setupPrintColumnsSelector) {
+                        // Select all columns through our new implementation
+                        $('#btn-select-all-columns').click();
+                    }
+                });
+            }
+            
+            // Select all checkboxes
+            $('#selectAll').click(function() {
+                $('.employee-checkbox').prop('checked', this.checked);
+            });
+            
+            // Handle individual checkbox changes
+            $('.employee-checkbox').change(function() {
+                if ($('.employee-checkbox:checked').length === $('.employee-checkbox').length) {
+                    $('#selectAll').prop('checked', true);
+                } else {
+                    $('#selectAll').prop('checked', false);
+                }
+            });
+            
+            // Handle view action from dropdown menu
+            $('tbody').on('click', '[data-action="view"]', function(e) {
+                e.preventDefault();
+                
+                // Get the voucher data from the row
+                var row = $(this).closest('tr');
+                var voucherId = row.find('td:nth-child(2)').text();
+                var client = row.find('td:nth-child(3)').text();
+                var network = row.find('td:nth-child(4)').text();
+                var amount = row.find('td:nth-child(5)').text();
+                var transferNumber = row.find('td:nth-child(6)').text();
+                var status = row.find('td:nth-child(7)').text();
+                var time = row.find('td:nth-child(8)').text();
+                
+                // Populate the view modal with voucher data
+                $('#view-client').text(client);
+                $('#view-network').text(network);
+                $('#view-transfer-number').text(transferNumber);
+                $('#view-amount').text(amount);
+                
+                // Show the view modal
+                $('#viewVoucherModal').modal('show');
+            });
+            
+            // Handle edit action from dropdown menu
+            $('tbody').on('click', '[data-action="edit"]', function(e) {
+                e.preventDefault();
+                
+                // Get the voucher data from the row
+                var row = $(this).closest('tr');
+                var voucherId = row.find('td:nth-child(2)').text();
+                var client = row.find('td:nth-child(3)').text();
+                var network = row.find('td:nth-child(4)').text();
+                var amount = row.find('td:nth-child(5)').text();
+                var transferNumber = row.find('td:nth-child(6)').text();
+                var status = row.find('td:nth-child(7)').text();
+                var time = row.find('td:nth-child(8)').text();
+                
+                // Populate the edit modal with voucher data
+                $('#edit-client').val(client);
+                $('#edit-network').val(network);
+                $('#edit-transfer-number').val(transferNumber);
+                $('#edit-amount').val(amount);
+                
+                // Show the edit modal
+                $('#editVoucherModal').modal('show');
+            });
+            
+            // Handle edit button from view modal
+            $('#editFromViewBtn').click(function() {
+                // Get the voucher data from the view modal
+                var client = $('#view-client').text();
+                var network = $('#view-network').text();
+                var transferNumber = $('#view-transfer-number').text();
+                var amount = $('#view-amount').text();
+                
+                // Populate the edit modal with voucher data
+                $('#edit-client').val(client);
+                $('#edit-network').val(network);
+                $('#edit-transfer-number').val(transferNumber);
+                $('#edit-amount').val(amount);
+                
+                // Show the edit modal
+                $('#editVoucherModal').modal('show');
+            });
+            
+            // بيانات العملاء
+            const clients = [
+                "العميل الأول / 1001",
+                "العميل الثاني / 1002",
+                "العميل الثالث / 1003",
+                "العميل الرابع / 1004",
+                "العميل الخامس / 1005"
+            ];
+
+            // بيانات الشبكات
+            const networks = [
+                "الشبكة الأولى",
+                "الشبكة الثانية",
+                "البنك الأول",
+                "البنك الثاني"
+            ];
+
+            // بيانات الحالات
+            const statuses = [
+                "مكتمل",
+                "معلق",
+                "ملغى",
+                "قيد المعالجة"
+            ];
+
+            // بيانات الموظفين
+            const employees = [
+                "الموظف الأول / 1001",
+                "الموظف الثاني / 1002",
+                "الموظف الثالث / 1003",
+                "الموظف الرابع / 1004",
+                "الموظف الخامس / 1005"
+            ];
+
+            // بيانات عدد السجلات
+            const records = ["10", "20", "30", "50", "100"];
+
+            // تفعيل القائمة المنسدلة لحقل "كل العملاء"
+            initSearchPicker('#filter-all-clients', clients);
+
+            // تفعيل القائمة المنسدلة لحقل "الحالة"
+            initSearchPicker('#filter-status', statuses);
+
+            // تفعيل القائمة المنسدلة لحقل "كل الموظفين"
+            initSearchPicker('#filter-all-employees', employees);
+
+            // تفعيل القائمة المنسدلة لحقل "عدد السجلات"
+            initSearchPicker('#filter-records', records);
+
+            // تفعيل القائمة المنسدلة لحقل "اختر العميل" في نموذج الإضافة
+            initSearchPicker('#client', clients);
+
+            // تفعيل القائمة المنسدلة لحقل "الشبكة او البنك" في نموذج الإضافة
+            initSearchPicker('#network', networks);
+
+            // تفعيل القائمة المنسدلة لحقل "اختر العميل" في نموذج التعديل
+            initSearchPicker('#edit-client', clients);
+
+            // تفعيل القائمة المنسدلة لحقل "الشبكة او البنك" في نموذج التعديل
+            initSearchPicker('#edit-network', networks);
+
+            // إعداد نظام اختيار حقول الطباعة المباشر
+            setupPrintColumnsSelector();
+
+            function setupPrintColumnsSelector() {
+                const $btnSelectAllColumns = $('#btn-select-all-columns');
+                
+                // تعريف حقول الجدول مع حالة الاختيار
+                const tableColumns = [
+                    { id: 'id', name: 'الرقم', selected: true },
+                    { id: 'client', name: 'العميل', selected: true },
+                    { id: 'network', name: 'الشبكة او البنك', selected: true },
+                    { id: 'amount', name: 'المبلغ', selected: true },
+                    { id: 'transfer-number', name: 'رقم الحوالة', selected: true },
+                    { id: 'status', name: 'الحالة', selected: true },
+                    { id: 'time', name: 'الوقت', selected: true }
+                ];
+
+                // زر اختيار جميع الحقول
+                $btnSelectAllColumns.on('click', function() {
+                    // تحديد جميع الحقول
+                    tableColumns.forEach(column => {
+                        column.selected = true;
+                    });
+                    
+                    // تحديث العلامات على أعمدة الجدول
+                    updateTableColumnSelection();
+                    
+                    // عرض رسالة تأكيد
+                    alert('تم تحديد جميع أعمدة الجدول');
+                });
+
+                // تحديث علامات الاختيار على أعمدة الجدول
+                function updateTableColumnSelection() {
+                    // الحصول على جميع أعمدة الجدول
+                    $('#myTable thead th').each(function() {
+                        const $th = $(this);
+                        const columnText = $th.text().trim();
+                        
+                        // تجاهل العمود الأول (تحديد الكل) والعمود الأخير (المزيد)
+                        if (columnText === '' || columnText === 'المزيد') return;
+                        
+                        // البحث عن الحقل المطابق
+                        const columnObj = tableColumns.find(col => col.name === columnText);
+                        
+                        if (columnObj) {
+                            // إزالة أي علامة موجودة سابقًا
+                            $th.find('.selected-column-mark').remove();
+                            
+                            // إضافة علامة إذا كانت الموجودة مختارة
+                            if (columnObj.selected) {
+                                // Ensure we're using the correct icon class that exists in the project
+                                $th.append(' <span class="selected-column-mark text-success"><i class="ti ti-check-circle"></i></span>');
+                            }
+                        }
+                    });
+                }
+
+                // إضافة حدث النقر على أعمدة الجدول للمباشر
+                $('#myTable thead th').each(function() {
+                    const $th = $(this);
+                    const columnText = $th.text().trim();
+                    
+                    // تجاهل العمود الأول (تحديد الكل) والعمود الأخير (المزيد)
+                    if (columnText === '' || columnText === 'المزيد') return;
+                    
+                    // تحويل العمود إلى قابل للنقر
+                    $th.css('cursor', 'pointer');
+                    $th.attr('title', 'انقر للاختيار/الغاء الاختيار');
+                    
+                    // إضافة حدث النقر
+                    $th.on('click', function() {
+                        // البحث عن الحقل المطابق
+                        const columnObj = tableColumns.find(col => col.name === columnText);
+                        
+                        if (columnObj) {
+                            // تبديل حالة الاختيار
+                            columnObj.selected = !columnObj.selected;
+                            
+                            // تحديث العلامات
+                            updateTableColumnSelection();
+                        }
+                    });
+                });
+
+                // تهيئة العلامات الأولية
+                updateTableColumnSelection();
+
+                // حفظ الاختيارات في متغير مخفي لحساب الطباعة
+                function getSelectedColumns() {
+                    return tableColumns.filter(col => col.selected).map(col => col.id);
+                }
+
+                // عند الضغط على زر الطباعة، يمكنك الحصول على الأعمدة المختارة
+                // هذه الدالة يمكن استخدامها عند تنفيذ عملية الطباعة
+                window.getSelectedPrintColumns = getSelectedColumns;
+            }
+
+            function initSearchPicker(inputSelector, items) {
+                const $input = $(inputSelector);
+
+                $input.on('focus click', function () {
+                    openPanel($input, items);
+                });
+
+                function openPanel($anchor, items) {
+                    closeAnyPanel();
+
+                    const $panel = $(`
+                        <div class="search-picker-panel">
+                            <input type="text" class="search-picker-search" placeholder="بحث...">
+                            <ul class="search-picker-list"></ul>
+                        </div>
+                    `);
+
+                    const $list = $panel.find('.search-picker-list');
+                    function renderList(filter = '') {
+                        $list.empty();
+                        const q = filter.trim().toLowerCase();
+                        const filtered = !q ? items : items.filter(x => x.toLowerCase().includes(q));
+                        if (filtered.length === 0) {
+                            $list.append(`<li class="px-3 py-2 text-muted">لا نتائج</li>`);
+                            return;
+                        }
+                        filtered.forEach(txt => {
+                            const li = $(`<li class="search-picker-item">${txt}</li>`);
+                            li.on('click', function () {
+                                $anchor.val(txt);
+                                closeAnyPanel();
+                            });
+                            $list.append(li);
+                        });
+                    }
+                    renderList();
+
+                    // تحديد مكان ظهور البانل أسفل الحقل
+                    const rect = $anchor[0].getBoundingClientRect();
+                    const top = window.scrollY + rect.top + $anchor.outerHeight();
+                    const left = window.scrollX + rect.left;
+                    $panel.css({
+                        top: top + "px",
+                        left: left + "px",
+                        width: rect.width + "px"
+                    });
+
+                    $('body').append($panel);
+
+                    // البحث الحي
+                    const $search = $panel.find('.search-picker-search');
+                    $search.on('input', function () {
+                        renderList(this.value);
+                    });
+
+                    // إغلاق عند الضغط خارج
+                    setTimeout(() => {
+                        $(document).on('mousedown.searchpicker', function (ev) {
+                            if ($(ev.target).closest('.search-picker-panel').length) return;
+                            if ($(ev.target).is($anchor)) return;
+                            closeAnyPanel();
+                        });
+                    }, 0);
+                }
+
+                function closeAnyPanel() {
+                    $('.search-picker-panel').remove();
+                    $(document).off('mousedown.searchpicker');
+                }
+            }
+        });
+    </script>
+}

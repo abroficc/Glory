@@ -1,0 +1,674 @@
+@{
+    ViewBag.Title = "نظام إدارة المياه";
+}
+
+@section styles
+{
+}
+
+<div class="container-fluid">
+
+    @await Html.PartialAsync("~/Views/Shared/Partials/_PageTitle.cshtml")
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body p-0">
+                    <div class="row g-0">
+                        <!-- Left Stats Section -->
+                        <div class="col-xxl-3 order-2 order-xxl-1">
+                            <div class="row g-0">
+                                <!-- Water Consumption -->
+                                <div class="col-lg-6 col-xl-6 col-xxl-12">
+                                    <div class="p-3 rounded m-1 border border-dashed">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <h3 class="mb-1"><span data-target="12.45">0</span>م³ <span class="text-success fs-base">+2.1% <i class="ti ti-trending-up"></i></span></h3>
+                                                <p class="mb-0 text-muted">استهلاك المياه</p>
+                                            </div>
+                                            <div class="avatar-xl">
+                                                <span class="avatar-title text-bg-light rounded-circle">
+                                                    <i class="ti ti-droplet fs-2 text-primary"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Water Pressure -->
+                                <div class="col-lg-6 col-xl-6 col-xxl-12">
+                                    <div class="p-3 rounded m-1 mt-xxl-0 border border-dashed">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <h3 class="mb-1"><span data-target="42.3">0</span>psi <span class="text-success fs-base">+1.2% <i class="ti ti-gauge"></i></span></h3>
+                                                <p class="mb-0 text-muted">ضغط المياه</p>
+                                            </div>
+                                            <div class="avatar-xl">
+                                                <span class="avatar-title text-bg-light rounded-circle">
+                                                    <i class="ti ti-gauge fs-2 text-info"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Leak Detection -->
+                                <div class="col-lg-6 col-xl-6 col-xxl-12">
+                                    <div class="p-3 rounded m-1 mt-xxl-0 border border-dashed">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <h3 class="mb-1"><span data-target="3">0</span> <span class="text-danger fs-base">+1 <i class="ti ti-alert-triangle"></i></span></h3>
+                                                <p class="mb-0 text-muted">التسريبات</p>
+                                            </div>
+                                            <div class="avatar-xl">
+                                                <span class="avatar-title text-bg-light rounded-circle">
+                                                    <i class="ti ti-alert-triangle fs-2 text-danger"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Active Panels -->
+                                <div class="col-lg-6 col-xl-6 col-xxl-12">
+                                    <div class="p-3 rounded m-1 mt-xxl-0 border border-dashed">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <h3 class="mb-1"><span data-target="24">0</span>/28 <span class="text-success fs-base">+4 <i class="ti ti-devices"></i></span></h3>
+                                                <p class="mb-0 text-muted">الألواح النشطة</p>
+                                            </div>
+                                            <div class="avatar-xl">
+                                                <span class="avatar-title text-bg-light rounded-circle">
+                                                    <i class="ti ti-devices fs-2 text-success"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> <!-- end col-->
+                            </div> <!-- end row-->
+                        </div> <!-- end col-->
+                        <!-- Right Chart Section -->
+                        <div class="col-xxl-9 order-1 order-xxl-2 border-start border-dashed">
+                            <div class="card-header justify-content-between border-dashed">
+                                <h4 class="card-title mb-0">نظرة عامة على نظام المياه</h4>
+                                <div class="d-flex flex-wrap gap-1">
+                                    <a href="javascript:void(0);" class="btn btn-sm btn-primary">
+                                        <i class="ti ti-download me-1"></i> تصدير التقرير
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div dir="ltr">
+                                    <div id="water-consumption-chart" class="apex-charts"></div>
+                                </div>
+                            </div>
+                        </div> <!-- end col-->
+                    </div> <!-- end row-->
+                </div> <!-- end card-body-->
+            </div> <!-- end card-->
+
+            <div class="row">
+                <div class="col-xxl-4">
+                    <div class="card">
+                        <div class="card-header justify-content-between align-items-center">
+                            <h4 class="card-title">حالة ألواح المياه</h4>
+                            <div class="card-action">
+                                <a href="#!" class="card-action-item" data-action="card-toggle"><i class="ti ti-chevron-up"></i></a>
+                                <a href="#!" class="card-action-item" data-action="card-refresh"><i class="ti ti-refresh"></i></a>
+                                <a href="#!" class="card-action-item" data-action="card-close"><i class="ti ti-x"></i></a>
+                            </div>
+                        </div>
+                        <div class="card-body pb-0">
+                            <div id="panels-status-chart" class="apex-chart"></div>
+                        </div> <!-- end card-body-->
+
+                        <div class="card-body p-0">
+                            <div class="table-responsive">
+                                <table class="table table-custom table-nowrap table-hover table-centered mb-0">
+                                    <thead class="bg-light align-middle bg-opacity-25 thead-sm">
+                                        <tr class="text-uppercase fs-xxs">
+                                            <th class="text-muted">رقم اللوحة</th>
+                                            <th class="text-muted">الحالة</th>
+                                            <th class="text-muted">عنوان IP</th>
+                                            <th class="text-muted text-end">آخر تحديث</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>WP-101</td>
+                                            <td><span class="badge bg-success">نشط</span></td>
+                                            <td>192.168.1.101</td>
+                                            <td class="text-end">الآن</td>
+                                        </tr>
+                                        <tr>
+                                            <td>WP-102</td>
+                                            <td><span class="badge bg-success">نشط</span></td>
+                                            <td>192.168.1.102</td>
+                                            <td class="text-end">منذ 2 دقيقة</td>
+                                        </tr>
+                                        <tr>
+                                            <td>WP-103</td>
+                                            <td><span class="badge bg-warning">تحذير</span></td>
+                                            <td>192.168.1.103</td>
+                                            <td class="text-end">منذ 5 دقائق</td>
+                                        </tr>
+                                        <tr>
+                                            <td>WP-104</td>
+                                            <td><span class="badge bg-danger">خطأ</span></td>
+                                            <td>192.168.1.104</td>
+                                            <td class="text-end">منذ 10 دقائق</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="border-bottom-0">WP-105</td>
+                                            <td class="border-bottom-0"><span class="badge bg-success">نشط</span></td>
+                                            <td class="border-bottom-0">192.168.1.105</td>
+                                            <td class="text-end border-bottom-0">منذ 1 دقيقة</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                            </div> <!-- end table-responsive-->
+                        </div> <!-- end card-body-->
+                    </div> <!-- end card-->
+                </div> <!-- end col-->
+
+                <div class="col-xxl-4 col-lg-6">
+                    <div class="card">
+                        <div class="card-header justify-content-between align-items-center">
+                            <h5 class="card-title">جودة المياه</h5>
+                            <div class="card-action">
+                                <a href="#!" class="card-action-item" data-action="card-toggle"><i class="ti ti-chevron-up"></i></a>
+                                <a href="#!" class="card-action-item" data-action="card-refresh"><i class="ti ti-refresh"></i></a>
+                                <a href="#!" class="card-action-item" data-action="card-close"><i class="ti ti-x"></i></a>
+                            </div>
+                        </div>
+
+                        <div class="card-body">
+                            <div class="row mb-2">
+                                <div class="col-lg">
+                                    <h3 class="mb-2 fw-bold" id="water-quality-index">87.5</h3>
+                                    <p class="mb-2 fw-semibold text-muted">مؤشر الجودة</p>
+                                </div><!--end col-->
+                                <div class="col-lg-auto align-self-center">
+                                    <ul class="list-unstyled mb-0 lh-lg">
+                                        <li>
+                                            <i class="ti ti-caret-right-filled fs-lg align-middle text-success"></i>
+                                            <span class="text-muted">PH</span>
+                                        </li>
+                                        <li>
+                                            <i class="ti ti-caret-right-filled fs-lg align-middle text-primary"></i>
+                                            <span class="text-muted">التعكر</span>
+                                        </li>
+                                        <li>
+                                            <i class="ti ti-caret-right-filled fs-lg align-middle text-warning"></i>
+                                            <span class="text-muted">الكلور</span>
+                                        </li>
+                                    </ul>
+                                </div><!--end col-->
+                            </div><!--end row-->
+                            <div class="progress mb-3" style="height: 20px;">
+                                <div class="progress-bar bg-success" role="progressbar" style="width: 87.5%" aria-valuenow="87.5" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-sm table-custom table-nowrap table-hover table-centered mb-0">
+                                    <thead class="bg-light align-middle bg-opacity-25 thead-sm">
+                                        <tr class="text-uppercase fs-xxs">
+                                            <th class="text-muted">المعيار</th>
+                                            <th class="text-muted text-end">القيمة</th>
+                                            <th class="text-muted text-end">الحد المسموح</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>PH</td>
+                                            <td class="text-end">7.2</td>
+                                            <td class="text-end">6.5-8.5</td>
+                                        </tr>
+                                        <tr>
+                                            <td>التعكر</td>
+                                            <td class="text-end">0.8 NTU</td>
+                                            <td class="text-end">≤ 1.0 NTU</td>
+                                        </tr>
+                                        <tr>
+                                            <td>الكلور المتبقي</td>
+                                            <td class="text-end">0.5 mg/L</td>
+                                            <td class="text-end">0.2-4.0 mg/L</td>
+                                        </tr>
+                                        <tr>
+                                            <td>الصلابة</td>
+                                            <td class="text-end">120 mg/L</td>
+                                            <td class="text-end">≤ 180 mg/L</td>
+                                        </tr>
+                                        <tr>
+                                            <td>الكلوريد</td>
+                                            <td class="text-end">45 mg/L</td>
+                                            <td class="text-end">≤ 250 mg/L</td>
+                                        </tr>
+                                        <tr>
+                                            <td>النترات</td>
+                                            <td class="text-end">8.2 mg/L</td>
+                                            <td class="text-end">≤ 50 mg/L</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div> <!-- ed .table-responsive-->
+                            <div class="text-end mt-3">
+                                <a href=@Url.Action("Chat", "Apps") class="link-reset text-decoration-underline fw-semibold link-offset-3">
+                                    عرض تقرير الجودة <i class="ti ti-file-description"></i>
+                                </a>
+                            </div>
+                        </div> <!-- end card-body-->
+                    </div> <!-- end card-->
+
+                </div> <!-- end col-->
+
+                <div class="col-xxl-4 col-lg-6">
+                    <div class="card">
+                        <div class="card-header justify-content-between align-items-center">
+                            <h4 class="card-title">مراكز التوزيع</h4>
+                            <div class="card-action">
+                                <a href="#!" class="card-action-item" data-action="card-toggle"><i class="ti ti-chevron-up"></i></a>
+                                <a href="#!" class="card-action-item" data-action="card-refresh"><i class="ti ti-refresh"></i></a>
+                                <a href="#!" class="card-action-item" data-action="card-close"><i class="ti ti-x"></i></a>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="d-flex align-items-center gap-2 mb-3">
+                                <span class="fs-sm fw-medium fst-italic text-muted">01.</span>
+                                <h5 class="mb-0 fw-medium"><a href="#!" class="link-reset">مركز صنعاء</a></h5>
+                                <div class="ms-auto">
+                                    <div class="d-flex align-items-center gap-3">
+                                        <p class="mb-0 fw-medium">98.2%</p>
+                                        <p class="badge badge-label fs-xxs badge-soft-success mb-0">+0.5%</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center gap-2 mb-3">
+                                <span class="fs-sm fw-medium fst-italic text-muted">02.</span>
+                                <h5 class="mb-0 fw-medium"><a href="#!" class="link-reset">مركز عدن</a></h5>
+                                <div class="ms-auto">
+                                    <div class="d-flex align-items-center gap-3">
+                                        <p class="mb-0 fw-medium">96.8%</p>
+                                        <p class="badge badge-label fs-xxs badge-soft-success mb-0">+0.3%</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center gap-2 mb-3">
+                                <span class="fs-sm fw-medium fst-italic text-muted">03.</span>
+                                <h5 class="mb-0 fw-medium"><a href="#!" class="link-reset">مركز تعز</a></h5>
+                                <div class="ms-auto">
+                                    <div class="d-flex align-items-center gap-3">
+                                        <p class="mb-0 fw-medium">95.4%</p>
+                                        <p class="badge badge-label fs-xxs badge-soft-warning mb-0">-0.2%</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center gap-2 mb-3">
+                                <span class="fs-sm fw-medium fst-italic text-muted">04.</span>
+                                <h5 class="mb-0 fw-medium">
+                                    <a href="#!" class="link-reset">مركز حضرموت</a>
+                                </h5>
+                                <div class="ms-auto">
+                                    <div class="d-flex align-items-center gap-3">
+                                        <p class="mb-0 fw-medium">97.1%</p>
+                                        <p class="badge badge-label fs-xxs badge-soft-success mb-0">+0.7%</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center gap-2 mb-3">
+                                <span class="fs-sm fw-medium fst-italic text-muted">05.</span>
+                                <h5 class="mb-0 fw-medium">
+                                    <a href="#!" class="link-reset">مركز إب</a>
+                                </h5>
+                                <div class="ms-auto">
+                                    <div class="d-flex align-items-center gap-3">
+                                        <p class="mb-0 fw-medium">94.6%</p>
+                                        <p class="badge badge-label fs-xxs badge-soft-danger mb-0">-0.8%</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center gap-2 mb-3">
+                                <span class="fs-sm fw-medium fst-italic text-muted">06.</span>
+                                <h5 class="mb-0 fw-medium"><a href="#!" class="link-reset">مركز-Taiz</a></h5>
+                                <div class="ms-auto">
+                                    <div class="d-flex align-items-center gap-3">
+                                        <p class="mb-0 fw-medium">96.3%</p>
+                                        <p class="badge badge-label fs-xxs badge-soft-success mb-0">+0.1%</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-center mt-2">
+                                <a href=@Url.Action("Chat", "Apps") class="link-reset text-decoration-underline fw-semibold link-offset-3">
+                                    عرض جميع المراكز <i class="ti ti-map-pin"></i>
+                                </a>
+                            </div>
+                        </div> <!-- end card-body -->
+                    </div> <!-- end card-->
+                </div> <!-- end col-->
+            </div><!--end row-->
+            <div class="row">
+                <div class="col-12">
+                    <div data-table data-table-rows-per-page="5" class="card">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="card-title">تقارير الإنذار</h5>
+                            <div class="card-action">
+                                <a href="#!" class="card-action-item" data-action="card-toggle"><i class="ti ti-chevron-up"></i></a>
+                                <a href="#!" class="card-action-item" data-action="card-refresh"><i class="ti ti-refresh"></i></a>
+                                <a href="#!" class="card-action-item" data-action="card-close"><i class="ti ti-x"></i></a>
+                            </div>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="table-responsive">
+                                <table class="table table-custom table-nowrap table-hover table-centered mb-0">
+                                    <thead class="bg-light align-middle bg-opacity-25 thead-sm">
+                                        <tr class="text-uppercase fs-xxs">
+                                            <th class="text-muted">الوقت</th>
+                                            <th data-table-sort class="text-muted">اللوحة</th>
+                                            <th data-table-sort class="text-muted">النوع</th>
+                                            <th data-table-sort class="text-muted">الوصف</th>
+                                            <th data-table-sort class="text-muted">الحالة</th>
+                                            <th data-table-sort class="text-muted">الإجراء</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="text-sm">
+                                        <tr>
+                                            <td>10:25 صباحاً</td>
+                                            <td>WP-104</td>
+                                            <td><span class="badge bg-danger">خطأ</span></td>
+                                            <td>فشل في الاتصال باللوحة</td>
+                                            <td><span class="badge bg-warning">قيد المعالجة</span></td>
+                                            <td><button class="btn btn-sm btn-primary">معالجة</button></td>
+                                        </tr>
+                                        <tr>
+                                            <td>09:45 صباحاً</td>
+                                            <td>WP-112</td>
+                                            <td><span class="badge bg-warning">تحذير</span></td>
+                                            <td>انخفاض في ضغط المياه</td>
+                                            <td><span class="badge bg-success">تم الحل</span></td>
+                                            <td><button class="btn btn-sm btn-secondary">عرض</button></td>
+                                        </tr>
+                                        <tr>
+                                            <td>08:30 صباحاً</td>
+                                            <td>WP-108</td>
+                                            <td><span class="badge bg-danger">خطأ</span></td>
+                                            <td>تسريب محتمل في النظام</td>
+                                            <td><span class="badge bg-success">تم الحل</span></td>
+                                            <td><button class="btn btn-sm btn-secondary">عرض</button></td>
+                                        </tr>
+                                        <tr>
+                                            <td>07:15 صباحاً</td>
+                                            <td>WP-103</td>
+                                            <td><span class="badge bg-warning">تحذير</span></td>
+                                            <td>جودة المياه دون المعدل</td>
+                                            <td><span class="badge bg-success">تم الحل</span></td>
+                                            <td><button class="btn btn-sm btn-secondary">عرض</button></td>
+                                        </tr>
+                                        <tr>
+                                            <td>البارحة</td>
+                                            <td>WP-115</td>
+                                            <td><span class="badge bg-danger">خطأ</span></td>
+                                            <td>انقطاع في التيار الكهربائي</td>
+                                            <td><span class="badge bg-success">تم الحل</span></td>
+                                            <td><button class="btn btn-sm btn-secondary">عرض</button></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div> <!-- end .table-responsive-->
+                        </div> <!-- end card-body-->
+                        <div class="card-footer border-0">
+                            <div class="align-items-center justify-content-between row text-center text-sm-start">
+                                <div class="col-sm">
+                                    <div data-table-pagination-info></div>
+                                </div>
+                                <div class="col-sm-auto mt-3 mt-sm-0">
+                                    <div data-table-pagination></div>
+                                </div> <!-- end col-->
+                            </div> <!-- end row-->
+                        </div> <!-- end card-footer-->
+                    </div> <!-- end card-->
+
+                </div> <!-- end col-->
+            </div><!--end row-->
+        </div><!--end col-->
+    </div> <!-- end row-->
+
+</div>
+
+<!-- Right Sidebar -->
+<div class="asidebar-button d-xl-none d-flex">
+    <button class="btn btn-danger btn-icon rounded-end-0" data-bs-toggle="offcanvas" data-bs-target="#asidebar-offcanvas">
+        <i class="ti ti-adjustments-horizontal fs-xl"></i>
+    </button>
+</div>
+
+<div class="asidebar border-start offcanvas-xl offcanvas-end overflow-hidden" tabindex="-1" id="asidebar-offcanvas">
+    <div class="offcanvas-body p-0 h-100" data-simplebar>
+        <div class="d-block">
+            <div class="p-3 border-bottom">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <p class="mb-0 fw-semibold fs-sm">رسالة سريعة</p>
+                    <p class="fw-semibold text-success mb-0 fs-xs"><i class="ti ti-circle-filled"></i> متصل</p>
+                </div>
+                <a href="#" class="d-block py-2">
+                    <span class="badge text-bg-danger rounded-circle float-end">2</span>
+                    <span class="d-flex align-items-center">
+                        <span class="flex-shrink-0">
+                            <img src="~/images/users/user-3.jpg" alt="مهندس النظام" class="avatar-sm rounded-circle">
+                        </span>
+                        <span class="flex-grow-1 ms-2 text-truncate">
+                            <span class="mb-0 lh-base d-block fw-medium text-body fs-base">مهندس النظام</span>
+                            <span class="text-success fs-xxs mb-0">نشط الآن</span>
+                        </span>
+                    </span>
+                </a>
+                <a href="#" class="d-block py-2">
+                    <span class="text-muted float-end fs-10">منذ 15 دقيقة</span>
+                    <span class="d-flex align-items-center">
+                        <span class="flex-shrink-0">
+                            <img src="~/images/users/user-4.jpg" alt="مدير العمليات" class="avatar-sm rounded-circle">
+                        </span>
+                        <span class="flex-grow-1 ms-2 text-truncate">
+                            <span class="mb-0 lh-base d-block fw-medium text-body fs-base">مدير العمليات</span>
+                            <span class="text-muted fs-xxs mb-0">سأقوم بالتحقق من ذلك</span>
+                        </span>
+                    </span>
+                </a>
+
+                <a href="#" class="d-block py-2">
+                    <span class="badge text-bg-success rounded-circle float-end">1</span>
+                    <span class="d-flex align-items-center">
+                        <span class="flex-shrink-0">
+                            <span class="avatar avatar-sm d-block">
+                                <span class="avatar-title bg-info-subtle text-info rounded-circle fw-bold">
+                                    T
+                                </span>
+                            </span>
+                        </span>
+                        <span class="flex-grow-1 ms-2 text-truncate">
+                            <span class="mb-0 lh-base d-block fw-medium text-body fs-base">فني الصيانة</span>
+                            <span class="text-muted fs-xxs mb-0">جاهز للتنفيذ</span>
+                        </span>
+                    </span>
+                </a>
+                <div class="text-center mt-2">
+                    <a href="chat.html" class="link-reset text-decoration-underline fw-semibold link-offset-3">
+                        الذهاب إلى الدردشة <i class="ti ti-message"></i>
+                    </a>
+                </div>
+            </div> <!-- end Quick Message-->
+
+            <div class="border-bottom">
+                <ul class="nav nav-tabs nav-justified nav-bordered nav-bordered-secondary mb-0">
+                    <li class="nav-item">
+                        <a href="#Alerts" data-bs-toggle="tab" aria-expanded="false" class="nav-link active">
+                            <i class="ti ti-bell fs-xl me-md-1"></i>
+                            <span class="d-none d-md-inline-block">الإنذارات</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#Maintenance" data-bs-toggle="tab" aria-expanded="true" class="nav-link">
+                            <i class="ti ti-wrench fs-xl me-md-1"></i>
+                            <span class="d-none d-md-inline-block">الصيانة</span>
+                        </a>
+                    </li>
+                </ul>
+                <div class="p-3">
+                    <div class="tab-content">
+                        <div class="tab-pane show active" id="Alerts">
+                            <h4 class="mb-2">3<span class="text-muted ms-1 fs-sm">إنذارات نشطة</span></h4>
+                            <div class="d-flex align-items-center border-bottom border-light border-dashed pb-3 mb-3">
+                                <div class="flex-shrink-0 me-2">
+                                    <div class="avatar-xs">
+                                        <span class="avatar-title bg-danger-subtle text-danger rounded-circle">
+                                            <i class="ti ti-alert-triangle"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <h5 class="fs-sm mb-1">خطأ في اللوحة WP-104</h5>
+                                    <p class="text-muted fs-xs mb-0">فشل في الاتصال باللوحة منذ 15 دقيقة</p>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center border-bottom border-light border-dashed pb-3 mb-3">
+                                <div class="flex-shrink-0 me-2">
+                                    <div class="avatar-xs">
+                                        <span class="avatar-title bg-warning-subtle text-warning rounded-circle">
+                                            <i class="ti ti-droplet-off"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <h5 class="fs-sm mb-1">انخفاض في ضغط المياه</h5>
+                                    <p class="text-muted fs-xs mb-0">اللوحة WP-112 تشير إلى انخفاض في الضغط</p>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <div class="flex-shrink-0 me-2">
+                                    <div class="avatar-xs">
+                                        <span class="avatar-title bg-warning-subtle text-warning rounded-circle">
+                                            <i class="ti ti-droplet-half"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <h5 class="fs-sm mb-1">جودة المياه</h5>
+                                    <p class="text-muted fs-xs mb-0">مستوى الكلور منخفض في اللوحة WP-108</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="Maintenance">
+                            <h4 class="mb-2">5<span class="text-muted ms-1 fs-sm">مهام مجدولة</span></h4>
+                            <div class="d-flex align-items-center border-bottom border-light border-dashed pb-3 mb-3">
+                                <div class="flex-shrink-0 me-2">
+                                    <div class="avatar-xs">
+                                        <span class="avatar-title bg-primary-subtle text-primary rounded-circle">
+                                            <i class="ti ti-calendar-event"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <h5 class="fs-sm mb-1">فحص دوري للوحة WP-101</h5>
+                                    <p class="text-muted fs-xs mb-0">مجدول لـ 15/09/2025</p>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center border-bottom border-light border-dashed pb-3 mb-3">
+                                <div class="flex-shrink-0 me-2">
+                                    <div class="avatar-xs">
+                                        <span class="avatar-title bg-primary-subtle text-primary rounded-circle">
+                                            <i class="ti ti-calendar-event"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <h5 class="fs-sm mb-1">_calibration أجهزة الاستشعار</h5>
+                                    <p class="text-muted fs-xs mb-0">مجدول لـ 18/09/2025</p>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <div class="flex-shrink-0 me-2">
+                                    <div class="avatar-xs">
+                                        <span class="avatar-title bg-primary-subtle text-primary rounded-circle">
+                                            <i class="ti ti-calendar-event"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <h5 class="fs-sm mb-1">تحديث البرامج الثابتة</h5>
+                                    <p class="text-muted fs-xs mb-0">مجدول لـ 20/09/2025</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div> <!-- end .tab-content-->
+                </div> <!-- end .p-3-->
+            </div> <!-- end Alerts & Maintenance -->
+
+            <div class="p-3">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <p class="mb-0 fw-semibold fs-sm">جدول أعمال اليوم </p>
+                    <a href="#" class="text-muted d-flex align-items-center fs-xs fw-semibold">
+                        <i class="ti ti-calendar me-1"></i><span>دعوة</span>
+                    </a>
+                </div>
+                <div class="pb-2 border-bottom border-light border-dashed">
+                    <div class="mb-2">
+                        <p class="mb-0 text-truncate fs-base fw-medium">اجتماع الصيانة اليومية</p>
+                        <span class="text-warning fs-xs">جلسة لمدة 30 دقيقة مع فريق الصيانة</span>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="avatar-group avatar-group-xs">
+                            <div class="avatar">
+                                <img src="~/images/users/user-5.jpg" alt="محمد أحمد" class="avatar-xs rounded-circle">
+                            </div>
+                            <div class="avatar">
+                                <img src="~/images/users/user-6.jpg" alt="علي حسين" class="avatar-xs rounded-circle">
+                            </div>
+                            <div class="avatar avatar-xs">
+                                <span class="avatar-title bg-primary-subtle text-primary rounded-circle fw-bold">
+                                    S
+                                </span>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-sm btn-soft-secondary rounded-circle btn-icon">
+                            <i class="ti ti-calendar-event fs-lg"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="py-2 border-bottom border-light border-dashed">
+                    <div class="mb-2">
+                        <p class="mb-0 text-truncate fs-base fw-medium">فحص نظام التوزيع</p>
+                        <span class="text-success fs-xs">جولة تفتيشية في مركز صنعاء</span>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="avatar-group avatar-group-xs">
+                            <div class="avatar">
+                                <img src="~/images/users/user-7.jpg" alt="عبدالله خالد" class="avatar-xs rounded-circle">
+                            </div>
+                            <div class="avatar">
+                                <img src="~/images/users/user-8.jpg" alt="يوسف علي" class="avatar-xs rounded-circle">
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-sm btn-soft-secondary rounded-circle btn-icon">
+                            <i class="ti ti-map-pin fs-lg"></i>
+                        </button>
+                    </div>
+                </div>
+            </div> <!-- end Today's Schedule-->
+        </div><!--end card-body-->
+    </div> <!-- end offcanvas-body-->
+</div>
+
+
+@section scripts
+{
+ 
+
+    <!-- Plugins js -->
+    <script src="~/plugins/apexcharts/apexcharts.min.js"></script>
+
+    <!-- Custom table -->
+    <script src="~/js/pages/custom-table.js"></script>
+
+    <!-- Dashboard 3 Page Js-->
+    <script src="~/js/pages/dashboard-3.js"></script>
+}

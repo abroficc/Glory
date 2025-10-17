@@ -1,0 +1,126 @@
+@model dynamic
+
+<div class="card" dir="rtl">
+    <div class="card-header bg-light d-flex justify-content-between align-items-center">
+        <h6 class="mb-0">التسديدات</h6>
+    </div>
+
+    <!-- ملاحظة -->
+    <div class="alert alert-warning m-2">
+        الميزة غير متوفرة في نظامك. اطلبها من المجد تليكوم
+    </div>
+
+    <div class="card-body">
+        <div class="row g-3 mb-3">
+            <!-- الخدمة -->
+            <div class="col-md-6">
+                <label for="@(ViewData["Prefix"])-service" class="form-label fw-bold">
+                    الخدمة<span class="text-danger">*</span>
+                </label>
+                <select id="@(ViewData["Prefix"])-service" class="form-select selectpicker" data-live-search="true" required>
+                    <option selected disabled>اختر الخدمة</option>
+                    <option value="1">تسديد رصيد موبايل</option>
+                    <option value="2">رصيد وباقة ( سعر الرصيد + نوع الباقة )</option>
+                    <option value="3">تسديد الانترنت ADSL</option>
+                    <option value="4">تسديد الهاتف الثابت</option>
+                    <option value="5">بدل فاقد يمن موبايل</option>
+                    <option value="6">شريحة يمن موبايل</option>
+                    <option value="7">شحن فوري للجميع</option>
+                </select>
+            </div>
+
+            <!-- العملة -->
+            <div class="col-md-6">
+                <label for="@(ViewData["Prefix"])-currency" class="form-label fw-bold">
+                    العملة <span class="text-muted">(اختياري)</span>
+                </label>
+                <select id="@(ViewData["Prefix"])-currency" class="form-select selectpicker" data-live-search="true">
+                    <option selected>اختر العملة</option>
+                    <option value="1">ريال يمني</option>
+                    <option value="2">سعودي</option>
+                    <option value="3">دولار امريكي</option>
+                    <option value="4">الريال الجديد اليمني</option>
+                </select>
+            </div>
+
+            <!-- الشبكة -->
+            <div class="col-md-6">
+                <label for="@(ViewData["Prefix"])-network" class="form-label fw-bold">
+                    أو اختر الشبكة <span class="text-danger">*</span>
+                </label>
+                <select id="@(ViewData["Prefix"])-network" class="form-select selectpicker" data-live-search="true" required>
+                    <option selected disabled>اختر الشبكة</option>
+                    <option value="1">يمن موبايل</option>
+                    <option value="2">شحن فوري يمن موبايل</option>
+                    <option value="3">يو</option>
+                    <option value="4">باقات يو</option>
+                    <option value="5">كروت شبكات WIFI</option>
+                    <option value="6">ارسال حوالة</option>
+                    <option value="7">سبافون</option>
+                </select>
+            </div>
+
+            <!-- مجموعة التسعيرة -->
+            <div class="col-md-6">
+                <label for="@(ViewData["Prefix"])-pricing-group" class="form-label fw-bold">
+                    مجموعة التسعيرة<span class="text-danger">*</span>
+                </label>
+                <select id="@(ViewData["Prefix"])-pricing-group" class="form-select selectpicker" data-live-search="true" required>
+                    <option selected disabled>اختر المجموعة</option>
+                    <option value="0">بدون مجموعة</option>
+                    <option value="1">عميل مميز</option>
+                    <option value="2">الوكيل المميز</option>
+                    <option value="3">الوكلاء والتطبيقات</option>
+                    <option value="4">التطبيقات الام</option>
+                    <option value="5">اضافة 1</option>
+                    <option value="6">اضافة 2</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- جدول المبالغ -->
+        <div class="table-responsive">
+            <table class="table table-bordered align-middle text-center">
+                <thead class="table-light">
+                    <tr>
+                        <th>من مبلغ</th>
+                        <th>إلى مبلغ</th>
+                        <th>النسبة</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- صفوف قابلة للإضافة -->
+                    <tr>
+                        <td><input type="text" class="form-control form-control-sm" id="@(ViewData["Prefix"])-range1-min" placeholder="من مبلغ"></td>
+                        <td><input type="text" class="form-control form-control-sm" id="@(ViewData["Prefix"])-range1-max" placeholder="إلى مبلغ"></td>
+                        <td><input type="text" class="form-control form-control-sm" id="@(ViewData["Prefix"])-range1-ratio" placeholder="النسبة"></td>
+                    </tr>
+                    <tr>
+                        <td><input type="text" class="form-control form-control-sm" id="@(ViewData["Prefix"])-range2-min" placeholder="من مبلغ"></td>
+                        <td><input type="text" class="form-control form-control-sm" id="@(ViewData["Prefix"])-range2-max" placeholder="إلى مبلغ"></td>
+                        <td><input type="text" class="form-control form-control-sm" id="@(ViewData["Prefix"])-range2-ratio" placeholder="النسبة"></td>
+                    </tr>
+                    <tr>
+                        <td><input type="text" class="form-control form-control-sm" id="@(ViewData["Prefix"])-range3-min" placeholder="من مبلغ"></td>
+                        <td><input type="text" class="form-control form-control-sm" id="@(ViewData["Prefix"])-range3-max" placeholder="إلى مبلغ"></td>
+                        <td><input type="text" class="form-control form-control-sm" id="@(ViewData["Prefix"])-range3-ratio" placeholder="النسبة"></td>
+                    </tr>
+                    <tr>
+                        <td><input type="text" class="form-control form-control-sm" id="@(ViewData["Prefix"])-range4-min" placeholder="من مبلغ"></td>
+                        <td><input type="text" class="form-control form-control-sm" id="@(ViewData["Prefix"])-range4-max" placeholder="إلى مبلغ"></td>
+                        <td><input type="text" class="form-control form-control-sm" id="@(ViewData["Prefix"])-range4-ratio" placeholder="النسبة"></td>
+                    </tr>
+                    <tr>
+                        <td><input type="text" class="form-control form-control-sm" id="@(ViewData["Prefix"])-range5-min" placeholder="من مبلغ"></td>
+                        <td><input type="text" class="form-control form-control-sm" id="@(ViewData["Prefix"])-range5-max" placeholder="إلى مبلغ"></td>
+                        <td><input type="text" class="form-control form-control-sm" id="@(ViewData["Prefix"])-range5-ratio" placeholder="النسبة"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="card-footer text-start">
+        // Save button removed to avoid duplication with modal footer buttons
+    </div>
+</div>

@@ -1,0 +1,124 @@
+@model Glory77.Models.PaymentDistributionFormModel
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="alert alert-warning">
+        <i class="fas fa-exclamation-triangle"></i>
+        ملاحظة: يجب اختيار اما مجموعة أو عميل/وكيل . لا يجب اختيار المجموعة والعميل في نفس الوقت!
+      </div>
+
+      <div class="alert alert-info">
+        <i class="fas fa-info-circle"></i>
+        اختر المجموعة (مجموعة التسعيرات)
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <!-- اختيار المجموعة -->
+    <div class="col-md-12 mb-3">
+      <div class="v-section">
+        <div class="v-cap">معلومات المجموعة</div>
+        <div class="field">
+          <label class="mlabel">المجموعة</label>
+          <select class="selectpicker form-control" data-live-search="true" title="اختر المجموعة" @(Model.IsViewMode ? "disabled" : "")>
+            <option>بدون مجموعة</option>
+            <option>عميل مميز</option>
+            <option>الوكيل المميز</option>
+            <option>الوكلاء والتطبيقات</option>
+            <option>التطبيقات الأم</option>
+            <option>المحلات</option>
+            <option>جراند كول تيليكوم</option>
+            <option>يمن موبايل صنعاء كاش</option>
+            <option>المجد تيليكوم</option>
+            <option>كوماكس</option>
+            <option>تساهيل</option>
+            <option>الأمين تيليكوم</option>
+            <option>سبأفون و يو و النت وفورجي</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- اختيار العميل -->
+    <div class="col-md-12 mb-3">
+      <div class="v-section">
+        <div class="v-cap">معلومات العميل</div>
+        <div class="field">
+          <label class="mlabel">أو اختر عميل</label>
+          <select class="selectpicker form-control" data-live-search="true" title="اختر العميل" @(Model.IsViewMode ? "disabled" : "")>
+            <option>1/ متجر قوقل بلاي - Google Play</option>
+            <option>2/ أيمن أحمد قاسم ظافر - متداول</option>
+            <option>3/ محمد عبدالرحمن الوشلي - طبيب</option>
+            <option>4/ مازن أحمد ناصر الوشلي - المدير</option>
+            <option>5/ شيماء عبدالرحمن يحيى الوشلي - زوجة المدير</option>
+            <option>7/ عبدالله يحيى محمد جحاف - خاص</option>
+            <option>9/ عبدالقادر ضيف الله ناجي صالح شوكه - HD للتصوير الرقمي</option>
+            <option>12/ علي عبده مهدي الشويل - بقالة العامري</option>
+            <option>15/ محمد عبدالله حسن محمد - بقالة الحي الراقي</option>
+            <option>20/ عبدالمنعم صادق يحيى الأخرم - نفقات الكيف</option>
+            <option>35/ عرفات أحمد يحيى الوشلي - نجم المدينة</option>
+            <option>60/ خالد عبدالسلام محمد السنحاني - صنعاء كاش</option>
+            <option>68/ أحمد عبدالرحمن قاسم شويل - الأمين تيليكوم</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- اختيار المزود -->
+    <div class="col-md-12 mb-3">
+      <div class="v-section">
+        <div class="v-cap">معلومات المزود</div>
+        <div class="field required">
+          <label class="mlabel">المزود<span style="color:red">*</span></label>
+          <select class="selectpicker form-control" data-live-search="true" title="اختر المزود" @(Model.IsViewMode ? "disabled" : "")>
+            <option>جراند كول / باقات يمن موبايل - رصيد يمن موبايل - شحن فوري يمن موبايل - فحص السلفة يمن موبايل</option>
+            <option>صنعاء كاش / يمن موبايل - سبأفون - يو - واي - فورجي - ألعاب - بطائق - تيك توك - فيزا كارد</option>
+            <option>اتصالاتي / خدمات الاتصالات المتنوعة</option>
+            <option>المجد كاش / باقات يو - شحن فوري يو - يو فوترة</option>
+            <option>المياس للاتصالات / باقات يمن موبايل - سبأفون - يو - واي - فورجي</option>
+            <option>ركن الأمين تيليكوم / شحن فوري يمن موبايل - يو - سبأفون - فورجي - واي</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- الشبكات -->
+    <div class="col-md-12 mb-3">
+      <div class="v-section">
+        <div class="v-cap">الشبكات</div>
+        <div class="field required">
+          <label class="mlabel">الشبكة (حدد الشبكة التي تريد تشغيلها مع المزود)<span style="color:red">*</span></label>
+          <div class="checkbox-group">
+            <div class="row">
+              <div class="col-md-6">
+                <label class="checkbox-label"><input type="checkbox" @(Model.IsViewMode ? "disabled" : "")> باقات يمن موبايل</label>
+                <label class="checkbox-label"><input type="checkbox" @(Model.IsViewMode ? "disabled" : "")> رصيد يمن موبايل</label>
+                <label class="checkbox-label"><input type="checkbox" @(Model.IsViewMode ? "disabled" : "")> شحن فوري يمن موبايل</label>
+                <label class="checkbox-label"><input type="checkbox" @(Model.IsViewMode ? "disabled" : "")> فحص السلفة يمن موبايل</label>
+                <label class="checkbox-label"><input type="checkbox" @(Model.IsViewMode ? "disabled" : "")> فوري يو</label>
+                <label class="checkbox-label"><input type="checkbox" @(Model.IsViewMode ? "disabled" : "")> باقات يو</label>
+                <label class="checkbox-label"><input type="checkbox" @(Model.IsViewMode ? "disabled" : "")> فوري سبافون شمال</label>
+              </div>
+              <div class="col-md-6">
+                <label class="checkbox-label"><input type="checkbox" @(Model.IsViewMode ? "disabled" : "")> فوري سبافون جنوب</label>
+                <label class="checkbox-label"><input type="checkbox" @(Model.IsViewMode ? "disabled" : "")> باقات سبأفون</label>
+                <label class="checkbox-label"><input type="checkbox" @(Model.IsViewMode ? "disabled" : "")> الهاتف الثابت</label>
+                <label class="checkbox-label"><input type="checkbox" @(Model.IsViewMode ? "disabled" : "")> الانترنت الأرضي</label>
+                <label class="checkbox-label"><input type="checkbox" @(Model.IsViewMode ? "disabled" : "")> يمن فورجي</label>
+                <label class="checkbox-label"><input type="checkbox" @(Model.IsViewMode ? "disabled" : "")> ارسال حوالة</label>
+                <label class="checkbox-label"><input type="checkbox" @(Model.IsViewMode ? "disabled" : "")> سداد الكهرباء</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+@if (!Model.IsViewMode)
+{
+    <!-- Form submission is handled by the modal footer buttons -->
+}

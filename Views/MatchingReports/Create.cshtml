@@ -1,0 +1,285 @@
+@model Glory77.Models.MatchingReport
+
+@{
+    Layout = "_VerticalLayout";
+    ViewData["Title"] = "إضافة تقرير مطابقة جديد";
+    ViewData["Direction"] = "rtl";
+}
+
+@section styles {
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        body[dir="rtl"] * {
+            font-family: "Cairo", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+        }
+        
+        .form-section {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid #e9ecef;
+        }
+        
+        [data-bs-theme="dark"] .form-section {
+            background: #1e1f27;
+            border-color: #293036;
+        }
+        
+        .form-section-title {
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #495057;
+            font-size: 18px;
+            border-bottom: 1px solid #dee2e6;
+            padding-bottom: 10px;
+        }
+        
+        [data-bs-theme="dark"] .form-section-title {
+            color: #aab8c5;
+            border-bottom: 1px solid #374151;
+        }
+        
+        .form-label {
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 8px;
+            display: block;
+        }
+        
+        [data-bs-theme="dark"] .form-label {
+            color: #e5e7eb;
+        }
+        
+        .btn-submit {
+            background-color: #1ab394;
+            border-color: #1ab394;
+            padding: 8px 20px;
+            font-size: 16px;
+        }
+        
+        .btn-submit:hover {
+            background-color: #16987e;
+            border-color: #16987e;
+        }
+        
+        .btn-cancel {
+            padding: 8px 20px;
+            font-size: 16px;
+        }
+        
+        .decimal-input, .integer-input {
+            text-align: right;
+        }
+    </style>
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box">
+                <h4 class="page-title">إضافة تقرير مطابقة جديد</h4>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <form asp-action="Create">
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                        
+                        <div class="form-section">
+                            <h5 class="form-section-title">معلومات التقرير</h5>
+                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label asp-for="ProviderId" class="form-label"></label>
+                                        <select asp-for="ProviderId" class="form-control" asp-items="ViewBag.ProviderId">
+                                            <option value="">اختر المزود</option>
+                                        </select>
+                                        <span asp-validation-for="ProviderId" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label asp-for="ReportTime" class="form-label"></label>
+                                        <input asp-for="ReportTime" class="form-control" type="datetime-local" />
+                                        <span asp-validation-for="ReportTime" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="mb-3">
+                                        <label asp-for="Networks" class="form-label"></label>
+                                        <input asp-for="Networks" class="form-control" placeholder="أدخل الشبكات" />
+                                        <span asp-validation-for="Networks" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label asp-for="MatchingStatus" class="form-label"></label>
+                                        <select asp-for="MatchingStatus" class="form-control">
+                                            <option value="">اختر الحالة</option>
+                                            <option value="مطابق">مطابق</option>
+                                            <option value="غير مطابق">غير مطابق</option>
+                                            <option value="معلق">معلق</option>
+                                        </select>
+                                        <span asp-validation-for="MatchingStatus" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-section">
+                            <h5 class="form-section-title">القيم المطابقة - المزود</h5>
+                            
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="mb-3">
+                                        <label asp-for="TotalReadyProvider" class="form-label">إجمالي الجاهز</label>
+                                        <input asp-for="TotalReadyProvider" class="form-control decimal-input" placeholder="0.00" />
+                                        <span asp-validation-for="TotalReadyProvider" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="mb-3">
+                                        <label asp-for="CountReadyProvider" class="form-label">عدد الجاهز</label>
+                                        <input asp-for="CountReadyProvider" class="form-control integer-input" placeholder="0" />
+                                        <span asp-validation-for="CountReadyProvider" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="mb-3">
+                                        <label asp-for="TotalCancelledProvider" class="form-label">إجمالي الملغى</label>
+                                        <input asp-for="TotalCancelledProvider" class="form-control decimal-input" placeholder="0.00" />
+                                        <span asp-validation-for="TotalCancelledProvider" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="mb-3">
+                                        <label asp-for="CountCancelledProvider" class="form-label">عدد الملغى</label>
+                                        <input asp-for="CountCancelledProvider" class="form-control integer-input" placeholder="0" />
+                                        <span asp-validation-for="CountCancelledProvider" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="mb-3">
+                                        <label asp-for="TotalPendingProvider" class="form-label">إجمالي المعلق</label>
+                                        <input asp-for="TotalPendingProvider" class="form-control decimal-input" placeholder="0.00" />
+                                        <span asp-validation-for="TotalPendingProvider" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="mb-3">
+                                        <label asp-for="CountPendingProvider" class="form-label">عدد المعلق</label>
+                                        <input asp-for="CountPendingProvider" class="form-control integer-input" placeholder="0" />
+                                        <span asp-validation-for="CountPendingProvider" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-section">
+                            <h5 class="form-section-title">القيم المطابقة - النظام</h5>
+                            
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="mb-3">
+                                        <label asp-for="TotalReadySystem" class="form-label">إجمالي الجاهز</label>
+                                        <input asp-for="TotalReadySystem" class="form-control decimal-input" placeholder="0.00" />
+                                        <span asp-validation-for="TotalReadySystem" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="mb-3">
+                                        <label asp-for="CountReadySystem" class="form-label">عدد الجاهز</label>
+                                        <input asp-for="CountReadySystem" class="form-control integer-input" placeholder="0" />
+                                        <span asp-validation-for="CountReadySystem" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="mb-3">
+                                        <label asp-for="TotalCancelledSystem" class="form-label">إجمالي الملغى</label>
+                                        <input asp-for="TotalCancelledSystem" class="form-control decimal-input" placeholder="0.00" />
+                                        <span asp-validation-for="TotalCancelledSystem" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="mb-3">
+                                        <label asp-for="CountCancelledSystem" class="form-label">عدد الملغى</label>
+                                        <input asp-for="CountCancelledSystem" class="form-control integer-input" placeholder="0" />
+                                        <span asp-validation-for="CountCancelledSystem" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="mb-3">
+                                        <label asp-for="TotalPendingSystem" class="form-label">إجمالي المعلق</label>
+                                        <input asp-for="TotalPendingSystem" class="form-control decimal-input" placeholder="0.00" />
+                                        <span asp-validation-for="TotalPendingSystem" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="mb-3">
+                                        <label asp-for="CountPendingSystem" class="form-label">عدد المعلق</label>
+                                        <input asp-for="CountPendingSystem" class="form-control integer-input" placeholder="0" />
+                                        <span asp-validation-for="CountPendingSystem" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex justify-content-center gap-2">
+                            <button type="submit" class="btn btn-submit text-white">
+                                <i class="fas fa-save me-1"></i> حفظ
+                            </button>
+                            <a asp-action="Index" class="btn btn-cancel btn-secondary">
+                                <i class="fas fa-arrow-right me-1"></i> رجوع
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Format decimal inputs to show 2 decimal places
+            document.querySelectorAll('.decimal-input').forEach(function(input) {
+                input.addEventListener('blur', function() {
+                    if (this.value) {
+                        this.value = parseFloat(this.value).toFixed(2);
+                    }
+                });
+            });
+            
+            // Allow only numbers in integer inputs
+            document.querySelectorAll('.integer-input').forEach(function(input) {
+                input.addEventListener('keypress', function(e) {
+                    if (e.which < 48 || e.which > 57) {
+                        e.preventDefault();
+                    }
+                });
+            });
+        });
+    </script>
+}

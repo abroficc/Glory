@@ -1,0 +1,392 @@
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الأميز تيليكوم - تصميم ٢</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="~/css/design-previews.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --secondary: #7c3aed;
+            --accent: #0d9488;
+            --light: #f8fafc;
+            --dark: #0f172a;
+        }
+        
+        body {
+            font-family: "Cairo", sans-serif;
+            background-color: #f1f5f9;
+            color: var(--dark);
+        }
+        
+        .navbar-custom {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .hero-section {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            border-radius: 0 0 30px 30px;
+            padding: 4rem 0;
+        }
+        
+        .service-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            height: 100%;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 20px rgba(0,0,0,0.1);
+        }
+        
+        .service-icon {
+            width: 70px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 16px;
+            font-size: 2rem;
+            margin: 0 auto 1rem;
+        }
+        
+        .stats-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .stats-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+        }
+        
+        .feature-box {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        
+        .testimonial-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        
+        .cta-section {
+            background: linear-gradient(135deg, var(--accent) 0%, #0891b2 100%);
+            border-radius: 20px;
+            color: white;
+        }
+        
+        .footer-dark {
+            background: var(--dark);
+            color: white;
+            border-radius: 30px 30px 0 0;
+        }
+        
+        .social-btn {
+            width: 45px;
+            height: 45px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .social-btn:hover {
+            background: white;
+            color: var(--dark);
+            transform: scale(1.1);
+        }
+        
+        .btn-custom {
+            border-radius: 12px;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary-custom {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border: none;
+        }
+        
+        .btn-primary-custom:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(37, 99, 235, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-custom navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand text-white fw-bold" href="#">
+                <img src="~/images/logo.png" alt="Logo" width="50" class="rounded-circle me-2">
+                الأميز تيليكوم
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link text-white mx-2" href="#">الرئيسية</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white mx-2" href="#">الخدمات</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white mx-2" href="#">الأسعار</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white mx-2" href="#">اتصل بنا</a>
+                    </li>
+                </ul>
+                <div class="d-flex gap-2 ms-3">
+                    <button class="btn btn-outline-light btn-custom">تسجيل</button>
+                    <button class="btn btn-light btn-custom">دخول</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container text-center">
+            <h1 class="display-4 fw-bold mb-3">الأميز تيليكوم</h1>
+            <p class="lead mb-4">حلول الاتصالات الحديثة لعالم مترابط</p>
+            <div class="d-flex justify-content-center gap-3">
+                <button class="btn btn-light btn-custom">اكتشف خدماتنا</button>
+                <button class="btn btn-outline-light btn-custom">تحميل التطبيق</button>
+            </div>
+        </div>
+    </section>
+
+    <div class="container my-5">
+        <!-- Services -->
+        <section class="mb-5">
+            <h2 class="text-center mb-4 fw-bold">خدماتنا المميزة</h2>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="service-card p-4">
+                        <div class="service-icon bg-primary text-white"><i class="bi bi-question-circle"></i></div>
+                        <h4 class="text-center">التعليمات</h4>
+                        <p class="text-center text-muted">احصل على إجابات لأسئلتك الشائعة حول خدماتنا</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="service-card p-4">
+                        <div class="service-icon bg-secondary text-white"><i class="bi bi-file-text"></i></div>
+                        <h4 class="text-center">الشروط</h4>
+                        <p class="text-center text-muted">اطلع على الشروط والأحكام لاستخدام خدماتنا</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="service-card p-4">
+                        <div class="service-icon bg-info text-white"><i class="bi bi-telephone"></i></div>
+                        <h4 class="text-center">بيانات التواصل</h4>
+                        <p class="text-center text-muted">تواصل معنا من خلال قنوات الدعم المختلفة</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="service-card p-4">
+                        <div class="service-icon bg-success text-white"><i class="bi bi-phone"></i></div>
+                        <h4 class="text-center">تحميل التطبيق</h4>
+                        <p class="text-center text-muted">حمّل تطبيقنا للحصول على تجربة أفضل</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="service-card p-4">
+                        <div class="service-icon bg-warning text-white"><i class="bi bi-currency-dollar"></i></div>
+                        <h4 class="text-center">بيانات التحويل</h4>
+                        <p class="text-center text-muted">معلومات الحسابات البنكية للتحويلات</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="service-card p-4">
+                        <div class="service-icon bg-danger text-white"><i class="bi bi-shield-lock"></i></div>
+                        <h4 class="text-center">سياسة الخصوصية</h4>
+                        <p class="text-center text-muted">كيف نحمي بياناتك الشخصية</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats -->
+        <section class="mb-5">
+            <div class="row g-4">
+                <div class="col-md-3">
+                    <div class="stats-card p-4 text-center">
+                        <div class="display-4 text-primary fw-bold">15K+</div>
+                        <p class="mb-0">عميل سعيد</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stats-card p-4 text-center">
+                        <div class="display-4 text-success fw-bold">99%</div>
+                        <p class="mb-0">رضا العملاء</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stats-card p-4 text-center">
+                        <div class="display-4 text-warning fw-bold">24/7</div>
+                        <p class="mb-0">دعم فني</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stats-card p-4 text-center">
+                        <div class="display-4 text-info fw-bold">10+</div>
+                        <p class="mb-0">سنوات خبرة</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features -->
+        <section class="mb-5">
+            <div class="row align-items-center g-5">
+                <div class="col-md-6">
+                    <h2 class="fw-bold mb-4">لماذا تختار الأميز تيليكوم؟</h2>
+                    <div class="feature-box">
+                        <div class="d-flex mb-4">
+                            <div class="me-3 text-primary">
+                                <i class="bi bi-check-circle-fill" style="font-size: 24px;"></i>
+                            </div>
+                            <div>
+                                <h5 class="fw-bold">أحدث التقنيات</h5>
+                                <p class="text-muted mb-0">نستخدم أحدث التقنيات لتقديم خدمات متميزة</p>
+                            </div>
+                        </div>
+                        <div class="d-flex mb-4">
+                            <div class="me-3 text-primary">
+                                <i class="bi bi-check-circle-fill" style="font-size: 24px;"></i>
+                            </div>
+                            <div>
+                                <h5 class="fw-bold">دعم فني متخصص</h5>
+                                <p class="text-muted mb-0">فريق دعم فني متخصص على مدار الساعة</p>
+                            </div>
+                        </div>
+                        <div class="d-flex">
+                            <div class="me-3 text-primary">
+                                <i class="bi bi-check-circle-fill" style="font-size: 24px;"></i>
+                            </div>
+                            <div>
+                                <h5 class="fw-bold">أسعار تنافسية</h5>
+                                <p class="text-muted mb-0">عروض وأسعار تنافسية لجميع الخدمات</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="bg-light rounded-4 p-5 text-center">
+                        <div class="display-1 mb-4">📱</div>
+                        <h3 class="fw-bold mb-3">حمل تطبيقنا الآن</h3>
+                        <p class="mb-4">حمّل تطبيق الأميز تيليكوم للحصول على تجربة استخدام متميزة ومتابعة خدماتك في أي وقت وأي مكان.</p>
+                        <button class="btn btn-primary-custom btn-custom">تحميل التطبيق</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA -->
+        <section class="cta-section p-5 mb-5">
+            <div class="text-center">
+                <h2 class="fw-bold mb-3">جاهز لتجربة خدماتنا؟</h2>
+                <p class="mb-4">انضم إلى آلاف العملاء الذين يثقون بخدماتنا</p>
+                <button class="btn btn-light btn-custom">ابدأ الآن</button>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer-dark pt-5">
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-md-4">
+                    <h4 class="text-white mb-4">الأميز تيليكوم</h4>
+                    <p class="text-light">شركة رائدة في مجال الاتصالات وتقديم الخدمات الرقمية في اليمن، نسعى لتقديم أفضل الحلول التقنية لعملائنا.</p>
+                    <div class="d-flex gap-3 mt-4">
+                        <a href="#" class="social-btn text-decoration-none">
+                            <i class="bi bi-facebook"></i>
+                        </a>
+                        <a href="#" class="social-btn text-decoration-none">
+                            <i class="bi bi-twitter"></i>
+                        </a>
+                        <a href="#" class="social-btn text-decoration-none">
+                            <i class="bi bi-instagram"></i>
+                        </a>
+                        <a href="#" class="social-btn text-decoration-none">
+                            <i class="bi bi-youtube"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <h5 class="text-white mb-4">الخدمات</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#" class="text-light text-decoration-none">شحن الرصيد</a></li>
+                        <li class="mb-2"><a href="#" class="text-light text-decoration-none">دفع الفواتير</a></li>
+                        <li class="mb-2"><a href="#" class="text-light text-decoration-none">الحوالات المالية</a></li>
+                        <li class="mb-2"><a href="#" class="text-light text-decoration-none">الإنترنت</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">الخدمات المصرفية</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-2">
+                    <h5 class="text-white mb-4">الشركة</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#" class="text-light text-decoration-none">من نحن</a></li>
+                        <li class="mb-2"><a href="#" class="text-light text-decoration-none">الأسعار</a></li>
+                        <li class="mb-2"><a href="#" class="text-light text-decoration-none">المدونة</a></li>
+                        <li class="mb-2"><a href="#" class="text-light text-decoration-none">الوظائف</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">اتصل بنا</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5 class="text-white mb-4">تواصل معنا</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-3 d-flex align-items-center">
+                            <i class="bi bi-geo-alt me-3"></i>
+                            <span class="text-light">صنعاء، اليمن</span>
+                        </li>
+                        <li class="mb-3 d-flex align-items-center">
+                            <i class="bi bi-telephone me-3"></i>
+                            <a href="tel:774541452" class="text-light text-decoration-none">774541452</a>
+                        </li>
+                        <li class="mb-3 d-flex align-items-center">
+                            <i class="bi bi-envelope me-3"></i>
+                            <a href="mailto:info@ameeztelecom.ye" class="text-light text-decoration-none">info@ameeztelecom.ye</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="my-4 bg-secondary">
+            <div class="text-center pb-4">
+                <p class="mb-0 text-light">© 2025 الأميز تيليكوم. جميع الحقوق محفوظة.</p>
+                <p class="mb-0 mt-2 text-light">برمجة وتصميم <a href="#" class="text-white text-decoration-none">يمن روبوت</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

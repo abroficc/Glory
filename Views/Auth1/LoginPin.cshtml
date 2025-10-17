@@ -1,0 +1,87 @@
+@{
+    ViewBag.Title = "LoginPin";
+    Layout = "~/Views/Shared/_BaseLayout.cshtml";
+    // Set direction to RTL for Arabic
+    ViewData["Direction"] = "rtl";
+}
+
+
+@section styles
+{
+}
+
+    
+    <div class="auth-box p-0 w-100">
+        <div class="row w-100 g-0">
+            <!-- Move the form column to the right for RTL -->
+            <div class="col-xl-auto order-xl-last">
+                <!--Auth Box content -->
+                <div class="card auth-box-form border-0 mb-0">
+                    <div class="card-body min-vh-100 d-flex flex-column justify-content-center">
+                        <div class="auth-brand mb-0 text-center">
+                            <a href="/" class="logo-dark">
+                                <img src="~/images/logo-black.png" alt="dark logo" height="32">
+                            </a>
+                            <a href="/" class="logo-light">
+                                <img src="~/images/logo.png" alt="logo" height="32">
+                            </a>
+                        </div>
+
+                        <div class="mt-auto text-center">
+                            <h4 class="fw-bold">مرحبا بكم في منصة المجد للخدمات الالكترونية</h4>
+                            <p class="text-muted mx-auto mb-5">شاشة الدخول مقفلة. أدخل رمز الدخول الخاص بك للمتابعة.</p>
+
+                            <div class="text-center mb-4">
+                                <img src="~/images/users/user-1.jpg" class="rounded-circle img-thumbnail avatar-xxl mb-2" alt="thumbnail">
+                                <h5 class="fs-md">ديمتريوس د.</h5>
+                            </div>
+
+                            <form>
+                                <label class="form-label d-flex">أدخل رمز الدخول المكون من 6 أرقام <span class="text-danger">*</span></label>
+                                <div class="d-flex gap-2 mb-3 two-factor">
+                                    <input type="password" class="form-control py-2 bg-light bg-opacity-40 border-light text-center" required>
+                                    <input type="password" class="form-control py-2 bg-light bg-opacity-40 border-light text-center" required>
+                                    <input type="password" class="form-control py-2 bg-light bg-opacity-40 border-light text-center" required>
+                                    <input type="password" class="form-control py-2 bg-light bg-opacity-40 border-light text-center" required>
+                                    <input type="password" class="form-control py-2 bg-light bg-opacity-40 border-light text-center" required>
+                                    <input type="password" class="form-control py-2 bg-light bg-opacity-40 border-light text-center" required>
+                                </div>
+
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-primary fw-semibold py-2">تأكيد</button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <p class="text-muted text-center mt-4 mb-0">
+                            ليس أنت؟ العودة إلى <a href=@Url.Action("SignIn", "Auth3") class="text-decoration-underline link-offset-3 fw-semibold">تسجيل الدخول</a>
+                        </p>
+
+                        <p class="text-center text-muted mt-auto mb-0">
+                            إعداد وتطوير <span class="fw-semibold">ميتا تك للحلول البرمجية</span>
+                        </p>
+                    </div>
+                </div>
+                <!-- End Auth Box Content -->
+            </div>
+            <!-- Move the image column to the left for RTL -->
+            <div class="col order-xl-first">
+                <div class="h-100 position-relative card-side-img rounded-0 overflow-hidden" style="min-height: 100vh;">
+                    <div class="p-4 card-img-overlay auth-overlay d-flex align-items-end justify-content-center">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+@section scripts
+{
+    <!-- Two Factor Validator Js -->
+    <script src="~/js/pages/auth-two-factor.js"></script>
+}

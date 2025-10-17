@@ -1,0 +1,137 @@
+/* RTL Support CSS */
+
+/* General RTL fixes */
+[dir="rtl"] body {
+    text-align: right;
+}
+
+/* DataTables RTL fixes */
+[dir="rtl"] .dataTables_wrapper .dataTables_filter {
+    float: left;
+    text-align: left;
+}
+
+[dir="rtl"] .dataTables_wrapper .dataTables_length {
+    float: right;
+}
+
+[dir="rtl"] table.dataTable thead th,
+[dir="rtl"] table.dataTable thead td,
+[dir="rtl"] table.dataTable tbody td {
+    text-align: right;
+}
+
+/* Fix for DataTables pagination */
+[dir="rtl"] .dataTables_wrapper .dataTables_paginate .paginate_button {
+    float: right;
+}
+
+/* Fix for dropdown menus in RTL */
+[dir="rtl"] .dropdown-menu {
+    text-align: right;
+}
+
+/* Fix for form elements in RTL */
+[dir="rtl"] .form-check {
+    padding-left: 0;
+    padding-right: 1.5em;
+}
+
+[dir="rtl"] .form-check .form-check-input {
+    float: right;
+    margin-left: 0;
+    margin-right: -1.5em;
+}
+
+/* Fix for icons in RTL context */
+[dir="rtl"] .ms-2 {
+    margin-right: 0.5rem !important;
+    margin-left: 0 !important;
+}
+
+[dir="rtl"] .me-2 {
+    margin-left: 0.5rem !important;
+    margin-right: 0 !important;
+}
+
+[dir="rtl"] .me-1 {
+    margin-left: 0.25rem !important;
+    margin-right: 0 !important;
+}
+
+/* Customer table specific fixes */
+[dir="rtl"] #customers-table_wrapper .dt-buttons {
+    float: left;
+}
+
+[dir="rtl"] #customers-table.table th,
+[dir="rtl"] #customers-table.table td {
+    text-align: right;
+}
+
+/* Header adjustments for RTL */
+[dir="rtl"] .navbar-custom {
+    right: 0;
+    left: 0;
+}
+
+/* Sidebar adjustments for RTL */
+[dir="rtl"] .side-nav-item .menu-arrow {
+    margin-right: 0;
+    margin-left: 10px;
+}
+
+[dir="rtl"] .side-nav-link .menu-text {
+    text-align: right !important;
+}
+
+/* Card adjustments for RTL */
+[dir="rtl"] .card-header {
+    text-align: right;
+}
+
+/* Bootstrap adjustments for RTL */
+[dir="rtl"] .ms-auto {
+    margin-right: auto !important;
+    margin-left: 0 !important;
+}
+
+[dir="rtl"] .me-auto {
+    margin-left: auto !important;
+    margin-right: 0 !important;
+}
+
+/* Layout adjustments for RTL */
+[dir="rtl"] .sidenav-menu {
+    right: 0;
+    left: auto;
+}
+
+[dir="rtl"] .content-page {
+    margin-right: 260px;
+    margin-left: 0;
+}
+
+@media (max-width: 991.98px) {
+    [dir="rtl"] .content-page {
+        margin-right: 0;
+    }
+}
+
+/* Customers table action icons positioning - for right side alignment */
+[dir="rtl"] .d-flex.align-items-center.justify-content-between {
+    display: flex;
+    flex-direction: row;
+}
+
+/* Ensure icons are properly spaced in the phone number cell */
+[dir="rtl"] .d-flex.align-items-center.justify-content-between .me-2 {
+    margin-left: 0.5rem !important;
+    margin-right: 0 !important;
+}
+
+/* Phone number specific icon adjustments */
+[dir="rtl"] .d-flex.align-items-center.justify-content-between .me-1 {
+    margin-left: 0.25rem !important;
+    margin-right: 0 !important;
+}

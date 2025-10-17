@@ -1,0 +1,341 @@
+@model Inspinia.Models.RegistrationViewModel
+@{
+    ViewBag.Title = "SignUp";
+    Layout = "~/Views/Shared/_BaseLayout.cshtml";
+    ViewData["Direction"] = "rtl";
+}
+
+@section styles
+{
+    <style>
+        body {
+            direction: rtl;
+            text-align: right;
+        }
+        
+        .input-group-text {
+            border-radius: 0 0.375rem 0.375rem 0;
+        }
+        
+        .form-control {
+            border-radius: 0.375rem 0 0 0.375rem;
+        }
+        
+        .auth-box {
+            background: linear-gradient(135deg, #f7f9fb, #e9eef5);
+        }
+        
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+            transition: background-color 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+        
+        .password-toggle {
+            cursor: pointer;
+        }
+        
+        /* Improve dropdown menu background for both light and dark modes */
+        .form-select {
+            background-color: var(--bs-body-bg);
+            color: var(--bs-body-color);
+            border-color: var(--bs-border-color);
+        }
+        
+        .form-select:focus {
+            background-color: var(--bs-body-bg);
+            color: var(--bs-body-color);
+            border-color: #86b7fe;
+            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+        }
+        
+        /* Dark mode specific styles */
+        @("@media (prefers-color-scheme: dark)") {
+            .form-select {
+                background-color: #343a40;
+                color: #fff;
+                border-color: #495057;
+            }
+            
+            .form-select option {
+                background-color: #343a40;
+                color: #fff;
+            }
+        }
+        
+        /* Light mode specific styles */
+        @("@media (prefers-color-scheme: light)") {
+            .form-select {
+                background-color: #fff;
+                color: #212529;
+                border-color: #ced4da;
+            }
+            
+            .form-select option {
+                background-color: #fff;
+                color: #212529;
+            }
+        }
+        
+        /* Document upload styling */
+        .document-upload-area {
+            border: 2px dashed #ced4da;
+            border-radius: 0.375rem;
+            padding: 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background-color: var(--bs-body-bg);
+        }
+        
+        .document-upload-area:hover {
+            border-color: #007bff;
+            background-color: rgba(0, 123, 255, 0.05);
+        }
+        
+        .document-upload-area.dragover {
+            border-color: #007bff;
+            background-color: rgba(0, 123, 255, 0.1);
+        }
+        
+        /* Dark mode for document upload */
+        @("@media (prefers-color-scheme: dark)") {
+            .document-upload-area {
+                border-color: #495057;
+                background-color: #343a40;
+            }
+            
+            .document-upload-area:hover {
+                border-color: #007bff;
+                background-color: rgba(0, 123, 255, 0.1);
+            }
+        }
+    </style>
+}
+
+    <div class="auth-box p-0 w-100">
+        <div class="row w-100 g-0">
+            <!-- Move the form column to the right for RTL -->
+            <div class="col-md-auto order-md-last">
+                <!--Auth Box content -->
+                <div class="card auth-box-form border-0 mb-0">
+                    <div class="card-body min-vh-100 d-flex flex-column justify-content-center">
+                        <div class="auth-brand mb-0 text-center">
+                            <a href="/" class="logo-dark">
+                                <img src="~/images/logo-black.png" alt="dark logo" height="32">
+                            </a>
+                            <a href="/" class="logo-light">
+                                <img src="~/images/logo.png" alt="logo" height="32">
+                            </a>
+                        </div>
+
+                        <div class="mt-auto text-center">
+                            <h4 class="fw-bold">سجل في منصة المجد للخدمات الالكترونية</h4>
+                            <p class="text-muted auth-sub-text mx-auto">هيا بنا نبدأ التسجيل. أدخل بياناتك لإنشاء حساب جديد.</p>
+
+                            <!-- Validation Summary -->
+                            <div asp-validation-summary="All" class="alert alert-danger"></div>
+
+                            <form asp-controller="Auth3" asp-action="SignUp" method="post" class="mt-4 text-start" enctype="multipart/form-data">
+                                @Html.AntiForgeryToken()
+                                
+                                <!-- Full Name -->
+                                <div class="mb-3">
+                                    <label asp-for="FullName" class="form-label fw-semibold"></label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="ti ti-user"></i></span>
+                                        <input asp-for="FullName" class="form-control py-2 px-3 bg-light bg-opacity-40 border-light" placeholder="أدخل الاسم الكامل" required>
+                                    </div>
+                                    <span asp-validation-for="FullName" class="invalid-feedback d-block"></span>
+                                </div>
+
+                                <!-- Business Type -->
+                                <div class="mb-3">
+                                    <label asp-for="BusinessType" class="form-label fw-semibold">نوع النشاط</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="ti ti-building"></i></span>
+                                        <input asp-for="BusinessType" class="form-control py-2 px-3 bg-light bg-opacity-40 border-light" placeholder="أدخل نوع النشاط" required>
+                                    </div>
+                                    <span asp-validation-for="BusinessType" class="invalid-feedback d-block"></span>
+                                </div>
+
+                                <!-- Email -->
+                                <div class="mb-3">
+                                    <label asp-for="Email" class="form-label fw-semibold">البريد الإلكتروني</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="ti ti-mail"></i></span>
+                                        <input asp-for="Email" type="email" class="form-control py-2 px-3 bg-light bg-opacity-40 border-light" placeholder="أدخل البريد الإلكتروني" required>
+                                    </div>
+                                    <span asp-validation-for="Email" class="invalid-feedback d-block"></span>
+                                </div>
+
+                                <!-- Phone Number -->
+                                <div class="mb-3">
+                                    <label asp-for="PhoneNumber" class="form-label fw-semibold">رقم الهاتف</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="ti ti-phone"></i></span>
+                                        <input asp-for="PhoneNumber" type="tel" class="form-control py-2 px-3 bg-light bg-opacity-40 border-light" placeholder="أدخل رقم الهاتف" required>
+                                    </div>
+                                    <span asp-validation-for="PhoneNumber" class="invalid-feedback d-block"></span>
+                                </div>
+
+                                <!-- Password -->
+                                <div class="mb-3" data-password="bar">
+                                    <label asp-for="Password" class="form-label fw-semibold">كلمة المرور</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="ti ti-lock"></i></span>
+                                        <input asp-for="Password" type="password" id="passwordInput" class="form-control py-2 px-3 bg-light bg-opacity-40 border-light" placeholder="أدخل كلمة المرور" required>
+                                        <button class="btn btn-outline-secondary password-toggle" type="button" id="togglePassword" aria-label="إظهار/إخفاء كلمة المرور"><i class="ti ti-eye"></i></button>
+                                    </div>
+                                    <div class="password-bar my-2"></div>
+                                    <p class="text-muted fs-xs mb-0">استخدم 8+ أحرف مع حروف وأرقام ورموز.</p>
+                                    <span asp-validation-for="Password" class="invalid-feedback d-block"></span>
+                                </div>
+
+                                <!-- Confirm Password -->
+                                <div class="mb-3">
+                                    <label asp-for="ConfirmPassword" class="form-label fw-semibold">تأكيد كلمة المرور</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="ti ti-lock-check"></i></span>
+                                        <input asp-for="ConfirmPassword" type="password" id="confirmPasswordInput" class="form-control py-2 px-3 bg-light bg-opacity-40 border-light" placeholder="أدخل تأكيد كلمة المرور" required>
+                                        <button class="btn btn-outline-secondary password-toggle" type="button" id="toggleConfirmPassword" aria-label="إظهار/إخفاء تأكيد كلمة المرور"><i class="ti ti-eye"></i></button>
+                                    </div>
+                                    <span asp-validation-for="ConfirmPassword" class="invalid-feedback d-block"></span>
+                                </div>
+
+                                <!-- Document Type -->
+                                <div class="mb-3">
+                                    <label asp-for="DocumentType" class="form-label fw-semibold">نوع الوثيقة</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="ti ti-file-text"></i></span>
+                                        <select asp-for="DocumentType" class="form-select py-2 px-3 bg-light bg-opacity-40 border-light" required>
+                                            <option value="">اختر نوع الوثيقة</option>
+                                            <option value="ID">بطاقة شخصية</option>
+                                            <option value="Passport">جواز سفر</option>
+                                        </select>
+                                    </div>
+                                    <span asp-validation-for="DocumentType" class="invalid-feedback d-block"></span>
+                                </div>
+
+                                <!-- Document Upload -->
+                                <div class="mb-3">
+                                    <label class="form-label fw-semibold">صورة الوثيقة</label>
+                                    <div class="document-upload-area" id="documentUploadArea">
+                                        <i class="ti ti-cloud-upload" style="font-size: 2rem;"></i>
+                                        <p class="mb-0 mt-2">انقر لتحميل صورة الوثيقة أو اسحب وأفلت هنا</p>
+                                        <p class="text-muted small mb-0">التنسيقات المدعومة: JPG, PNG, PDF (الحجم الأقصى: 5MB)</p>
+                                        <input asp-for="DocumentImage" type="file" class="d-none" id="documentImage" accept=".jpg,.jpeg,.png,.pdf" required>
+                                    </div>
+                                    <span asp-validation-for="DocumentImage" class="invalid-feedback d-block"></span>
+                                </div>
+
+                                <!-- Terms and Conditions -->
+                                <div class="form-check mb-3">
+                                    <input class="form-check-input form-check-input-light fs-14" type="checkbox" id="terms" required>
+                                    <label class="form-check-label" for="terms">
+                                        أوافق على <a href="#" class="text-decoration-underline">الشروط والأحكام</a> و<a href="#" class="text-decoration-underline">سياسة الخصوصية</a>
+                                    </label>
+                                </div>
+
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-primary fw-semibold py-2" aria-label="أنشئ الحساب">أنشئ الحساب</button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <p class="text-muted text-center mt-4 mb-0">
+                            لديك حساب؟ <a href=@Url.Action("SignIn", "Auth3") class="text-decoration-underline link-offset-3 fw-semibold">سجل الدخول</a>
+                        </p>
+
+                        <p class="text-center text-muted mt-auto mb-0">
+                            إعداد وتطوير <span class="fw-semibold">ميتا تك للحلول البرمجية</span>
+                        </p>
+                    </div>
+                </div>
+                <!-- End Auth Box Content -->
+            </div>
+            <!-- Move the image column to the left for RTL -->
+            <div class="col order-md-first">
+                <div class="h-100 position-relative card-side-img rounded-0 overflow-hidden" style="min-height: 100vh;">
+                    <div class="p-4 card-img-overlay auth-overlay d-flex align-items-end justify-content-center">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+@section scripts
+{
+    <!-- Password Suggestion Js -->
+    <script src="~/js/pages/auth-password.js"></script>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Password toggle functionality
+            document.getElementById('togglePassword').addEventListener('click', function () {
+                const passwordInput = document.getElementById('passwordInput');
+                const type = passwordInput.type === 'password' ? 'text' : 'password';
+                passwordInput.type = type;
+                this.innerHTML = `<i class="ti ti-${type === 'password' ? 'eye' : 'eye-off'}"></i>`;
+            });
+
+            // Confirm password toggle functionality
+            document.getElementById('toggleConfirmPassword').addEventListener('click', function () {
+                const passwordInput = document.getElementById('confirmPasswordInput');
+                const type = passwordInput.type === 'password' ? 'text' : 'password';
+                passwordInput.type = type;
+                this.innerHTML = `<i class="ti ti-${type === 'password' ? 'eye' : 'eye-off'}"></i>`;
+            });
+            
+            // Document upload functionality
+            const documentUploadArea = document.getElementById('documentUploadArea');
+            const documentImageInput = document.getElementById('documentImage');
+            
+            documentUploadArea.addEventListener('click', function() {
+                documentImageInput.click();
+            });
+            
+            documentImageInput.addEventListener('change', function() {
+                if (this.files && this.files[0]) {
+                    const fileName = this.files[0].name;
+                    documentUploadArea.innerHTML = `
+                        <i class="ti ti-file-check" style="font-size: 2rem; color: #28a745;"></i>
+                        <p class="mb-0 mt-2">تم اختيار الملف: ${fileName}</p>
+                        <p class="text-muted small mb-0">انقر لتغيير الملف</p>
+                        <input asp-for="DocumentImage" type="file" class="d-none" id="documentImage" accept=".jpg,.jpeg,.png,.pdf" required>
+                    `;
+                }
+            });
+            
+            // Drag and drop functionality
+            documentUploadArea.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                this.classList.add('dragover');
+            });
+            
+            documentUploadArea.addEventListener('dragleave', function() {
+                this.classList.remove('dragover');
+            });
+            
+            documentUploadArea.addEventListener('drop', function(e) {
+                e.preventDefault();
+                this.classList.remove('dragover');
+                
+                if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+                    documentImageInput.files = e.dataTransfer.files;
+                    const fileName = e.dataTransfer.files[0].name;
+                    this.innerHTML = `
+                        <i class="ti ti-file-check" style="font-size: 2rem; color: #28a745;"></i>
+                        <p class="mb-0 mt-2">تم اختيار الملف: ${fileName}</p>
+                        <p class="text-muted small mb-0">انقر لتغيير الملف</p>
+                        <input asp-for="DocumentImage" type="file" class="d-none" id="documentImage" accept=".jpg,.jpeg,.png,.pdf" required>
+                    `;
+                }
+            });
+        });
+    </script>
+}

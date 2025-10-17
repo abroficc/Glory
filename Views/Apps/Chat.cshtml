@@ -1,0 +1,465 @@
+@{
+    ViewBag.Title = "الدردشة";
+    ViewBag.SubTitle = "التطبيقات";
+}
+
+@section styles
+{
+}
+
+<div class="container-fluid">
+
+    @await Html.PartialAsync("~/Views/Shared/Partials/_PageTitle.cshtml")
+
+  
+    <div class="outlook-box">
+        <div class="offcanvas-lg offcanvas-start outlook-left-menu outlook-left-menu-lg" tabindex="-1" id="chatSidebaroffcanvas">
+            <div class="card h-100 mb-0 border-end-0 rounded-end-0">
+
+                <div class="card-header p-3 border-light card-bg d-block">
+                    <div class="d-flex gap-2">
+                        <div class="app-search flex-grow-1">
+                            <input data-chat-search type="text" class="form-control bg-light-subtle border-light" placeholder="ابحث هنا...">
+                            <i data-lucide="search" class="app-search-icon text-muted"></i>
+                        </div>
+                        <a href="#!" class="btn btn-dark btn-icon"><i class="ti ti-pencil-plus fs-xl"></i></a>
+                    </div>
+                </div>
+                <div id="chat-sidebar" class="card-body p-2" style="height: calc(100% - 100px);" data-simplebar data-simplebar-md>
+                    <div class="list-group list-group-flush chat-list">
+
+                        <a href="#!" data-chat-id="chat1" class="list-group-item list-group-item-action d-flex gap-2 justify-content-between active">
+                            <span class="d-flex justify-content-start align-items-center gap-2 overflow-hidden">
+                                <span class="avatar avatar-sm flex-shrink-0">
+                                    <img src="~/images/users/user-4.jpg" alt="avatar-4" class="img-fluid rounded-circle">
+                                </span>
+                                <span class="overflow-hidden">
+                                    <span data-chat-search-field class="text-nowrap fw-semibold fs-base mb-0 lh-base">أفا ثومبسون</span>
+                                    <span class="text-muted d-block fs-xs mb-0 text-truncate">سأرسل الفاتورة في المساء. يرجى التحقق والتأكيد.</span>
+                                </span>
+                            </span>
+                            <span class="d-flex flex-column gap-1 justify-content-center flex-shrink-0 align-items-end">
+                                <span class="text-muted fs-xs">الآن</span>
+                                <span class="badge text-bg-primary fs-xxs">2</span>
+                            </span>
+                        </a>
+
+                        <a href="#!" data-chat-id="chat2" class="list-group-item list-group-item-action d-flex gap-2 justify-content-between active">
+                            <span class="d-flex justify-content-start align-items-center gap-2 overflow-hidden">
+                                <span class="avatar avatar-sm flex-shrink-0">
+                                    <img src="~/images/users/user-5.jpg" alt="avatar-5" class="img-fluid rounded-circle">
+                                </span>
+                                <span class="overflow-hidden">
+                                    <span data-chat-search-field class="text-nowrap fw-semibold fs-base mb-0 lh-base">نوح سميث</span>
+                                    <span class="text-muted d-block fs-xs mb-0 text-truncate">هل يمكنك التحقق من المستند المشترك؟ أضفت بعض الملاحظات.</span>
+                                </span>
+                            </span>
+                            <span class="d-flex flex-column gap-1 justify-content-center flex-shrink-0 align-items-end">
+                                <span class="text-muted fs-xs">منذ 5 دقائق</span>
+                                <span class="badge text-bg-primary fs-xxs">1</span>
+                            </span>
+                        </a>
+
+                        <a href="#!" data-chat-id="chat3" class="list-group-item list-group-item-action d-flex gap-2 justify-content-between">
+                            <span class="d-flex justify-content-start align-items-center gap-2 overflow-hidden">
+                                <span class="avatar avatar-sm flex-shrink-0">
+                                    <img src="~/images/users/user-7.jpg" alt="avatar-7" class="img-fluid rounded-circle">
+                                </span>
+                                <span class="overflow-hidden">
+                                    <span data-chat-search-field class="text-nowrap fw-semibold fs-base mb-0 lh-base">ليام جونسون</span>
+                                    <span class="text-muted d-block fs-xs mb-0 text-truncate">يرجى الموافقة على التصميم حتى نتمكن من الانتقال إلى التطوير.</span>
+                                </span>
+                            </span>
+                            <span class="d-flex flex-column gap-1 justify-content-center flex-shrink-0 align-items-end">
+                                <span class="text-muted fs-xs">3:45 م</span>
+                            </span>
+                        </a>
+
+                        <a href="#!" data-chat-id="chat4" class="list-group-item list-group-item-action d-flex gap-2 justify-content-between">
+                            <span class="d-flex justify-content-start align-items-center gap-2 overflow-hidden">
+                                <span class="avatar-sm flex-shrink-0">
+                                    <span class="avatar-title text-bg-primary fw-bold rounded-circle">
+                                        EW
+                                    </span>
+                                </span>
+                                <span class="overflow-hidden">
+                                    <span data-chat-search-field class="text-nowrap fw-semibold fs-base mb-0 lh-base">إيما ويلسون</span>
+                                    <span class="text-muted d-block fs-xs mb-0 text-truncate">جميع المهام مكتملة. هل تريد مني النشر؟</span>
+                                </span>
+                            </span>
+                            <span class="d-flex flex-column gap-1 justify-content-center flex-shrink-0 align-items-end">
+                                <span class="text-muted fs-xs">منذ ساعتين</span>
+                            </span>
+                        </a>
+
+                        <a href="#!" data-chat-id="chat5" class="list-group-item list-group-item-action d-flex gap-2 justify-content-between">
+                            <span class="d-flex justify-content-start align-items-center gap-2 overflow-hidden">
+                                <span class="avatar avatar-sm flex-shrink-0">
+                                    <img src="~/images/users/user-8.jpg" alt="avatar-8" class="img-fluid rounded-circle">
+                                </span>
+                                <span class="overflow-hidden">
+                                    <span data-chat-search-field class="text-nowrap fw-semibold fs-base mb-0 lh-base">أوليفيا مارتيز</span>
+                                    <span class="text-muted fs-xs d-block mb-0 text-truncate">تمت إعادة جدولة الاجتماع إلى يوم الجمعة في الساعة 11 صباحاً.</span>
+                                </span>
+                            </span>
+                            <span class="d-flex flex-column gap-1 justify-content-center flex-shrink-0 align-items-end">
+                                <span class="text-muted fs-xs">منذ 4 ساعات</span>
+                            </span>
+                        </a>
+
+                        <a href="#!" data-chat-id="chat6" class="list-group-item list-group-item-action d-flex gap-2 justify-content-between">
+                            <span class="d-flex justify-content-start align-items-center gap-2 overflow-hidden">
+                                <span class="avatar-sm flex-shrink-0">
+                                    <span class="avatar-title text-bg-purple fw-bold rounded-circle">
+                                        WD
+                                    </span>
+                                </span>
+                                <span class="overflow-hidden">
+                                    <span data-chat-search-field class="text-nowrap fw-semibold fs-base mb-0 lh-base">ويليام ديفيس</span>
+                                    <span class="text-muted d-block fs-xs mb-0 text-truncate">أعمل على إصلاح الخلل، سأقوم بالتحديث قريباً.</span>
+                                </span>
+                            </span>
+                            <span class="d-flex flex-column gap-1 justify-content-center flex-shrink-0 align-items-end">
+                                <span class="text-muted fs-xs">أمس</span>
+                                <span class="badge text-bg-primary fs-xxs">3</span>
+                            </span>
+                        </a>
+
+                        <a href="#!" data-chat-id="chat7" class="list-group-item list-group-item-action d-flex gap-2 justify-content-between">
+                            <span class="d-flex justify-content-start align-items-center gap-2 overflow-hidden">
+                                <span class="avatar avatar-sm flex-shrink-0">
+                                    <img src="~/images/users/user-10.jpg" alt="avatar-10" class="img-fluid rounded-circle">
+                                </span>
+                                <span class="overflow-hidden">
+                                    <span data-chat-search-field class="text-nowrap fw-semibold fs-base mb-0 lh-base">سوفيا مور</span>
+                                    <span class="text-muted d-block fs-xs mb-0 text-truncate">المسودة النهائية جاهزة. أخبرني بآرائك.</span>
+                                </span>
+                            </span>
+                            <span class="d-flex flex-column gap-1 justify-content-center flex-shrink-0 align-items-end">
+                                <span class="text-muted fs-xs">أمس</span>
+                            </span>
+                        </a>
+
+                        <a href="#!" data-chat-id="chat8" class="list-group-item list-group-item-action d-flex gap-2 justify-content-between">
+                            <span class="d-flex justify-content-start align-items-center gap-2 overflow-hidden">
+                                <span class="avatar avatar-sm flex-shrink-0">
+                                    <img src="~/images/users/user-2.jpg" alt="avatar-11" class="img-fluid rounded-circle">
+                                </span>
+                                <span class="overflow-hidden">
+                                    <span data-chat-search-field class="text-nowrap fw-semibold fs-base mb-0 lh-base">جاكسون لي</span>
+                                    <span class="text-muted d-block fs-xs mb-0 text-truncate">لقد قمت بتحميل الأصول. يرجى مراجعتها الليلة.</span>
+                                </span>
+                            </span>
+                            <span class="d-flex flex-column gap-1 justify-content-center flex-shrink-0 align-items-end">
+                                <span class="text-muted fs-xs">12 يونيو</span>
+                            </span>
+                        </a>
+
+                        <a href="#!" data-chat-id="chat9" class="list-group-item list-group-item-action d-flex gap-2 justify-content-between">
+                            <span class="d-flex justify-content-start align-items-center gap-2 overflow-hidden">
+                                <span class="avatar avatar-sm flex-shrink-0">
+                                    <img src="~/images/users/user-3.jpg" alt="avatar-12" class="img-fluid rounded-circle">
+                                </span>
+                                <span class="overflow-hidden">
+                                    <span data-chat-search-field class="text-nowrap fw-semibold fs-base mb-0 lh-base">كلوي أندرسون</span>
+                                    <span class="text-muted d-block fs-xs mb-0 text-truncate">بحاجة إلى موافقتك قبل نشر هذا مباشرة.</span>
+                                </span>
+                            </span>
+                            <span class="d-flex flex-column gap-1 justify-content-center flex-shrink-0 align-items-end">
+                                <span class="text-muted fs-xs">10 يونيو</span>
+                            </span>
+                        </a>
+
+                        <a href="#!" data-chat-id="chat10" class="list-group-item list-group-item-action d-flex gap-2 justify-content-between">
+                            <span class="d-flex justify-content-start align-items-center gap-2 overflow-hidden">
+                                <span class="avatar-sm flex-shrink-0">
+                                    <span class="avatar-title text-bg-info fw-bold rounded-circle">
+                                        LW
+                                    </span>
+                                </span>
+                                <span class="overflow-hidden">
+                                    <span data-chat-search-field class="text-nowrap fw-semibold fs-base mb-0 lh-base">لوكس رايت</span>
+                                    <span class="text-muted d-block fs-xs mb-0 text-truncate">تم نقل مكالمة العميل إلى غدًا. سأشارك الملاحظات لاحقًا.</span>
+                                </span>
+                            </span>
+                            <span class="d-flex flex-column gap-1 justify-content-center flex-shrink-0 align-items-end">
+                                <span class="text-muted fs-xs">9 مايو</span>
+                            </span>
+                        </a>
+
+                        <a href="#!" data-chat-id="chat11" class="list-group-item list-group-item-action d-flex gap-2 justify-content-between">
+                            <span class="d-flex justify-content-start align-items-center gap-2 overflow-hidden">
+                                <span class="avatar avatar-sm flex-shrink-0">
+                                    <img src="~/images/users/user-6.jpg" alt="avatar-14" class="img-fluid rounded-circle">
+                                </span>
+                                <span class="overflow-hidden">
+                                    <span data-chat-search-field class="text-nowrap fw-semibold fs-base mb-0 lh-base">ميا سكوت</span>
+                                    <span class="text-muted d-block fs-xs mb-0 text-truncate">كل شيء يبدو جيدًا. في انتظار موافقتك.</span>
+                                </span>
+                            </span>
+                            <span class="d-flex flex-column gap-1 justify-content-center flex-shrink-0 align-items-end">
+                                <span class="text-muted fs-xs">13 أبريل</span>
+                            </span>
+                        </a>
+
+                        <a href="#!" data-chat-id="chat12" class="list-group-item list-group-item-action d-flex gap-2 justify-content-between">
+                            <span class="d-flex justify-content-start align-items-center gap-2 overflow-hidden">
+                                <span class="avatar avatar-sm flex-shrink-0">
+                                    <img src="~/images/users/user-9.jpg" alt="avatar-15" class="img-fluid rounded-circle">
+                                </span>
+                                <span class="overflow-hidden">
+                                    <span data-chat-search-field class="text-nowrap fw-semibold fs-base mb-0 lh-base">بينجامين كلارك</span>
+                                    <span class="text-muted d-block fs-xs mb-0 text-truncate">تحقق من التحديثات الخاصة بك. تركت بعض الاقتراحات.</span>
+                                </span>
+                            </span>
+                            <span class="d-flex flex-column gap-1 justify-content-center flex-shrink-0 align-items-end">
+                                <span class="text-muted fs-xs">10 مارس</span>
+                                <span class="badge text-bg-primary fs-xxs">2</span>
+                            </span>
+                        </a>
+
+                    </div>
+
+                </div> <!-- end card-body-->
+
+            </div> <!-- end card-->
+        </div>
+
+        <div class="card h-100 mb-0 rounded-start-0 flex-grow-1">
+            <div class="card-header card-bg">
+                <div class="d-lg-none d-inline-flex gap-2">
+                    <button class="btn btn-default btn-icon" type="button" data-bs-toggle="offcanvas" data-bs-target="#chatSidebaroffcanvas" aria-controls="chatSidebaroffcanvas">
+                        <i class="ti ti-menu-2 fs-lg"></i>
+                    </button>
+                </div>
+
+                <div class="flex-grow-1">
+                    <h5 class="mb-1 lh-base fs-lg">
+                        <a data-chat-username href=@Url.Action("Profile", "Pages") class="link-reset">نوح سميث</a>
+                    </h5>
+                    <p class="mb-0 lh-sm text-muted" style="padding-top: 1px;">
+                        <small class="ti ti-circle-filled text-success me-1"></small> متصل
+                    </p>
+                </div>
+
+                <div class="d-flex align-items-center gap-2">
+                    <!-- Video Call -->
+                    <button type="button" class="btn btn-default btn-icon" data-bs-toggle="tooltip" title="مكالمة فيديو">
+                        <i class="ti ti-video fs-lg"></i>
+                    </button>
+
+                    <!-- Audio Call -->
+                    <button type="button" class="btn btn-default btn-icon" data-bs-toggle="tooltip" title="مكالمة صوتية">
+                        <i class="ti ti-phone fs-lg"></i>
+                    </button>
+
+                    <!-- More Options -->
+                    <div class="dropdown">
+                        <button type="button" class="btn btn-default btn-icon" data-bs-toggle="dropdown" aria-expanded="false" title="المزيد">
+                            <i class="ti ti-dots-vertical fs-lg"></i>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li>
+                                <a class="dropdown-item" href="#">
+                                    <i class="ti ti-user me-2"></i> عرض
+                                    الملف الشخصي
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#">
+                                    <i class="ti ti-bell-off me-2"></i> كتم
+                                    الإشعارات
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#">
+                                    <i class="ti ti-trash me-2"></i> حذف
+                                    المحادثة
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div id="chat-container" data-chat class="card-body pt-0 mb-5 pb-2" data-simplebar style="max-height: calc(100vh - 317px);">
+
+                <!-- Message 1 -->
+                <div class="d-flex align-items-start gap-2 my-3 chat-item">
+                    <img src="~/images/users/user-5.jpg" class="avatar-md rounded-circle" alt="User">
+                    <div>
+                        <div class="chat-message py-2 px-3 bg-warning-subtle rounded">
+                            مرحباً! هل أنت متاح لمكالمة سريعة؟ 📞
+                        </div>
+                        <div class="text-muted fs-xs mt-1"><i class="ti ti-clock"></i> 08:55 ص</div>
+                    </div>
+                </div>
+
+                <!-- Message 2 -->
+                <div class="d-flex align-items-start gap-2 my-3 text-end chat-item justify-content-end">
+                    <div>
+                        <div class="chat-message py-2 px-3 bg-info-subtle rounded">
+                            بالتأكيد، اعطني 5 دقائق. أقوم بإنهاء شيء ما.
+                        </div>
+                        <div class="text-muted fs-xs mt-1"><i class="ti ti-clock"></i> 08:57 ص</div>
+                    </div>
+                    <img src="~/images/users/user-2.jpg" class="avatar-md rounded-circle" alt="User">
+                </div>
+
+                <!-- Message 3 -->
+                <div class="d-flex align-items-start gap-2 my-3 chat-item">
+                    <img src="~/images/users/user-5.jpg" class="avatar-md rounded-circle" alt="User">
+                    <div>
+                        <div class="chat-message py-2 px-3 bg-warning-subtle rounded">
+                            ممتاز. أخبرني عندما تكون جاهزًا 👍
+                        </div>
+                        <div class="text-muted fs-xs mt-1"><i class="ti ti-clock"></i> 08:58 ص</div>
+                    </div>
+                </div>
+
+                <!-- Message 4 -->
+                <div class="d-flex align-items-start gap-2 my-3 text-end chat-item justify-content-end">
+                    <div>
+                        <div class="chat-message py-2 px-3 bg-info-subtle rounded">
+                            جاهز الآن. أتصل بك!
+                        </div>
+                        <div class="text-muted fs-xs mt-1"><i class="ti ti-clock"></i> 09:00 ص</div>
+                    </div>
+                    <img src="~/images/users/user-2.jpg" class="avatar-md rounded-circle" alt="User">
+                </div>
+
+                <!-- Message 5 -->
+                <div class="d-flex align-items-start gap-2 my-3 chat-item">
+                    <img src="~/images/users/user-5.jpg" class="avatar-md rounded-circle" alt="User">
+                    <div>
+                        <div class="chat-message py-2 px-3 bg-warning-subtle rounded">
+                            شكراً لك على وقتك في وقتٍ سابق!
+                        </div>
+                        <div class="text-muted fs-xs mt-1"><i class="ti ti-clock"></i> 09:45 ص</div>
+                    </div>
+                </div>
+
+                <!-- Message 6 -->
+                <div class="d-flex align-items-start gap-2 my-3 text-end chat-item justify-content-end">
+                    <div>
+                        <div class="chat-message py-2 px-3 bg-info-subtle rounded">
+                            على الرحب والسعة! كانت مناقشة منتجة.
+                        </div>
+                        <div class="text-muted fs-xs mt-1"><i class="ti ti-clock"></i> 09:46 ص</div>
+                    </div>
+                    <img src="~/images/users/user-2.jpg" class="avatar-md rounded-circle" alt="User">
+                </div>
+
+                <!-- Message 7 -->
+                <div class="d-flex align-items-start gap-2 my-3 chat-item">
+                    <img src="~/images/users/user-5.jpg" class="avatar-md rounded-circle" alt="User">
+                    <div>
+                        <div class="chat-message py-2 px-3 bg-warning-subtle rounded">
+                            سأرسل الملفات المحدثة بحلول الظهر.
+                        </div>
+                        <div class="text-muted fs-xs mt-1"><i class="ti ti-clock"></i> 09:50 ص</div>
+                    </div>
+                </div>
+
+                <!-- Message 8 -->
+                <div class="d-flex align-items-start gap-2 my-3 text-end chat-item justify-content-end">
+                    <div>
+                        <div class="chat-message py-2 px-3 bg-info-subtle rounded">
+                            رائع، سأقوم بمراجعتها بمجرد وصولها.
+                        </div>
+                        <div class="text-muted fs-xs mt-1"><i class="ti ti-clock"></i> 09:52 ص</div>
+                    </div>
+                    <img src="~/images/users/user-2.jpg" class="avatar-md rounded-circle" alt="User">
+                </div>
+
+                <!-- Message 9 -->
+                <div class="d-flex align-items-start gap-2 my-3 chat-item">
+                    <img src="~/images/users/user-5.jpg" class="avatar-md rounded-circle" alt="User">
+                    <div>
+                        <div class="chat-message py-2 px-3 bg-warning-subtle rounded">
+                            أرسلتها للتو عبر درايف. أخبرني إذا كنت تواجه مشكلة في الوصول.
+                        </div>
+                        <div class="text-muted fs-xs mt-1"><i class="ti ti-clock"></i> 12:03 م</div>
+                    </div>
+                </div>
+
+                <!-- Message 10 -->
+                <div class="d-flex align-items-start gap-2 my-3 text-end chat-item justify-content-end">
+                    <div>
+                        <div class="chat-message py-2 px-3 bg-info-subtle rounded">
+                            حصلت عليها. كل شيء يبدو جيدًا حتى الآن!
+                        </div>
+                        <div class="text-muted fs-xs mt-1"><i class="ti ti-clock"></i> 12:10 م</div>
+                    </div>
+                    <img src="~/images/users/user-2.jpg" class="avatar-md rounded-circle" alt="User">
+                </div>
+
+                <!-- Message 11 -->
+                <div class="d-flex align-items-start gap-2 my-3 chat-item">
+                    <img src="~/images/users/user-5.jpg" class="avatar-md rounded-circle" alt="User">
+                    <div>
+                        <div class="chat-message py-2 px-3 bg-warning-subtle rounded">
+                            رائع 😊 أتطلع إلى ملاحظاتك!
+                        </div>
+                        <div class="text-muted fs-xs mt-1"><i class="ti ti-clock"></i> 12:12 م</div>
+                    </div>
+                </div>
+
+                <!-- Message 12 -->
+                <div class="d-flex align-items-start gap-2 my-3 text-end chat-item justify-content-end">
+                    <div>
+                        <div class="chat-message py-2 px-3 bg-info-subtle rounded">
+                            سأعود إليك بعد الغداء 🍴
+                        </div>
+                        <div class="text-muted fs-xs mt-1"><i class="ti ti-clock"></i> 12:13 م</div>
+                    </div>
+                    <img src="~/images/users/user-2.jpg" class="avatar-md rounded-circle" alt="User">
+                </div>
+
+                <!-- Message 13 -->
+                <div class="d-flex align-items-start gap-2 my-3 chat-item">
+                    <img src="~/images/users/user-5.jpg" class="avatar-md rounded-circle" alt="User">
+                    <div>
+                        <div class="chat-message py-2 px-3 bg-warning-subtle rounded">
+                            لا تستعجل، استمتع بوجبتك! 😄
+                        </div>
+                        <div class="text-muted fs-xs mt-1"><i class="ti ti-clock"></i> 12:14 م</div>
+                    </div>
+                </div>
+
+                <!-- Message 14 -->
+                <div class="d-flex align-items-start gap-2 my-3 text-end chat-item justify-content-end">
+                    <div>
+                        <div class="chat-message py-2 px-3 bg-info-subtle rounded">
+                            شكراً! نتحدث لاحقًا.
+                        </div>
+                        <div class="text-muted fs-xs mt-1"><i class="ti ti-clock"></i> 12:15 م</div>
+                    </div>
+                    <img src="~/images/users/user-2.jpg" class="avatar-md rounded-circle" alt="User">
+                </div>
+
+            </div> <!-- end card-body -->
+
+            <div class="card-footer bg-body-secondary border-top border-dashed border-bottom-0 position-absolute bottom-0 w-100">
+                <div class="d-flex gap-2">
+                    <div class="app-search flex-grow-1">
+                        <input data-chat-input type="text" class="form-control py-2 bg-light-subtle border-light" placeholder="أدخل رسالة...">
+                        <i data-lucide="message-square" class="app-search-icon text-muted"></i>
+                    </div>
+                    <a data-send href="#!" class="btn btn-primary">إرسال <i class="ti ti-send-2 ms-1 fs-xl"></i></a>
+                </div>
+
+                <span data-error class="d-none text-danger mt-2">مرحباً!</span>
+            </div>
+
+        </div> <!-- end card-->
+    </div> <!-- end row-->
+
+</div>
+
+@section scripts
+{
+  <script src="~/js/pages/apps-chat.js"></script>
+}
