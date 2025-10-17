@@ -78,5 +78,44 @@ Glory77/
 ## الترخيص
 هذا المشروع محمي بحقوق الطبع والنشر.
 
+## حل المشاكل الشائعة
+
+### خطأ CS8103: Combined length of user strings used by the program exceeds allowed limit
+
+إذا واجهت هذا الخطأ، فهذا يعني أن النصوص المستخدمة في البرنامج تتجاوز الحد المسموح به. إليك الحلول:
+
+#### 1. تقسيم النصوص الكبيرة
+```csharp
+// بدلاً من:
+string bigString = "نص ضخم جداً يحتوي على مئات أو آلاف الأحرف...";
+
+// استخدم:
+string part1 = "الجزء الأول من النص...";
+string part2 = "الجزء الثاني من النص...";
+string part3 = "الجزء الثالث من النص...";
+string bigString = part1 + part2 + part3;
+```
+
+#### 2. استخدام StringBuilder للنصوص الطويلة
+```csharp
+var sb = new StringBuilder();
+sb.Append("الجزء الأول...");
+sb.Append("الجزء الثاني...");
+sb.Append("الجزء الثالث...");
+string result = sb.ToString();
+```
+
+#### 3. نقل النصوص إلى ملفات منفصلة
+```csharp
+// نقل النصوص الكبيرة إلى ملفات .txt أو .json
+string content = File.ReadAllText("path/to/large-text.txt");
+```
+
+#### 4. استخدام Resources
+```csharp
+// إضافة النصوص كـ Resources في المشروع
+string content = Properties.Resources.LargeTextResource;
+```
+
 ## الدعم
 للحصول على الدعم، يرجى التواصل معنا عبر GitHub Issues.
