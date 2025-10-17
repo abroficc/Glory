@@ -1,0 +1,170 @@
+[
+  {
+    "pageKey": "employees",
+    "pageTitle": "الموظفين",
+    "options": [
+      { "key": "selectEmployeesAll", "displayName": "تحديد الكل", "isSelected": true },
+      { "key": "viewEmployees", "displayName": "مشاهدة", "isSelected": true },
+      { "key": "addEmployees", "displayName": "اضافة", "isSelected": true },
+      { "key": "updateEmployees", "displayName": "تحديث", "isSelected": false },
+      { "key": "deleteEmployees", "displayName": "حذف", "isSelected": false },
+      { "key": "defineEmployeesPrintFields", "displayName": "تحديد الحقول للطباعه", "isSelected": false }
+    ]
+  },
+  {
+    "pageKey": "customers",
+    "pageTitle": "العملاء",
+    "options": [
+      { "key": "selectCustomersAll", "displayName": "تحديد الكل", "isSelected": true },
+      { "key": "viewCustomers", "displayName": "مشاهدة", "isSelected": true },
+      { "key": "addCustomers", "displayName": "اضافة", "isSelected": true },
+      { "key": "updateCustomers", "displayName": "تحديث", "isSelected": false },
+      { "key": "deleteCustomers", "displayName": "حذف", "isSelected": false },
+      { "key": "defineCustomersPrintFields", "displayName": "تحديد الحقول للطباعه", "isSelected": false }
+    ]
+  },
+  {
+    "pageKey": "devices",
+    "pageTitle": "الأجهزة",
+    "options": [
+      { "key": "selectDevicesAll", "displayName": "تحديد الكل", "isSelected": true },
+      { "key": "viewDevices", "displayName": "مشاهدة", "isSelected": true },
+      { "key": "addDevices", "displayName": "اضافة", "isSelected": true },
+      { "key": "updateDevices", "displayName": "تحديث", "isSelected": false },
+      { "key": "deleteDevices", "displayName": "حذف", "isSelected": false },
+      { "key": "defineDevicesPrintFields", "displayName": "تحديد الحقول للطباعه", "isSelected": false }
+    ]
+  },
+  {
+    "pageKey": "branches",
+    "pageTitle": "الفروع",
+    "options": [
+      { "key": "selectBranchesAll", "displayName": "تحديد الكل", "isSelected": true },
+      { "key": "viewBranches", "displayName": "مشاهدة", "isSelected": true },
+      { "key": "addBranches", "displayName": "اضافة", "isSelected": true },
+      { "key": "updateBranches", "displayName": "تحديث", "isSelected": false },
+      { "key": "deleteBranches", "displayName": "حذف", "isSelected": false },
+      { "key": "defineBranchesPrintFields", "displayName": "تحديد الحقول للطباعه", "isSelected": false }
+    ]
+  },
+  {
+    "pageKey": "services",
+    "pageTitle": "الخدمات",
+    "options": [
+      { "key": "selectServicesAll", "displayName": "تحديد الكل", "isSelected": true },
+      { "key": "viewServices", "displayName": "مشاهدة", "isSelected": true },
+      { "key": "addServices", "displayName": "اضافة", "isSelected": true },
+      { "key": "updateServices", "displayName": "تحديث", "isSelected": false },
+      { "key": "deleteServices", "displayName": "حذف", "isSelected": false },
+      { "key": "defineServicesPrintFields", "displayName": "تحديد الحقول للطباعه", "isSelected": false }
+    ]
+  },
+  {
+    "pageKey": "reports",
+    "pageTitle": "التقارير",
+    "options": [
+      { "key": "selectReportsAll", "displayName": "تحديد الكل", "isSelected": true },
+      { "key": "viewReports", "displayName": "مشاهدة", "isSelected": true },
+      { "key": "generateReports", "displayName": "إنشاء التقارير", "isSelected": true },
+      { "key": "exportReports", "displayName": "تصدير", "isSelected": false },
+      { "key": "deleteReports", "displayName": "حذف", "isSelected": false }
+    ]
+  },
+  {
+    "pageKey": "settings",
+    "pageTitle": "الإعدادات",
+    "options": [
+      { "key": "selectSettingsAll", "displayName": "تحديد الكل", "isSelected": true },
+      { "key": "viewSettings", "displayName": "مشاهدة", "isSelected": true },
+      { "key": "updateSettings", "displayName": "تحديث", "isSelected": false },
+      { "key": "backupSettings", "displayName": "نسخ احتياطي", "isSelected": false },
+      { "key": "restoreSettings", "displayName": "استعادة", "isSelected": false }
+    ]
+  },
+  {
+    "pageKey": "ticketPrices",
+    "pageTitle": "اسعار التذاكر",
+    "options": [
+      { "key": "selectTicketPricesAll", "displayName": "تحديد الكل", "isSelected": true },
+      { "key": "viewTicketPrices", "displayName": "مشاهدة", "isSelected": true },
+      { "key": "addTicketPrices", "displayName": "اضافة", "isSelected": true },
+      { "key": "updateTicketPrices", "displayName": "تحديث", "isSelected": false },
+      { "key": "deleteTicketPrices", "displayName": "حذف", "isSelected": false },
+      { "key": "defineTicketPricesPrintFields", "displayName": "تحديد الحقول للطباعه", "isSelected": false }
+    ]
+  },
+  {
+    "pageKey": "moneyTransferCompanies",
+    "pageTitle": "شركات الحوالات",
+    "options": [
+      { "key": "selectMoneyTransferCompaniesAll", "displayName": "تحديد الكل", "isSelected": true },
+      { "key": "viewMoneyTransferCompanies", "displayName": "مشاهدة", "isSelected": true },
+      { "key": "addMoneyTransferCompanies", "displayName": "اضافة", "isSelected": true },
+      { "key": "updateMoneyTransferCompanies", "displayName": "تحديث", "isSelected": false },
+      { "key": "deleteMoneyTransferCompanies", "displayName": "حذف", "isSelected": false },
+      { "key": "defineMoneyTransferCompaniesPrintFields", "displayName": "تحديد الحقول للطباعه", "isSelected": false }
+    ]
+  },
+  {
+    "pageKey": "specialNumbers",
+    "pageTitle": "الارقام المميزة",
+    "options": [
+      { "key": "selectSpecialNumbersAll", "displayName": "تحديد الكل", "isSelected": true },
+      { "key": "viewSpecialNumbers", "displayName": "مشاهدة", "isSelected": true },
+      { "key": "addSpecialNumbers", "displayName": "اضافة", "isSelected": true },
+      { "key": "updateSpecialNumbers", "displayName": "تحديث", "isSelected": false },
+      { "key": "deleteSpecialNumbers", "displayName": "حذف", "isSelected": false },
+      { "key": "defineSpecialNumbersPrintFields", "displayName": "تحديد الحقول للطباعه", "isSelected": false }
+    ]
+  },
+  {
+    "pageKey": "networkCards",
+    "pageTitle": "كروت الشبكات",
+    "options": [
+      { "key": "selectNetworkCardsAll", "displayName": "تحديد الكل", "isSelected": true },
+      { "key": "viewNetworkCards", "displayName": "مشاهدة", "isSelected": true },
+      { "key": "addNetworkCards", "displayName": "اضافة", "isSelected": true },
+      { "key": "updateNetworkCards", "displayName": "تحديث", "isSelected": false },
+      { "key": "deleteNetworkCards", "displayName": "حذف", "isSelected": false },
+      { "key": "defineNetworkCardsPrintFields", "displayName": "تحديد الحقول للطباعه", "isSelected": false }
+    ]
+  },
+  {
+    "pageKey": "sabafonPackages",
+    "pageTitle": "باقات سبافون",
+    "options": [
+      { "key": "selectSabafonPackagesAll", "displayName": "تحديد الكل", "isSelected": true },
+      { "key": "viewSabafonPackages", "displayName": "مشاهدة", "isSelected": true },
+      { "key": "addSabafonPackages", "displayName": "اضافة", "isSelected": true },
+      { "key": "updateSabafonPackages", "displayName": "تحديث", "isSelected": false },
+      { "key": "deleteSabafonPackages", "displayName": "حذف", "isSelected": false },
+      { "key": "importSabafonPackages", "displayName": "استيراد", "isSelected": false },
+      { "key": "defineSabafonPackagesPrintFields", "displayName": "تحديد الحقول للطباعه", "isSelected": false }
+    ]
+  },
+  {
+    "pageKey": "yemenMobilePackages",
+    "pageTitle": "باقات يمن موبايل",
+    "options": [
+      { "key": "selectYemenMobilePackagesAll", "displayName": "تحديد الكل", "isSelected": true },
+      { "key": "viewYemenMobilePackages", "displayName": "مشاهدة", "isSelected": true },
+      { "key": "addYemenMobilePackages", "displayName": "اضافة", "isSelected": true },
+      { "key": "updateYemenMobilePackages", "displayName": "تحديث", "isSelected": false },
+      { "key": "deleteYemenMobilePackages", "displayName": "حذف", "isSelected": false },
+      { "key": "importYemenMobilePackages", "displayName": "استيراد", "isSelected": false },
+      { "key": "defineYemenMobilePackagesPrintFields", "displayName": "تحديد الحقول للطباعه", "isSelected": false }
+    ]
+  },
+  {
+    "pageKey": "internetCategories",
+    "pageTitle": "فئات الانترنت",
+    "options": [
+      { "key": "selectInternetCategoriesAll", "displayName": "تحديد الكل", "isSelected": true },
+      { "key": "viewInternetCategories", "displayName": "مشاهدة", "isSelected": true },
+      { "key": "addInternetCategories", "displayName": "اضافة", "isSelected": true },
+      { "key": "updateInternetCategories", "displayName": "تحديث", "isSelected": false },
+      { "key": "deleteInternetCategories", "displayName": "حذف", "isSelected": false },
+      { "key": "defineInternetCategoriesPrintFields", "displayName": "تحديد الحقول للطباعه", "isSelected": false }
+    ]
+  }
+]
