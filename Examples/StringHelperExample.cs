@@ -107,11 +107,14 @@ namespace Inspinia.Examples
         public void ExampleCheckLargeStrings()
         {
             string shortText = "نص قصير";
-            string longText = StringHelper.CombineStrings(
-                new string('أ', 5000),
-                new string('ب', 5000),
-                new string('ج', 5000)
-            );
+
+            // بدلاً من إنشاء نص كبير مباشرة، نستخدم طريقة أكثر أماناً
+            string longText = StringHelper.BuildLargeString(sb => {
+                for (int i = 0; i < 100; i++)
+                {
+                    sb.Append("هذا نص تجريبي للاختبار. ");
+                }
+            });
 
             if (StringHelper.IsLargeString(shortText))
             {
@@ -125,7 +128,7 @@ namespace Inspinia.Examples
             if (StringHelper.IsLargeString(longText))
             {
                 Console.WriteLine("النص الطويل كبير - يُنصح بتقسيمه");
-                
+
                 var chunks = StringHelper.SplitIntoChunks(longText, 1000);
                 Console.WriteLine($"تم تقسيم النص إلى {chunks.Count} جزء");
             }
