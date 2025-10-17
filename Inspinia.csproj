@@ -15,6 +15,10 @@
     <Compile Include="Data\**\*.cs" />
     <Compile Include="Hubs\**\*.cs" />
     <Compile Include="Models\**\*.cs" />
+    <Compile Include="Services\**\*.cs" />
+    <Compile Include="Helpers\**\*.cs" />
+    <Compile Include="Tools\**\*.cs" />
+    <Compile Include="Examples\**\*.cs" />
     <Compile Include="Program.cs" />
   </ItemGroup>
 
