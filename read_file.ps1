@@ -1,1 +1,0 @@
-Get-Content 'c:\xampp2\htdocs\Glory78\Views\Categories\Index.cshtml' | Select-Object -Last 10

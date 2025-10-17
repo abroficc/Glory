@@ -325,9 +325,43 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 
-# Custom additions for this project
+# Custom additions for this project - Production Ready
 *.user
+*.sln
 build.log
 build_output.txt
 appsettings.Development.json
-node_modules
+node_modules/
+package.json
+package-lock.json
+yarn.lock
+gulpfile.js
+bundle-files.js
+plugins.config.js
+
+# Development tools and examples (removed for production)
+Examples/
+Tools/
+Documentation/
+CreateTableProgram/
+InsertSampleDataProgram/
+VerifyTablesProgram/
+
+# PowerShell scripts
+*.ps1
+
+# Compressed files
+*.zip
+*.rar
+*.7z
+
+# Database scripts (development only)
+create_*.sql
+insert_*.sql
+
+# CSS and JS development files (not in wwwroot)
+/css/
+/js/
+
+# Project documentation files (keep only essential ones)
+STRUCTURE_FIXES_SUMMARY.md

@@ -4,23 +4,8 @@
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
-    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
     <Features>experimental-data-section-string-literals</Features>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Include="Controllers\**\*.cs" />
-    <Compile Include="Data\**\*.cs" />
-    <Compile Include="Hubs\**\*.cs" />
-    <Compile Include="Models\**\*.cs" />
-    <Compile Include="Services\**\*.cs" />
-    <Compile Include="Helpers\**\*.cs" />
-    <Compile Include="Tools\**\*.cs" />
-    <Compile Include="Examples\**\*.cs" />
-    <Compile Include="Program.cs" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.9">
@@ -31,7 +16,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="MySql.EntityFrameworkCore" Version="9.0.1" />
+    <PackageReference Include="MySql.EntityFrameworkCore" Version="9.0.3" />
     <PackageReference Include="System.Linq.Dynamic.Core" Version="1.6.8" />
   </ItemGroup>
 

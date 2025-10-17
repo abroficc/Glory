@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Glory77.Data;
 using Glory77.Models;
 using System.Linq.Dynamic.Core;
+using Inspinia.Helpers;
 
 namespace Glory77.Controllers
 {
@@ -89,7 +90,7 @@ namespace Glory77.Controllers
         // POST: SystemConnections/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ProviderId,ConnectionTime,SystemName,ConnectionStatus,LastCheck,ResponseTime,ErrorMessage,ProviderType,Balance,SupportedNetworks,Direction,AccountSources,Employees,AlertSettings,SuspensionSettings")] SystemConnection systemConnection)
+        public async Task<IActionResult> Create([Bind(BindingHelper.SystemConnectionCreateBinding)] SystemConnection systemConnection)
         {
             if (ModelState.IsValid)
             {
@@ -122,7 +123,7 @@ namespace Glory77.Controllers
         // POST: SystemConnections/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,ProviderId,ConnectionTime,SystemName,ConnectionStatus,LastCheck,ResponseTime,ErrorMessage,ProviderType,Balance,SupportedNetworks,Direction,AccountSources,Employees,AlertSettings,SuspensionSettings,CreatedAt")] SystemConnection systemConnection)
+        public async Task<IActionResult> Edit(int id, [Bind(BindingHelper.SystemConnectionEditBinding)] SystemConnection systemConnection)
         {
             if (id != systemConnection.Id)
             {
